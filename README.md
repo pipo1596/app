@@ -10,7 +10,7 @@ Run-> then paste the below to get over CORS issues:
 
 chrome.exe --user-data-dir="C://Chrome dev session" --disable-web-security
 
-
+-----------------------------------------------------------------------------
 
 ng new app --no-standalone                  ///The no standalone is for the lazy loading
 

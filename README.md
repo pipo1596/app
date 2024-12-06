@@ -2,6 +2,23 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.2.
 
+production code:
+
+ng build --configuration production --base-href /app/ --deploy-url /app/resources/
+
+Run-> then paste the below to get over CORS issues: 
+
+chrome.exe --user-data-dir="C://Chrome dev session" --disable-web-security
+
+
+
+ng new app --no-standalone                  ///The no standalone is for the lazy loading
+
+ng generate module blogs --route blogs --module app.module
+
+ng g c blogs/categories
+
+
 ## Development server
 
 To start a local development server, run:

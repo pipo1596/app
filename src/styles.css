@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+.loader{    opacity: .3;
+    position: fixed;
+    background-color: black;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;}
+.loader:before { content: ' ';display: inline-block;vertical-align: middle;height: 100%;}
+.loader .spinner-border {display: inline-block;vertical-align: middle;z-index: 99999;}

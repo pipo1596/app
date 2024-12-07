@@ -1,4 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+@media (min-width: 992px) {
+    ::-webkit-scrollbar {
+        -webkit-appearance:none;
+        width: 7px
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background-color: rgba(0,0,0,.5);
+        -webkit-box-shadow: 0 0 1px hsla(0,0%,100%,.5)
+    }
+}
+.pagination {
+    --bs-pagination-padding-x: 1.1rem;
+    --bs-pagination-padding-y: 0.3rem;
+    --bs-pagination-font-size: 1.2rem;
+    --bs-pagination-color: grey;
+}
+.bi.bi-search{-webkit-text-stroke: 1px}
+.mw-2000{max-width: 2000px;}
+.contbckg{background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+    min-height: 140px;
+}
+.btn-group-top-right{position: absolute;top:1em;right:1em;}
 .loader{    opacity: .3;
     position: fixed;
     background-color: black;
@@ -8,3 +34,27 @@
     z-index: 999;}
 .loader:before { content: ' ';display: inline-block;vertical-align: middle;height: 100%;}
 .loader .spinner-border {display: inline-block;vertical-align: middle;z-index: 99999;}
+
+.table tbody td .img {
+    width: 150px;
+    height: 50px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.table tbody tr {
+    margin-bottom: 10px;
+    border-bottom: 4px solid #f8f9fd;
+}
+.ftco-section {
+    padding-top: 1em;
+    padding-right: 1.5em;
+    padding-left: 1.5em;
+    min-height: 600px;
+}
+.listimg{
+    padding: 20px;
+    max-width: 150px;
+    margin: 0 auto;
+    display: block;
+}
+

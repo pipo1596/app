@@ -1,10 +1,146 @@
 <app-header [title]="title" [fullname]="fullname"></app-header>
 
-<div [class.d-none]="loading">
-<h3 class="ms-4 my-2" *ngIf="fullname!==''">{{title}}</h3>
+<section class="ftco-section bg-light pb-3" [class.d-none]="loading">
+<div class="container-fluid mw-2000" *ngIf="fullname!==''">
+<!--Blog Categories List----------------------------------------------------------------------->
+<section >
+    <div *ngIf="!entrymode">
+    <div class="row mb-2">
+        <div class="col-12 col-md-8">
+            <h4 class="ms-1" >{{title}}</h4>
+        </div>
+        <div class="col-12 col-md-4 p-0">
+                <div class="d-grid gap-2">
+                    <button class="btn btn-dark rounded-0"  (click)="StartEntry()" type="button">Create New Blog Category</button>
+                </div>
+        </div>
+    </div>
+    <div class="row bg-white">
+            <div class="input-group p-0 mb-2 rounded-0">
+                <input class="form-control border-end-0 border border-3" type="search" placeholder="Search Blog Categories">
+                <span class="input-group-append">
+                    <button class="btn btn-outline-secondary bg-white border-start-0  border rounded-0 border-3 ms-n5" type="button">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </span>
+            </div>
+            
+        <div class="card my-1 border border-3 rounded-0" *ngFor="let item of counter(10)">
+            <div class="row g-0">
+            <div class="col-md-2 contbckg" style="background-image: url({{imgprfx}}/cat.jpg);">
+            </div>
+            <div class="col-md-10 position-relative">
+                <div class="card-body">
+                <h5 class="card-title mb-1">U.S. Army</h5>
+                <p class="card-text mb-1">16 blog posts</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+                <div class="btn-group-top-right" >
+                    <button class="btn btn-light" ><span class="bi bi-trash text-danger"></span></button>
+                    <button class="btn btn-light ms-1" ><span class="bi bi-eye"></span></button>
+                    <button class="btn btn-light ms-1" ><span class="bi bi-pencil-square"></span></button>
+                  </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <ul class="pagination justify-content-end p-0 m-0">
+          <li class="page-item active" aria-current="page">
+            <span class="page-link">1</span>
+          </li>
+          <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+          <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+          <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
+          <li class="page-item"><a class="page-link" href="javascript:void(0)">5</a></li>
+          <li class="page-item"><a class="page-link" href="javascript:void(0)">6</a></li>
+        </ul>
+    </div>
+    </div>
+    <!--Blog Category Entry--------------------------------------------------------------------------->
+    <div *ngIf="entrymode">
+        <div class="row mb-2">
+            <div class="col-12 col-md-8">
+                <h4 class="ms-1" >Create New Blog Category</h4>
+            </div>
+            <div class="col-12 col-md-4 p-0">
+                <div class="d-grid gap-2">
+                    <button class="btn btn-light rounded-0 border border-2"  (click)="CancelEntry()" type="button">Cancel</button>
+                </div>
+        </div>
+        </div>
+        <div class="row bg-white">
+                  
+          <div class="col-12 col-md-6 mb-3">
+            <label for="exampleFormControlInput1" class="form-label mb-0">Email address</label>
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+          </div> 
+          <div class="col-12 col-md-6 mb-3">
+            <label for="exampleFormControlInput1" class="form-label mb-0">Email address</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+          </div>           
+          <div class="col-12 col-md-6 mb-3">
+            <label for="exampleFormControlInput1" class="form-label mb-0">Email address</label>
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+          </div> 
+          <div class="col-12 col-md-6 mb-3">
+            <label for="exampleFormControlInput1" class="form-label mb-0">Email address</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+          </div>           
+          <div class="col-12 col-md-6 mb-3">
+            <label for="exampleFormControlInput1" class="form-label mb-0">Email address</label>
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+          </div> 
+          <div class="col-12 col-md-6 mb-3">
+            <label for="exampleFormControlInput1" class="form-label mb-0">Email address</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+          </div>           
+          <div class="col-12 col-md-6 mb-3">
+            <label for="exampleFormControlInput1" class="form-label mb-0">Email address</label>
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+          </div> 
+          <div class="col-12 col-md-6 mb-3">
+            <label for="exampleFormControlInput1" class="form-label mb-0">Email address</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+          </div>           
+           </div>
+           <div class="row pt-2">
+            <div class="col-12 offset-md-8 col-md-4 p-0 my-1 mb-3">
+                <div class="d-grid gap-2">
+                    <button class="btn btn-dark rounded-0"  (click)="CancelEntry()" type="button">Save New Blog Category</button>
+                </div>
+            </div>
+            </div>
+        
+    </div>
+</section>
+
+
+
+</div>
 
 <div class="alert alert-danger mt-3" role="alert" *ngIf="fullname==''">
     Make sure to login to access this feature!
 </div>
-</div>
+</section>
 <app-footer></app-footer>

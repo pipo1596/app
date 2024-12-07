@@ -1,6 +1,7 @@
 import { Component} from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { HttpClient } from '@angular/common/http';
+import { hideWait } from '../shared/utils';
 
 @Component({
   selector: 'app-home',
@@ -25,7 +26,7 @@ export class HomeComponent {
       this.data = response;
       if(this.data.title) this.title = this.data.title;
       if(this.data.fullname) this.fullname = this.data.fullname;
-      document.getElementById("loader")?.classList.add("d-none");
+      hideWait(200);
       this.loading =false;
     });
   }

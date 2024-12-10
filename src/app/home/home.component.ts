@@ -26,7 +26,7 @@ export class HomeComponent {
       this.data = response;
       if(this.data.title) this.title = this.data.title;
       if(this.data.fullname) this.fullname = this.data.fullname;
-      hideWait(200);
+      hideWait();
       this.loading =false;
     });
   }

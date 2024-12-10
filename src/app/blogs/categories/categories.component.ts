@@ -4,6 +4,7 @@ import { hideWait, showWait } from '../../shared/utils';
 import { environment } from '../../../environments/environment.development';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-categories',
   standalone: false,
@@ -32,7 +33,7 @@ export class CategoriesComponent {
       if(this.data.title) this.title = this.data.title;
       if(this.data.fullname) this.fullname = this.data.fullname;
       this.loading =false;
-      hideWait(200);
+      hideWait();
     });
   }
 
@@ -48,7 +49,7 @@ export class CategoriesComponent {
   CancelEntry(){
     showWait();
     this.entrymode = false;
-    hideWait(400);
+    hideWait();
   }
   counter(n: number): number[] {
     return Array(n).fill(0).map((_, i) => i + 1);

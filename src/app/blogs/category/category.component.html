@@ -1,0 +1,43 @@
+<app-header [title]="title" [fullname]="fullname"></app-header>
+
+<section class="ftco-section bg-light pb-3" [class.d-none]="loading">
+<div class="container-fluid mw-2000" *ngIf="fullname!==''">
+<!--Blog Categories List----------------------------------------------------------------------->
+<section >
+    <div>
+    <div class="row mb-2">
+        <div class="col-12 col-md-8">
+            <h4 class="ms-1" >{{title}}</h4>
+        </div>
+        <div class="col-12 col-md-4 p-0">
+                <div class="d-grid gap-2">
+                    <button class="btn btn-dark rounded-0"  (click)="goBack()" type="button">Back</button>
+                </div>
+        </div>
+    </div>
+    <div class="row bg-white">
+            <div class="input-group p-0 mb-2 rounded-0">
+                <input class="form-control border-end-0 border border-3" type="search" placeholder="Search Blog Categories">
+                <span class="input-group-append">
+                    <button class="btn btn-outline-secondary bg-white border-start-0  border rounded-0 border-3 ms-n5" type="button">
+                        <i class="bi bi-search bi-boldicon"></i>
+                    </button>
+                </span>
+            </div>
+    <h1>{{categoryId}}</h1>  
+      
+    </div>
+
+    </div>
+</section>
+
+
+
+</div>
+
+<div class="alert alert-danger mt-3" role="alert" *ngIf="fullname==''">
+    Make sure to login to access this feature!
+</div>
+</section>
+<app-footer></app-footer>
+

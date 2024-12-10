@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { hideWait, showWait } from '../../shared/utils';
 import { environment } from '../../../environments/environment.development';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-categories',
@@ -19,11 +20,13 @@ export class CategoriesComponent {
   data: any;
   imgprfx = environment.imgprfx;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+              private router: Router
+  ) {}
 
   ngOnInit(): void {
     
-    this.http.get('https://10.32.234.54/cgi/APPBLOGCAT',{withCredentials:true}).subscribe(response => {
+    this.http.get('https://10.32.234.54/cgi/APPLMBCATG',{withCredentials:true}).subscribe(response => {
 
       this.data = response;
       if(this.data.title) this.title = this.data.title;
@@ -34,9 +37,13 @@ export class CategoriesComponent {
   }
 
   StartEntry(){
-    showWait();
-    this.entrymode = true;
-    hideWait(400);
+    this.router.navigate(['/blogs/newcategory']);
+  }
+  ViewCategory(category:string){
+    this.router.navigate(['/blogs/viewcategory/'+category]);
+  }
+  EditCategory(category:string){
+    this.router.navigate(['/blogs/editcategory/'+category]);
   }
   CancelEntry(){
     showWait();

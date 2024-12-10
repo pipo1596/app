@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { hideWait, showWait } from '../../shared/utils';
+import { hideWait, openModal, showToast, showWait } from '../../shared/utils';
 import { environment } from '../../../environments/environment.development';
 import { Router } from '@angular/router';
 
@@ -46,6 +46,10 @@ export class CategoriesComponent {
   EditCategory(category:string){
     this.router.navigate(['/blogs/editcategory/'+category]);
   }
+  startDelete(category:string){
+    openModal('deleteCategory');
+
+  }
   CancelEntry(){
     showWait();
     this.entrymode = false;
@@ -54,6 +58,8 @@ export class CategoriesComponent {
   counter(n: number): number[] {
     return Array(n).fill(0).map((_, i) => i + 1);
   }
-
+  onDelete() {
+     showToast();
+    }
 
 }

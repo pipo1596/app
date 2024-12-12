@@ -14,7 +14,7 @@ export class TextField {
     validate() {
       this.error = ""; // Reset errors
   
-      
+      //minlenth20 i.e. will make sure the field is at least 20 characters long:
       let minlength = parseInt(this.includesStartsWith(this.rules,'minlength',9));
       if(this.value && minlength>0)
       if (this.value.length < minlength) {

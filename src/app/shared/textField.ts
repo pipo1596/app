@@ -11,20 +11,21 @@ export class TextField {
     }
   
     // Custom validation: checks if the field is not empty
-    validate() {
+    validate():boolean {
       this.error = ""; // Reset errors
-  
+      let valid = true;
       //minlenth20 i.e. will make sure the field is at least 20 characters long:
       let minlength = parseInt(this.includesStartsWith(this.rules,'minlength',9));
       if(this.value && minlength>0)
       if (this.value.length < minlength) {
-        this.error= "(less than " +minlength+" characters)";
+        this.error= "(less than " +minlength+" characters)";valid = false;        
       }
 
       this.rules.includes("required")
       if (!this.value) {
-        this.error = '(required)';
+        this.error = '(required)';valid = false;
       }
+      return valid;
     }
 
     includesStartsWith(arr:string[], str:string, n:number) {

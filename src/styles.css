@@ -76,5 +76,12 @@ ul.categories li {
 .toast{
     animation: fadeIn 1s;
 }
+.selectActv {
+    background-color: #dff0d8 !important;
+  }
+  
+  .selectDsbl {
+    background-color: #f5d5da  !important;
+  }
 
 

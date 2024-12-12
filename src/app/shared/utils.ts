@@ -12,6 +12,17 @@ export function hideWait(timeout?:number): void {
     }
         
 }
+export function focusField(id:string){  
+  
+  if(id=="")return;
+
+  setTimeout(() => {
+    let field =document.getElementById(id);
+    field?.focus();
+    field?.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"}); 
+  }, 100);
+  
+}
 export function showToast(): void {
     showWait();
          setTimeout(() => {

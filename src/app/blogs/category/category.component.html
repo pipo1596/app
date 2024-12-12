@@ -78,17 +78,17 @@
         <div class="row bg-white pt-2">
             <div class="col-12">
                 <div class="mb-4">
-                    <h5 class="form-label fw-bold">Blog Category Title</h5>
+                    <h5 class="form-label fw-bold">Blog Category Title<span class="text-danger ms-1" *ngIf="categorytitle.error!==''">{{categorytitle.error}}</span></h5>
                     <input type="text" name="title" class="form-control" id="{{categorytitle.htmlid}}" [(ngModel)]="categorytitle.value">
                 </div>
                 <hr>
                 <div class="mb-4">
-                    <h5 class="form-label fw-bold">Status</h5>
-                    <select class="form-select form-select mb-3" aria-label=".form-select example">
-                        <option selected>select</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <h5 class="form-label fw-bold">Status<span class="text-danger ms-1" *ngIf="categorystatus.error!==''">{{categorystatus.error}}</span></h5>
+                    <select class="form-select form-select mb-3" id="{{categorystatus.htmlid}}" [(ngModel)]="categorystatus.value" 
+                    [ngClass]="{'selectActv':categorystatus.value=='P','selectDsbl':categorystatus.value=='U'}">
+                        <option value="">Select Status</option>
+                        <option value="P">Published</option>
+                        <option value="U">Unpublished</option>
                       </select>
                       
                 </div>

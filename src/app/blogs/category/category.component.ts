@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
-import { hideWait, showWait } from '../../shared/utils';
+import { focusField, hideWait, showWait } from '../../shared/utils';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TextField } from '../../shared/textField';
 
@@ -19,13 +19,15 @@ export class CategoryComponent {
   entrymode = false;
   data: any;
   imgprfx = environment.imgprfx;
+  topErrorID = "";
 
   categoryId: string | null = null;
   isNewCategory: boolean = false;
   isEditCategory: boolean = false;
   isViewCategory: boolean = false;
   //Screen Fields
-  categorytitle = new TextField("categorytitle",["required","minlength20"]);
+  categorytitle = new TextField("categorytitle",["required","minlength7"]);
+  categorystatus = new TextField("categorytitle",["required"]);
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -36,7 +38,7 @@ export class CategoryComponent {
   ngOnInit(): void {
     
     this.setMode();
-    this.http.get('https://10.32.234.54/cgi/APPSRBCATG',{withCredentials:true}).subscribe(response => {
+    this.http.post('https://10.32.234.54/cgi/APPSKLTN',{mode:"TEST"},{withCredentials:true}).subscribe(response => {
 
       this.data = response;
       if(this.data.title) this.title = this.data.title;
@@ -47,8 +49,19 @@ export class CategoryComponent {
   }
 
   newCategory(){
-    this.categorytitle.validate();
-    alert(this.categorytitle.error)
+    this.topErrorID = "";
+    if(!this.categorytitle.validate()) this.setTopErrorID(this.categorytitle.htmlid);
+    if(!this.categorystatus.validate()) this.setTopErrorID(this.categorytitle.htmlid);
+
+    focusField(this.topErrorID);
+
+
+  }
+
+  setTopErrorID(errorID:string){
+    if(this.topErrorID!=="") return;
+    this.topErrorID = errorID;
+
   }
 
   setMode(){

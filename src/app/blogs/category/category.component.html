@@ -30,14 +30,14 @@
     <div class="col-12 col-md-6">
         <!--Left Side-->
     <div class="row bg-white pt-2 me-1">
-            <div class="col-6 col-md-3">
+            <div class="col">
                 <div class="d-grid gap-2">
-                    <button class="btn btn-light rounded-0 border border-2 active" type="button">Blog Posts</button>
+                    <button class="btn btn-light rounded-0 border border-2 active mx-400"  type="button">Blog Posts</button>
                 </div>
             </div>
-            <div class="col-6 col-md-3">
+            <div class="col">
                 <div class="d-grid gap-2">
-                    <button class="btn btn-light rounded-0 border border-2" type="button">Blog Categories</button>
+                    <button class="btn btn-light rounded-0 border border-2 mx-400" type="button">Blog Categories</button>
                 </div>
             </div>
             <div class="col-12 mt-3">
@@ -79,7 +79,7 @@
             <div class="col-12">
                 <div class="mb-4">
                     <h5 class="form-label fw-bold">Blog Category Title</h5>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <input type="text" name="title" class="form-control" id="{{categorytitle.htmlid}}" [(ngModel)]="categorytitle.value">
                 </div>
                 <hr>
                 <div class="mb-4">
@@ -169,7 +169,7 @@
                     <div class="col-12 mb-3 text-end">
                         <button class="btn btn-danger rounded-0 border border-2" type="button">Delete U.S. Army Gear</button>
                         <button class="btn btn-light rounded-0 border border-2 ms-1" type="button">Cancel</button>
-                        <button class="btn btn-dark rounded-0 border border-2 ms-1" type="button">Save</button>
+                        <button class="btn btn-dark rounded-0 border border-2 ms-1" type="button" (click)="newCategory()">Save</button>
                     </div>
             </div>
         </div>

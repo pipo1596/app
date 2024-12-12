@@ -5,6 +5,8 @@ import { FooterComponent } from './footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { ToastComponent } from './toast/toast.component';  // Import HttpClientModule explicitly
+import { FormsModule } from '@angular/forms';
+
 
 
 
@@ -21,7 +23,8 @@ import { ToastComponent } from './toast/toast.component';  // Import HttpClientM
     ConfirmComponent,
     ToastComponent,
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule 
   ],
   imports: [
     CommonModule

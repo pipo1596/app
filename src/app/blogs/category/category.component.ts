@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { hideWait, showWait } from '../../shared/utils';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TextField } from '../../shared/textField';
 
 @Component({
   selector: 'app-category',
@@ -20,9 +21,11 @@ export class CategoryComponent {
   imgprfx = environment.imgprfx;
 
   categoryId: string | null = null;
-  isNewCategory: boolean = false
-  isEditCategory: boolean = false
-  isViewCategory: boolean = false
+  isNewCategory: boolean = false;
+  isEditCategory: boolean = false;
+  isViewCategory: boolean = false;
+  //Screen Fields
+  categorytitle = new TextField("categorytitle",["required","minlength20"]);
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -41,6 +44,11 @@ export class CategoryComponent {
       this.loading =false;
       hideWait();
     });
+  }
+
+  newCategory(){
+    this.categorytitle.validate();
+    alert(this.categorytitle.error)
   }
 
   setMode(){

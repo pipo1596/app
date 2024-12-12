@@ -3,7 +3,7 @@
 <section class="ftco-section bg-light pb-3" [class.invisible]="loading">
 <div class="container-fluid mw-2000" *ngIf="fullname!==''">
 <!--Blog Categories List----------------------------------------------------------------------->
-<section >
+<section class="position-relative">
     <div>
     <div class="row mb-2">
         <div class="col-12 col-md-8">
@@ -73,8 +73,8 @@
 <div class="alert alert-danger mt-3" role="alert" *ngIf="fullname==''">
     Make sure to login to access this feature!
 </div>
-
+<app-toast  [title]="'Category Deleted'" [body]="'Category Successfully Deleted'"></app-toast>
 </section>
 <app-confirm (notify)="onDelete()" [title]="'Delete Category'" [id]="'deleteCategory'" [body]="'Delete Category?'"></app-confirm>
-<app-toast  [title]="'Category Deleted'" [body]="'Category Successfully Deleted'"></app-toast>
+
 <app-footer></app-footer>

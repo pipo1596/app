@@ -68,4 +68,13 @@ ul.categories li {
     padding-top: 7px;
     margin-top: -7px;
 }
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+.toast{
+    animation: fadeIn 1s;
+}
+
 

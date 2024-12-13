@@ -16,8 +16,10 @@ export class CategoryComponent {
   page = new Page();
 
   //Screen Fields
-  categorytitle = new TextField("categorytitle",["required","minlength7"]);
-  categorystatus = new TextField("categorytitle",["required"]);
+  categorytitle  = new TextField("categorytitle",["required","minlength7"]);
+  categorystatus = new TextField("categorystatus",["required"]);
+  publishdate    = new TextField("publishdate",["required"]);
+  publishtime    = new TextField("publishtime",["required"]);
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -38,10 +40,12 @@ export class CategoryComponent {
     });
   }
 
-  newCategory(){
+  saveCategory(){
     this.page.topErrorID = "";
     if(!this.categorytitle.validate()) this.setTopErrorID(this.categorytitle.htmlid);
     if(!this.categorystatus.validate()) this.setTopErrorID(this.categorytitle.htmlid);
+    if(!this.publishdate.validate()) this.setTopErrorID(this.publishdate.htmlid);
+    if(!this.publishtime.validate()) this.setTopErrorID(this.publishtime.htmlid);
 
     focusField(this.page.topErrorID);
 
@@ -75,7 +79,7 @@ export class CategoryComponent {
   goBack(){
     this.router.navigate(['/blogs/categories']);
   }
-  
+
   counter(n: number): number[] {
     return Array(n).fill(0).map((_, i) => i + 1);
   }

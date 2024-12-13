@@ -1,3 +1,5 @@
+import { environment } from "../../environments/environment.development";
+
 // text-field.ts
 export class TextField {
     value: string = "";
@@ -38,3 +40,17 @@ export class TextField {
       }
   }
   
+
+  export class Page {
+    data:any;
+    title:string = '';
+    fullname:string = '';
+    imgprfx:string = environment.imgprfx;
+    loading: boolean = true;
+    rfno:string | null ="";
+    entrymode: boolean = false;
+    editmode: boolean = false;
+    viewmode: boolean = false;
+    topErrorID:string = "";
+    
+  }

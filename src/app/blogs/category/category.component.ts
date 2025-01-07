@@ -26,6 +26,9 @@ export class CategoryComponent {
   urlandhandle   = new TextField("urlandhandle",["required"]);
   tags           = new TextField("tags",["required"]);
 
+  
+
+
   constructor(private http: HttpClient,
               private router: Router,
               private route: ActivatedRoute
@@ -45,6 +48,17 @@ export class CategoryComponent {
       if(this.page.data.fullname) this.page.fullname = this.page.data.fullname;
       this.page.loading =false;
       hideWait();
+      //For easier testing:
+      let now = new Date();
+      this.categorytitle.value = 'test title';
+      this.categorystatus.value = 'P';
+      this.publishdate.value = now.toISOString().split('T')[0];
+      this.publishtime.value = now.toISOString().substring(11,16);
+      this.site.value        = '1'
+      this.metatitle.value   = 'test meta title';
+      this.metadescription.value = 'test meta description';
+      this.urlandhandle.value   = 'test url and handle';
+      this.tags.value = 'test tags value';      
     });
   }
 

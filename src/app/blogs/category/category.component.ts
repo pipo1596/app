@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { focusField, hideWait, openModal, showWait } from '../../shared/utils';
+import { focusField, hideWait, openModal, showToast, showWait } from '../../shared/utils';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Page, TextField } from '../../shared/textField';
 
@@ -95,6 +95,11 @@ export class CategoryComponent {
         this.page.data = response;
         
         hideWait();
+        showToast();
+        setTimeout(() => {
+          this.goBack();
+        }, 3000);
+        
         
       });
 

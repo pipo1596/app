@@ -26,10 +26,10 @@
     </div>
     <!--=================================-->
 
-    <div class="row">
-    <div class="col-12 col-md-6">
+    <div class="row justify-content-center">
+    <div class="col-12 col-md-6" *ngIf="!page.entrymode">
         <!--Left Side-->
-    <div class="row bg-white pt-2 me-1" *ngIf="!page.entrymode" >
+    <div class="row bg-white pt-2 me-1"  >
             <div class="col">
                 <div class="d-grid gap-2">
                     <button class="btn btn-light rounded-0 border border-2 active mx-400"  type="button">Blog Posts</button>

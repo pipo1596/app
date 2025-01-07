@@ -15,12 +15,12 @@
         </div>
         <div class="col-12 col-md-3">
             <div class="d-grid gap-2">
-                <button class="btn btn-light rounded-0 border border-2" type="button">Create New Blog Category</button>
+                <button *ngIf="!page.entrymode" class="btn btn-light rounded-0 border border-2" type="button">Create New Blog Category</button>
             </div>
         </div>
         <div class="col-12 col-md-3">
             <div class="d-grid gap-2">
-                <button class="btn btn-dark rounded-0" type="button">Create New Blog Post</button>
+                <button *ngIf="!page.entrymode" class="btn btn-dark rounded-0" type="button">Create New Blog Post</button>
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
     <div class="row">
     <div class="col-12 col-md-6">
         <!--Left Side-->
-    <div class="row bg-white pt-2 me-1">
+    <div class="row bg-white pt-2 me-1" *ngIf="!page.entrymode" >
             <div class="col">
                 <div class="d-grid gap-2">
                     <button class="btn btn-light rounded-0 border border-2 active mx-400"  type="button">Blog Posts</button>
@@ -40,7 +40,7 @@
                     <button class="btn btn-light rounded-0 border border-2 mx-400" type="button">Blog Categories</button>
                 </div>
             </div>
-            <div class="col-12 mt-3">
+            <div class="col-12 mt-3" >
                 <h4>Blog Posts</h4>
                 <div class="input-group p-0 mb-2 rounded-0">
                     <input class="form-control border-end-0 border border-3" type="search" placeholder="Search US Army Gear Blog Posts">
@@ -108,9 +108,11 @@
                 </div>
                 <hr>
                 <div class="mb-4">
-                    <h5 class="form-label fw-bold">Site</h5>
-                    <select class="form-select form-select mb-3">
-                        <option selected>select</option>
+                    <h5 class="form-label fw-bold">Site
+                        <span class="text-danger ms-1" *ngIf="site.error!==''">{{site.error}}</span>
+                    </h5>
+                    <select class="form-select form-select mb-3" name="site" id="{{site.htmlid}}" [(ngModel)]="site.value">
+                        <option value="">select</option>
                         <option value="1">One</option>
                         <option value="2">Two</option>
                         <option value="3">Three</option>
@@ -152,27 +154,35 @@
                 </div>
                 <div class="mb-4">
                     <h4 class="form-label fw-bold">SEO</h4>
-                    <h5>Meta Title</h5>
-                    <input type="email" class="form-control" aria-describedby="emailHelp">
-                    <div id="emailHelp" class="form-text mt-0 pe-1 text-end">0 Of 70 Used</div>
-                    <h5>Meta Description</h5>
-                    <textarea class="form-control"></textarea>
-                    <div id="emailHelp" class="form-text mt-0 pe-1 text-end">0 Of 320 Used</div>
-                    <h5>URL and handle</h5>
-                    <input type="email" class="form-control" aria-describedby="emailHelp">
-                    <div id="emailHelp" class="form-text mt-0 pe-1 text-end">0 Of 70 Used</div>
+                    <h5>Meta Title
+                        <span class="text-danger ms-1" *ngIf="metatitle.error!==''">{{metatitle.error}}</span>
+                    </h5>
+                    <input type="text" class="form-control" name="metatitle" id="{{metatitle.htmlid}}" [(ngModel)]="metatitle.value">
+                    <div class="form-text mt-0 pe-1 text-end">0 Of 70 Used</div>
+                    <h5>Meta Description
+                        <span class="text-danger ms-1" *ngIf="metadescription.error!==''">{{metadescription.error}}</span>
+                    </h5>
+                    <textarea class="form-control" name="metadescription" id="{{metatitle.htmlid}}" [(ngModel)]="metatitle.value"></textarea>
+                    <div class="form-text mt-0 pe-1 text-end">0 Of 320 Used</div>
+                    <h5>URL and handle
+                        <span class="text-danger ms-1" *ngIf="urlandhandle.error!==''">{{urlandhandle.error}}</span>
+                    </h5>
+                    <input type="email" class="form-control" name="urlandhandle" id="{{urlandhandle.htmlid}}" [(ngModel)]="urlandhandle.value" >
+                    <div class="form-text mt-0 pe-1 text-end">0 Of 70 Used</div>
                     <h4>Featured Image</h4>
                     <h5>Upload Image</h5>
                     <div class="input-group mb-3">
                         <input type="file" class="form-control" id="inputGroupFile01">
                       </div>
-                      <h5>Tags</h5>
-                      <input type="email" class="form-control" aria-describedby="emailHelp">
+                      <h5>Tags
+                        <span class="text-danger ms-1" *ngIf="tags.error!==''">{{tags.error}}</span>
+                      </h5>
+                      <input type="email" class="form-control" name="tags" id="{{tags.htmlid}}" [(ngModel)]="tags.value">
                 </div>
                 
                     <div class="col-12 mb-3 text-end">
-                        <button class="btn btn-danger rounded-0 border border-2" type="button">Delete U.S. Army Gear</button>
-                        <button class="btn btn-light rounded-0 border border-2 ms-1" type="button">Cancel</button>
+                        <button class="btn btn-danger rounded-0 border border-2" type="button" *ngIf="page.editmode">Delete U.S. Army Gear</button>
+                        <button class="btn btn-light rounded-0 border border-2 ms-1" type="button" (click)="cancelEntry()">Cancel</button>
                         <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit">Save</button>
                     </div>
             </div>
@@ -190,5 +200,6 @@
     Make sure to login to access this feature!
 </div>
 </section>
+<app-confirm (notify)="goBack()" [title]="'Cancel'" [id]="'cancelEntry'" [body]="'Cancel Category Entry? Changes will not be saved.'"></app-confirm>
 <app-footer></app-footer>
 

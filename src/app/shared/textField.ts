@@ -51,6 +51,7 @@ export class TextField {
     entrymode: boolean = false;
     editmode: boolean = false;
     viewmode: boolean = false;
+    changes: boolean = false;
     topErrorID:string = "";
     
   }

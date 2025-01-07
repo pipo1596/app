@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { focusField, hideWait } from '../../shared/utils';
+import { focusField, hideWait, openModal } from '../../shared/utils';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Page, TextField } from '../../shared/textField';
 
@@ -20,6 +20,11 @@ export class CategoryComponent {
   categorystatus = new TextField("categorystatus",["required"]);
   publishdate    = new TextField("publishdate",["required"]);
   publishtime    = new TextField("publishtime",["required"]);
+  site           = new TextField("site",["required"]);
+  metatitle      = new TextField("metatitle",["required"]);
+  metadescription= new TextField("metadescription",["required"]);
+  urlandhandle   = new TextField("metadescription",["required"]);
+  tags           = new TextField("tags",["required"]);
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -46,6 +51,11 @@ export class CategoryComponent {
     if(!this.categorystatus.validate()) this.setTopErrorID(this.categorytitle.htmlid);
     if(!this.publishdate.validate()) this.setTopErrorID(this.publishdate.htmlid);
     if(!this.publishtime.validate()) this.setTopErrorID(this.publishtime.htmlid);
+    if(!this.site.validate()) this.setTopErrorID(this.site.htmlid);
+    if(!this.metatitle.validate()) this.setTopErrorID(this.metatitle.htmlid);
+    if(!this.metadescription.validate()) this.setTopErrorID(this.metadescription.htmlid);
+    if(!this.urlandhandle.validate()) this.setTopErrorID(this.urlandhandle.htmlid);
+    if(!this.tags.validate()) this.setTopErrorID(this.tags.htmlid);
 
     focusField(this.page.topErrorID);
 
@@ -58,6 +68,9 @@ export class CategoryComponent {
 
   }
 
+  cancelEntry(){
+    openModal('cancelEntry');
+  }
   setMode(){
     if (this.router.url === '/blogs/newcategory') {
       this.page.entrymode = true;

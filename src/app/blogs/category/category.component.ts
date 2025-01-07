@@ -94,11 +94,12 @@ export class CategoryComponent {
 
         this.page.data = response;
         
-        hideWait();
+        
         showToast();
         setTimeout(() => {
+          hideWait();
           this.goBack();
-        }, 3000);
+        }, 1500);
         
         
       });

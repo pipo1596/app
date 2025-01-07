@@ -198,7 +198,7 @@
     Make sure to login to access this feature!
 </div>
 </section>
-<app-toast  [title]="'Category Saved'" [body]="'Category Successfully Saved'"></app-toast>
+<app-toast  [title]="'Category Saved'"  [position]="'top'" [body]="'Category Successfully Saved'"></app-toast>
 <app-confirm (notify)="goBack()" [title]="'Cancel'" [id]="'cancelEntry'" [body]="'Cancel Category Entry? Changes will not be saved.'"></app-confirm>
 <app-footer></app-footer>
 

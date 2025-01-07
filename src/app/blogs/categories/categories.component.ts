@@ -60,6 +60,7 @@ export class CategoriesComponent {
   }
   onDelete() {
      showToast();
+     hideWait(300);
     }
 
 }

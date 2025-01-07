@@ -10,5 +10,6 @@ import { Component, Input } from '@angular/core';
 export class ToastComponent {
   @Input() title : string | undefined;
   @Input() body : string | undefined;
+  @Input() position : string | undefined;
 
 }

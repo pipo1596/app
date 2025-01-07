@@ -35,7 +35,7 @@ export function showToast(): void {
             document.getElementById("toastMain")?.classList.remove("show");
            
         }, 2500);
-        hideWait(300);
+        
      
 }
 

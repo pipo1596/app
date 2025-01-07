@@ -8,9 +8,9 @@
         <div class="col-12 col-md-6">
             <button class="btn btn-dark rounded-0 me-2 float-start" title="Back"  (click)="goBack()" type="button"><i class="bi bi-arrow-left bi-boldicon"></i></button>
             <div class="float-start">
-                <h4 *ngIf="page.entrymode" >Create New Category</h4>
-                <h4 *ngIf="page.viewmode">View Category</h4>
-                <h4 *ngIf="page.editmode">Edit Category</h4>
+                <h4 *ngIf="page.entrymode" >Create New Blog Category</h4>
+                <h4 *ngIf="page.viewmode">View Blog Category</h4>
+                <h4 *ngIf="page.editmode">Edit Blog Category</h4>
             </div>
         </div>
         <div class="col-12 col-md-3">
@@ -162,12 +162,12 @@
                     <h5>Meta Description
                         <span class="text-danger ms-1" *ngIf="metadescription.error!==''">{{metadescription.error}}</span>
                     </h5>
-                    <textarea class="form-control" name="metadescription" id="{{metatitle.htmlid}}" [(ngModel)]="metatitle.value"></textarea>
+                    <textarea class="form-control" name="metadescription" id="{{metadescription.htmlid}}" [(ngModel)]="metadescription.value"></textarea>
                     <div class="form-text mt-0 pe-1 text-end">0 Of 320 Used</div>
                     <h5>URL and handle
                         <span class="text-danger ms-1" *ngIf="urlandhandle.error!==''">{{urlandhandle.error}}</span>
                     </h5>
-                    <input type="email" class="form-control" name="urlandhandle" id="{{urlandhandle.htmlid}}" [(ngModel)]="urlandhandle.value" >
+                    <input type="text" class="form-control" name="urlandhandle" id="{{urlandhandle.htmlid}}" [(ngModel)]="urlandhandle.value" >
                     <div class="form-text mt-0 pe-1 text-end">0 Of 70 Used</div>
                     <h4>Featured Image</h4>
                     <h5>Upload Image</h5>
@@ -177,7 +177,7 @@
                       <h5>Tags
                         <span class="text-danger ms-1" *ngIf="tags.error!==''">{{tags.error}}</span>
                       </h5>
-                      <input type="email" class="form-control" name="tags" id="{{tags.htmlid}}" [(ngModel)]="tags.value">
+                      <input type="text" class="form-control" name="tags" id="{{tags.htmlid}}" [(ngModel)]="tags.value">
                 </div>
                 
                     <div class="col-12 mb-3 text-end">

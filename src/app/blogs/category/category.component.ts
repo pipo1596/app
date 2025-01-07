@@ -23,7 +23,7 @@ export class CategoryComponent {
   site           = new TextField("site",["required"]);
   metatitle      = new TextField("metatitle",["required"]);
   metadescription= new TextField("metadescription",["required"]);
-  urlandhandle   = new TextField("metadescription",["required"]);
+  urlandhandle   = new TextField("urlandhandle",["required"]);
   tags           = new TextField("tags",["required"]);
 
   constructor(private http: HttpClient,
@@ -47,6 +47,7 @@ export class CategoryComponent {
 
   saveCategory(){
     this.page.topErrorID = "";
+    this.page.valid = true;
     if(!this.categorytitle.validate()) this.setTopErrorID(this.categorytitle.htmlid);
     if(!this.categorystatus.validate()) this.setTopErrorID(this.categorytitle.htmlid);
     if(!this.publishdate.validate()) this.setTopErrorID(this.publishdate.htmlid);
@@ -59,12 +60,20 @@ export class CategoryComponent {
 
     focusField(this.page.topErrorID);
 
+    if(this.page.valid){
+
+      alert("Valid Info Will Proceed!");
+      this.goBack(); 
+
+    }
+
 
   }
 
   setTopErrorID(errorID:string){
     if(this.page.topErrorID!=="") return;
     this.page.topErrorID = errorID;
+    this.page.valid = false;
 
   }
 

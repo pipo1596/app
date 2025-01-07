@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { focusField, hideWait, openModal } from '../../shared/utils';
+import { focusField, hideWait, openModal, showWait } from '../../shared/utils';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Page, TextField } from '../../shared/textField';
 
@@ -35,7 +35,10 @@ export class CategoryComponent {
   ngOnInit(): void {
     
     this.setMode();
-    this.http.post('https://10.32.234.54/cgi/APPSKLTN',{mode:"TEST"},{withCredentials:true}).subscribe(response => {
+    let data = {
+        mode:'INIT'
+      }
+    this.http.post('https://10.32.234.54/cgi/APPSRBCATG',data).subscribe(response => {
 
       this.page.data = response;
       if(this.page.data.title) this.page.title = this.page.data.title;
@@ -62,8 +65,24 @@ export class CategoryComponent {
 
     if(this.page.valid){
 
-      alert("Valid Info Will Proceed!");
-      this.goBack(); 
+      //Save Payload:
+      let data = {
+        mode: this.page.entrymode?'NEWCATEG':'EDITCATEG',
+        bcstat: this.categorystatus.value,
+        bcdesc: this.categorytitle.value,
+        bcmett: this.metatitle.value,
+        bcmetd: this.metadescription.value,
+        bcmetk: this.metadescription.value
+
+      }
+      showWait();
+      this.http.post('https://10.32.234.54/cgi/APPSRBCATG',data).subscribe(response => {
+
+        this.page.data = response;
+        
+        hideWait();
+        
+      });
 
     }
 

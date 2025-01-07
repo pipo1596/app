@@ -157,19 +157,18 @@
                     <h5>Meta Title
                         <span class="text-danger ms-1" *ngIf="metatitle.error!==''">{{metatitle.error}}</span>
                     </h5>
-                    <input type="text" class="form-control" name="metatitle" id="{{metatitle.htmlid}}" [(ngModel)]="metatitle.value">
-                    <div class="form-text mt-0 pe-1 text-end">0 Of 70 Used</div>
+                    <input type="text" class="form-control" maxlength="70" name="metatitle" id="{{metatitle.htmlid}}" [(ngModel)]="metatitle.value">
+                    <div class="form-text mt-0 pe-1 text-end">{{metatitle.value.length}} Of 70 Used</div>
                     <h5>Meta Description
                         <span class="text-danger ms-1" *ngIf="metadescription.error!==''">{{metadescription.error}}</span>
                     </h5>
-                    <textarea class="form-control" name="metadescription" id="{{metadescription.htmlid}}" [(ngModel)]="metadescription.value"></textarea>
-                    <div class="form-text mt-0 pe-1 text-end">0 Of 320 Used</div>
+                    <textarea class="form-control" maxlength="320" name="metadescription" id="{{metadescription.htmlid}}" [(ngModel)]="metadescription.value"></textarea>
+                    <div class="form-text mt-0 pe-1 text-end">{{metadescription.value.length}} Of 320 Used</div>
                     <h5>URL and handle
                         <span class="text-danger ms-1" *ngIf="urlandhandle.error!==''">{{urlandhandle.error}}</span>
                     </h5>
-                    <input type="text" class="form-control" name="urlandhandle" id="{{urlandhandle.htmlid}}" [(ngModel)]="urlandhandle.value" >
-                    <div class="form-text mt-0 pe-1 text-end">0 Of 70 Used</div>
-                    <h4>Featured Image</h4>
+                    <input type="text" class="form-control" maxlength="526"  name="urlandhandle" id="{{urlandhandle.htmlid}}" [(ngModel)]="urlandhandle.value" >
+                    <h4 class="mt-2">Featured Image</h4>
                     <h5>Upload Image</h5>
                     <div class="input-group mb-3">
                         <input type="file" class="form-control" id="inputGroupFile01">

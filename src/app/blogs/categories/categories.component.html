@@ -26,20 +26,24 @@
             </div>
          
            
-        <div class="card my-1 border border-3 rounded-0"  *ngFor="let category of page.data.categories">
+        <div class="card my-1 border border-3 rounded-0"  *ngFor="let category of page.data.categories;index as c">
             <div class="row g-0">
             <div class="col-md-2 contbckg" style="background-image: url({{imgprfx}}/cat.jpg);">
             </div>
             <div class="col-md-10 position-relative">
                 <div class="card-body">
-                <h5 class="card-title mb-1">{{category.desc}}</h5>
+                <h5 class="card-title mb-1">{{category.desc}} 
+                    
+                </h5>
                 <p class="card-text mb-1">0 blog posts</p>
-                <small>Category 0</small>
-                <ul class="categories">
-                    <li>Category 1</li>
-                    <li style="margin-left:12px">Category 2</li>
-                    <li style="margin-left:24px">Category 3</li>
-                    <li style="margin-left:36px" class="text-primary fw-bold">U.S Army</li>
+                <small>Tactical Gear
+                    <button *ngIf="category.bcnp!==''" class="btn btn-primary p-0 lh-1" (click)="getParent(c)">
+                    <i class="bi bi-plus"></i>
+                </button></small>
+                <ul class="categories" *ngIf="category.expand">
+                    <ng-container  *ngFor="let parent of category.parents; index as i" >
+                        <li class="mlpath-{{i}}">{{parent.desc}}</li>
+                    </ng-container>
                 </ul>
                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                 </div>

@@ -40,7 +40,6 @@ export class CategoriesComponent {
     this.http.post('https://10.32.234.54/cgi/APPLMBCATG',data).subscribe(response => {
 
       this.page.data = response;
-      this.updateLocations();
       if(this.page.data.title) this.title = this.page.data.title;
       if(this.page.data.fullname) this.fullname = this.page.data.fullname;
       this.loading =false;
@@ -71,7 +70,7 @@ export class CategoriesComponent {
   Search(force?:boolean){  
     force = force ?? false;
     if(!force && this.search == this.pvsearch) return;
-    
+
     showWait();
 
     let data = {
@@ -81,16 +80,22 @@ export class CategoriesComponent {
     this.pvsearch = this.search;
     this.http.post('https://10.32.234.54/cgi/APPLMBCATG',data).subscribe(response => {
       this.page.data = response; 
-      this.updateLocations();
       scrollToTop();
       hideWait();
     });
   }
-  updateLocations(){
-    this.page.data?.categories.forEach((categ: any) => {
 
-      categ.parents = [];
+  getParent(index:number){
+    this.page.data.categories[index].expand = !this.page.data.categories[index].expand;
+    if(!this.page.data || !this.page.data.categories || this.page.data.categories.length<1)return;
+
+    let data = {
+      mode: 'PATH',
+      bcno: this.page.data.categories[index].bcno    
+    }
+    this.http.post('https://10.32.234.54/cgi/APPLMBCATG',data).subscribe(response => {
       
+      this.page.data.categories[index].parents = response;
     });
   }
   onDelete() {

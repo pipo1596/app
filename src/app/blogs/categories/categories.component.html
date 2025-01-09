@@ -17,22 +17,23 @@
     </div>
     <div class="row bg-white">
             <div class="input-group p-0 mb-2 rounded-0">
-                <input class="form-control border-end-0 border border-3" type="search" placeholder="Search Blog Categories">
+                <input class="form-control border-end-0 border border-3" type="search"  name="search" [(ngModel)]="search" (blur)="Search()" (keyup.enter)="Search()" placeholder="Search Blog Categories">
                 <span class="input-group-append">
-                    <button class="btn btn-outline-secondary bg-white border-start-0  border rounded-0 border-3 ms-n5" type="button">
+                    <button class="btn btn-outline-secondary bg-white border-start-0  border rounded-0 border-3 ms-n5" (click)="Search()" type="button">
                         <i class="bi bi-search bi-boldicon"></i>
                     </button>
                 </span>
             </div>
-            
-        <div class="card my-1 border border-3 rounded-0" *ngFor="let item of counter(10)">
+         
+           
+        <div class="card my-1 border border-3 rounded-0"  *ngFor="let category of page.data.categories">
             <div class="row g-0">
             <div class="col-md-2 contbckg" style="background-image: url({{imgprfx}}/cat.jpg);">
             </div>
             <div class="col-md-10 position-relative">
                 <div class="card-body">
-                <h5 class="card-title mb-1">U.S. Army</h5>
-                <p class="card-text mb-1">16 blog posts</p>
+                <h5 class="card-title mb-1">{{category.desc}}</h5>
+                <p class="card-text mb-1">0 blog posts</p>
                 <small>Category 0</small>
                 <ul class="categories">
                     <li>Category 1</li>
@@ -43,15 +44,15 @@
                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                 </div>
                 <div class="btn-group-top-right" >
-                    <button class="btn btn-light" (click)="startDelete(item.toString())" ><span class="bi bi-trash text-danger"></span></button>
-                    <button class="btn btn-light ms-1" (click)="ViewCategory(item.toString())" ><span class="bi bi-eye"></span></button>
-                    <button class="btn btn-light ms-1" (click)="EditCategory(item.toString())"><span class="bi bi-pencil-square"></span></button>
+                    <button class="btn btn-light" (click)="startDelete(category.bcno)" ><span class="bi bi-trash text-danger"></span></button>
+                    <button class="btn btn-light ms-1" (click)="ViewCategory(category.bcno)" ><span class="bi bi-eye"></span></button>
+                    <button class="btn btn-light ms-1" (click)="EditCategory(category.bcno)"><span class="bi bi-pencil-square"></span></button>
                   </div>
             </div>
             </div>
         </div>
     </div>
-    <div class="row mb-2">
+    <div class="row mb-2 d-none">
         <ul class="pagination justify-content-end p-0 m-0">
           <li class="page-item active" aria-current="page">
             <span class="page-link">1</span>

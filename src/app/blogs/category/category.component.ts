@@ -99,7 +99,7 @@ export class CategoryComponent {
         setTimeout(() => {
           hideWait();
           this.goBack();
-        }, 1500);
+        }, 700);
         
         
       });

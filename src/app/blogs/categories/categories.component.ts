@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { hideWait, openModal, scrollToTop, showToast, showWait } from '../../shared/utils';
 import { environment } from '../../../environments/environment.development';
 import { Router } from '@angular/router';
+import { Page } from '../../shared/textField';
 
 
 @Component({
@@ -16,22 +17,32 @@ export class CategoriesComponent {
 
   title = '';
   fullname = '';
+  search="";
+  pvsearch="";
   loading=true;
   entrymode = false;
-  data: any;
   imgprfx = environment.imgprfx;
+
+  page = new Page();
 
   constructor(private http: HttpClient,
               private router: Router
   ) {}
 
   ngOnInit(): void {
-    
-    this.http.get('https://10.32.234.54/cgi/APPLMBCATG',{withCredentials:true}).subscribe(response => {
 
-      this.data = response;
-      if(this.data.title) this.title = this.data.title;
-      if(this.data.fullname) this.fullname = this.data.fullname;
+    let data = {
+      mode: 'SEARCH'
+      
+
+    }
+    
+    this.http.post('https://10.32.234.54/cgi/APPLMBCATG',data).subscribe(response => {
+
+      this.page.data = response;
+      this.updateLocations();
+      if(this.page.data.title) this.title = this.page.data.title;
+      if(this.page.data.fullname) this.fullname = this.page.data.fullname;
       this.loading =false;
       scrollToTop();
       hideWait();
@@ -48,6 +59,7 @@ export class CategoriesComponent {
     this.router.navigate(['/blogs/editcategory/'+category]);
   }
   startDelete(category:string){
+    this.page.rfno = category;
     openModal('deleteCategory');
 
   }
@@ -56,12 +68,43 @@ export class CategoriesComponent {
     this.entrymode = false;
     hideWait();
   }
-  counter(n: number): number[] {
-    return Array(n).fill(0).map((_, i) => i + 1);
+  Search(force?:boolean){  
+    force = force ?? false;
+    if(!force && this.search == this.pvsearch) return;
+    
+    showWait();
+
+    let data = {
+      mode: 'SEARCH',
+      search: this.search    
+    }
+    this.pvsearch = this.search;
+    this.http.post('https://10.32.234.54/cgi/APPLMBCATG',data).subscribe(response => {
+      this.page.data = response; 
+      this.updateLocations();
+      scrollToTop();
+      hideWait();
+    });
+  }
+  updateLocations(){
+    this.page.data?.categories.forEach((categ: any) => {
+
+      categ.parents = [];
+      
+    });
   }
   onDelete() {
-     showToast();
-     hideWait(300);
+     
+     let data = {
+      mode: 'DELETE',
+      bcno: this.page.rfno    
+    }
+    
+    this.http.post('https://10.32.234.54/cgi/APPLMBCATG',data).subscribe(response => {
+      showToast();
+      
+      this.Search(true);
+    });
     }
 
 }

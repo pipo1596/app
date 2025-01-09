@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { hideWait, openModal, showToast, showWait } from '../../shared/utils';
+import { hideWait, openModal, scrollToTop, showToast, showWait } from '../../shared/utils';
 import { environment } from '../../../environments/environment.development';
 import { Router } from '@angular/router';
 
@@ -33,6 +33,7 @@ export class CategoriesComponent {
       if(this.data.title) this.title = this.data.title;
       if(this.data.fullname) this.fullname = this.data.fullname;
       this.loading =false;
+      scrollToTop();
       hideWait();
     });
   }

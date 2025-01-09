@@ -12,6 +12,12 @@ export function hideWait(timeout?:number): void {
     }
         
 }
+export function scrollToTop(){
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  })
+}
 export function focusField(id:string){  
   
   if(id=="")return;

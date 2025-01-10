@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { focusField, hideWait, openModal, showToast, showWait } from '../../shared/utils';
+import { focusField, getSite, hideWait, openModal, showToast, showWait } from '../../shared/utils';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Page, TextField } from '../../shared/textField';
 
@@ -26,6 +26,11 @@ export class CategoryComponent {
   urlandhandle   = new TextField("urlandhandle",["required"]);
   tags           = new TextField("tags",["required"]);
 
+  categ1 = "";categ1list:any=[];
+  categ2 = "";categ2list:any=[];
+  categ3 = "";categ3list:any=[];
+  categ4 = "";categ4list:any=[];
+  categ5 = "";categ5list:any=[];
   
 
 
@@ -37,6 +42,7 @@ export class CategoryComponent {
   
   ngOnInit(): void {
     
+    
     this.setMode();
     let data = {
         mode:'INIT'
@@ -47,6 +53,7 @@ export class CategoryComponent {
       if(this.page.data.title) this.page.title = this.page.data.title;
       if(this.page.data.fullname) this.page.fullname = this.page.data.fullname;
       this.page.loading =false;
+      
       hideWait();
       //For easier testing:
       let now = new Date();
@@ -57,7 +64,11 @@ export class CategoryComponent {
       this.metatitle.value   = 'test meta title';
       this.metadescription.value = 'test meta description';
       this.urlandhandle.value   = 'test url and handle';
-      this.tags.value = 'test tags value';      
+      this.tags.value = 'test tags value'; 
+      if(this.page.entrymode) {
+        this.site.value = getSite();
+        this.getCategories('',1);
+      }     
     });
   }
 
@@ -82,12 +93,16 @@ export class CategoryComponent {
       let data = {
         mode: this.page.entrymode?'NEWCATEG':'EDITCATEG',
         bcstat: this.categorystatus.value,
+        bcsite: this.site.value,
         bcdesc: this.categorytitle.value,
         bcmett: this.metatitle.value,
         bcmetd: this.metadescription.value,
-        bcmetk: this.metadescription.value
+        bcmetk: this.metadescription.value,
+        bcbcnp: this.getbcnp()
 
       }
+
+      
       showWait();
       this.http.post('https://10.32.234.54/cgi/APPSRBCATG',data).subscribe(response => {
 
@@ -100,6 +115,14 @@ export class CategoryComponent {
 
 
   }
+  getbcnp(){
+      let bcnp = this.categ1;
+          if(this.categ2!=='')bcnp = this.categ2;
+          if(this.categ3!=='')bcnp = this.categ3;
+          if(this.categ4!=='')bcnp = this.categ4;
+          if(this.categ5!=='')bcnp = this.categ5;
+    return bcnp;
+  }
 
   setTopErrorID(errorID:string){
     if(this.page.topErrorID!=="") return;
@@ -108,6 +131,61 @@ export class CategoryComponent {
 
   }
 
+  getCategories(bcno:string,index:number){
+    showWait();
+    let data = {
+      mode:'CHILD',
+      site:this.site.value,
+      bcno:bcno
+    }
+    if(this.categ1==''){
+      this.categ2 = '';
+      this.categ3 = '';
+      this.categ4 = '';
+      this.categ5 = '';
+    }
+    if(this.categ2==''){
+      this.categ3 = '';
+      this.categ4 = '';
+      this.categ5 = '';
+    }
+    if(this.categ3==''){
+      this.categ4 = '';
+      this.categ5 = '';
+    }
+    if(this.categ4==''){
+      this.categ5 = '';
+    }
+    this.http.post('https://10.32.234.54/cgi/APPSRBCATG',data).subscribe(response => {
+
+      switch (index){
+        case 1:
+            this.categ1list = response;
+            this.categ1 = '';
+            break;
+        case 2:
+            this.categ2list = response;
+            this.categ2 = '';
+            break;
+        case 3:
+            this.categ3list = response;
+            this.categ3 = '';
+            break;
+        case 4:
+            this.categ4list = response;
+            this.categ4 = '';
+            break;
+        case 5:
+            this.categ5list = response;
+            this.categ5 = '';
+            break;
+        
+      }
+      hideWait();
+
+    });
+
+  }
   cancelEntry(){
     openModal('cancelEntry');
   }

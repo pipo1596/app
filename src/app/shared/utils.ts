@@ -12,6 +12,14 @@ export function hideWait(timeout?:number): void {
     }
         
 }
+
+export function getSite():string{
+  let site = localStorage.getItem('site');
+  if(site) 
+    return site;
+  else
+    return "";
+}
 export function scrollToTop(){
   window.scrollTo({
     top: 0,

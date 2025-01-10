@@ -17,6 +17,7 @@ export class CategoriesComponent {
 
   search="";
   pvsearch="";
+  showList=false;
 
   imgprfx = environment.imgprfx;
 
@@ -29,7 +30,8 @@ export class CategoriesComponent {
   ngOnInit(): void {
 
     let data = {
-      mode: 'SEARCH'
+      mode: 'SEARCH',
+      site: this.getSite()
     }
     
     this.http.post('https://10.32.234.54/cgi/APPLMBCATG',data).subscribe(response => {
@@ -41,6 +43,22 @@ export class CategoriesComponent {
       scrollToTopInstant();
       hideWait();
     });
+  }
+
+  setSite(site:string){
+    localStorage.setItem('site', site);
+    this.showList=false;
+    this.Search(true);
+  }
+  getSite(){
+    return localStorage.getItem('site');
+  }
+
+  hideDrop(){
+    setTimeout(() => {
+      this.showList=false
+    }, 300);
+    
   }
 
   StartEntry(){
@@ -87,6 +105,7 @@ export class CategoriesComponent {
 
     let data = {
       mode: 'SEARCH',
+      site: this.getSite(),
       search: this.search    
     }
     this.pvsearch = this.search;

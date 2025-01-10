@@ -4,9 +4,27 @@
             <input type="file" accept="image/*"  class="form-control" id="inputGroupFile01" (change)="selectFile($event)" />
         </div>
     </div>  
+    
+      
+      <div *ngIf="message" class="alert alert-secondary" role="alert">
+        {{ message }}
+      </div>
+      
     <div class="col-12">
-        <img style="max-height: 300px;max-width: 100%;" [src]="preview" class="preview" />
+        <img style="max-height: 300px;max-width: 100%;" [src]="preview" class="preview  m-auto d-block" />
     </div>
+    <div *ngIf="currentFile && progress" class="progress my-3">
+        <div
+          class="progress-bar progress-bar-info"
+          role="progressbar"
+          attr.aria-valuenow="{{ progress }}"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          [ngStyle]="{ width: progress + '%' }"
+        >
+          {{ progress }}%
+        </div>
+      </div>
   
 
   

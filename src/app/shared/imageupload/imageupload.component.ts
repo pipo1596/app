@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { FileUploadService } from '../../services/file-upload.service';
+import { DataService } from '../../services/data-trigger.service';
 
 @Component({
   selector: 'app-image-upload',
@@ -18,11 +19,17 @@ export class ImageUploadComponent implements OnInit {
 
   imageInfos?: Observable<any>;
 
-  constructor(private uploadService: FileUploadService) {}
+  constructor(private uploadService: FileUploadService,
+    private dataService: DataService
+  ) {}
 
   ngOnInit(): void {
     this.imageInfos = this.uploadService.getFiles();
+    this.dataService.getTriggerChildObservable().subscribe(data => {
+      this.upload();
+    });
   }
+  
 
   selectFile(event: any): void {
     this.message = '';

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { focusField, getSite, hideWait, openModal, showToast, showWait } from '../../shared/utils';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Page, TextField } from '../../shared/textField';
+import { DataService } from '../../services/data-trigger.service';
 
 @Component({
   selector: 'app-category',
@@ -36,7 +37,8 @@ export class CategoryComponent {
 
   constructor(private http: HttpClient,
               private router: Router,
-              private route: ActivatedRoute
+              private route: ActivatedRoute,
+              private dataService: DataService
   ) {}
 
   
@@ -71,7 +73,9 @@ export class CategoryComponent {
       }     
     });
   }
-
+  triggerChild() {
+    this.dataService.triggerChild('url to upload');
+  }
   saveCategory(){
     this.page.topErrorID = "";
     this.page.valid = true;
@@ -84,6 +88,8 @@ export class CategoryComponent {
     if(!this.metadescription.validate()) this.setTopErrorID(this.metadescription.htmlid);
     if(!this.urlandhandle.validate()) this.setTopErrorID(this.urlandhandle.htmlid);
     if(!this.tags.validate()) this.setTopErrorID(this.tags.htmlid);
+
+    this.triggerChild(); return;
 
     focusField(this.page.topErrorID);
 

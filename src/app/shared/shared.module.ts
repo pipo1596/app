@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { ToastComponent } from './toast/toast.component';  // Import HttpClientModule explicitly
 import { FormsModule } from '@angular/forms';
+import { ImageUploadComponent } from './imageupload/imageupload.component';
 
 
 
@@ -15,13 +16,15 @@ import { FormsModule } from '@angular/forms';
     HeaderComponent,
     FooterComponent,
     ConfirmComponent,
-    ToastComponent
+    ToastComponent,
+    ImageUploadComponent
   ],
   exports:[
     HeaderComponent,
     FooterComponent,
     ConfirmComponent,
     ToastComponent,
+    ImageUploadComponent,
     CommonModule,
     HttpClientModule,
     FormsModule 

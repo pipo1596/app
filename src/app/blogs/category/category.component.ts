@@ -20,7 +20,7 @@ export class CategoryComponent {
   categorystatus = new TextField("categorystatus",["required"]);
   publishdate    = new TextField("publishdate",["required"]);
   publishtime    = new TextField("publishtime",["required"]);
-  site           = new TextField("site",["required"]);
+  site           = new TextField("site",[]);
   metatitle      = new TextField("metatitle",["required"]);
   metadescription= new TextField("metadescription",["required"]);
   urlandhandle   = new TextField("urlandhandle",["required"]);
@@ -54,7 +54,6 @@ export class CategoryComponent {
       this.categorystatus.value = 'P';
       this.publishdate.value = now.toISOString().split('T')[0];
       this.publishtime.value = now.toISOString().substring(11,16);
-      this.site.value        = '1'
       this.metatitle.value   = 'test meta title';
       this.metadescription.value = 'test meta description';
       this.urlandhandle.value   = 'test url and handle';
@@ -93,14 +92,7 @@ export class CategoryComponent {
       this.http.post('https://10.32.234.54/cgi/APPSRBCATG',data).subscribe(response => {
 
         this.page.data = response;
-        
-        
-        showToast();
-        setTimeout(() => {
-          hideWait();
-          this.goBack();
-        }, 700);
-        
+        this.goBack();
         
       });
 

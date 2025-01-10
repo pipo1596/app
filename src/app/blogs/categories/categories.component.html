@@ -1,13 +1,13 @@
-<app-header [title]="title" [fullname]="fullname"></app-header>
+<app-header [title]="page.title" [fullname]="page.fullname"></app-header>
 
-<section class="ftco-section bg-light pb-3" [class.invisible]="loading">
-<div class="container-fluid mw-2000" *ngIf="fullname!==''">
+<section class="ftco-section bg-light pb-3">
+<div class="container-fluid mw-2000" *ngIf="page.fullname!==''">
 <!--Blog Categories List----------------------------------------------------------------------->
 <section class="position-relative">
     <div>
     <div class="row mb-2">
         <div class="col-12 col-md-8">
-            <h4 class="ms-1" >{{title}}</h4>
+            <h4 class="ms-1" >{{page.title}}</h4>
         </div>
         <div class="col-12 col-md-4 p-0">
                 <div class="d-grid gap-2">
@@ -37,15 +37,20 @@
                 </h5>
                 <p class="card-text mb-1">0 blog posts</p>
                 <small>Tactical Gear
-                    <button *ngIf="category.bcnp!==''" class="btn btn-primary p-0 lh-1" (click)="getParent(c)">
-                    <i class="bi bi-plus"></i>
-                </button></small>
-                <ul class="categories" *ngIf="category.expand">
+                    <button *ngIf="category.bcnp!==''" 
+                    class="btn btn-primary p-0 lh-1" (click)="getParent(c)">
+                        <i class="bi" [ngClass]="{'bi-plus': !category.expand,'bi-dash': category.expand}"></i>
+                    </button>
+                </small>
+                <ul class="categories fadeIn" [ngClass]="{'show': category.expand}" *ngIf="category.expand">
                     <ng-container  *ngFor="let parent of category.parents; index as i" >
-                        <li class="mlpath-{{i}}">{{parent.desc}}</li>
+                        <li class="mlpath-{{i}}"  [ngClass]="{'text-primary': category.parents.length==i+1}">{{parent.desc}}</li>
                     </ng-container>
                 </ul>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                <p class="card-text"><small class="text-muted">
+                    <span *ngIf="category.lsdt!=='0'">last updated </span>
+                    <span *ngIf="category.lsdt=='0'">Created </span>
+                    {{lastUpdate(category)}}</small></p>
                 </div>
                 <div class="btn-group-top-right" >
                     <button class="btn btn-light" (click)="startDelete(category.bcno)" ><span class="bi bi-trash text-danger"></span></button>
@@ -56,18 +61,7 @@
             </div>
         </div>
     </div>
-    <div class="row mb-2 d-none">
-        <ul class="pagination justify-content-end p-0 m-0">
-          <li class="page-item active" aria-current="page">
-            <span class="page-link">1</span>
-          </li>
-          <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
-          <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-          <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
-          <li class="page-item"><a class="page-link" href="javascript:void(0)">5</a></li>
-          <li class="page-item"><a class="page-link" href="javascript:void(0)">6</a></li>
-        </ul>
-    </div>
+    
     </div>
 </section>
 
@@ -75,7 +69,7 @@
 
 </div>
 
-<div class="alert alert-danger mt-3" role="alert" *ngIf="fullname==''">
+<div class="alert alert-danger mt-3" role="alert"  [class.invisible]="page.loading" *ngIf="page.fullname==''">
     Make sure to login to access this feature!
 </div>
 <app-toast  [title]="'Category Deleted'" [position]="'bottom'" [body]="'Category Successfully Deleted'"></app-toast>

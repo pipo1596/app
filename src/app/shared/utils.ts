@@ -18,6 +18,12 @@ export function scrollToTop(){
     behavior: 'smooth',
   })
 }
+export function scrollToTopInstant(){
+  window.scrollTo({
+    top: 0,
+    behavior: 'instant',
+  })
+}
 export function focusField(id:string){  
   
   if(id=="")return;
@@ -43,6 +49,48 @@ export function showToast(): void {
         }, 2500);
         
      
+}
+export function convertToTimestamp(dateStr: string, timeStr: string): Date {
+  // Ensure the date and time are padded to the correct length if needed
+  const year = dateStr.substring(0, 4);
+  const month = dateStr.substring(4, 6);  // MM
+  const day = dateStr.substring(6, 8);    // DD
+  
+  const hour = timeStr.substring(0, 2);   // HH
+  const minute = timeStr.substring(2, 4); // MM
+  const second = timeStr.substring(4, 6); // SS
+  
+  // Format into an ISO 8601 string
+  const isoDateStr = `${year}-${month}-${day}T${hour}:${minute}:${second}Z`;
+  
+  // Convert to a Date object and get the timestamp
+  const date = new Date(isoDateStr);
+  date.setHours(date.getHours() + 5);//This is the server time 
+  return date;
+}
+export function timeAgo(date: Date): string {
+  const now = new Date();
+  const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+  const years = Math.floor(seconds / (365.25 * 24 * 60 * 60));
+  const months = Math.floor(seconds / (30.44 * 24 * 60 * 60));
+  const days = Math.floor(seconds / (24 * 60 * 60));
+  const hours = Math.floor((seconds % (24 * 60 * 60)) / (60 * 60));
+  const minutes = Math.floor((seconds % (60 * 60)) / 60);
+  const remainingSeconds = seconds % 60;
+
+  if (years > 0) {
+    return `${years} year${years > 1 ? 's' : ''} ago`;
+  } else if (months > 0) {
+    return `${months} month${months > 1 ? 's' : ''} ago`;
+  } else if (days > 0) {
+    return `${days} day${days > 1 ? 's' : ''} ago`;
+  } else if (hours > 0) {
+    return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+  } else if (minutes > 0) {
+    return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+  } else {
+    return `few seconds ago`;
+  }
 }
 
 export function openModal(id:string) {

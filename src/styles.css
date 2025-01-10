@@ -49,7 +49,7 @@
     padding-top: 1em;
     padding-right: 1.5em;
     padding-left: 1.5em;
-    min-height: 600px;
+    min-height: 1000px;
 }
 .listimg{
     padding: 20px;
@@ -60,7 +60,6 @@
 
 ul.categories{
     list-style: none;
-    font-size: 10px;
 }
 ul.categories li {
     background: url(/app/resources/list-item-bullet.gif) no-repeat left;
@@ -74,6 +73,9 @@ ul.categories li {
   }
   
 .toast{
+    animation: fadeIn 1s;
+}
+.fadeIn{
     animation: fadeIn 1s;
 }
 .selectActv {

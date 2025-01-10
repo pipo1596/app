@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { hideWait, openModal, scrollToTop, showToast, showWait } from '../../shared/utils';
+import { convertToTimestamp, hideWait, openModal,  scrollToTopInstant, showToast, showWait, timeAgo } from '../../shared/utils';
 import { environment } from '../../../environments/environment.development';
 import { Router } from '@angular/router';
 import { Page } from '../../shared/textField';
@@ -15,12 +15,9 @@ import { Page } from '../../shared/textField';
 })
 export class CategoriesComponent {
 
-  title = '';
-  fullname = '';
   search="";
   pvsearch="";
-  loading=true;
-  entrymode = false;
+
   imgprfx = environment.imgprfx;
 
   page = new Page();
@@ -33,17 +30,15 @@ export class CategoriesComponent {
 
     let data = {
       mode: 'SEARCH'
-      
-
     }
     
     this.http.post('https://10.32.234.54/cgi/APPLMBCATG',data).subscribe(response => {
 
       this.page.data = response;
-      if(this.page.data.title) this.title = this.page.data.title;
-      if(this.page.data.fullname) this.fullname = this.page.data.fullname;
-      this.loading =false;
-      scrollToTop();
+      if(this.page.data.title) this.page.title = this.page.data.title;
+      if(this.page.data.fullname) this.page.fullname = this.page.data.fullname;
+      this.page.loading =false;
+      scrollToTopInstant();
       hideWait();
     });
   }
@@ -62,9 +57,26 @@ export class CategoriesComponent {
     openModal('deleteCategory');
 
   }
+
+  lastUpdate(category:any){
+    let lastdate = "0";
+    let lasttime = "0";
+    if(category.addt !== "0"){
+      lastdate = category.addt;
+      lasttime = category.adtm;
+
+    }
+    if(category.lsdt !== "0"){
+      lastdate = category.lsdt;
+      lasttime = category.lstm;
+    }
+    if(lastdate !=="0")
+      return timeAgo(convertToTimestamp(lastdate,lasttime));
+    else
+      return "";
+  }
   CancelEntry(){
     showWait();
-    this.entrymode = false;
     hideWait();
   }
   Search(force?:boolean){  
@@ -80,7 +92,7 @@ export class CategoriesComponent {
     this.pvsearch = this.search;
     this.http.post('https://10.32.234.54/cgi/APPLMBCATG',data).subscribe(response => {
       this.page.data = response; 
-      scrollToTop();
+      scrollToTopInstant();
       hideWait();
     });
   }
@@ -88,6 +100,7 @@ export class CategoriesComponent {
   getParent(index:number){
     this.page.data.categories[index].expand = !this.page.data.categories[index].expand;
     if(!this.page.data || !this.page.data.categories || this.page.data.categories.length<1)return;
+    if(this.page.data.categories[index].parents?.length>0) return;
 
     let data = {
       mode: 'PATH',

@@ -23,9 +23,10 @@ export class TextField {
         this.error= "(less than " +minlength+" characters)";valid = false;        
       }
 
-      this.rules.includes("required")
-      if (!this.value) {
-        this.error = '(required)';valid = false;
+      if(this.rules.includes("required")){
+        if (!this.value) {
+          this.error = '(required)';valid = false;
+        }
       }
       return valid;
     }

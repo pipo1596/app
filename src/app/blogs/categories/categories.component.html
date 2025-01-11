@@ -47,7 +47,7 @@
                 <p class="card-text mb-1">0 blog posts</p>
                 <small>Tactical Gear
                     <button *ngIf="category.bcnp!==''" 
-                    class="btn btn-primary p-0 lh-1" (click)="getParent(c)">
+                    class="btn btn-dark p-0 lh-1" (click)="getParent(c)">
                         <i class="bi" [ngClass]="{'bi-plus': !category.expand,'bi-dash': category.expand}"></i>
                     </button>
                 </small>

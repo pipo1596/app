@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { focusField, getSite, hideWait, openModal, showToast, showWait } from '../../shared/utils';
+import { focusField, getSite, hideWait, openModal, showWait } from '../../shared/utils';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Page, TextField } from '../../shared/textField';
 import { DataService } from '../../services/data-trigger.service';
@@ -15,7 +15,7 @@ import { DataService } from '../../services/data-trigger.service';
 export class CategoryComponent {
   //This contains all the share page data:
   page = new Page();
-
+  
   //Screen Fields
   categorytitle  = new TextField("categorytitle",["required","minlength7"]);
   categorystatus = new TextField("categorystatus",["required"]);

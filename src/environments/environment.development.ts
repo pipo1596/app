@@ -1,4 +1,4 @@
 export const environment = {
     production:false,
-    imgprfx:""
+    imgprfx:"https://10.32.234.54/photos/blogs"
 };

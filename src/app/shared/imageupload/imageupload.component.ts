@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { FileUploadService } from '../../services/file-upload.service';
@@ -16,6 +16,7 @@ export class ImageUploadComponent implements OnInit {
   progress = 0;
   message = '';
   preview = '';
+  @Output() triggerEvent = new EventEmitter<string>();
 
   imageInfos?: Observable<any>;
 
@@ -30,7 +31,9 @@ export class ImageUploadComponent implements OnInit {
     });
   }
   
-
+  triggerParentFunction(filename: any) {
+    this.triggerEvent.emit(filename);
+  }
   selectFile(event: any): void {
     this.message = '';
     this.preview = '';
@@ -72,7 +75,9 @@ export class ImageUploadComponent implements OnInit {
             } else if (event instanceof HttpResponse) {
               this.message = event.body.message;
               this.imageInfos = this.uploadService.getFiles();
+              this.triggerParentFunction(file.name);
             }
+            
           },
           error: (err: any) => {
             console.log(err);
@@ -90,6 +95,9 @@ export class ImageUploadComponent implements OnInit {
       }
 
       this.selectedFiles = undefined;
+    }
+    else{
+      this.triggerParentFunction('');
     }
   }
 }

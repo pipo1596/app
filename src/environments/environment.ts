@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    imgprfx:"/app/resources"
+    imgprfx:"/photos/blogs"
 };

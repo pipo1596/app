@@ -37,7 +37,7 @@
            
         <div class="card my-1 border border-3 rounded-0"  *ngFor="let category of page.data.categories;index as c">
             <div class="row g-0">
-            <div class="col-md-2 contbckg" style="background-image: url({{imgprfx}}/cat.jpg);">
+            <div class="col-md-2 contbckg" style="background-image: url({{imgprfx}}/{{category.img}});">
             </div>
             <div class="col-md-10 position-relative">
                 <div class="card-body">

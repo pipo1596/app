@@ -75,7 +75,7 @@
     <div class="col-12 col-md-6"> 
         <!--Right Side-->
         <div class="row bg-white pt-2">
-            <form (submit)="saveCategory()">
+            <form (submit)="validate()">
             <div class="col-12">
                 <div class="mb-4">
                     <h5 class="form-label fw-bold">Blog Category Title<span class="text-danger ms-1" *ngIf="categorytitle.error!==''">{{categorytitle.error}}</span></h5>
@@ -164,8 +164,10 @@
                     </h5>
                     <input type="text" class="form-control" maxlength="526"  name="urlandhandle" id="{{urlandhandle.htmlid}}" [(ngModel)]="urlandhandle.value" >
                     <h4 class="mt-2">Featured Image</h4>
-                    <h5>Upload Image</h5>
-                    <app-image-upload></app-image-upload>
+                    <h5>Upload Image
+                        <span class="text-danger ms-1"  id="{{image.htmlid}}"  *ngIf="image.error!==''">{{image.error}}</span>
+                    </h5>
+                    <app-image-upload  (triggerEvent)="saveAfterImageUpload($event)"></app-image-upload>
                     
                       <h5>Tags
                         <span class="text-danger ms-1" *ngIf="tags.error!==''">{{tags.error}}</span>
@@ -174,7 +176,8 @@
                 </div>
                 
                     <div class="col-12 mb-3 text-end">
-                        <button class="btn btn-light rounded-0 border border-2" type="button" *ngIf="!page.viewmode" (click)="cancelEntry()">Cancel</button>
+                        <button class="btn btn-light rounded-0 border border-2" type="button" *ngIf="!page.viewmode" (click)="preload()">Preload</button>
+                        <button class="btn btn-light rounded-0 border border-2 ms-1" type="button" *ngIf="!page.viewmode" (click)="cancelEntry()">Cancel</button>
                         <button class="btn btn-danger rounded-0 border border-2 ms-1" type="button" *ngIf="page.editmode">Delete Category</button>
                         <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit" *ngIf="page.editmode">Update Category</button>
                         <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit" *ngIf="page.entrymode">Create New Category</button>

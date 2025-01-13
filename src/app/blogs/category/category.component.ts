@@ -26,6 +26,7 @@ export class CategoryComponent {
   metadescription= new TextField("metadescription",["required"]);
   urlandhandle   = new TextField("urlandhandle",["required"]);
   tags           = new TextField("tags",["required"]);
+  image          = new TextField("image",["required"]);
 
   categ1 = "";categ1list:any=[];
   categ2 = "";categ2list:any=[];
@@ -57,26 +58,51 @@ export class CategoryComponent {
       this.page.loading =false;
       
       hideWait();
-      //For easier testing:
-      let now = new Date();
-      this.categorytitle.value = 'test title';
-      this.categorystatus.value = 'P';
-      this.publishdate.value = now.toISOString().split('T')[0];
-      this.publishtime.value = now.toISOString().substring(11,16);
-      this.metatitle.value   = 'test meta title';
-      this.metadescription.value = 'test meta description';
-      this.urlandhandle.value   = 'test url and handle';
-      this.tags.value = 'test tags value'; 
+      
       if(this.page.entrymode) {
         this.site.value = getSite();
         this.getCategories('',1);
       }     
     });
   }
-  triggerChild() {
-    this.dataService.triggerChild('url to upload');
+  saveAfterImageUpload(file: any) {
+    this.image.value = file;
+    if(!this.image.validate()) this.setTopErrorID(this.image.htmlid);
+    focusField(this.page.topErrorID);
+
+    if(!this.page.valid){
+      hideWait();
+      return;
+    }
+
+    
+    //Save Payload:
+    let data = {
+      mode: this.page.entrymode?'NEWCATEG':'EDITCATEG',
+      bcstat: this.categorystatus.value,
+      bcsite: this.site.value,
+      bcdesc: this.categorytitle.value,
+      bcmett: this.metatitle.value,
+      bcmetd: this.metadescription.value,
+      bcmetk: this.metadescription.value,
+      bcimg : file,
+      bcbcnp: this.getbcnp()
+
+    }
+
+    
+    
+    this.http.post('https://10.32.234.54/cgi/APPSRBCATG',data).subscribe(response => {
+
+      this.page.data = response;
+      this.goBack();
+      
+    });
   }
-  saveCategory(){
+  uploadImage() {
+    this.dataService.triggerChild('');
+  }
+  validate(){
     this.page.topErrorID = "";
     this.page.valid = true;
     if(!this.categorytitle.validate()) this.setTopErrorID(this.categorytitle.htmlid);
@@ -89,36 +115,28 @@ export class CategoryComponent {
     if(!this.urlandhandle.validate()) this.setTopErrorID(this.urlandhandle.htmlid);
     if(!this.tags.validate()) this.setTopErrorID(this.tags.htmlid);
 
-    this.triggerChild(); return;
+    
 
     focusField(this.page.topErrorID);
 
     if(this.page.valid){
-
-      //Save Payload:
-      let data = {
-        mode: this.page.entrymode?'NEWCATEG':'EDITCATEG',
-        bcstat: this.categorystatus.value,
-        bcsite: this.site.value,
-        bcdesc: this.categorytitle.value,
-        bcmett: this.metatitle.value,
-        bcmetd: this.metadescription.value,
-        bcmetk: this.metadescription.value,
-        bcbcnp: this.getbcnp()
-
-      }
-
-      
       showWait();
-      this.http.post('https://10.32.234.54/cgi/APPSRBCATG',data).subscribe(response => {
-
-        this.page.data = response;
-        this.goBack();
-        
-      });
-
+      this.uploadImage(); 
     }
 
+
+  }
+  preload(){
+    //For easier testing:
+    let now = new Date();
+    this.categorytitle.value = 'test title';
+    this.categorystatus.value = 'P';
+    this.publishdate.value = now.toISOString().split('T')[0];
+    this.publishtime.value = now.toISOString().substring(11,16);
+    this.metatitle.value   = 'test meta title';
+    this.metadescription.value = 'test meta description';
+    this.urlandhandle.value   = 'test url and handle';
+    this.tags.value = 'test tags value'; 
 
   }
   getbcnp(){

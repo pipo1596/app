@@ -15,7 +15,7 @@
         </div>
         <div class="col-12 col-md-3 ps-0">
             <div class="d-grid gap-2">
-                <button *ngIf="!page.entrymode" class="btn btn-light rounded-0 border border-2" type="button">Create New Blog Category</button>
+                <button *ngIf="!page.entrymode" class="btn btn-light rounded-0 border border-2" type="button" (click)="StartEntry()">Create New Blog Category</button>
             </div>
         </div>
         <div class="col-12 col-md-3 pe-0">
@@ -162,21 +162,33 @@
                     <h5>URL and handle
                         <span class="text-danger ms-1" *ngIf="urlandhandle.error!==''">{{urlandhandle.error}}</span>
                     </h5>
-                    <input type="text" class="form-control" maxlength="526"  name="urlandhandle" id="{{urlandhandle.htmlid}}" [(ngModel)]="urlandhandle.value" >
-                    <h4 class="mt-2">Featured Image</h4>
+                    <input type="text" class="form-control" maxlength="256"  name="urlandhandle" id="{{urlandhandle.htmlid}}" [(ngModel)]="urlandhandle.value" >
+                    <div class="row">
+                    <div class="col-8">
+                        <h4 class="mt-2">Featured Image</h4>
+                    </div>
+                    
+                    <div class="col-4 text-end" *ngIf="!showUpload && page.editmode">
+                        <a [routerLink]="" (click)="changeImage()" class="hover m-2 d-block">Change Image</a>
+                    </div>
+                    </div>
+                    <div class="col-12" *ngIf="!showUpload">
+                        <img style="max-height: 300px;max-width: 100%;" src="{{page.imgprfx}}/{{image.value}}" class="preview  m-auto d-block" />
+                    </div>
+                    <div *ngIf="showUpload">
                     <h5>Upload Image
                         <span class="text-danger ms-1"  id="{{image.htmlid}}"  *ngIf="image.error!==''">{{image.error}}</span>
                     </h5>
                     <app-image-upload  (triggerEvent)="saveAfterImageUpload($event)"></app-image-upload>
-                    
+                    </div>
                       <h5>Tags
                         <span class="text-danger ms-1" *ngIf="tags.error!==''">{{tags.error}}</span>
                       </h5>
-                      <input type="text" class="form-control" name="tags" id="{{tags.htmlid}}" [(ngModel)]="tags.value">
+                      <input type="text" class="form-control" maxlength="256"  name="tags" id="{{tags.htmlid}}" [(ngModel)]="tags.value">
                 </div>
                 
                     <div class="col-12 mb-3 text-end">
-                        <button class="btn btn-light rounded-0 border border-2" type="button" *ngIf="!page.viewmode" (click)="preload()">Preload</button>
+                        <button class="btn btn-light rounded-0 border border-2" type="button" *ngIf="page.entrymode" (click)="preload()">Preload</button>
                         <button class="btn btn-light rounded-0 border border-2 ms-1" type="button" *ngIf="!page.viewmode" (click)="cancelEntry()">Cancel</button>
                         <button class="btn btn-danger rounded-0 border border-2 ms-1" type="button" *ngIf="page.editmode">Delete Category</button>
                         <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit" *ngIf="page.editmode">Update Category</button>

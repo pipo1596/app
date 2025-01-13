@@ -3,6 +3,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { FileUploadService } from '../../services/file-upload.service';
 import { DataService } from '../../services/data-trigger.service';
+import { hideWait, showWait } from '../utils';
 
 @Component({
   selector: 'app-image-upload',
@@ -38,6 +39,7 @@ export class ImageUploadComponent implements OnInit {
     this.message = '';
     this.preview = '';
     this.progress = 0;
+    showWait();
     this.selectedFiles = event.target.files;
 
     if (this.selectedFiles) {
@@ -52,6 +54,7 @@ export class ImageUploadComponent implements OnInit {
         reader.onload = (e: any) => {
           console.log(e.target.result);
           this.preview = e.target.result;
+          hideWait();
         };
 
         reader.readAsDataURL(this.currentFile);

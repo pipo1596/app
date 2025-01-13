@@ -13,6 +13,27 @@ export function hideWait(timeout?:number): void {
     }
         
 }
+export function dbtodsptime(timeString:string){
+
+// Extract the hour and minute
+
+const hours = timeString.length === 4 ? timeString.substring(0, 2) : timeString.substring(0, 1); // Handling for 3-digit times (e.g. 610)
+const minutes = timeString.length === 4 ? timeString.substring(2, 4) : timeString.substring(1, 3); // Handling for 3-digit times
+
+// Pad the hour and minute with leading zeros if necessary
+return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`;
+
+}
+export function dbtodspdate(dateString:string){
+
+// Extract parts of the date
+const year = dateString.substring(0, 4);
+const month = dateString.substring(4, 6);
+const day = dateString.substring(6, 8);
+
+// Create a formatted date in YYYY-MM-DD format
+return `${year}-${month}-${day}`;
+}
 
 export function getSite():string{
   let site = localStorage.getItem('site');

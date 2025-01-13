@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { focusField, getSite, hideWait, openModal, showWait } from '../../shared/utils';
+import { dbtodspdate, dbtodsptime, focusField, getSite, hideWait, openModal, showWait } from '../../shared/utils';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Page, TextField } from '../../shared/textField';
 import { DataService } from '../../services/data-trigger.service';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-category',
@@ -15,6 +16,7 @@ import { DataService } from '../../services/data-trigger.service';
 export class CategoryComponent {
   //This contains all the share page data:
   page = new Page();
+
   
   //Screen Fields
   categorytitle  = new TextField("categorytitle",["required","minlength7"]);
@@ -33,7 +35,7 @@ export class CategoryComponent {
   categ3 = "";categ3list:any=[];
   categ4 = "";categ4list:any=[];
   categ5 = "";categ5list:any=[];
-  
+  showUpload:boolean = false;
 
 
   constructor(private http: HttpClient,
@@ -41,14 +43,15 @@ export class CategoryComponent {
               private route: ActivatedRoute,
               private dataService: DataService
   ) {}
-
   
   ngOnInit(): void {
-    
-    
+    this.page.imgprfx = environment.imgprfx;
+
     this.setMode();
     let data = {
-        mode:'INIT'
+        
+        mode: this.page.viewmode || this.page.editmode?'GETCATEG':'INIT',
+        bcno: this.page.rfno
       }
     this.http.post('https://10.32.234.54/cgi/APPSRBCATG',data).subscribe(response => {
 
@@ -62,8 +65,25 @@ export class CategoryComponent {
       if(this.page.entrymode) {
         this.site.value = getSite();
         this.getCategories('',1);
-      }     
+      } 
+      if(this.page.viewmode || this.page.editmode){
+        this.categorytitle.value    = this.page.data.category.desc;
+        this.categorystatus.value   = this.page.data.category.stat;
+        this.publishdate.value      = dbtodspdate(this.page.data.category.addt);
+        this.publishtime.value      = dbtodsptime(this.page.data.category.adtm);
+        this.site.value             = this.page.data.category.site;
+        this.metatitle.value        = this.page.data.category.mett;
+        this.metadescription.value  = this.page.data.category.metd;
+        this.urlandhandle.value     = this.page.data.category.url;
+        this.tags.value             = this.page.data.category.metk;
+        this.image.value            = this.page.data.category.img;
+
+      }    
     });
+  }
+
+  changeImage(){
+     this.showUpload = true;
   }
   saveAfterImageUpload(file: any) {
     this.image.value = file;
@@ -75,7 +95,6 @@ export class CategoryComponent {
       return;
     }
 
-    
     //Save Payload:
     let data = {
       mode: this.page.entrymode?'NEWCATEG':'EDITCATEG',
@@ -84,14 +103,16 @@ export class CategoryComponent {
       bcdesc: this.categorytitle.value,
       bcmett: this.metatitle.value,
       bcmetd: this.metadescription.value,
-      bcmetk: this.metadescription.value,
+      bcmetk: this.tags.value,
+      bcurl : this.urlandhandle.value,
+      bcaddt: this.publishdate.value.replaceAll('-',''),
+      bcadtm: this.publishtime.value.replaceAll(':',''),
       bcimg : file,
+      bcbcno: this.page.rfno,
       bcbcnp: this.getbcnp()
 
     }
 
-    
-    
     this.http.post('https://10.32.234.54/cgi/APPSRBCATG',data).subscribe(response => {
 
       this.page.data = response;
@@ -99,9 +120,15 @@ export class CategoryComponent {
       
     });
   }
+
   uploadImage() {
     this.dataService.triggerChild('');
   }
+
+  StartEntry(){
+    this.router.navigate(['/blogs/newcategory']);
+  }
+
   validate(){
     this.page.topErrorID = "";
     this.page.valid = true;
@@ -121,7 +148,10 @@ export class CategoryComponent {
 
     if(this.page.valid){
       showWait();
-      this.uploadImage(); 
+      if(this.showUpload) 
+        this.uploadImage(); 
+      else
+        this.saveAfterImageUpload(this.image.value);
     }
 
 
@@ -229,6 +259,8 @@ export class CategoryComponent {
         this.page.rfno = params.get('id');
       });
     }
+
+    if(this.page.entrymode) this.showUpload = true;
   }
 
   goBack(){

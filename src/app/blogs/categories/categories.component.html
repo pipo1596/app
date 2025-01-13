@@ -23,8 +23,8 @@
                     <span *ngIf="getSite()=='K'">uspatriottactical.com</span>
                 </button>
     <div class="dropdown-menu mt-5" [ngClass]="{show:showList}">
-      <a class="dropdown-item" href="javascript:void(0)" (click)="setSite('')">galls.com</a>
-      <a class="dropdown-item" href="javascript:void(0)" (click)="setSite('K')">uspatriottactical.com</a>
+      <a class="dropdown-item hover" [routerLink]="" (click)="setSite('')">galls.com</a>
+      <a class="dropdown-item hover" [routerLink]="" (click)="setSite('K')">uspatriottactical.com</a>
     </div>
                 <input class="form-control border-end-0 border border-3" type="search"  name="search" [(ngModel)]="search" (blur)="Search()" (keyup.enter)="Search()" placeholder="Search Blog Categories">
                 <span class="input-group-append">

@@ -92,3 +92,6 @@ ul.categories li {
 .mlpath-4{margin-left:60px}
 .mlpath-5{margin-left:72px}
 
+.hover {
+    cursor: pointer;
+}

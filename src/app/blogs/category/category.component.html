@@ -190,7 +190,7 @@
                     <div class="col-12 mb-3 text-end">
                         <button class="btn btn-light rounded-0 border border-2" type="button" *ngIf="page.entrymode" (click)="preload()">Preload</button>
                         <button class="btn btn-light rounded-0 border border-2 ms-1" type="button" *ngIf="!page.viewmode" (click)="cancelEntry()">Cancel</button>
-                        <button class="btn btn-danger rounded-0 border border-2 ms-1" type="button" *ngIf="page.editmode">Delete Category</button>
+                        <button class="btn btn-danger rounded-0 border border-2 ms-1" type="button" *ngIf="page.editmode" (click)="startDelete()">Delete Category</button>
                         <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit" *ngIf="page.editmode">Update Category</button>
                         <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit" *ngIf="page.entrymode">Create New Category</button>
                     </div>
@@ -210,6 +210,7 @@
 </div>
 </section>
 <app-toast  [title]="'Category Saved'"  [position]="'top'" [body]="'Category Successfully Saved'"></app-toast>
+<app-confirm (notify)="onDelete()" [title]="'Delete Category'" [id]="'deleteCategory'" [body]="'Delete Category?'"></app-confirm>
 <app-confirm (notify)="goBack()" [title]="'Cancel'" [id]="'cancelEntry'" [body]="'Cancel Category Entry? Changes will not be saved.'"></app-confirm>
 <app-footer></app-footer>
 

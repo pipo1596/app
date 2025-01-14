@@ -2,6 +2,7 @@ import { Component} from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { HttpClient } from '@angular/common/http';
 import { hideWait } from '../shared/utils';
+import { environment } from '../../environments/environment.development';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,7 @@ export class HomeComponent {
 
   ngOnInit(): void {
     
-    this.http.get('https://10.32.234.54/cgi/APPHOME',{withCredentials:true}).subscribe(response => {
+    this.http.get(environment.apiurl+'/cgi/APPHOME',{withCredentials:true}).subscribe(response => {
 
       this.data = response;
       if(this.data.title) this.title = this.data.title;

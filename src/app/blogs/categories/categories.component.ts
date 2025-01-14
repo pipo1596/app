@@ -34,7 +34,7 @@ export class CategoriesComponent {
       site: this.getSite()
     }
     
-    this.http.post('https://10.32.234.54/cgi/APPLMBCATG',data).subscribe(response => {
+    this.http.post(environment.apiurl+'/cgi/APPLMBCATG',data).subscribe(response => {
 
       this.page.data = response;
       if(this.page.data.title) this.page.title = this.page.data.title;
@@ -113,7 +113,7 @@ export class CategoriesComponent {
       search: this.search    
     }
     this.pvsearch = this.search;
-    this.http.post('https://10.32.234.54/cgi/APPLMBCATG',data).subscribe(response => {
+    this.http.post(environment.apiurl+'/cgi/APPLMBCATG',data).subscribe(response => {
       this.page.data = response; 
       scrollToTopInstant();
       hideWait();
@@ -129,7 +129,7 @@ export class CategoriesComponent {
       mode: 'PATH',
       bcno: this.page.data.categories[index].bcno    
     }
-    this.http.post('https://10.32.234.54/cgi/APPLMBCATG',data).subscribe(response => {
+    this.http.post(environment.apiurl+'/cgi/APPLMBCATG',data).subscribe(response => {
       
       this.page.data.categories[index].parents = sortByKey(response,'bcno','A');
     });
@@ -141,7 +141,7 @@ export class CategoriesComponent {
       bcno: this.page.rfno    
     }
     
-    this.http.post('https://10.32.234.54/cgi/APPLMBCATG',data).subscribe(response => {
+    this.http.post(environment.apiurl+'/cgi/APPLMBCATG',data).subscribe(response => {
       showToast();
       
       this.Search(true);

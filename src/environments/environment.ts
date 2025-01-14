@@ -1,4 +1,5 @@
 export const environment = {
     production: true,
-    imgprfx:"/photos/blogs"
+    imgprfx:"/photos/blogs",
+    apiurl:""
 };

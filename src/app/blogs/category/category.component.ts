@@ -309,7 +309,26 @@ export class CategoryComponent {
     this.router.navigate(['/blogs/categories']);
   }
 
+
   counter(n: number): number[] {
     return Array(n).fill(0).map((_, i) => i + 1);
   }
+  
+  startDelete(){
+    
+    openModal('deleteCategory');
+
+  }
+
+  onDelete() {
+       
+       let data = {
+        mode: 'DELETE',
+        bcno: this.page.rfno    
+      }
+      
+      this.http.post(environment.apiurl+'/cgi/APPLMBCATG',data).subscribe(response => {
+        this.goBack();
+      });
+      }
 }

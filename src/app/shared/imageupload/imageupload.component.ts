@@ -39,13 +39,14 @@ export class ImageUploadComponent implements OnInit {
     this.message = '';
     this.preview = '';
     this.progress = 0;
-    showWait();
+    
     this.selectedFiles = event.target.files;
 
     if (this.selectedFiles) {
       const file: File | null = this.selectedFiles.item(0);
 
       if (file) {
+        showWait();
         this.preview = '';
         this.currentFile = file;
 

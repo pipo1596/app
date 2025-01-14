@@ -59,17 +59,6 @@ export class CategoryComponent {
       this.page.loading =false;
       
       hideWait();
-      
-      if(this.page.entrymode ) {
-        this.site.value = getSite();
-        let now = new Date();
-        this.publishdate.value = now.toISOString().split('T')[0];
-        this.publishtime.value = '00:00';
-        this.getCategories('',1,false);
-      } else{
-        this.getCategories('',1,true);
-      }
-      
 
       if(this.page.viewmode || this.page.editmode){
         this.categorytitle.value    = this.page.data.category.desc;
@@ -85,6 +74,16 @@ export class CategoryComponent {
         
 
       }    
+
+      if(this.page.entrymode ) {
+        this.site.value = getSite();
+        let now = new Date();
+        this.publishdate.value = now.toISOString().split('T')[0];
+        this.publishtime.value = '00:00';
+        this.getCategories('',1,false);
+      } else{
+        this.getCategories('',1,true);
+      }
     });
   }
  

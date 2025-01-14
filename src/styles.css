@@ -22,8 +22,16 @@
 .contbckg{background-size: cover;
     background-repeat: no-repeat;
     background-position: top;
-    min-height: 140px;
+    height: 140px;
+    overflow: hidden; /* Optional: hides the part of the image that overflows */
+   position: relative;
+   
 }
+.contbckg img {
+    width: 100%;  /* Ensures the image takes up the full width of the container */
+    height: 100%; /* Ensures the image takes up the full height of the container */
+    object-fit: cover;  /* Ensures the image covers the container without distorting */
+  }
 .btn-group-top-right{position: absolute;top:1em;right:1em;}
 .loader{    opacity: .3;
     position: fixed;

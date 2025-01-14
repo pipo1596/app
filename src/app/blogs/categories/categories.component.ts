@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { convertToTimestamp, hideWait, openModal,  scrollToTopInstant, showToast, showWait, timeAgo } from '../../shared/utils';
+import { convertToTimestamp, hideWait, openModal,  scrollToTopInstant, showToast, showWait, sortByKey, timeAgo } from '../../shared/utils';
 import { environment } from '../../../environments/environment.development';
 import { Router } from '@angular/router';
 import { Page } from '../../shared/textField';
@@ -43,6 +43,10 @@ export class CategoriesComponent {
       scrollToTopInstant();
       hideWait();
     });
+  }
+
+  encodedurl(url:string){
+   return encodeURI(url);
   }
 
   setSite(site:string){
@@ -127,7 +131,7 @@ export class CategoriesComponent {
     }
     this.http.post('https://10.32.234.54/cgi/APPLMBCATG',data).subscribe(response => {
       
-      this.page.data.categories[index].parents = response;
+      this.page.data.categories[index].parents = sortByKey(response,'bcno','A');
     });
   }
   onDelete() {

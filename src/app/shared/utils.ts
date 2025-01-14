@@ -13,6 +13,15 @@ export function hideWait(timeout?:number): void {
     }
         
 }
+export function sortByKey(array:any, key:string,dir:string) {
+  return array.sort(function(a:any, b:any) {
+      var x = a[key]; var y = b[key];
+     if (dir=="D")
+      return ((x > y) ? -1 : ((x < y) ? 1 : 0));  
+     else
+      return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+  });
+}
 export function dbtodsptime(timeString:string){
 
 // Extract the hour and minute

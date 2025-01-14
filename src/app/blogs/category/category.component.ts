@@ -33,8 +33,6 @@ export class CategoryComponent {
   categ1 = "";categ1list:any=[];
   categ2 = "";categ2list:any=[];
   categ3 = "";categ3list:any=[];
-  categ4 = "";categ4list:any=[];
-  categ5 = "";categ5list:any=[];
   showUpload:boolean = false;
 
 
@@ -62,10 +60,17 @@ export class CategoryComponent {
       
       hideWait();
       
-      if(this.page.entrymode) {
+      if(this.page.entrymode ) {
         this.site.value = getSite();
-        this.getCategories('',1);
-      } 
+        let now = new Date();
+        this.publishdate.value = now.toISOString().split('T')[0];
+        this.publishtime.value = '00:00';
+        this.getCategories('',1,false);
+      } else{
+        this.getCategories('',1,true);
+      }
+      
+
       if(this.page.viewmode || this.page.editmode){
         this.categorytitle.value    = this.page.data.category.desc;
         this.categorystatus.value   = this.page.data.category.stat;
@@ -77,11 +82,23 @@ export class CategoryComponent {
         this.urlandhandle.value     = this.page.data.category.url;
         this.tags.value             = this.page.data.category.metk;
         this.image.value            = this.page.data.category.img;
+        
 
       }    
     });
   }
+ 
+  defaultCategories(){
+    
+    this.getCategories('',1);
 
+    for (let i = 0; i < this.page.data.path.length-1; i++) {
+      this.getCategories(this.page.data.path[i].bcno,i+2,true);
+    }
+    
+    
+    
+  }
   changeImage(){
      this.showUpload = true;
   }
@@ -173,8 +190,6 @@ export class CategoryComponent {
       let bcnp = this.categ1;
           if(this.categ2!=='')bcnp = this.categ2;
           if(this.categ3!=='')bcnp = this.categ3;
-          if(this.categ4!=='')bcnp = this.categ4;
-          if(this.categ5!=='')bcnp = this.categ5;
     return bcnp;
   }
 
@@ -185,59 +200,86 @@ export class CategoryComponent {
 
   }
 
-  getCategories(bcno:string,index:number){
+  getCategories(bcno:string,index:number,initialize?:boolean){
+    initialize = initialize ?? false;
     showWait();
     let data = {
       mode:'CHILD',
       site:this.site.value,
       bcno:bcno
     }
+    if(!initialize){
     if(this.categ1==''){
       this.categ2 = '';
       this.categ3 = '';
-      this.categ4 = '';
-      this.categ5 = '';
     }
     if(this.categ2==''){
       this.categ3 = '';
-      this.categ4 = '';
-      this.categ5 = '';
     }
-    if(this.categ3==''){
-      this.categ4 = '';
-      this.categ5 = '';
-    }
-    if(this.categ4==''){
-      this.categ5 = '';
-    }
+    
+   }
     this.http.post('https://10.32.234.54/cgi/APPSRBCATG',data).subscribe(response => {
 
       switch (index){
         case 1:
             this.categ1list = response;
-            this.categ1 = '';
+            if(initialize){
+              this.initDrop(1);
+              if(this.categ1 !== '') this.getCategories(this.categ1,2,true);
+            }
+            else
+              this.categ1 = '';
             break;
         case 2:
             this.categ2list = response;
+            if(initialize){
+              this.initDrop(2);
+              if(this.categ2 !== '') this.getCategories(this.categ2,3,true);
+            }
+            else
             this.categ2 = '';
             break;
         case 3:
             this.categ3list = response;
+            if(initialize){
+              this.initDrop(3);
+            }
+            else
             this.categ3 = '';
-            break;
-        case 4:
-            this.categ4list = response;
-            this.categ4 = '';
-            break;
-        case 5:
-            this.categ5list = response;
-            this.categ5 = '';
             break;
         
       }
+      
       hideWait();
 
     });
+
+  }
+  initDrop(index:number){
+    
+    if(this.page.data.path.length<1) return;
+    if(index==1)
+    this.categ1list.forEach((catg:any) => {
+      this.page.data.path.forEach((path:any)=>{
+        if(catg.bcno==path.bcno) this.categ1 = path.bcno;
+      })
+    });
+
+    if(index==2)
+    this.categ2list.forEach((catg:any) => {
+      this.page.data.path.forEach((path:any)=>{
+        if(catg.bcno==path.bcno) this.categ2 = path.bcno;
+      })
+    });
+
+    if(index==3)
+    this.categ3list.forEach((catg:any) => {
+      this.page.data.path.forEach((path:any)=>{
+        if(catg.bcno==path.bcno) this.categ3 = path.bcno;
+      })
+    });
+
+    
 
   }
   cancelEntry(){

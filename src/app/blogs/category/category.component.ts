@@ -51,7 +51,7 @@ export class CategoryComponent {
         mode: this.page.viewmode || this.page.editmode?'GETCATEG':'INIT',
         bcno: this.page.rfno
       }
-    this.http.post('https://10.32.234.54/cgi/APPSRBCATG',data).subscribe(response => {
+    this.http.post(environment.apiurl+'/cgi/APPSRBCATG',data).subscribe(response => {
 
       this.page.data = response;
       if(this.page.data.title) this.page.title = this.page.data.title;
@@ -130,7 +130,7 @@ export class CategoryComponent {
 
     }
 
-    this.http.post('https://10.32.234.54/cgi/APPSRBCATG',data).subscribe(response => {
+    this.http.post(environment.apiurl+'/cgi/APPSRBCATG',data).subscribe(response => {
 
       this.page.data = response;
       this.goBack();
@@ -218,7 +218,7 @@ export class CategoryComponent {
     }
     
    }
-    this.http.post('https://10.32.234.54/cgi/APPSRBCATG',data).subscribe(response => {
+    this.http.post(environment.apiurl+'/cgi/APPSRBCATG',data).subscribe(response => {
 
       switch (index){
         case 1:
@@ -307,6 +307,10 @@ export class CategoryComponent {
 
   goBack(){
     this.router.navigate(['/blogs/categories']);
+  }
+
+  newBlog(){
+    this.router.navigate(['/blogs/newblog/1']);
   }
 
 

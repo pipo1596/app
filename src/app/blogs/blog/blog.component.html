@@ -11,5 +11,62 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        
+    <div class="col-12 col-md-8" >
+        <!--LeftSide Side-->
+        <div class="row bg-white pt-2 me-1">
+            
+                <div class="col-12">
+                    <div class="mb-4">
+                        <h5 class="form-label fw-bold">Blog Post Title<span class="text-danger ms-1" *ngIf="blogTitle.error!==''">{{blogTitle.error}}</span></h5>
+                        <input type="text" name="title" class="form-control" id="{{blogTitle.htmlid}}" [(ngModel)]="blogTitle.value">
+                    </div>
+                    <quill-editor [(ngModel)]="blogHtml.value"  (onEditorChanged)="onEditorChanged($event)"></quill-editor>
+                </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+        
+        <div class="row bg-white pt-2">
+            <form (submit)="validate()">
+            <div class="mb-4">
+                <h5 class="form-label fw-bold">Status<span class="text-danger ms-1" *ngIf="categorystatus.error!==''">{{categorystatus.error}}</span></h5>
+                <select class="form-select form-select mb-3" name="status" id="{{categorystatus.htmlid}}" [(ngModel)]="categorystatus.value" 
+                [ngClass]="{'selectActv':categorystatus.value=='P','selectDsbl':categorystatus.value=='U'}">
+                    <option value="">Select Status</option>
+                    <option value="P">Published</option>
+                    <option value="U">Unpublished</option>
+                  </select>
+                  
+            </div>
+            <hr>
+            <div class="mb-4 row">
+                <h5 class="form-label fw-bold">Publish Date
+                    <span class="text-danger ms-1" *ngIf="publishdate.error!==''">{{publishdate.error}}</span>
+                    <span class="text-danger ms-1" *ngIf="publishdate.error=='' && publishtime.error!==''">{{publishtime.error}}</span>
+                </h5>
+                <div class="col-6">
+                    <input type="date" required class="form-control" name="publishdate" id="{{publishdate.htmlid}}" [(ngModel)]="publishdate.value" >
+                </div>
+                <div class="col-6">
+                    <input type="time" class="form-control"  name="publishtime" id="{{publishtime.htmlid}}" [(ngModel)]="publishtime.value">
+                </div>
+            </div>
+            <hr>
+            <div class="mb-4">
+                <h5 class="form-label fw-bold">Site
+                    <span class="text-danger ms-1" *ngIf="site.error!==''">{{site.error}}</span>
+                </h5>
+                <select class="form-select form-select mb-3" name="site" (change)="this.getCategories('',1)" id="{{site.htmlid}}" [(ngModel)]="site.value">
+                    <option value="">Galls.com</option>
+                    <option value="K">Uspatriottactical.com</option>
+                </select>
+            </div>
+        </form>
+        </div>
+    </div>
+    </div>
 </section>
 <app-footer></app-footer>

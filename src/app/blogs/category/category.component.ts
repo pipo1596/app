@@ -19,7 +19,7 @@ export class CategoryComponent {
 
   
   //Screen Fields
-  categorytitle  = new TextField("categorytitle",["required","minlength7"]);
+  categorytitle  = new TextField("categorytitle",["required"]);
   categorystatus = new TextField("categorystatus",["required"]);
   publishdate    = new TextField("publishdate",["required"]);
   publishtime    = new TextField("publishtime",["required"]);
@@ -309,7 +309,7 @@ export class CategoryComponent {
   }
 
   newBlog(){
-    this.router.navigate(['/blogs/newblog/1']);
+    this.router.navigate(['/blogs/newblog/'+this.page.rfno]);
   }
 
 

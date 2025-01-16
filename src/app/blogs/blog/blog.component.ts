@@ -33,7 +33,7 @@ export class BlogComponent {
   primarycategory= new TextField("tags",[]);
   image          = new TextField("image",["required"]);
 
-  categories:any = [[]];
+  categories:any = [[]];//Multidimensional Array to support structure
 
   constructor(private http: HttpClient,
               private router: Router,

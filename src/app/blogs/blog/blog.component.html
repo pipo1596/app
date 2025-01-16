@@ -95,7 +95,7 @@
                 </div>
                 <div class="col-2 p-0"><h5 class="text-end mt-1">1 - </h5></div>
                 <div class="col-10 ps-1 ">
-                    <select class="form-select form-select mb-3" disabled aria-label=".form-select example">
+                    <select class="form-select form-select mb-3" disabled aria-label="form-select example">
                         <option value="">Tactical Gear</option>
                     </select>
                 </div>
@@ -104,7 +104,7 @@
                 <ng-container *ngIf="categarr.list.length>0">
                 <div class="col-2 p-0"><h5 class="text-end mt-1">{{c+2}} - </h5></div>
                 <div class="col-10 ps-1 ">
-                <select class="form-select form-select mb-3" name="categ{{c}}" id="categ{{c}}" [(ngModel)]="categarr.value" (change)="getCategories(categarr.value,outer,c+1)">
+                <select class="form-select form-select mb-3" name="categ{{outer}}{{c}}" id="categ{{outer}}{{c}}" [(ngModel)]="categarr.value" (change)="getCategories(categarr.value,outer,c+1)">
                     <option value="">select</option>
                     <ng-container *ngFor="let category of categarr.list">
                         <option value="{{category.bcno}}" *ngIf="page.entrymode || page.rfno!==category.bcno">{{category.desc}}</option>

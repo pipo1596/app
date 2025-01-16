@@ -30,7 +30,6 @@ export class CategoryComponent {
   tags           = new TextField("tags",[]);
   image          = new TextField("image",["required"]);
 
-
   categories:any = [];
   showUpload:boolean = false;
 

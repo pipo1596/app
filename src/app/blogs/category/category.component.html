@@ -30,45 +30,19 @@
     <div class="col-12 col-md-8" *ngIf="!page.entrymode">
         <!--Left Side-->
     <div class="row bg-white pt-2 me-1"  >
+       
             <div class="col">
                 <div class="d-grid gap-2">
-                    <button class="btn btn-light rounded-0 border border-2 active mx-400"  type="button">Blog Posts</button>
+                    <button class="btn btn-light rounded-0 border border-2  mx-400"  type="button">Blog Posts</button>
                 </div>
             </div>
             <div class="col">
                 <div class="d-grid gap-2">
-                    <button class="btn btn-light rounded-0 border border-2 mx-400" type="button">Blog Categories</button>
+                    <button class="btn btn-light rounded-0 border border-2 mx-400 active" type="button">Blog Categories</button>
                 </div>
             </div>
-            <div class="col-12 mt-3" >
-                <h4>Blog Posts</h4>
-                <div class="input-group p-0 mb-2 rounded-0">
-                    <input class="form-control border-end-0 border border-3" type="search" placeholder="Search US Army Gear Blog Posts">
-                    <span class="input-group-append">
-                        <button class="btn btn-outline-secondary bg-white border-start-0  border rounded-0 border-3 ms-n5" type="button">
-                            <i class="bi bi-search bi-boldicon"></i>
-                        </button>
-                    </span>
-                </div>
-                <div class="card my-1 border border-3 rounded-0" *ngFor="let item of counter(10)">
-                    <div class="row g-0">
-                    <div class="col-md-2 contbckg" style="background-image: url({{page.imgprfx}}/blog.png);">
-                    </div>
-                    <div class="col-md-10 position-relative">
-                        <div class="card-body">
-                        <h5 class="card-title mb-1">What to expect during basic training</h5>
-                        <p class="card-text mb-1">Hunter Wood - US Army Gear</p>
-                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                        </div>
-                        <div class="btn-group-top-right">
-                            <button class="btn btn-light"><span class="bi bi-trash text-danger"></span></button>
-                            <button class="btn btn-light ms-1 d-none"><span class="bi bi-eye"></span></button>
-                            <button class="btn btn-light ms-1" (click)="editBlog()"><span class="bi bi-pencil-square"></span></button>
-                          </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
+            <app-categories [child]="true"></app-categories>
+            
     </div>
     </div>
     <!--=================================-->

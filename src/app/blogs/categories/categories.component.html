@@ -1,11 +1,11 @@
-<app-header [title]="page.title" [fullname]="page.fullname"></app-header>
+<app-header *ngIf="!child" [title]="page.title" [fullname]="page.fullname"></app-header>
 
-<section class="ftco-section bg-light pb-3">
+<section class="ftco-section  pb-3" [ngClass]="{'bg-light':!child}">
 <div class="container-fluid mw-2000" *ngIf="page.fullname!==''">
 <!--Blog Categories List----------------------------------------------------------------------->
 <section class="position-relative">
     <div>
-    <div class="row mb-2">
+    <div class="row mb-2" *ngIf="!child">
         <div class="col-12 col-md-8">
             <h4 class="ms-1" >{{page.title}}</h4>
         </div>
@@ -17,7 +17,7 @@
     </div>
     <div class="row bg-white">
             <div class="input-group p-0 mb-2 rounded-0">
-                <button style="min-width: 250px;"
+                <button style="min-width: 250px;" *ngIf="!child"
                  class="btn border-end-0 border border-3 dropdown-toggle btn-dark" type="button" (click)="showList=!showList" (blur)="hideDrop()" >
                     <span *ngIf="getSite()=='' || !getSite()">galls.com</span>
                     <span *ngIf="getSite()=='K'">uspatriottactical.com</span>
@@ -87,4 +87,4 @@
 </section>
 <app-confirm (notify)="onDelete()" [title]="'Delete Category'" [id]="'deleteCategory'" [body]="'Delete Category?'"></app-confirm>
 
-<app-footer></app-footer>
+<app-footer *ngIf="!child"></app-footer>

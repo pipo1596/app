@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { convertToTimestamp, hideWait, openModal,  scrollToTopInstant, showToast, showWait, sortByKey, timeAgo } from '../../shared/utils';
 import { environment } from '../../../environments/environment.development';
@@ -15,6 +15,7 @@ import { Page } from '../../shared/textField';
 })
 export class CategoriesComponent {
 
+  @Input() child : boolean | undefined;
   search="";
   pvsearch="";
   showList=false;

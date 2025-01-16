@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data-trigger.service';
-import { dbtodspdate, dbtodsptime, focusField, getSite, hideWait, showWait } from '../../shared/utils';
+import { dbtodspdate, dbtodsptime, focusField, getSite, hideWait, openModal, showWait } from '../../shared/utils';
 
 @Component({
   selector: 'app-blog',
@@ -88,6 +88,12 @@ export class BlogComponent {
       })
     }
 
+     cancelEntry(){
+        openModal('cancelEntry');
+      }
+      startDelete(){
+
+      }
     onEditorChanged(event: any) {
       console.log('Editor content changed:', event);
       console.log(this.blogHtml.value);
@@ -154,7 +160,7 @@ export class BlogComponent {
 
         this.categories.pop();
         if(parseInt(this.primarycategory.value)==indexo) 
-          this.primarycategory.value = (indexo-1).toString();
+          this.primarycategory.value = "0";
 
       }
 

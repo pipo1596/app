@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data-trigger.service';
-import { hideWait, showWait } from '../../shared/utils';
+import { focusField, hideWait, showWait } from '../../shared/utils';
 
 @Component({
   selector: 'app-blog',
@@ -24,7 +24,13 @@ export class BlogComponent {
   categorystatus = new TextField("categorystatus",["required"]);
   publishdate    = new TextField("publishdate",["required"]);
   publishtime    = new TextField("publishtime",["required"]);
+  author         = new TextField("author",["required"]);
+  metatitle      = new TextField("metatitle",["required"]);
+  metadescription= new TextField("metadescription",["required"]);
   site           = new TextField("site",[]);
+  urlandhandle   = new TextField("urlandhandle",["required"]);
+  tags           = new TextField("tags",[]);
+  image          = new TextField("image",["required"]);
 
   categ1 = "";categ1list:any=[];
   categ2 = "";categ2list:any=[];
@@ -56,14 +62,63 @@ export class BlogComponent {
         hideWait();
       })
     }
+
     onEditorChanged(event: any) {
-  console.log('Editor content changed:', event);
-  console.log(this.blogHtml.value);
-}
+      console.log('Editor content changed:', event);
+      console.log(this.blogHtml.value);
+    }
 
     validate(){
 
     }
+    changeImage(){
+         this.showUpload = true;
+      }
+      setTopErrorID(errorID:string){
+        if(this.page.topErrorID!=="") return;
+        this.page.topErrorID = errorID;
+        this.page.valid = false;
+    
+      }
+      saveAfterImageUpload(file: any) {
+        this.image.value = file;
+        if(!this.image.validate()) this.setTopErrorID(this.image.htmlid);
+        focusField(this.page.topErrorID);
+    
+        if(!this.page.valid){
+          hideWait();
+          return;
+        }
+    
+        //Save Payload:
+        let data = {
+          mode: this.page.entrymode?'NEWCATEG':'EDITCATEG',
+          bcstat: this.categorystatus.value,
+          bcsite: this.site.value,
+          bcdesc: this.blogTitle.value,
+          bcmett: this.metatitle.value,
+          bcmetd: this.metadescription.value,
+          bcmetk: this.tags.value,
+          bcurl : this.urlandhandle.value,
+          bcaddt: this.publishdate.value.replaceAll('-',''),
+          bcadtm: this.publishtime.value.replaceAll(':',''),
+          bcimg : file,
+          bcbcno: this.page.rfno
+    
+        }
+    
+        this.http.post(environment.apiurl+'/cgi/APPSRBCATG',data).subscribe(response => {
+    
+          this.page.data = response;
+          this.goBack();
+          
+        });
+      }
+    
+      uploadImage() {
+        this.dataService.triggerChild('');
+      }
+    
 
       getCategories(bcno:string,index:number,initialize?:boolean){
         initialize = initialize ?? false;

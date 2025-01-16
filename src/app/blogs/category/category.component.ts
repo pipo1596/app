@@ -27,12 +27,11 @@ export class CategoryComponent {
   metatitle      = new TextField("metatitle",["required"]);
   metadescription= new TextField("metadescription",["required"]);
   urlandhandle   = new TextField("urlandhandle",["required"]);
-  tags           = new TextField("tags",["required"]);
+  tags           = new TextField("tags",[]);
   image          = new TextField("image",["required"]);
 
-  categ1 = "";categ1list:any=[];
-  categ2 = "";categ2list:any=[];
-  categ3 = "";categ3list:any=[];
+
+  categories:any = [];
   showUpload:boolean = false;
 
 
@@ -80,27 +79,29 @@ export class CategoryComponent {
         let now = new Date();
         this.publishdate.value = now.toISOString().split('T')[0];
         this.publishtime.value = '00:00';
-        this.getCategories('',1,false);
+        this.getCategories('',0,false);
       } else{
-        this.getCategories('',1,true);
+        this.getCategories('',0,true);
       }
     });
   }
  
   defaultCategories(){
     
-    this.getCategories('',1);
+    this.getCategories('',0);
 
     for (let i = 0; i < this.page.data.path.length-1; i++) {
-      this.getCategories(this.page.data.path[i].bcno,i+2,true);
+      this.getCategories(this.page.data.path[i].bcno,i+1,true);
     }
     
     
     
   }
+
   changeImage(){
      this.showUpload = true;
   }
+
   saveAfterImageUpload(file: any) {
     this.image.value = file;
     if(!this.image.validate()) this.setTopErrorID(this.image.htmlid);
@@ -172,6 +173,7 @@ export class CategoryComponent {
 
 
   }
+
   preload(){
     //For easier testing:
     let now = new Date();
@@ -185,10 +187,12 @@ export class CategoryComponent {
     this.tags.value = 'test tags value'; 
 
   }
+
   getbcnp(){
-      let bcnp = this.categ1;
-          if(this.categ2!=='')bcnp = this.categ2;
-          if(this.categ3!=='')bcnp = this.categ3;
+      let bcnp = this.categories[0]?.value;
+      this.categories.forEach((categ: any) => {
+        if(categ.value!=='')bcnp = categ.value;
+      });
     return bcnp;
   }
 
@@ -208,46 +212,34 @@ export class CategoryComponent {
       bcno:bcno
     }
     if(!initialize){
-    if(this.categ1==''){
-      this.categ2 = '';
-      this.categ3 = '';
-    }
-    if(this.categ2==''){
-      this.categ3 = '';
-    }
+
     
+    for (const [index, categ] of this.categories.entries()) {
+      if(this.categories[index].value == ""){
+        if(index<this.categories.length-1) {
+          this.categories[index+1].value = "";
+          this.categories[index+1].list = [];
+        }
+      }
+    }
    }
+   
     this.http.post(environment.apiurl+'/cgi/APPSRBCATG',data).subscribe(response => {
 
-      switch (index){
-        case 1:
-            this.categ1list = response;
-            if(initialize){
-              this.initDrop(1);
-              if(this.categ1 !== '') this.getCategories(this.categ1,2,true);
-            }
-            else
-              this.categ1 = '';
-            break;
-        case 2:
-            this.categ2list = response;
-            if(initialize){
-              this.initDrop(2);
-              if(this.categ2 !== '') this.getCategories(this.categ2,3,true);
-            }
-            else
-            this.categ2 = '';
-            break;
-        case 3:
-            this.categ3list = response;
-            if(initialize){
-              this.initDrop(3);
-            }
-            else
-            this.categ3 = '';
-            break;
-        
+      if(this.categories.length-1 < index){
+        this.categories.push({value:"",list:[]});
       }
+      if(bcno!=='' || index==0){
+          this.categories[index].list = response;
+            if(initialize){
+              this.initDrop(index);
+              if(this.categories[index].value !== '') this.getCategories(this.categories[index].value,index+1,true);
+            }
+            else{
+              this.categories[index].value = '';
+            }
+      }
+            
       
       hideWait();
 
@@ -257,28 +249,13 @@ export class CategoryComponent {
   initDrop(index:number){
     
     if(this.page.data.path.length<1) return;
-    if(index==1)
-    this.categ1list.forEach((catg:any) => {
+    this.categories.forEach((categArr:any) => {
+      categArr.list.forEach((catg:any) => {
       this.page.data.path.forEach((path:any)=>{
-        if(catg.bcno==path.bcno) this.categ1 = path.bcno;
+        if(catg.bcno==path.bcno) categArr.value = path.bcno;
       })
     });
-
-    if(index==2)
-    this.categ2list.forEach((catg:any) => {
-      this.page.data.path.forEach((path:any)=>{
-        if(catg.bcno==path.bcno) this.categ2 = path.bcno;
-      })
-    });
-
-    if(index==3)
-    this.categ3list.forEach((catg:any) => {
-      this.page.data.path.forEach((path:any)=>{
-        if(catg.bcno==path.bcno) this.categ3 = path.bcno;
-      })
-    });
-
-    
+  });
 
   }
   cancelEntry(){

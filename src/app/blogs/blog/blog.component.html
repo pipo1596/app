@@ -31,7 +31,7 @@
         
         <div class="row bg-white pt-2">
             <form (submit)="validate()">
-            <div class="mb-4">
+            <div class="mb-3">
                 <h5 class="form-label fw-bold">Status<span class="text-danger ms-1" *ngIf="categorystatus.error!==''">{{categorystatus.error}}</span></h5>
                 <select class="form-select form-select mb-3" name="status" id="{{categorystatus.htmlid}}" [(ngModel)]="categorystatus.value" 
                 [ngClass]="{'selectActv':categorystatus.value=='P','selectDsbl':categorystatus.value=='U'}">
@@ -42,7 +42,7 @@
                   
             </div>
             <hr>
-            <div class="mb-4 row">
+            <div class="mb-3 row">
                 <h5 class="form-label fw-bold">Publish Date
                     <span class="text-danger ms-1" *ngIf="publishdate.error!==''">{{publishdate.error}}</span>
                     <span class="text-danger ms-1" *ngIf="publishdate.error=='' && publishtime.error!==''">{{publishtime.error}}</span>
@@ -55,7 +55,7 @@
                 </div>
             </div>
             <hr>
-            <div class="mb-4">
+            <div class="mb-3">
                 <h5 class="form-label fw-bold">Site
                     <span class="text-danger ms-1" *ngIf="site.error!==''">{{site.error}}</span>
                 </h5>
@@ -63,6 +63,54 @@
                     <option value="">Galls.com</option>
                     <option value="K">Uspatriottactical.com</option>
                 </select>
+            </div>
+            <div class="mb-3">
+                <h5 class="form-label fw-bold">Author
+                    <span class="text-danger ms-1" *ngIf="author.error!==''">{{author.error}}</span>
+                </h5>
+                <select class="form-select form-select mb-3" name="author"  id="{{author.htmlid}}" [(ngModel)]="author.value">
+                    <option value="">Select</option>
+                    <option value="K">Uspatriottactical.com</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <h4 class="form-label fw-bold">SEO</h4>
+                <h5>Meta Title
+                    <span class="text-danger ms-1" *ngIf="metatitle.error!==''">{{metatitle.error}}</span>
+                </h5>
+                <input type="text" class="form-control" maxlength="70" name="metatitle" id="{{metatitle.htmlid}}" [(ngModel)]="metatitle.value">
+                <div class="form-text mt-0 pe-1 text-end">{{metatitle.value.length}} Of 70 Used</div>
+                <h5>Meta Description
+                    <span class="text-danger ms-1" *ngIf="metadescription.error!==''">{{metadescription.error}}</span>
+                </h5>
+                <textarea class="form-control" maxlength="320" name="metadescription" id="{{metadescription.htmlid}}" [(ngModel)]="metadescription.value"></textarea>
+                <div class="form-text mt-0 pe-1 text-end">{{metadescription.value.length}} Of 320 Used</div>
+                <h5>URL and handle
+                    <span class="text-danger ms-1" *ngIf="urlandhandle.error!==''">{{urlandhandle.error}}</span>
+                </h5>
+                <input type="text" class="form-control" maxlength="256"  name="urlandhandle" id="{{urlandhandle.htmlid}}" [(ngModel)]="urlandhandle.value" >
+                <div class="row">
+                <div class="col-8">
+                    <h4 class="mt-2">Featured Image</h4>
+                </div>
+                
+                <div class="col-4 text-end" *ngIf="!showUpload && page.editmode">
+                    <a [routerLink]="" (click)="changeImage()" class="hover m-2 d-block">Change Image</a>
+                </div>
+                </div>
+                <div class="col-12" *ngIf="!showUpload">
+                    <img style="max-height: 300px;max-width: 100%;" src="{{page.imgprfx}}/{{image.value}}" class="preview  m-auto d-block" />
+                </div>
+                <div *ngIf="showUpload">
+                <h5>Upload Image
+                    <span class="text-danger ms-1"  id="{{image.htmlid}}"  *ngIf="image.error!==''">{{image.error}}</span>
+                </h5>
+                <app-image-upload  (triggerEvent)="saveAfterImageUpload($event)"></app-image-upload>
+                </div>
+                  <h5>Tags
+                    <span class="text-danger ms-1" *ngIf="tags.error!==''">{{tags.error}}</span>
+                  </h5>
+                  <input type="text" class="form-control" maxlength="256"  name="tags" id="{{tags.htmlid}}" [(ngModel)]="tags.value">
             </div>
         </form>
         </div>

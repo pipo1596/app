@@ -59,7 +59,7 @@
                 <h5 class="form-label fw-bold">Site
                     <span class="text-danger ms-1" *ngIf="site.error!==''">{{site.error}}</span>
                 </h5>
-                <select class="form-select form-select mb-3" name="site" (change)="this.getCategories('',1)" id="{{site.htmlid}}" [(ngModel)]="site.value">
+                <select class="form-select form-select mb-3" name="site" disabled id="{{site.htmlid}}" [(ngModel)]="site.value">
                     <option value="">Galls.com</option>
                     <option value="K">Uspatriottactical.com</option>
                 </select>
@@ -72,6 +72,54 @@
                     <option value="">Select</option>
                     <option value="K">Uspatriottactical.com</option>
                 </select>
+            </div>
+            <div class="mb-4">
+                <ng-container *ngFor="let category of categories;index as outer"> <!--Category Block-->
+                
+                <div class="row">
+                <div class="col-4 mb-2">
+                    <h5 class="form-label fw-bold">Categorization</h5>
+                </div>
+                <div class="col-6">
+                    <div class="form-check categcheckbox border hoverp">
+                        <input class="form-check-input" type="radio" value="{{outer}}" [(ngModel)]="primarycategory.value" 
+                        name="primarycategory" id="primarycategory{{outer}}">
+                        <label class="form-check-label" for="primarycategory{{outer}}">
+                          Primary Category</label>
+                      </div>
+                </div>
+                <div class="col-2 text-end">
+                    <button class="btn btn-light btn-sm" *ngIf="outer>0" (click)="removeCategory(outer)">
+                        <span class="bi bi-trash text-danger"></span>
+                    </button>
+                </div>
+                <div class="col-2 p-0"><h5 class="text-end mt-1">1 - </h5></div>
+                <div class="col-10 ps-1 ">
+                    <select class="form-select form-select mb-3" disabled aria-label=".form-select example">
+                        <option value="">Tactical Gear</option>
+                    </select>
+                </div>
+                <!-- Category Drop Down (s) -->
+                <ng-container *ngFor="let categarr of category;index as c">
+                <ng-container *ngIf="categarr.list.length>0">
+                <div class="col-2 p-0"><h5 class="text-end mt-1">{{c+2}} - </h5></div>
+                <div class="col-10 ps-1 ">
+                <select class="form-select form-select mb-3" name="categ{{c}}" id="categ{{c}}" [(ngModel)]="categarr.value" (change)="getCategories(categarr.value,outer,c+1)">
+                    <option value="">select</option>
+                    <ng-container *ngFor="let category of categarr.list">
+                        <option value="{{category.bcno}}" *ngIf="page.entrymode || page.rfno!==category.bcno">{{category.desc}}</option>
+                    </ng-container>
+                  </select>
+                </div>
+                </ng-container>
+                </ng-container>
+                                   
+                
+                </div> 
+                </ng-container>
+                <button class="btn btn-light rounded-0 border border-2 float-end" (click)="addCategory()">
+                        <i class="bi bi-plus"></i>&nbsp; Add To Another Category
+                    </button>
             </div>
             <div class="mb-4">
                 <h4 class="form-label fw-bold">SEO</h4>
@@ -95,7 +143,7 @@
                 </div>
                 
                 <div class="col-4 text-end" *ngIf="!showUpload && page.editmode">
-                    <a [routerLink]="" (click)="changeImage()" class="hover m-2 d-block">Change Image</a>
+                    <a [routerLink]="" (click)="changeImage()" class="hoverp m-2 d-block">Change Image</a>
                 </div>
                 </div>
                 <div class="col-12" *ngIf="!showUpload">

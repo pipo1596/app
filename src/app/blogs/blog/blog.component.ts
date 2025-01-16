@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data-trigger.service';
-import { focusField, hideWait, showWait } from '../../shared/utils';
+import { dbtodspdate, dbtodsptime, focusField, getSite, hideWait, showWait } from '../../shared/utils';
 
 @Component({
   selector: 'app-blog',
@@ -30,11 +30,10 @@ export class BlogComponent {
   site           = new TextField("site",[]);
   urlandhandle   = new TextField("urlandhandle",["required"]);
   tags           = new TextField("tags",[]);
+  primarycategory= new TextField("tags",[]);
   image          = new TextField("image",["required"]);
 
-  categ1 = "";categ1list:any=[];
-  categ2 = "";categ2list:any=[];
-  categ3 = "";categ3list:any=[];
+  categories:any = [[]];
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -52,7 +51,7 @@ export class BlogComponent {
           mode: 'INIT',
           bcno: this.page.rfno
         }
-      this.http.post(environment.apiurl+'/cgi/APPSRBCATG',data).subscribe(response => {
+      this.http.post(environment.apiurl+'/cgi/APPSRBLOG',data).subscribe(response => {
   
         this.page.data = response;
         if(this.page.data.title) this.page.title = this.page.data.title;
@@ -60,6 +59,32 @@ export class BlogComponent {
         this.page.loading =false;
         
         hideWait();
+        if(this.page.viewmode || this.page.editmode){
+                this.blogTitle.value        = this.page.data.blog.desc;
+                this.categorystatus.value   = this.page.data.blog.stat;
+                this.publishdate.value      = dbtodspdate(this.page.data.blog.pbdt);
+                this.publishtime.value      = dbtodsptime(this.page.data.category.pbtm);
+                this.site.value             = this.page.data.blog.site;
+                this.metatitle.value        = this.page.data.blog.mett;
+                this.metadescription.value  = this.page.data.blog.metd;
+                this.urlandhandle.value     = this.page.data.blog.url;
+                this.tags.value             = this.page.data.blog.metk;
+                this.image.value            = this.page.data.blog.img;
+                
+        
+              }    
+        
+              if(this.page.entrymode ) {
+                this.site.value = getSite();
+                let now = new Date();
+                this.publishdate.value = now.toISOString().split('T')[0];
+                this.publishtime.value = '00:00';
+                this.getCategories('',0,0,false);
+                this.primarycategory.value="0";
+              } else{
+                this.getCategories('',0,0,true);
+              }
+            
       })
     }
 
@@ -107,7 +132,7 @@ export class BlogComponent {
     
         }
     
-        this.http.post(environment.apiurl+'/cgi/APPSRBCATG',data).subscribe(response => {
+        this.http.post(environment.apiurl+'/cgi/APPSRBLOG',data).subscribe(response => {
     
           this.page.data = response;
           this.goBack();
@@ -119,8 +144,21 @@ export class BlogComponent {
         this.dataService.triggerChild('');
       }
     
+      addCategory(){
 
-      getCategories(bcno:string,index:number,initialize?:boolean){
+        this.categories.push([]);
+        this.getCategories('',this.categories.length-1,0);
+
+      }
+      removeCategory(indexo:number){
+
+        this.categories.pop();
+        if(parseInt(this.primarycategory.value)==indexo) 
+          this.primarycategory.value = (indexo-1).toString();
+
+      }
+
+      getCategories(bcno:string,indexo:number,indexi:number,initialize?:boolean){
         initialize = initialize ?? false;
         showWait();
         let data = {
@@ -129,77 +167,42 @@ export class BlogComponent {
           bcno:bcno
         }
         if(!initialize){
-        if(this.categ1==''){
-          this.categ2 = '';
-          this.categ3 = '';
-        }
-        if(this.categ2==''){
-          this.categ3 = '';
-        }
-        
-       }
-        this.http.post(environment.apiurl+'/cgi/APPSRBCATG',data).subscribe(response => {
     
-          switch (index){
-            case 1:
-                this.categ1list = response;
-                if(initialize){
-                  this.initDrop(1);
-                  if(this.categ1 !== '') this.getCategories(this.categ1,2,true);
-                }
-                else
-                  this.categ1 = '';
-                break;
-            case 2:
-                this.categ2list = response;
-                if(initialize){
-                  this.initDrop(2);
-                  if(this.categ2 !== '') this.getCategories(this.categ2,3,true);
-                }
-                else
-                this.categ2 = '';
-                break;
-            case 3:
-                this.categ3list = response;
-                if(initialize){
-                  this.initDrop(3);
-                }
-                else
-                this.categ3 = '';
-                break;
-            
+        
+        for (const [indexi, categ] of this.categories[indexo].entries()) {
+          if(this.categories[indexo][indexi].value == ""){
+            if(indexi<this.categories[indexo].length-1) {
+              this.categories[indexo][indexi+1].value = "";
+              this.categories[indexo][indexi+1].list = [];
+            }
           }
+        }
+       }
+       
+        this.http.post(environment.apiurl+'/cgi/APPSRBLOG',data).subscribe(response => {
+    
+          if(this.categories[indexo].length-1 < indexi){
+            this.categories[indexo].push({value:"",list:[]});
+          }
+          if(bcno!=='' || indexi==0){
+              this.categories[indexo][indexi].list = response;
+                if(initialize){
+                  
+                  if(this.categories[indexo][indexi].value !== '') 
+                    this.getCategories(this.categories[indexo][indexi].value,indexo,indexi+1,true);
+                }
+                else{
+                  this.categories[indexo][indexi].value = '';
+                }
+          }
+                
           
           hideWait();
     
         });
     
       }
-      initDrop(index:number){
-    
-        if(this.page.data.path.length<1) return;
-        if(index==1)
-        this.categ1list.forEach((catg:any) => {
-          this.page.data.path.forEach((path:any)=>{
-            if(catg.bcno==path.bcno) this.categ1 = path.bcno;
-          })
-        });
-    
-        if(index==2)
-        this.categ2list.forEach((catg:any) => {
-          this.page.data.path.forEach((path:any)=>{
-            if(catg.bcno==path.bcno) this.categ2 = path.bcno;
-          })
-        });
-    
-        if(index==3)
-        this.categ3list.forEach((catg:any) => {
-          this.page.data.path.forEach((path:any)=>{
-            if(catg.bcno==path.bcno) this.categ3 = path.bcno;
-          })
-        });
-      }
-
+   
     goBack(){
       this.router.navigate(['/blogs/viewcategory/'+this.page.rfno]);
     }

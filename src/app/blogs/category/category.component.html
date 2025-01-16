@@ -110,7 +110,7 @@
                     <h5 class="form-label fw-bold">Site
                         <span class="text-danger ms-1" *ngIf="site.error!==''">{{site.error}}</span>
                     </h5>
-                    <select class="form-select form-select mb-3" name="site" (change)="this.getCategories('',1)" id="{{site.htmlid}}" [(ngModel)]="site.value">
+                    <select class="form-select form-select mb-3" name="site" (change)="this.getCategories('',0)" id="{{site.htmlid}}" [(ngModel)]="site.value">
                         <option value="">Galls.com</option>
                         <option value="K">Uspatriottactical.com</option>
                     </select>
@@ -164,7 +164,7 @@
                     </div>
                     
                     <div class="col-4 text-end" *ngIf="!showUpload && page.editmode">
-                        <a [routerLink]="" (click)="changeImage()" class="hover m-2 d-block">Change Image</a>
+                        <a [routerLink]="" (click)="changeImage()" class="hoverp m-2 d-block">Change Image</a>
                     </div>
                     </div>
                     <div class="col-12" *ngIf="!showUpload">

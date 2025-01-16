@@ -100,7 +100,12 @@ ul.categories li {
 .mlpath-4{margin-left:60px}
 .mlpath-5{margin-left:72px}
 
-.hover {
+.hoverp,.hoverp:hover {
     cursor: pointer;
 }
 .ql-editor{min-height: 1000px;}
+.categcheckbox{
+    padding-left: 2.1rem;
+    float: left;
+    padding-right: 20px;
+}

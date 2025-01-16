@@ -146,6 +146,10 @@ export class CategoryComponent {
     this.router.navigate(['/blogs/newcategory']);
   }
 
+  editBlog(){
+    this.router.navigate(['/blogs/editblog/'+this.page.rfno]);
+  }
+
   validate(){
     this.page.topErrorID = "";
     this.page.valid = true;

@@ -10,18 +10,25 @@
                 <h4 *ngIf="page.editmode">Edit Blog </h4>
             </div>
         </div>
+        <div class="col-12 col-md-6 text-end pe-0">
+            <button class="btn btn-light rounded-0 border border-2 ms-1" type="button" *ngIf="!page.viewmode" (click)="cancelEntry()">Cancel</button>
+            <button class="btn btn-danger rounded-0 border border-2 ms-1" type="button" *ngIf="page.editmode" (click)="startDelete()">Delete Blog</button>
+            <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit" *ngIf="page.editmode">Update Blog</button>
+            <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit" *ngIf="page.entrymode">Create New Blog</button>
+        </div>
     </div>
     <div class="row">
         
     <div class="col-12 col-md-8" >
         <!--LeftSide Side-->
-        <div class="row bg-white pt-2 me-1">
+        <div class="row bg-white pt-2 me-1 pb-2">
             
                 <div class="col-12">
-                    <div class="mb-4">
+                    <div class="mb-1">
                         <h5 class="form-label fw-bold">Blog Post Title<span class="text-danger ms-1" *ngIf="blogTitle.error!==''">{{blogTitle.error}}</span></h5>
                         <input type="text" name="title" class="form-control" id="{{blogTitle.htmlid}}" [(ngModel)]="blogTitle.value">
                     </div>
+                    <h5 class="form-label fw-bold">&nbsp;<span class="text-danger ms-1" *ngIf="blogHtml.error!==''">{{blogHtml.error}}</span></h5>
                     <quill-editor [(ngModel)]="blogHtml.value"  (onEditorChanged)="onEditorChanged($event)"></quill-editor>
                 </div>
         </div>
@@ -32,9 +39,9 @@
         <div class="row bg-white pt-2">
             <form (submit)="validate()">
             <div class="mb-3">
-                <h5 class="form-label fw-bold">Status<span class="text-danger ms-1" *ngIf="categorystatus.error!==''">{{categorystatus.error}}</span></h5>
-                <select class="form-select form-select mb-3" name="status" id="{{categorystatus.htmlid}}" [(ngModel)]="categorystatus.value" 
-                [ngClass]="{'selectActv':categorystatus.value=='P','selectDsbl':categorystatus.value=='U'}">
+                <h5 class="form-label fw-bold">Status<span class="text-danger ms-1" *ngIf="blogstatus.error!==''">{{blogstatus.error}}</span></h5>
+                <select class="form-select form-select mb-3" name="status" id="{{blogstatus.htmlid}}" [(ngModel)]="blogstatus.value" 
+                [ngClass]="{'selectActv':blogstatus.value=='P','selectDsbl':blogstatus.value=='U'}">
                     <option value="">Select Status</option>
                     <option value="P">Published</option>
                     <option value="U">Unpublished</option>
@@ -117,7 +124,7 @@
                 
                 </div> 
                 </ng-container>
-                <button class="btn btn-light rounded-0 border border-2 float-end" (click)="addCategory()">
+                <button class="btn btn-light rounded-0 border border-2 float-end" type="button" (click)="addCategory()">
                         <i class="bi bi-plus"></i>&nbsp; Add To Another Category
                     </button>
             </div>

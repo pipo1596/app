@@ -19,9 +19,9 @@ export class BlogComponent {
   page = new Page();
   showUpload:boolean = false;
   //Screen Fields
-  blogTitle  = new TextField("blogtitle",["required"]);
-  blogHtml  = new TextField("bloghtml",["required"]);
-  categorystatus = new TextField("categorystatus",["required"]);
+  blogTitle      = new TextField("blogtitle",["required"]);
+  blogHtml       = new TextField("bloghtml",["required"]);
+  blogstatus     = new TextField("blogstatus",["required"]);
   publishdate    = new TextField("publishdate",["required"]);
   publishtime    = new TextField("publishtime",["required"]);
   author         = new TextField("author",["required"]);
@@ -42,7 +42,7 @@ export class BlogComponent {
   ) {}
   ngOnInit(): void {
       this.page.imgprfx = environment.imgprfx;
-      this.blogHtml.value = "<h1>blogHtml</h1>";
+      this.blogHtml.value = "";
       this.setMode();
       
       
@@ -61,7 +61,7 @@ export class BlogComponent {
         hideWait();
         if(this.page.viewmode || this.page.editmode){
                 this.blogTitle.value        = this.page.data.blog.desc;
-                this.categorystatus.value   = this.page.data.blog.stat;
+                this.blogstatus.value       = this.page.data.blog.stat;
                 this.publishdate.value      = dbtodspdate(this.page.data.blog.pbdt);
                 this.publishtime.value      = dbtodsptime(this.page.data.category.pbtm);
                 this.site.value             = this.page.data.blog.site;
@@ -100,6 +100,31 @@ export class BlogComponent {
     }
 
     validate(){
+      this.page.topErrorID = "";
+    this.page.valid = true;
+    if(!this.blogTitle.validate()) this.setTopErrorID(this.blogTitle.htmlid);
+    if(!this.blogHtml.validate()) this.setTopErrorID(this.blogHtml.htmlid);
+    if(!this.blogstatus.validate()) this.setTopErrorID(this.blogstatus.htmlid);
+    if(!this.publishdate.validate()) this.setTopErrorID(this.publishdate.htmlid);
+    if(!this.publishtime.validate()) this.setTopErrorID(this.publishtime.htmlid);
+    if(!this.site.validate()) this.setTopErrorID(this.site.htmlid);
+    if(!this.metatitle.validate()) this.setTopErrorID(this.metatitle.htmlid);
+    if(!this.metadescription.validate()) this.setTopErrorID(this.metadescription.htmlid);
+    if(!this.urlandhandle.validate()) this.setTopErrorID(this.urlandhandle.htmlid);
+    if(!this.tags.validate()) this.setTopErrorID(this.tags.htmlid);
+
+    
+
+    focusField(this.page.topErrorID);
+
+    if(this.page.valid){
+      showWait();
+      if(this.showUpload) 
+        this.uploadImage(); 
+      else
+        this.saveAfterImageUpload(this.image.value);
+    }
+
 
     }
     changeImage(){
@@ -124,7 +149,7 @@ export class BlogComponent {
         //Save Payload:
         let data = {
           mode: this.page.entrymode?'NEWCATEG':'EDITCATEG',
-          bcstat: this.categorystatus.value,
+          bcstat: this.blogstatus.value,
           bcsite: this.site.value,
           bcdesc: this.blogTitle.value,
           bcmett: this.metatitle.value,
@@ -177,15 +202,17 @@ export class BlogComponent {
         
         for (const [indexi, categ] of this.categories[indexo].entries()) {
           if(this.categories[indexo][indexi].value == ""){
-            if(indexi<this.categories[indexo].length-1) {
-              this.categories[indexo][indexi+1].value = "";
-              this.categories[indexo][indexi+1].list = [];
+            if(indexi<this.categories[indexo].length-1) {//Clear all subsequent:
+              for (let next = indexi+1 ; next < this.categories[indexo].length; next++) {
+              this.categories[indexo][next].value = "";
+              this.categories[indexo][next].list = [];
+              }
             }
           }
         }
        }
        
-        this.http.post(environment.apiurl+'/cgi/APPSRBLOG',data).subscribe(response => {
+        this.http.post(environment.apiurl+'/cgi/APPSRBCATG',data).subscribe(response => {
     
           if(this.categories[indexo].length-1 < indexi){
             this.categories[indexo].push({value:"",list:[]});
@@ -210,7 +237,7 @@ export class BlogComponent {
       }
    
     goBack(){
-      this.router.navigate(['/blogs/viewcategory/'+this.page.rfno]);
+      this.router.navigate(['/blogs/editcategory/'+this.page.rfno]);
     }
     setMode(){
  

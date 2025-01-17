@@ -98,7 +98,20 @@ export class BlogComponent {
       console.log('Editor content changed:', event);
       console.log(this.blogHtml.value);
     }
-
+    preload(){
+      //For easier testing:
+      let now = new Date();
+      this.blogTitle.value = 'test title';
+      this.blogstatus.value = 'P';
+      this.blogHtml.value = '<h1>Test Header 1</h1>'
+      this.publishdate.value = now.toISOString().split('T')[0];
+      this.publishtime.value = now.toISOString().substring(11,16);
+      this.metatitle.value   = 'test meta title';
+      this.metadescription.value = 'test meta description';
+      this.urlandhandle.value   = 'test url and handle';
+      this.tags.value = 'test tags value'; 
+  
+    }
     validate(){
       this.page.topErrorID = "";
     this.page.valid = true;
@@ -148,19 +161,20 @@ export class BlogComponent {
     
         //Save Payload:
         let data = {
-          mode: this.page.entrymode?'NEWCATEG':'EDITCATEG',
-          bcstat: this.blogstatus.value,
-          bcsite: this.site.value,
-          bcdesc: this.blogTitle.value,
-          bcmett: this.metatitle.value,
-          bcmetd: this.metadescription.value,
-          bcmetk: this.tags.value,
-          bcurl : this.urlandhandle.value,
-          bcaddt: this.publishdate.value.replaceAll('-',''),
-          bcadtm: this.publishtime.value.replaceAll(':',''),
-          bcimg : file,
-          bcbcno: this.page.rfno
-    
+          mode: this.page.entrymode?'NEWBLOG':'EDITBLOG',
+          bpstat: this.blogstatus.value,
+          bpsite: this.site.value,
+          bptitl: this.blogTitle.value,
+          bpmett: this.metatitle.value,
+          bpmetd: this.metadescription.value,
+          bpmetk: this.tags.value,
+          bpurl : this.urlandhandle.value,
+          bppbdt: this.publishdate.value.replaceAll('-',''),
+          bppbtm: this.publishtime.value.replaceAll(':',''),
+          bpimg : file,
+          bpclob: this.blogHtml.value,
+          bpbpno: this.page.entrymode?'':this.page.rfno,
+          parents:this.getparents()
         }
     
         this.http.post(environment.apiurl+'/cgi/APPSRBLOG',data).subscribe(response => {
@@ -171,6 +185,25 @@ export class BlogComponent {
         });
       }
     
+      getparents(){
+
+        let parents: any[] = [];
+        this.categories.forEach((categ:any,io:number) => {
+          let bcnp = ""
+          categ.forEach((categi:any,ii: number) => {
+              
+                if(categi.value!=="")bcnp = categi.value
+                
+          });
+          parents.push(
+            {"bcnp":bcnp,
+              "primary":(parseInt(this.primarycategory.value)==io)
+            });
+        });
+        
+        return parents;
+
+      }
       uploadImage() {
         this.dataService.triggerChild('');
       }

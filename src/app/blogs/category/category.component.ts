@@ -84,18 +84,6 @@ export class CategoryComponent {
       }
     });
   }
- 
-  defaultCategories(){
-    
-    this.getCategories('',0);
-
-    for (let i = 0; i < this.page.data.path.length-1; i++) {
-      this.getCategories(this.page.data.path[i].bcno,i+1,true);
-    }
-    
-    
-    
-  }
 
   changeImage(){
      this.showUpload = true;

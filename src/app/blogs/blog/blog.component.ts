@@ -33,6 +33,8 @@ export class BlogComponent {
   primarycategory= new TextField("tags",[]);
   image          = new TextField("image",["required"]);
 
+  parents:any = [];
+
   categories:any = [[]];//Multidimensional Array to support structure
 
   constructor(private http: HttpClient,
@@ -158,7 +160,7 @@ export class BlogComponent {
           hideWait();
           return;
         }
-    
+        this.getparents();
         //Save Payload:
         let data = {
           mode: this.page.entrymode?'NEWBLOG':'EDITBLOG',
@@ -173,8 +175,8 @@ export class BlogComponent {
           bppbtm: this.publishtime.value.replaceAll(':',''),
           bpimg : file,
           bpclob: this.blogHtml.value,
-          bpbpno: this.page.entrymode?'':this.page.rfno,
-          parents:this.getparents()
+          bpbpno: this.page.rfno,
+          parents:this.parents      
         }
     
         this.http.post(environment.apiurl+'/cgi/APPSRBLOG',data).subscribe(response => {
@@ -187,7 +189,7 @@ export class BlogComponent {
     
       getparents(){
 
-        let parents: any[] = [];
+        this.parents = [];
         this.categories.forEach((categ:any,io:number) => {
           let bcnp = ""
           categ.forEach((categi:any,ii: number) => {
@@ -195,13 +197,12 @@ export class BlogComponent {
                 if(categi.value!=="")bcnp = categi.value
                 
           });
-          parents.push(
+          this.parents.push(
             {"bcnp":bcnp,
               "primary":(parseInt(this.primarycategory.value)==io)
             });
         });
         
-        return parents;
 
       }
       uploadImage() {
@@ -270,8 +271,11 @@ export class BlogComponent {
       }
    
     goBack(){
-      this.router.navigate(['/blogs/editcategory/'+this.page.rfno]);
-    }
+      if(this.page.rfno!==null)
+        this.router.navigate(['/blogs/editcategory/'+this.page.rfno]);
+      else
+        this.router.navigate(['/blogs/categories']);
+}
     setMode(){
  
         // It's the edit category route, retrieve the ID

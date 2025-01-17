@@ -33,15 +33,20 @@
        
             <div class="col">
                 <div class="d-grid gap-2">
-                    <button class="btn btn-light rounded-0 border border-2  mx-400"  type="button">Blog Posts</button>
+                    <button class="btn btn-light rounded-0 border border-2  mx-400"  [ngClass]="{'active':dspblogs}" type="button" (click)="dspblogs=true">Blog Posts</button>
                 </div>
             </div>
             <div class="col">
                 <div class="d-grid gap-2">
-                    <button class="btn btn-light rounded-0 border border-2 mx-400 active" type="button">Blog Categories</button>
+                    <button class="btn btn-light rounded-0 border border-2 mx-400" [ngClass]="{'active':!dspblogs}" type="button" (click)="dspblogs=false">Blog Categories</button>
                 </div>
             </div>
-            <app-categories [bcnp]="page.rfno??''" [child]="true"></app-categories>
+            <div [ngClass]="{'d-none':!dspblogs}">
+                <app-blogs [bcnp]="page.rfno??''" [child]="true"></app-blogs>
+            </div>
+            <div [ngClass]="{'d-none':dspblogs}">
+                <app-categories [bcnp]="page.rfno??''" [child]="true"></app-categories>
+            </div>
             
     </div>
     </div>
@@ -55,7 +60,6 @@
                     <h5 class="form-label fw-bold">Blog Category Title<span class="text-danger ms-1" *ngIf="categorytitle.error!==''">{{categorytitle.error}}</span></h5>
                     <input type="text" name="title" class="form-control" id="{{categorytitle.htmlid}}" [(ngModel)]="categorytitle.value">
                 </div>
-                <hr>
                 <div class="mb-4">
                     <h5 class="form-label fw-bold">Status<span class="text-danger ms-1" *ngIf="categorystatus.error!==''">{{categorystatus.error}}</span></h5>
                     <select class="form-select form-select mb-3" name="status" id="{{categorystatus.htmlid}}" [(ngModel)]="categorystatus.value" 
@@ -66,20 +70,8 @@
                       </select>
                       
                 </div>
-                <hr>
-                <div class="mb-4 row">
-                    <h5 class="form-label fw-bold">Publish Date
-                        <span class="text-danger ms-1" *ngIf="publishdate.error!==''">{{publishdate.error}}</span>
-                        <span class="text-danger ms-1" *ngIf="publishdate.error=='' && publishtime.error!==''">{{publishtime.error}}</span>
-                    </h5>
-                    <div class="col-6">
-                        <input type="date" required class="form-control" name="publishdate" id="{{publishdate.htmlid}}" [(ngModel)]="publishdate.value" >
-                    </div>
-                    <div class="col-6">
-                        <input type="time" class="form-control"  name="publishtime" id="{{publishtime.htmlid}}" [(ngModel)]="publishtime.value">
-                    </div>
-                </div>
-                <hr>
+                
+                
                 <div class="mb-4">
                     <h5 class="form-label fw-bold">Site
                         <span class="text-danger ms-1" *ngIf="site.error!==''">{{site.error}}</span>
@@ -89,6 +81,7 @@
                         <option value="K">Uspatriottactical.com</option>
                     </select>
                 </div>
+                <hr>
                 <div class="mb-4">
                     <h5 class="form-label fw-bold">Categorization</h5>
                     <div class="row">

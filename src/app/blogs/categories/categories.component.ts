@@ -124,6 +124,10 @@ export class CategoriesComponent {
     });
   }
 
+  newBlog(){
+    this.router.navigate(['/blogs/newblog/'+this.page.rfno]);
+  }
+
   getParent(index:number){
     this.page.data.categories[index].expand = !this.page.data.categories[index].expand;
     if(!this.page.data || !this.page.data.categories || this.page.data.categories.length<1)return;

@@ -21,8 +21,6 @@ export class CategoryComponent {
   //Screen Fields
   categorytitle  = new TextField("categorytitle",["required"]);
   categorystatus = new TextField("categorystatus",["required"]);
-  publishdate    = new TextField("publishdate",["required"]);
-  publishtime    = new TextField("publishtime",["required"]);
   site           = new TextField("site",[]);
   metatitle      = new TextField("metatitle",["required"]);
   metadescription= new TextField("metadescription",["required"]);
@@ -32,6 +30,7 @@ export class CategoryComponent {
 
   categories:any = [];
   showUpload:boolean = false;
+  dspblogs:boolean = true;
 
 
   constructor(private http: HttpClient,
@@ -61,8 +60,6 @@ export class CategoryComponent {
       if(this.page.viewmode || this.page.editmode){
         this.categorytitle.value    = this.page.data.category.desc;
         this.categorystatus.value   = this.page.data.category.stat;
-        this.publishdate.value      = dbtodspdate(this.page.data.category.addt);
-        this.publishtime.value      = dbtodsptime(this.page.data.category.adtm);
         this.site.value             = this.page.data.category.site;
         this.metatitle.value        = this.page.data.category.mett;
         this.metadescription.value  = this.page.data.category.metd;
@@ -76,8 +73,6 @@ export class CategoryComponent {
       if(this.page.entrymode ) {
         this.site.value = getSite();
         let now = new Date();
-        this.publishdate.value = now.toISOString().split('T')[0];
-        this.publishtime.value = '00:00';
         this.getCategories('',0,false);
       } else{
         this.getCategories('',0,true);
@@ -109,8 +104,6 @@ export class CategoryComponent {
       bcmetd: this.metadescription.value,
       bcmetk: this.tags.value,
       bcurl : this.urlandhandle.value,
-      bcaddt: this.publishdate.value.replaceAll('-',''),
-      bcadtm: this.publishtime.value.replaceAll(':',''),
       bcimg : file,
       bcbcno: this.page.rfno,
       bcbcnp: this.getbcnp()
@@ -142,8 +135,6 @@ export class CategoryComponent {
     this.page.valid = true;
     if(!this.categorytitle.validate()) this.setTopErrorID(this.categorytitle.htmlid);
     if(!this.categorystatus.validate()) this.setTopErrorID(this.categorytitle.htmlid);
-    if(!this.publishdate.validate()) this.setTopErrorID(this.publishdate.htmlid);
-    if(!this.publishtime.validate()) this.setTopErrorID(this.publishtime.htmlid);
     if(!this.site.validate()) this.setTopErrorID(this.site.htmlid);
     if(!this.metatitle.validate()) this.setTopErrorID(this.metatitle.htmlid);
     if(!this.metadescription.validate()) this.setTopErrorID(this.metadescription.htmlid);
@@ -170,8 +161,6 @@ export class CategoryComponent {
     let now = new Date();
     this.categorytitle.value = 'test title';
     this.categorystatus.value = 'P';
-    this.publishdate.value = now.toISOString().split('T')[0];
-    this.publishtime.value = now.toISOString().substring(11,16);
     this.metatitle.value   = 'test meta title';
     this.metadescription.value = 'test meta description';
     this.urlandhandle.value   = 'test url and handle';
@@ -277,7 +266,7 @@ export class CategoryComponent {
   }
 
   newBlog(){
-    this.router.navigate(['/blogs/newblog/'+this.page.rfno]);
+    this.router.navigate(['/blogs/newblog/']);
   }
 
 

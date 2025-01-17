@@ -5,7 +5,8 @@ import { BlogsRoutingModule } from './blogs-routing.module';
 import { CategoriesComponent } from './categories/categories.component';
 import { CategoryComponent } from './category/category.component';
 import { BlogComponent } from './blog/blog.component';
-import { QuillModule } from 'ngx-quill'
+import { QuillModule } from 'ngx-quill';
+import { BlogsComponent } from './blogs/blogs.component'
 
 
 
@@ -13,7 +14,8 @@ import { QuillModule } from 'ngx-quill'
   declarations: [
     CategoriesComponent,
     CategoryComponent,
-    BlogComponent
+    BlogComponent,
+    BlogsComponent
   ],
   imports: [
     CommonModule,

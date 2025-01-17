@@ -16,6 +16,7 @@ import { Page } from '../../shared/textField';
 export class CategoriesComponent {
 
   @Input() child : boolean | undefined;
+  @Input() bcnp : string | undefined;
   search="";
   pvsearch="";
   showList=false;
@@ -32,7 +33,8 @@ export class CategoriesComponent {
 
     let data = {
       mode: 'SEARCH',
-      site: this.getSite()
+      site: this.getSite(),
+      bcnp: this.child?this.bcnp:""
     }
     
     this.http.post(environment.apiurl+'/cgi/APPLMBCATG',data).subscribe(response => {
@@ -111,6 +113,7 @@ export class CategoriesComponent {
     let data = {
       mode: 'SEARCH',
       site: this.getSite(),
+      bcnp: this.child?this.bcnp:"",
       search: this.search    
     }
     this.pvsearch = this.search;

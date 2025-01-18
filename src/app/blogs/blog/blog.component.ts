@@ -223,7 +223,10 @@ export class BlogComponent {
 
       }
 
-      getCategories(bcno:string,indexo:number,indexi:number,initialize?:boolean){
+      getCategories(bcno:string,
+                    indexo:number,
+                    indexi:number,
+                    initialize?:boolean){
         initialize = initialize ?? false;
         showWait();
         let data = {

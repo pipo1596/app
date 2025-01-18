@@ -1,6 +1,7 @@
 <app-header [title]="page.title" [fullname]="page.fullname"></app-header>
 
 <section class="ftco-section bg-light pb-3" >
+    <form (submit)="validate()"> 
     <div class="row mb-2"><!--Title & Buttons-->
         <div class="col-12 col-md-6">
             <button class="btn btn-dark rounded-0 me-2 float-start" title="Back"  (click)="goBack()" type="button"><i class="bi bi-arrow-left bi-boldicon"></i></button>
@@ -12,32 +13,35 @@
         </div>
         <div class="col-12 col-md-6 text-end pe-0">
             <button class="btn btn-light rounded-0 border border-2 ms-1" type="button" *ngIf="!page.viewmode" (click)="cancelEntry()">Cancel</button>
-            <button class="btn btn-danger rounded-0 border border-2 ms-1" type="button" *ngIf="page.editmode" (click)="startDelete()">Delete Blog</button>
-            <button class="btn btn-dark rounded-0 border border-2 ms-1" type="button" (click)="validate()" *ngIf="page.editmode">Update Blog</button>
-            <button class="btn btn-dark rounded-0 border border-2 ms-1" type="button" (click)="validate()" *ngIf="page.entrymode">Create New Blog</button>
+            <button class="btn btn-danger rounded-0 border border-2 ms-1" type="button" *ngIf="page.editmode" (click)="startDelete()">Delete Blog Post</button>
+            <button class="btn btn-dark rounded-0 border border-2 ms-1" type="button" (click)="validate()" *ngIf="page.editmode">Update Blog Post</button>
+            <button class="btn btn-dark rounded-0 border border-2 ms-1" type="button" (click)="validate()" *ngIf="page.entrymode">Create New Blog Post</button>
         </div>
     </div>
     <div class="row">
-        
-    <div class="col-12 col-md-8" >
+          
+    <div class="col-12 col-md-8 position-relative" [ngClass]="{'col-md-12':fullmode,'col-md-8':!fullmode}">
         <!--LeftSide Side-->
         <div class="row bg-white pt-2 me-1 pb-2">
             
                 <div class="col-12">
+                    <button class="btn btn-sm btn-primary position-absolute top-0 end-0 me-3" (click)="fullmode=!fullmode" type="button"><i class="bi bi-arrows-fullscreen"></i></button>
                     <div class="mb-1">
                         <h5 class="form-label fw-bold">Blog Post Title<span class="text-danger ms-1" *ngIf="blogTitle.error!==''">{{blogTitle.error}}</span></h5>
+                            
+                        
                         <input type="text" name="title" class="form-control" id="{{blogTitle.htmlid}}" [(ngModel)]="blogTitle.value">
                     </div>
                     <h5 class="form-label fw-bold">&nbsp;<span class="text-danger ms-1" *ngIf="blogHtml.error!==''">{{blogHtml.error}}</span></h5>
-                    <quill-editor [(ngModel)]="blogHtml.value"  (onEditorChanged)="onEditorChanged($event)"></quill-editor>
+                    <quill-editor [(ngModel)]="blogHtml.value" class="w-100" name="blogHtml" (onEditorChanged)="onEditorChanged($event)"></quill-editor>
                 </div>
         </div>
     </div>
 
-    <div class="col-12 col-md-4">
+    <div class="col-12 col-md-4" [ngClass]="{'d-none':fullmode}">
         
         <div class="row bg-white pt-2">
-            <form (submit)="validate()">
+            
             <div class="mb-3">
                 <h5 class="form-label fw-bold">Status<span class="text-danger ms-1" *ngIf="blogstatus.error!==''">{{blogstatus.error}}</span></h5>
                 <select class="form-select form-select mb-3" name="status" id="{{blogstatus.htmlid}}" [(ngModel)]="blogstatus.value" 
@@ -169,14 +173,15 @@
                 <div class="col-12 mb-3 text-end">
                     <button class="btn btn-light rounded-0 border border-2" type="button" *ngIf="page.entrymode" (click)="preload()">Preload</button>
                     <button class="btn btn-light rounded-0 border border-2 ms-1" type="button" *ngIf="!page.viewmode" (click)="cancelEntry()">Cancel</button>
-                    <button class="btn btn-danger rounded-0 border border-2 ms-1" type="button" *ngIf="page.editmode" (click)="startDelete()">Delete Blog</button>
-                    <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit" *ngIf="page.editmode">Update Blog</button>
-                    <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit" *ngIf="page.entrymode">Create New Blog</button>
+                    <button class="btn btn-danger rounded-0 border border-2 ms-1" type="button" *ngIf="page.editmode" (click)="startDelete()">Delete Blog Post</button>
+                    <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit" *ngIf="page.editmode">Update Blog Post</button>
+                    <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit" *ngIf="page.entrymode">Create New Blog Post</button>
                 </div>
-        </form>
+        
         </div>
     </div>
     </div>
+</form>
 </section>
-<app-confirm (notify)="goBack()" [title]="'Cancel'" [id]="'cancelEntry'" [body]="'Cancel Category Entry? Changes will not be saved.'"></app-confirm>
+<app-confirm (notify)="goBack()" [title]="'Cancel'" [id]="'cancelEntry'" [body]="'Cancel Blog Post Entry? Changes will not be saved.'"></app-confirm>
 <app-footer></app-footer>

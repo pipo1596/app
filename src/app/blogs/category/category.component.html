@@ -93,7 +93,7 @@
                     </div>
                     <!-- Category Drop Down (s) -->
                     <ng-container *ngFor="let categarr of categories;index as c">
-                    <ng-container *ngIf="categarr.list.length>0">
+                    <ng-container *ngIf="categarr.list?.length>0">
                     <div class="col-2 p-0"><h5 class="text-end mt-1">{{c+2}} - </h5></div>
                     <div class="col-10 ps-1 ">
                     <select class="form-select form-select mb-3" name="categ{{c}}" id="categ{{c}}" [(ngModel)]="categarr.value" (change)="getCategories(categarr.value,c+1)">

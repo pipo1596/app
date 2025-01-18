@@ -34,6 +34,7 @@ export class BlogComponent {
   image          = new TextField("image",["required"]);
 
   parents:any = [];
+  fullmode:boolean = false;
 
   categories:any = [[]];//Multidimensional Array to support structure
 
@@ -50,8 +51,8 @@ export class BlogComponent {
       
       let data = {
           
-          mode: 'INIT',
-          bcno: this.page.rfno
+          mode: this.page.viewmode || this.page.editmode?'GETBLOG':'INIT',
+          bpno: this.page.rfno
         }
       this.http.post(environment.apiurl+'/cgi/APPSRBLOG',data).subscribe(response => {
   
@@ -62,10 +63,11 @@ export class BlogComponent {
         
         hideWait();
         if(this.page.viewmode || this.page.editmode){
-                this.blogTitle.value        = this.page.data.blog.desc;
+                this.blogTitle.value        = this.page.data.blog.titl;
+                this.blogHtml.value         = this.page.data.blog.html;
                 this.blogstatus.value       = this.page.data.blog.stat;
                 this.publishdate.value      = dbtodspdate(this.page.data.blog.pbdt);
-                this.publishtime.value      = dbtodsptime(this.page.data.category.pbtm);
+                this.publishtime.value      = dbtodsptime(this.page.data.blog.pbtm);
                 this.site.value             = this.page.data.blog.site;
                 this.metatitle.value        = this.page.data.blog.mett;
                 this.metadescription.value  = this.page.data.blog.metd;
@@ -138,6 +140,8 @@ export class BlogComponent {
         this.uploadImage(); 
       else
         this.saveAfterImageUpload(this.image.value);
+    }else{
+      this.fullmode = false;
     }
 
 
@@ -274,9 +278,6 @@ export class BlogComponent {
       }
    
     goBack(){
-      if(this.page.rfno!==null)
-        this.router.navigate(['/blogs/editcategory/'+this.page.rfno]);
-      else
         this.router.navigate(['/blogs/categories']);
 }
     setMode(){

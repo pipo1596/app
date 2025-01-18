@@ -6,19 +6,24 @@
 <section class="position-relative">
     <div>
     <div class="row mb-2" *ngIf="!child">
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-5">
             <h4 class="ms-1" >{{page.title}}</h4>
         </div>
-        <div class="col-12 col-md-3 p-0 px-1">
+        <div class="col-12 col-md-2 p-0 px-1">
                 <div class="d-grid gap-2">
-                    <button class="btn btn btn-default border-2 border rounded-0 rounded-0"  (click)="newBlog()" type="button">Create New Blog Post </button>
+                    <button class="btn btn btn-default border-2 border rounded-0 rounded-0"  (click)="newBlog()" type="button"> New Blog Post </button>
+                </div>
+        </div>
+        <div class="col-12 col-md-2 p-0 px-1">
+                <div class="d-grid gap-2">
+                    <button class="btn btn-dark rounded-0"  (click)="StartEntry()" type="button"> New Blog Category</button>
                 </div>
         </div>
         <div class="col-12 col-md-3 p-0 px-1">
-                <div class="d-grid gap-2">
-                    <button class="btn btn-dark rounded-0"  (click)="StartEntry()" type="button">Create New Blog Category</button>
-                </div>
-        </div>
+            <div class="d-grid gap-2">
+                <button class="btn btn-dark rounded-0"  (click)="SearchCategs()" type="button">Search Blog Categories &nbsp;<i class="bi bi-search fw-bold"></i></button>
+            </div>
+    </div>
     </div>
     <div class="row bg-white">
             <div class="input-group p-0 mb-2 rounded-0" *ngIf="!child || page.data.blogs.length>5">
@@ -40,25 +45,25 @@
             </div>
             <h5 class="text-center" *ngIf="child && page.data.blogs.length<1">---  No Blog Posts Found ---</h5>
            
-        <div class="card my-1 border border-3 rounded-0"  *ngFor="let category of page.data.blogs;index as b">
+        <div class="card my-1 border border-3 rounded-0"  *ngFor="let blog of page.data.blogs;index as b">
             <div class="row g-0">
             <div class="col-md-2 contbckg">
-                <img class="mw-100 mh-100 m-auto d-block" src="{{imgprfx}}/{{encodedurl(category.img)}}">
+                <img class="mw-100 mh-100 m-auto d-block" src="{{imgprfx}}/{{encodedurl(blog.img)}}">
             </div>
             
             <div class="col-md-10 position-relative">
                 <div class="card-body">
-                <h5 class="card-title mb-1">{{category.titl}}</h5>
+                <h5 class="card-title mb-1">{{blog.titl}}</h5>
                
                 <p class="card-text"><small class="text-muted">
-                    <span *ngIf="category.lsdt!=='0'">last updated </span>
-                    <span *ngIf="category.lsdt=='0'">Created </span>
-                    {{lastUpdate(category)}}</small></p>
+                    <span *ngIf="blog.lsdt!=='0'">last updated </span>
+                    <span *ngIf="blog.lsdt=='0'">Created </span>
+                    {{lastUpdate(blog)}}</small></p>
                 </div>
                 <div class="btn-group-top-right" >
-                    <button class="btn btn-light" (click)="startDelete(category.bcno)" ><span class="bi bi-trash text-danger"></span></button>
-                    <button class="btn btn-light ms-1 d-none" (click)="ViewCategory(category.bcno)" ><span class="bi bi-eye"></span></button>
-                    <button class="btn btn-light ms-1" (click)="EditCategory(category.bcno)"><span class="bi bi-pencil-square"></span></button>
+                    <button class="btn btn-light" (click)="startDelete(blog.pbno)" ><span class="bi bi-trash text-danger"></span></button>
+                    <button class="btn btn-light ms-1 d-none" (click)="ViewBLog(blog.pbno)" ><span class="bi bi-eye"></span></button>
+                    <button class="btn btn-light ms-1" (click)="EditBlog(blog.pbno)"><span class="bi bi-pencil-square"></span></button>
                   </div>
             </div>
             </div>
@@ -75,8 +80,8 @@
 <div class="alert alert-danger mt-3" role="alert"  [class.invisible]="page.loading" *ngIf="page.fullname==''">
     Make sure to login to access this feature!
 </div>
-<app-toast  [title]="'Category Deleted'" [position]="'bottom'" [body]="'Category Successfully Deleted'"></app-toast>
+<app-toast  [title]="'Blog Deleted'" [position]="'bottom'" [body]="'Blog Successfully Deleted'"></app-toast>
 </section>
-<app-confirm (notify)="onDelete()" [title]="'Delete Category'" [id]="'deleteCategory'" [body]="'Delete Category?'"></app-confirm>
+<app-confirm (notify)="onDelete()" [title]="'Delete BLog'" [id]="'deleteBlog'" [body]="'Delete Blog?'"></app-confirm>
 
 <app-footer *ngIf="!child"></app-footer>

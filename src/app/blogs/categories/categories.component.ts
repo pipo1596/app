@@ -127,6 +127,10 @@ export class CategoriesComponent {
   newBlog(){
     this.router.navigate(['/blogs/newblog/'+this.page.rfno]);
   }
+  SearchBlogs(){
+    this.router.navigate(['/blogs/blogslist']);
+  }
+
 
   getParent(index:number){
     this.page.data.categories[index].expand = !this.page.data.categories[index].expand;

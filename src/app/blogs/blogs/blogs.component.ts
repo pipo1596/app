@@ -67,41 +67,38 @@ export class BlogsComponent {
     }
   
     StartEntry(){
-      this.router.navigate(['/blogs/newcategory']);
+      this.router.navigate(['/blogs/newblog']);
     }
-    ViewCategory(category:string){
-      this.router.navigate(['/blogs/viewcategory/'+category]);
+    ViewBLog(blogid:string){
+      this.router.navigate(['/blogs/viewcblog/'+blogid]);
     }
-    EditCategory(category:string){
-      this.router.navigate(['/blogs/editcategory/'+category]);
+    EditBlog(blogid:string){
+      this.router.navigate(['/blogs/editblog/'+blogid]);
     }
-    startDelete(category:string){
-      this.page.rfno = category;
-      openModal('deleteCategory');
+    startDelete(blogid:string){
+      this.page.rfno = blogid;
+      openModal('deleteBlog');
   
     }
   
-    lastUpdate(category:any){
+    lastUpdate(blog:any){
       let lastdate = "0";
       let lasttime = "0";
-      if(category.addt !== "0"){
-        lastdate = category.addt;
-        lasttime = category.adtm;
+      if(blog.addt !== "0"){
+        lastdate = blog.addt;
+        lasttime = blog.adtm;
   
       }
-      if(category.lsdt !== "0"){
-        lastdate = category.lsdt;
-        lasttime = category.lstm;
+      if(blog.lsdt !== "0"){
+        lastdate = blog.lsdt;
+        lasttime = blog.lstm;
       }
       if(lastdate !=="0")
         return timeAgo(convertToTimestamp(lastdate,lasttime));
       else
         return "";
     }
-    CancelEntry(){
-      showWait();
-      hideWait();
-    }
+ 
     Search(force?:boolean){  
       force = force ?? false;
       if(!force && this.search == this.pvsearch) return;
@@ -124,6 +121,9 @@ export class BlogsComponent {
   
     newBlog(){
       this.router.navigate(['/blogs/newblog/'+this.page.rfno]);
+    }
+    SearchCategs(){
+      this.router.navigate(['/blogs/categories']);
     }
   
     getParent(index:number){

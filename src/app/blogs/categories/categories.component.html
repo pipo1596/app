@@ -9,14 +9,19 @@
         <div class="col-12 col-md-6">
             <h4 class="ms-1" >{{page.title}}</h4>
         </div>
-        <div class="col-12 col-md-3 p-0 px-1">
+        <div class="col-12 col-md-2 p-0 px-1">
                 <div class="d-grid gap-2">
-                    <button class="btn btn btn-default border-2 border rounded-0 rounded-0"  (click)="newBlog()" type="button">Create New Blog Post </button>
+                    <button class="btn btn btn-default border-2 border rounded-0 rounded-0"  (click)="newBlog()" type="button">New Blog Post </button>
                 </div>
         </div>
-        <div class="col-12 col-md-3 p-0 px-1">
+        <div class="col-12 col-md-2 p-0 px-1">
                 <div class="d-grid gap-2">
-                    <button class="btn btn-dark rounded-0"  (click)="StartEntry()" type="button">Create New Blog Category</button>
+                    <button class="btn btn-dark rounded-0"  (click)="StartEntry()" type="button">New Blog Category</button>
+                </div>
+        </div>
+        <div class="col-12 col-md-2 p-0 px-1">
+                <div class="d-grid gap-2">
+                    <button class="btn btn-dark rounded-0"  (click)="SearchBlogs()" type="button">Search Blog Posts &nbsp;<i class="bi bi-search fw-bold"></i></button>
                 </div>
         </div>
     </div>
@@ -51,7 +56,8 @@
                 <h5 class="card-title mb-1">{{category.desc}} 
                     
                 </h5>
-                <p class="card-text mb-1">0 blog posts</p>
+                <p class="card-text mb-1">No blog posts</p>
+                <p class="card-text mb-1 text-primary" *ngIf="category.count>0">{{category.count}} blog posts</p>
                 <small>Tactical Gear
                     <button *ngIf="category.bcnp!==''" 
                     class="btn btn-dark p-0 lh-1" (click)="getParent(c)">

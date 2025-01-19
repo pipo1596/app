@@ -25,7 +25,9 @@
         <div class="row bg-white pt-2 me-1 pb-2">
             
                 <div class="col-12">
-                    <button class="btn btn-sm btn-primary position-absolute top-0 end-0 me-3" (click)="fullmode=!fullmode" type="button"><i class="bi bi-arrows-fullscreen"></i></button>
+                    <button class="btn btn-sm btn-primary position-absolute top-0 end-0 me-3" (click)="fullmode=!fullmode" type="button">
+                        <i  [ngClass]="{'bi-fullscreen-exit':fullmode,'bi-arrows-fullscreen':!fullmode}" class="bi"></i>
+                    </button>
                     <div class="mb-1">
                         <h5 class="form-label fw-bold">Blog Post Title<span class="text-danger ms-1" *ngIf="blogTitle.error!==''">{{blogTitle.error}}</span></h5>
                             
@@ -116,7 +118,7 @@
                 <select class="form-select form-select mb-3" name="categ{{outer}}{{c}}" id="categ{{outer}}{{c}}" [(ngModel)]="categarr.value" (change)="getCategories(categarr.value,outer,c+1)">
                     <option value="">select</option>
                     <ng-container *ngFor="let category of categarr.list">
-                        <option value="{{category.bcno}}" *ngIf="page.entrymode || page.rfno!==category.bcno">{{category.desc}}</option>
+                        <option value="{{category.bcno}}" *ngIf="page.entrymode || page.rfno!==category.bcno">{{category.desc}}/{{category.bcno}}</option>
                     </ng-container>
                   </select>
                 </div>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { dbtodspdate, dbtodsptime, focusField, getSite, hideWait, openModal, showWait } from '../../shared/utils';
+import { focusField, getSite, hideWait, openModal, showWait } from '../../shared/utils';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Page, TextField } from '../../shared/textField';
 import { DataService } from '../../services/data-trigger.service';

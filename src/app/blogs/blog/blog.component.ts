@@ -115,6 +115,7 @@ export class BlogComponent {
 
   }
   validate(){
+    this.getparents(),console.log(this.parents);
     this.page.topErrorID = "";
     this.page.valid = true;
     if(!this.blogTitle.validate()) this.setTopErrorID(this.blogTitle.htmlid);
@@ -222,8 +223,10 @@ export class BlogComponent {
   }
 
   defaultCategories(){
-    this.categories = [];
+    this.categories = [[]];
+
     this.page.data.parents.forEach((parent: { bcno: string,prim:string; },indexo:  number) => {
+      if(indexo==0)this.categories.pop();
       this.categories.push([]);
 
       if(parent.prim=="Y")this.primarycategory.value = indexo.toString();
@@ -246,7 +249,7 @@ export class BlogComponent {
       bcno:bcno
     }
     if(!initialize){
-
+      //Clear Subsequent when changing dropdown
     
     for (const [indexii, categ] of this.categories[indexo].entries()) {
       
@@ -269,9 +272,10 @@ export class BlogComponent {
               this.initDrop(indexo);
               if(this.categories[indexo][indexi].value !== ''){
                 this.getCategories(this.categories[indexo][indexi].value,indexo,indexi+1,true);
+              }else{
                 if(indexi==this.categories[indexo].length-1 
                     &&
-                  indexo < this.categories[indexo].length-1)  
+                  indexo < this.categories.length-1)  
 
                 {//Do the next level
                   this.getCategories('',indexo+1,0,true);

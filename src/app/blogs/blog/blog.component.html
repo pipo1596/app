@@ -100,7 +100,7 @@
                       </div>
                 </div>
                 <div class="col-2 text-end">
-                    <button class="btn btn-light btn-sm" *ngIf="outer>0" (click)="removeCategory(outer)">
+                    <button class="btn btn-light btn-sm" type="button" *ngIf="outer>0" (click)="removeCategory(outer)">
                         <span class="bi bi-trash text-danger"></span>
                     </button>
                 </div>
@@ -112,7 +112,7 @@
                 </div>
                 <!-- Category Drop Down (s) -->
                 <ng-container *ngFor="let categarr of category;index as c">
-                <ng-container *ngIf="categarr.list.length>0">
+                <ng-container *ngIf="categarr?.list?.length>0">
                 <div class="col-2 p-0"><h5 class="text-end mt-1">{{c+2}} - </h5></div>
                 <div class="col-10 ps-1 ">
                 <select class="form-select form-select mb-3" name="categ{{outer}}{{c}}" id="categ{{outer}}{{c}}" [(ngModel)]="categarr.value" (change)="getCategories(categarr.value,outer,c+1)">
@@ -128,7 +128,7 @@
                 
                 </div> 
                 </ng-container>
-                <button class="btn btn-light rounded-0 border border-2 float-end" type="button" (click)="addCategory()">
+                <button class="btn btn-light rounded-0 border border-2 float-end" *ngIf="categories.length<10" type="button" (click)="addCategory()">
                         <i class="bi bi-plus"></i>&nbsp; Add To Another Category
                     </button>
             </div>

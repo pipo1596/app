@@ -248,15 +248,13 @@ export class BlogComponent {
     if(!initialize){
 
     
-    for (const [indexi, categ] of this.categories[indexo].entries()) {
-      if(this.categories[indexo][indexi].value == ""){
-        if(indexi<this.categories[indexo].length-1) {//Clear all subsequent:
-          for (let next = indexi+1 ; next < this.categories[indexo].length; next++) {
-          this.categories[indexo][next].value = "";
-          this.categories[indexo][next].list = [];
+    for (const [indexii, categ] of this.categories[indexo].entries()) {
+      
+        if(indexii<this.categories[indexo].length-1) {//Clear all subsequent:
+          for (let next = indexi ; next < this.categories[indexo].length; next++) {
+          this.categories[indexo][next] = [];
           }
         }
-      }
     }
     }
     
@@ -270,14 +268,13 @@ export class BlogComponent {
             if(initialize){
               this.initDrop(indexo);
               if(this.categories[indexo][indexi].value !== ''){
+                this.getCategories(this.categories[indexo][indexi].value,indexo,indexi+1,true);
                 if(indexi==this.categories[indexo].length-1 
                     &&
                   indexo < this.categories[indexo].length-1)  
 
                 {//Do the next level
                   this.getCategories('',indexo+1,0,true);
-                }else{
-                  this.getCategories(this.categories[indexo][indexi].value,indexo,indexi+1,true);
                 }
               } 
                 

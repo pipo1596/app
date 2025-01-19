@@ -72,7 +72,6 @@ export class CategoryComponent {
 
       if(this.page.entrymode ) {
         this.site.value = getSite();
-        let now = new Date();
         this.getCategories('',0,false);
       } else{
         this.getCategories('',0,true);
@@ -194,14 +193,11 @@ export class CategoryComponent {
     if(!initialize){
 
     
-    for (const [index, categ] of this.categories.entries()) {
-      if(this.categories[index].value == ""){
-        if(index<this.categories.length-1) {
-          this.categories[index+1].value = "";
-          this.categories[index+1].list = [];
+      for (let next = index ; next < this.categories.length; next++) {
+          this.categories[next].value = "";
+          this.categories[next].list = [];
         }
-      }
-    }
+      
    }
    
     this.http.post(environment.apiurl+'/cgi/APPSRBCATG',data).subscribe(response => {

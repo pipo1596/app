@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Page, TextField } from '../../shared/textField';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { environment } from '../../../environments/environment.development';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,6 +17,7 @@ import { dbtodspdate, dbtodsptime, focusField, getSite, hideWait, openModal, sho
 export class BlogComponent {
   //This contains all the share page data:
   page = new Page();
+  updatebpno:any;
   showUpload:boolean = false;
   //Screen Fields
   blogTitle      = new TextField("blogtitle",["required"]);
@@ -35,6 +36,8 @@ export class BlogComponent {
 
   parents:any = [];
   fullmode:boolean = false;
+  formData = new FormData();
+
 
   categories:any = [[]];//Multidimensional Array to support structure
 
@@ -69,6 +72,7 @@ export class BlogComponent {
                 this.publishtime.value      = dbtodsptime(this.page.data.blog.pbtm);
                 this.site.value             = this.page.data.blog.site;
                 this.metatitle.value        = this.page.data.blog.mett;
+                this.author.value           = this.page.data.blog.bano;
                 this.metadescription.value  = this.page.data.blog.metd;
                 this.urlandhandle.value     = this.page.data.blog.url;
                 this.tags.value             = this.page.data.blog.metk;
@@ -94,8 +98,20 @@ export class BlogComponent {
     openModal('cancelEntry');
   }
   startDelete(){
-
+    openModal('deleteBlog');
   }
+  
+  onDelete() {
+       
+    let data = {
+     mode: 'DELETE',
+     bpno: this.page.rfno    
+   }
+   
+   this.http.post(environment.apiurl+'/cgi/APPLMBLOG',data).subscribe(response => {
+     this.goBack();
+   });
+   }
   onEditorChanged(event: any) {
     console.log('Editor content changed:', event);
     console.log(this.blogHtml.value);
@@ -169,20 +185,39 @@ export class BlogComponent {
       bptitl: this.blogTitle.value,
       bpmett: this.metatitle.value,
       bpmetd: this.metadescription.value,
+      bpbano: this.author.value,
       bpmetk: this.tags.value,
       bpurl : this.urlandhandle.value,
       bppbdt: this.publishdate.value.replaceAll('-',''),
       bppbtm: this.publishtime.value.replaceAll(':',''),
       bpimg : file,
-      bpclob: this.blogHtml.value,
+      //bpclob: this.blogHtml.value,
       bpbpno: this.page.rfno,
       parents:this.parents      
     }
 
     this.http.post(environment.apiurl+'/cgi/APPSRBLOG',data).subscribe(response => {
 
-      this.page.data = response;
-      this.goBack();
+      this.updatebpno = response;
+      
+      this.updateHtml(this.updatebpno.bpno)
+      //this.goBack();
+      
+    });
+  }
+
+  updateHtml(pbno:any){
+    //The Html could be  really large we will handle it in it's own call here:
+    //The Json is limited to 10k characters vlaues see FPUTJS
+    this.formData.append('SIMODE', 'HTMLUPDT');
+    this.formData.append('SIPBNO', pbno );
+    this.formData.append('SIHTML', this.blogHtml.value );
+    
+    this.http.post(environment.apiurl+'/cgi/APPSRBLOG',
+      this.formData).subscribe(response => {
+
+      alert('Update Complete'+pbno)
+      hideWait();
       
     });
   }
@@ -313,7 +348,7 @@ export class BlogComponent {
   }
   
   goBack(){
-    this.router.navigate(['/blogs/categories']);
+    this.router.navigate(['/blogs/blogslist']);
   }
   setMode(){
 

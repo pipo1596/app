@@ -80,8 +80,8 @@
 <div class="alert alert-danger mt-3" role="alert"  [class.invisible]="page.loading" *ngIf="page.fullname==''">
     Make sure to login to access this feature!
 </div>
-<app-toast  [title]="'Blog Deleted'" [position]="'bottom'" [body]="'Blog Successfully Deleted'"></app-toast>
+<app-toast  [title]="'Blog Post Deleted'" [position]="'bottom'" [body]="'Blog Post Successfully Deleted'"></app-toast>
 </section>
-<app-confirm (notify)="onDelete()" [title]="'Delete BLog'" [id]="'deleteBlog'" [body]="'Delete Blog?'"></app-confirm>
+<app-confirm (notify)="onDelete()" [title]="'Delete BLog Post'" [id]="'deleteBlog'" [body]="'Delete Blog Post?'"></app-confirm>
 
 <app-footer *ngIf="!child"></app-footer>

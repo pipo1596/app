@@ -126,25 +126,12 @@ export class BlogsComponent {
       this.router.navigate(['/blogs/categories']);
     }
   
-    getParent(index:number){
-      this.page.data.blogs[index].expand = !this.page.data.blogs[index].expand;
-      if(!this.page.data || !this.page.data.blogs || this.page.data.blogs.length<1)return;
-      if(this.page.data.blogs[index].parents?.length>0) return;
-  
-      let data = {
-        mode: 'PATH',
-        bcno: this.page.data.blogs[index].bcno    
-      }
-      this.http.post(environment.apiurl+'/cgi/APPLMBLOG',data).subscribe(response => {
-        
-        this.page.data.blogs[index].parents = sortByKey(response,'bcno','A');
-      });
-    }
+    
     onDelete() {
        
        let data = {
         mode: 'DELETE',
-        bcno: this.page.rfno    
+        bpno: this.page.rfno    
       }
       
       this.http.post(environment.apiurl+'/cgi/APPLMBLOG',data).subscribe(response => {

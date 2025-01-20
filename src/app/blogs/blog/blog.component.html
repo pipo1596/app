@@ -82,6 +82,8 @@
                 </h5>
                 <select class="form-select form-select mb-3" name="author"  id="{{author.htmlid}}" [(ngModel)]="author.value">
                     <option value="">Select</option>
+                    <option value="1">Author 1</option>
+                    <option value="2">Author 2</option>
                 </select>
             </div>
             <div class="mb-4">
@@ -118,7 +120,7 @@
                 <select class="form-select form-select mb-3" name="categ{{outer}}{{c}}" id="categ{{outer}}{{c}}" [(ngModel)]="categarr.value" (change)="getCategories(categarr.value,outer,c+1)">
                     <option value="">select</option>
                     <ng-container *ngFor="let category of categarr.list">
-                        <option value="{{category.bcno}}" *ngIf="page.entrymode || page.rfno!==category.bcno">{{category.desc}}/{{category.bcno}}</option>
+                        <option value="{{category.bcno}}" *ngIf="page.entrymode || page.rfno!==category.bcno">{{category.desc}}</option>
                     </ng-container>
                   </select>
                 </div>
@@ -185,5 +187,6 @@
     </div>
 </form>
 </section>
+<app-confirm (notify)="onDelete()" [title]="'Delete Blog Post'" [id]="'deleteBlog'" [body]="'Delete Blog Post?'"></app-confirm>
 <app-confirm (notify)="goBack()" [title]="'Cancel'" [id]="'cancelEntry'" [body]="'Cancel Blog Post Entry? Changes will not be saved.'"></app-confirm>
 <app-footer></app-footer>

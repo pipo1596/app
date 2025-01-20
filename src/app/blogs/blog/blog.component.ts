@@ -37,6 +37,8 @@ export class BlogComponent {
   parents:any = [];
   fullmode:boolean = false;
   formData = new FormData();
+  chunks:any = [];
+  chunkSize:number = 10000;
 
 
   categories:any = [[]];//Multidimensional Array to support structure
@@ -66,7 +68,7 @@ export class BlogComponent {
         hideWait();
         if(this.page.viewmode || this.page.editmode){
                 this.blogTitle.value        = this.page.data.blog.titl;
-                this.blogHtml.value         = JSON.stringify(this.page.data);
+                this.blogHtml.value         = this.page.data.blog.html;
                 this.blogstatus.value       = this.page.data.blog.stat;
                 this.publishdate.value      = dbtodspdate(this.page.data.blog.pbdt);
                 this.publishtime.value      = dbtodsptime(this.page.data.blog.pbtm);
@@ -178,6 +180,7 @@ export class BlogComponent {
     }
     this.getparents();
     //Save Payload:
+    this.htmlChunks();
     let data = {
       mode: this.page.entrymode?'NEWBLOG':'EDITBLOG',
       bpstat: this.blogstatus.value,
@@ -191,17 +194,17 @@ export class BlogComponent {
       bppbdt: this.publishdate.value.replaceAll('-',''),
       bppbtm: this.publishtime.value.replaceAll(':',''),
       bpimg : file,
-      //bpclob: this.blogHtml.value,
+      html: this.chunks,
       bpbpno: this.page.rfno,
       parents:this.parents      
     }
 
     this.http.post(environment.apiurl+'/cgi/APPSRBLOG',data).subscribe(response => {
 
-      this.updatebpno = response;
+      //this.updatebpno = response;
       
-      this.updateHtml(this.updatebpno.bpno)
-      //this.goBack();
+      
+      this.goBack();
       
     });
   }
@@ -220,6 +223,16 @@ export class BlogComponent {
       hideWait();
       
     });
+  }
+  htmlChunks(){
+    const length = this.blogHtml.value.length;
+    this.chunks = [];
+
+    for (let i = 0; i < length; i += this.chunkSize) {
+      this.chunks.push(
+        {"chunk":this.blogHtml.value.slice(i, i + this.chunkSize)}
+      );
+    }
   }
   getparents(){
 

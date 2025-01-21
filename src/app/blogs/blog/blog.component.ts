@@ -115,8 +115,17 @@ export class BlogComponent {
    });
    }
   onEditorChanged(event: any) {
-    console.log('Editor content changed:', event);
-    console.log(this.blogHtml.value);
+    //console.log('Editor content changed:', event);
+    //console.log(this.blogHtml.value);
+    // Get all image elements within the WYSIWYG editor
+    const images = document.querySelectorAll('.ql-editor img');
+
+// Loop through each image and extract its source
+    images.forEach(img => {
+      console.log(img); // This will print the image source (URL or base64 string)
+    });
+
+
   }
   preload(){
     //For easier testing:

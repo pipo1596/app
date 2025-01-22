@@ -1,6 +1,9 @@
 
-export function showWait(): void {
+export function showWait(message?:string): void {
+  if(!message)message = 'Loading...';
     document.getElementById("loader")?.classList.remove("d-none");    
+    let mesghtml = document.getElementById("loaderMessage"); 
+      if(mesghtml)  mesghtml.innerHTML = message;
 }
 export function hideWait(timeout?:number): void {
   

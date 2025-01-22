@@ -40,7 +40,6 @@
     width: 100%;
     height: 100%;
     z-index: 999;}
-.loader:before { content: ' ';display: inline-block;vertical-align: middle;height: 100%;}
 .loader .spinner-border {display: inline-block;vertical-align: middle;z-index: 99999;}
 
 .table tbody td .img {
@@ -113,3 +112,25 @@ ul.categories li {
     float: left;
     padding-right: 20px;
 }
+
+.ql-html-buttonCancel{ 
+    background-color: black;
+    color: white;
+    font-size: 13px;
+    border: none;
+    padding: 1px 18px;
+    }
+.ql-html-buttonOk{
+    background-color: #0d6efd;
+    color: white;
+    font-size: 13px;
+    border: none;
+    padding: 1px 18px;
+
+}
+.ql-html-textArea {overflow: hidden;}
+.ql-html-buttonGroup {
+    bottom: -20px !important;
+    left: calc(85% - 60px) !important;
+}
+.ql-container {height: auto !important;}

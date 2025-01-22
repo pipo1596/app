@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { Page, TextField } from '../../shared/textField';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import Quill from 'quill';
+import QuillHtmlEditButton from 'quill-html-edit-button';
 import { environment } from '../../../environments/environment.development';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data-trigger.service';
 import { dbtodspdate, dbtodsptime, focusField, getSite, hideWait, openModal, showWait } from '../../shared/utils';
+import { FileUploadService } from '../../services/file-upload.service';
 
 @Component({
   selector: 'app-blog',
@@ -39,6 +41,7 @@ export class BlogComponent {
   formData = new FormData();
   chunks:any = [];
   chunkSize:number = 10000;
+  quill:any;
 
 
   categories:any = [[]];//Multidimensional Array to support structure
@@ -46,12 +49,36 @@ export class BlogComponent {
   constructor(private http: HttpClient,
               private router: Router,
               private route: ActivatedRoute,
-              private dataService: DataService
+              private dataService: DataService,
+              private uploadService: FileUploadService
   ) {}
   ngOnInit(): void {
+      Quill.register('modules/htmlEditButton', QuillHtmlEditButton);
       this.page.imgprfx = environment.imgprfx;
       this.blogHtml.value = "";
       this.setMode();
+
+
+      // Initialize Quill editor
+    this.quill = new Quill('#editor', {
+      theme: 'snow',  // or 'bubble'
+      modules: {
+        toolbar: [
+          [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+          [{ 'align': [] }],
+          ['bold', 'italic', 'underline'],
+          ['link'],
+          ['blockquote'],
+          [{ 'script': 'sub' }, { 'script': 'super' }],
+          [{ 'direction': 'rtl' }],
+          ['image'],
+          //['code-block']
+        ],
+        htmlEditButton: true // Enable the HTML Edit Button module
+      }
+    });
+   
       
       let data = {
           
@@ -79,8 +106,10 @@ export class BlogComponent {
                 this.urlandhandle.value     = this.page.data.blog.url;
                 this.tags.value             = this.page.data.blog.metk;
                 this.image.value            = this.page.data.blog.img;
-              }    
-        
+                this.quill.root.innerHTML   = this.blogHtml.value; 
+              }   
+              this.handleImages(); 
+                     
               if(this.page.entrymode ) {
                 this.site.value = getSite();
                 let now = new Date();
@@ -110,23 +139,91 @@ export class BlogComponent {
      bpno: this.page.rfno    
    }
    
-   this.http.post(environment.apiurl+'/cgi/APPLMBLOG',data).subscribe(response => {
-     this.goBack();
-   });
-   }
-  onEditorChanged(event: any) {
-    //console.log('Editor content changed:', event);
-    //console.log(this.blogHtml.value);
-    // Get all image elements within the WYSIWYG editor
-    const images = document.querySelectorAll('.ql-editor img');
-
-// Loop through each image and extract its source
-    images.forEach(img => {
-      console.log(img); // This will print the image source (URL or base64 string)
+    this.http.post(environment.apiurl+'/cgi/APPLMBLOG',data).subscribe(response => {
+      this.goBack();
     });
+   }
 
+
+  ngOnDestroy(): void {
+    // Clean up the Quill instance to avoid memory leaks
+    if (this.quill) {
+      this.quill = null;
+    }
+  }
+removeAllEventListeners(element:any) {
+    const newElement = element.cloneNode(true); // Clone the element with its children
+    element.parentNode.replaceChild(newElement, element);
+    return newElement;
+  }
+
+  handleImages(){
+    // Bind content back to the model
+      this.quill.on('text-change', () => {
+        
+      const images = document.querySelectorAll('.ql-editor img');
+
+      // Loop through each image and extract its source
+      images.forEach(img => {
+        // Images with embeded data not allowed, Strip those out, they come from pasting or dragging an image:
+        // And In that case we don't have the Image name to upload it, therefore block it.
+        if(img.attributes[0].value.length>256){
+          img.remove();
+        }
+      });
+      this.blogHtml.value = this.quill.root.innerHTML;  // Sync the content to the model
+    });
+    
+    setTimeout(() => {
+      this.handleImageInput();
+    }, 600);
 
   }
+  handleImageInput(){
+      //Handle Input an Image Action:
+      const toolbar = this.quill.getModule('toolbar');
+      const imageButton = toolbar.container.querySelector('button.ql-image');
+
+      if (imageButton) {
+        let newinput = this.removeAllEventListeners(imageButton); 
+        const input = document.createElement('input');
+          input.setAttribute('type', 'file');
+          input.setAttribute('accept', 'image/*');
+          
+          newinput.addEventListener('click', () => {
+          
+           input.click();
+        });
+
+          input.addEventListener('change', (e: any) => {
+            const file = e.target.files[0];
+            if (file) {
+              this.uploadImageq(file);
+            }
+          });
+
+        
+      }
+  }
+
+  // Simulate an image upload (replace with actual upload logic)
+  uploadImageq(file: File) {
+    showWait('Uploading Image...');
+    this.uploadService.upload(file).subscribe({
+              next: (event: any) => {
+                if (event instanceof HttpResponse) {
+                  const range = this.quill.getSelection();
+                  if(range && range.index)
+                    this.quill.insertEmbed(range.index, 'image', this.page.imgprfx+'/'+file.name);
+                  else
+                    this.quill.insertEmbed(0, 'image', this.page.imgprfx+'/'+file.name);
+                  hideWait();
+                }
+                
+              }
+            });
+  }
+
   preload(){
     //For easier testing:
     let now = new Date();

@@ -87,7 +87,12 @@ export class BlogComponent {
           prependSelector: 'div#myelement', // a string used to select where you want to insert the overlayContainer, default: null (appends to body),
           editorModules: {} // The default mod
         } // Enable the HTML Edit Button module
-      }
+      },
+      formats: [
+          'custom-container','bold', 'italic', 'underline', 'strike', 'link', // Common inline formats
+          'font', 'size', 'color', 'background', 'align', 'code', 'blockquote', // Additional inline and block-level formats
+          'style','list', 'bullet', 'ordered' // Ensure list formats are included
+          ]
     });
     
       

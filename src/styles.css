@@ -106,7 +106,6 @@ ul.categories li {
 .hoverp,.hoverp:hover {
     cursor: pointer;
 }
-.ql-editor{min-height: 956px;}
 .categcheckbox{
     padding-left: 2.1rem;
     float: left;

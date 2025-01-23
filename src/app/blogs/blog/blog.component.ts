@@ -73,8 +73,10 @@ export class BlogComponent {
           [{ 'script': 'sub' }, { 'script': 'super' }],
           [{ 'direction': 'rtl' }],
           ['image'],
-          //['code-block']
+          ['code-block']
         ],
+        
+        formats: [], // Allow all formats by not specifying any restrictions
         htmlEditButton: true // Enable the HTML Edit Button module
       }
     });
@@ -200,6 +202,7 @@ removeAllEventListeners(element:any) {
             if (file) {
               this.uploadImageq(file);
             }
+            input.value = "";
           });
 
         
@@ -217,6 +220,7 @@ removeAllEventListeners(element:any) {
                     this.quill.insertEmbed(range.index, 'image', this.page.imgprfx+'/'+file.name);
                   else
                     this.quill.insertEmbed(0, 'image', this.page.imgprfx+'/'+file.name);
+                  
                   hideWait();
                 }
                 

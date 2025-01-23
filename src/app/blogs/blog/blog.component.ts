@@ -73,14 +73,23 @@ export class BlogComponent {
           [{ 'script': 'sub' }, { 'script': 'super' }],
           [{ 'direction': 'rtl' }],
           ['image'],
-          ['code-block']
+          //['code-block']
         ],
         
-        formats: [], // Allow all formats by not specifying any restrictions
-        htmlEditButton: true // Enable the HTML Edit Button module
+        htmlEditButton:   {
+          debug: true, // logging, default:false
+          msg: "Edit the condddtent in HTML format", //Custom message to display in the editor, default: Edit HTML here, when you click "OK" the quill editor's contents will be replaced
+          okText: "Save", // Text to display in the OK button, default: Ok,
+          cancelText: "Cancel", // Text to display in the cancel button, default: Cancel
+          buttonHTML: "&lt;/&gt;", // Text to display in the toolbar button, default: <>
+          buttonTitle: "Show HTML source", // Text to display as the tooltip for the toolbar button, default: Show HTML source
+          syntax: false, // Show the HTML with syntax highlighting. Requires highlightjs on window.hljs (similar to Quill itself), default: false
+          prependSelector: 'div#myelement', // a string used to select where you want to insert the overlayContainer, default: null (appends to body),
+          editorModules: {} // The default mod
+        } // Enable the HTML Edit Button module
       }
     });
-   
+    
       
       let data = {
           
@@ -162,7 +171,8 @@ removeAllEventListeners(element:any) {
   handleImages(){
     // Bind content back to the model
       this.quill.on('text-change', () => {
-        
+        console.log(this.quill.root.innerHTML);
+      
       const images = document.querySelectorAll('.ql-editor img');
 
       // Loop through each image and extract its source

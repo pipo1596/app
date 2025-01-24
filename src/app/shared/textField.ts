@@ -51,7 +51,6 @@ export class TextField {
     rfno:string | null ="";
     entrymode: boolean = false;
     editmode: boolean = false;
-    viewmode: boolean = false;
     valid: boolean = false;
     changes: boolean = false;
     topErrorID:string = "";

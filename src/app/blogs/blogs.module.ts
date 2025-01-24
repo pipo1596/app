@@ -7,6 +7,8 @@ import { CategoryComponent } from './category/category.component';
 import { BlogComponent } from './blog/blog.component';
 import { BlogsComponent } from './blogs/blogs.component'
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { AuthorsComponent } from './authors/authors.component';
+import { AuthorComponent } from './author/author.component';
 
 
 
@@ -16,7 +18,9 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     CategoriesComponent,
     CategoryComponent,
     BlogComponent,
-    BlogsComponent
+    BlogsComponent,
+    AuthorsComponent,
+    AuthorComponent
   ],
   imports: [
     CommonModule,

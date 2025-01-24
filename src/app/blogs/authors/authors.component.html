@@ -1,0 +1,70 @@
+<app-header [title]="page.title" [fullname]="page.fullname"></app-header>
+
+<section class="pb-3 bg-light ftco-section">
+<div class="container-fluid mw-2000" *ngIf="page.fullname!==''">
+<!--Authors List----------------------------------------------------------------------->
+<section class="position-relative">
+    <div>
+    <div class="row mb-2">
+        <div class="col-12 col-md-10">
+            <h4 class="ms-1" >{{page.title}}</h4>
+        </div>
+        <div class="col-12 col-md-2 p-0 px-1">
+                <div class="d-grid gap-2">
+                    <button class="btn btn btn-default border-2 border rounded-0 rounded-0"  (click)="newAuthor()" type="button"> New Blog Author </button>
+                </div>
+        </div>
+       
+       
+    </div>
+    <div class="row bg-white">
+            <div class="input-group p-0 mb-2 rounded-0">
+                <input class="form-control border-end-0 border border-3" type="search"  name="search" [(ngModel)]="search" (blur)="Search()" (keyup.enter)="Search()" placeholder="Search Blog Authors">
+                <span class="input-group-append">
+                    <button class="btn btn-outline-secondary bg-white border-start-0  border rounded-0 border-3 ms-n5" (click)="Search()" type="button">
+                        <i class="bi bi-search bi-boldicon"></i>
+                    </button>
+                </span>
+            </div>
+            <h5 class="text-center" *ngIf="page.data.authors.length<1">---  No Blog Authors Found ---</h5>
+           
+        <div class="card my-1 border border-3 rounded-0"  *ngFor="let author of page.data.authors;index as b">
+            <div class="row g-0">
+            <div class="col-md-2 contbckg">
+                <img class="mw-100 mh-100 m-auto d-block" src="{{imgprfx}}/{{encodedurl(author.img)}}">
+            </div>
+            
+            <div class="col-md-10 position-relative">
+                <div class="card-body">
+                <h5 class="card-title mb-1">{{author.name}}</h5>
+               
+                <p class="card-text"><small class="text-muted">
+                    <span *ngIf="author.lsdt!=='0'">last updated </span>
+                    <span *ngIf="author.lsdt=='0'">Created </span>
+                    {{lastUpdate(author)}}</small></p>
+                </div>
+                <div class="btn-group-top-right" >
+                    <button class="btn btn-light" (click)="startDelete(author.bano)" ><span class="bi bi-trash text-danger"></span></button>
+                    <button class="btn btn-light ms-1" (click)="EditAuthor(author.bano)"><span class="bi bi-pencil-square"></span></button>
+                  </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    
+    </div>
+</section>
+
+
+
+</div>
+
+<div class="alert alert-danger mt-3" role="alert"  [class.invisible]="page.loading" *ngIf="page.fullname==''">
+    Make sure to login to access this feature!
+</div>
+<app-toast  [title]="'Blog Author Deleted'" [position]="'bottom'" [body]="'Blog Author Successfully Deleted'"></app-toast>
+</section>
+<app-confirm (notify)="onDelete()" [title]="'Delete BLog Author'" [id]="'deleteAuthor'" [body]="'Delete Blog Author?'"></app-confirm>
+
+<app-footer></app-footer>
+

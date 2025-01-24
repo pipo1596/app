@@ -9,7 +9,6 @@
             <button class="btn btn-dark rounded-0 me-2 float-start" title="Back"  (click)="goBack()" type="button"><i class="bi bi-arrow-left bi-boldicon"></i></button>
             <div class="float-start">
                 <h4 *ngIf="page.entrymode" >Create New Blog Category</h4>
-                <h4 *ngIf="page.viewmode">View Blog Category</h4>
                 <h4 *ngIf="page.editmode">Edit Blog Category</h4>
             </div>
         </div>
@@ -151,7 +150,7 @@
                 
                     <div class="col-12 mb-3 text-end">
                         <button class="btn btn-light rounded-0 border border-2" type="button" *ngIf="page.entrymode" (click)="preload()">Preload</button>
-                        <button class="btn btn-light rounded-0 border border-2 ms-1" type="button" *ngIf="!page.viewmode" (click)="cancelEntry()">Cancel</button>
+                        <button class="btn btn-light rounded-0 border border-2 ms-1" type="button" (click)="cancelEntry()">Cancel</button>
                         <button class="btn btn-danger rounded-0 border border-2 ms-1" type="button" *ngIf="page.editmode" (click)="startDelete()">Delete Category</button>
                         <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit" *ngIf="page.editmode">Update Category</button>
                         <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit" *ngIf="page.entrymode">Create New Category</button>

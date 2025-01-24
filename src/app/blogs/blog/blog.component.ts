@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Page, TextField } from '../../shared/textField';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data-trigger.service';
@@ -117,7 +117,7 @@ export class BlogComponent {
 
       let data = {
           
-          mode: this.page.viewmode || this.page.editmode?'GETBLOG':'INIT',
+          mode: this.page.editmode?'GETBLOG':'INIT',
           bpno: this.page.rfno
         }
       this.http.post(environment.apiurl+'/cgi/APPSRBLOG',data).subscribe(response => {
@@ -128,7 +128,7 @@ export class BlogComponent {
         this.page.loading =false;
         
         hideWait();
-        if(this.page.viewmode || this.page.editmode){
+        if(this.page.editmode){
                 this.blogTitle.value        = this.page.data.blog.titl;
                 this.blogHtml.value         = this.page.data.blog.html;
                 this.blogstatus.value       = this.page.data.blog.stat;
@@ -177,14 +177,6 @@ export class BlogComponent {
       this.goBack();
     });
    }
-
-
-  
-removeAllEventListeners(element:any) {
-    const newElement = element.cloneNode(true); // Clone the element with its children
-    element.parentNode.replaceChild(newElement, element);
-    return newElement;
-  }
 
   preload(){
     //For easier testing:
@@ -422,9 +414,6 @@ removeAllEventListeners(element:any) {
     // It's the edit category route, retrieve the ID
     if (this.router.url.indexOf('/blogs/newblog')>=0) {
       this.page.entrymode = true;
-    }
-    if (this.router.url.indexOf('/blogs/viewblog')>=0) {
-      this.page.viewmode = true;
     }
     if (this.router.url.indexOf('/blogs/editblog')>=0) {
       this.page.editmode = true;

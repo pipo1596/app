@@ -45,7 +45,7 @@ export class CategoryComponent {
     this.setMode();
     let data = {
         
-        mode: this.page.viewmode || this.page.editmode?'GETCATEG':'INIT',
+        mode: this.page.editmode?'GETCATEG':'INIT',
         bcno: this.page.rfno
       }
     this.http.post(environment.apiurl+'/cgi/APPSRBCATG',data).subscribe(response => {
@@ -57,7 +57,7 @@ export class CategoryComponent {
       
       hideWait();
 
-      if(this.page.viewmode || this.page.editmode){
+      if(this.page.editmode){
         this.categorytitle.value    = this.page.data.category.desc;
         this.categorystatus.value   = this.page.data.category.stat;
         this.site.value             = this.page.data.category.site;
@@ -243,9 +243,6 @@ export class CategoryComponent {
       this.page.rfno = null; // No category ID for new category
     } else {
       // It's the edit category route, retrieve the ID
-      if (this.router.url.indexOf('/blogs/viewcategory')>=0) {
-        this.page.viewmode = true;
-      }
       if (this.router.url.indexOf('/blogs/editcategory')>=0) {
         this.page.editmode = true;
       }

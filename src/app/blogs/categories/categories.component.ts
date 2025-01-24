@@ -72,7 +72,7 @@ export class CategoriesComponent {
     this.router.navigate(['/blogs/newcategory']);
   }
   ViewCategory(category:string){
-    this.router.navigate(['/blogs/viewcategory/'+category]);
+    
   }
   EditCategory(category:string){
     this.router.navigate(['/blogs/editcategory/'+category]);

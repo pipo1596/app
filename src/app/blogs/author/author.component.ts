@@ -80,7 +80,7 @@ export class AuthorComponent {
     //Screen Fields
     authorName     = new TextField("authorname",["required"]);
     authorBio      = new TextField("authorbio",["required"]);
-    authorstatus     = new TextField("authorstatus",["required"]);
+    authorstatus   = new TextField("authorstatus",["required"]);
     metatitle      = new TextField("metatitle",["required"]);
     metadescription= new TextField("metadescription",["required"]);
     urlandhandle   = new TextField("urlandhandle",["required"]);
@@ -108,7 +108,7 @@ export class AuthorComponent {
   
         let data = {
             
-            mode: this.page.editmode?'GETAUTHOR':'INIT',
+            mode: this.page.editmode?'GETAUTOR':'INIT',
             bano: this.page.rfno
           }
         this.http.post(environment.apiurl+'/cgi/APPSRAUTOR',data).subscribe(response => {
@@ -120,14 +120,14 @@ export class AuthorComponent {
           
           hideWait();
           if(this.page.editmode){
-                  this.authorName.value        = this.page.data.blog.name;
-                  this.authorBio.value         = this.page.data.blog.bio;
-                  this.authorstatus.value       = this.page.data.blog.stat;
-                  this.metatitle.value        = this.page.data.blog.mett;
-                  this.metadescription.value  = this.page.data.blog.metd;
-                  this.urlandhandle.value     = this.page.data.blog.url;
-                  this.tags.value             = this.page.data.blog.metk;
-                  this.image.value            = this.page.data.blog.img;
+                  this.authorName.value        = this.page.data.author.name;
+                  this.authorBio.value         = this.page.data.author.bio;
+                  this.authorstatus.value       = this.page.data.author.stat;
+                  this.metatitle.value        = this.page.data.author.mett;
+                  this.metadescription.value  = this.page.data.author.metd;
+                  this.urlandhandle.value     = this.page.data.author.url;
+                  this.tags.value             = this.page.data.author.metk;
+                  this.image.value            = this.page.data.author.img;
                 }   
         })
       }
@@ -153,7 +153,6 @@ export class AuthorComponent {
   
     preload(){
       //For easier testing:
-      let now = new Date();
       this.authorName.value = 'Author Name';
       this.authorstatus.value = 'P';
       this.authorBio.value = '<h1>Test Header 1</h1>'
@@ -219,7 +218,7 @@ export class AuthorComponent {
         bametk: this.tags.value,
         baurl : this.urlandhandle.value,
         baimg : file,
-        bio: this.authorBio.value,
+        bio: this.authorBio.value.slice(0,10000),//Limited to 10k (DB)
         babano: this.page.rfno,
         parents:this.parents      
       }

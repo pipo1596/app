@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpEvent, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 
@@ -22,6 +22,16 @@ export class FileUploadService {
     });
 
     return this.http.request(req);
+  }
+ 
+  uploadWyzywig(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+
+    // Replace with your actual API endpoint
+    return this.http.post<any>(`${this.baseUrl}`, formData, {
+      headers: new HttpHeaders()
+    });
   }
 
   getFiles(): Observable<any> {

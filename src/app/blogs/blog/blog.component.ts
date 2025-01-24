@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { Page, TextField } from '../../shared/textField';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import Quill from 'quill';
-import QuillHtmlEditButton from 'quill-html-edit-button';
 import { environment } from '../../../environments/environment.development';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data-trigger.service';
 import { dbtodspdate, dbtodsptime, focusField, getSite, hideWait, openModal, showWait } from '../../shared/utils';
 import { FileUploadService } from '../../services/file-upload.service';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-blog',
@@ -17,6 +17,61 @@ import { FileUploadService } from '../../services/file-upload.service';
   styleUrl: './blog.component.css'
 })
 export class BlogComponent {
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: false,
+    height: '15rem',
+    minHeight: '700px',
+    placeholder: 'Enter Text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    toolbarHiddenButtons: [
+      [
+    'backgroundColor',
+    'underline',
+    'strikeThrough',
+    'subscript',
+    'superscript',
+    'justifyLeft',
+    'insertVideo',
+    'insertHorizontalRule',
+    'removeFormat',
+    'unlink'
+  ]
+      ],
+    uploadUrl: environment.imgprfx,
+    upload: (file: File) => { 
+      
+        return new Observable((observer) => {
+          // Upload image via your Angular service
+          const uniqueFileName = file.name.replace(/(\.[\w\d_-]+)$/i, `-${Date.now()}$1`);
+          const uniqueFile = new File([file], uniqueFileName, { type: file.type });
+          this.uploadService.uploadWyzywig(uniqueFile).subscribe(
+            (response) => {
+              // Check the response for the image URL
+              const imageUrl = response?.imageUrl;
+              if (imageUrl) {
+                // Prepend the base URL to the relative image path
+                const fullImageUrl:any = {"body":{"imageUrl":environment.imgprfx+'/' + imageUrl}};
+                // Pass the full image URL to the editor (this triggers the insertion)
+                observer.next(fullImageUrl);
+              } 
+            },
+            (error) => {
+              observer.error('Upload failed: ' + error.message);
+              observer.complete();
+            }
+          );
+        })}
+        
+        
+        
+     ,
+    uploadWithCredentials: true,
+    sanitize: false,
+    
+  };
   //This contains all the share page data:
   page = new Page();
   updatebpno:any;
@@ -41,8 +96,8 @@ export class BlogComponent {
   formData = new FormData();
   chunks:any = [];
   chunkSize:number = 10000;
-  quill:any;
 
+  html:any;
 
   categories:any = [[]];//Multidimensional Array to support structure
 
@@ -53,49 +108,10 @@ export class BlogComponent {
               private uploadService: FileUploadService
   ) {}
   ngOnInit(): void {
-      Quill.register('modules/htmlEditButton', QuillHtmlEditButton);
       this.page.imgprfx = environment.imgprfx;
       this.blogHtml.value = "";
       this.setMode();
 
-
-      // Initialize Quill editor
-    this.quill = new Quill('#editor', {
-      theme: 'snow',  // or 'bubble'
-      modules: {
-        toolbar: [
-          [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-          [{ 'align': [] }],
-          ['bold', 'italic', 'underline'],
-          ['link'],
-          ['blockquote'],
-          [{ 'script': 'sub' }, { 'script': 'super' }],
-          [{ 'direction': 'rtl' }],
-          ['image'],
-          //['code-block']
-        ],
-        
-        htmlEditButton:   {
-          debug: true, // logging, default:false
-          msg: "Edit the condddtent in HTML format", //Custom message to display in the editor, default: Edit HTML here, when you click "OK" the quill editor's contents will be replaced
-          okText: "Save", // Text to display in the OK button, default: Ok,
-          cancelText: "Cancel", // Text to display in the cancel button, default: Cancel
-          buttonHTML: "&lt;/&gt;", // Text to display in the toolbar button, default: <>
-          buttonTitle: "Show HTML source", // Text to display as the tooltip for the toolbar button, default: Show HTML source
-          syntax: false, // Show the HTML with syntax highlighting. Requires highlightjs on window.hljs (similar to Quill itself), default: false
-          prependSelector: 'div#myelement', // a string used to select where you want to insert the overlayContainer, default: null (appends to body),
-          editorModules: {} // The default mod
-        } // Enable the HTML Edit Button module
-      },
-      formats: [
-          'custom-container','bold', 'italic', 'underline', 'strike', 'link', // Common inline formats
-          'font', 'size', 'color', 'background', 'align', 'code', 'blockquote', // Additional inline and block-level formats
-          'style','list', 'bullet', 'ordered' // Ensure list formats are included
-          ]
-    });
-    
-      
       let data = {
           
           mode: this.page.viewmode || this.page.editmode?'GETBLOG':'INIT',
@@ -122,9 +138,8 @@ export class BlogComponent {
                 this.urlandhandle.value     = this.page.data.blog.url;
                 this.tags.value             = this.page.data.blog.metk;
                 this.image.value            = this.page.data.blog.img;
-                this.quill.root.innerHTML   = this.blogHtml.value; 
               }   
-              this.handleImages(); 
+              
                      
               if(this.page.entrymode ) {
                 this.site.value = getSite();
@@ -161,86 +176,11 @@ export class BlogComponent {
    }
 
 
-  ngOnDestroy(): void {
-    // Clean up the Quill instance to avoid memory leaks
-    if (this.quill) {
-      this.quill = null;
-    }
-  }
+  
 removeAllEventListeners(element:any) {
     const newElement = element.cloneNode(true); // Clone the element with its children
     element.parentNode.replaceChild(newElement, element);
     return newElement;
-  }
-
-  handleImages(){
-    // Bind content back to the model
-      this.quill.on('text-change', () => {
-        console.log(this.quill.root.innerHTML);
-      
-      const images = document.querySelectorAll('.ql-editor img');
-
-      // Loop through each image and extract its source
-      images.forEach(img => {
-        // Images with embeded data not allowed, Strip those out, they come from pasting or dragging an image:
-        // And In that case we don't have the Image name to upload it, therefore block it.
-        if(img.attributes[0].value.length>256){
-          img.remove();
-        }
-      });
-      this.blogHtml.value = this.quill.root.innerHTML;  // Sync the content to the model
-    });
-    
-    setTimeout(() => {
-      this.handleImageInput();
-    }, 600);
-
-  }
-  handleImageInput(){
-      //Handle Input an Image Action:
-      const toolbar = this.quill.getModule('toolbar');
-      const imageButton = toolbar.container.querySelector('button.ql-image');
-
-      if (imageButton) {
-        let newinput = this.removeAllEventListeners(imageButton); 
-        const input = document.createElement('input');
-          input.setAttribute('type', 'file');
-          input.setAttribute('accept', 'image/*');
-          
-          newinput.addEventListener('click', () => {
-          
-           input.click();
-        });
-
-          input.addEventListener('change', (e: any) => {
-            const file = e.target.files[0];
-            if (file) {
-              this.uploadImageq(file);
-            }
-            input.value = "";
-          });
-
-        
-      }
-  }
-
-  // Simulate an image upload (replace with actual upload logic)
-  uploadImageq(file: File) {
-    showWait('Uploading Image...');
-    this.uploadService.upload(file).subscribe({
-              next: (event: any) => {
-                if (event instanceof HttpResponse) {
-                  const range = this.quill.getSelection();
-                  if(range && range.index)
-                    this.quill.insertEmbed(range.index, 'image', this.page.imgprfx+'/'+file.name);
-                  else
-                    this.quill.insertEmbed(0, 'image', this.page.imgprfx+'/'+file.name);
-                  
-                  hideWait();
-                }
-                
-              }
-            });
   }
 
   preload(){
@@ -334,21 +274,7 @@ removeAllEventListeners(element:any) {
     });
   }
 
-  updateHtml(pbno:any){
-    //The Html could be  really large we will handle it in it's own call here:
-    //The Json is limited to 10k characters vlaues see FPUTJS
-    this.formData.append('SIMODE', 'HTMLUPDT');
-    this.formData.append('SIPBNO', pbno );
-    this.formData.append('SIHTML', this.blogHtml.value );
-    
-    this.http.post(environment.apiurl+'/cgi/APPSRBLOG',
-      this.formData).subscribe(response => {
 
-      alert('Update Complete'+pbno)
-      hideWait();
-      
-    });
-  }
   htmlChunks(){
     const length = this.blogHtml.value.length;
     this.chunks = [];

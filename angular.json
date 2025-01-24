@@ -33,13 +33,13 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "node_modules/@kolkov/angular-editor/assets/icons",
+                "output": "assets/ae-icons/"
               }
             ],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/bootstrap-icons/font/bootstrap-icons.css",
-              "./node_modules/quill/dist/quill.snow.css",
               "src/styles.css"
             ],
             "scripts": []

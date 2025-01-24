@@ -1,3 +1,4 @@
+
 /* You can add global styles to this file, and also import other style files */
 @media (min-width: 992px) {
     ::-webkit-scrollbar {
@@ -112,24 +113,15 @@ ul.categories li {
     padding-right: 20px;
 }
 
-.ql-html-buttonCancel{ 
-    background-color: black;
-    color: white;
-    font-size: 13px;
-    border: none;
-    padding: 1px 18px;
-    }
-.ql-html-buttonOk{
-    background-color: #0d6efd;
-    color: white;
-    font-size: 13px;
-    border: none;
-    padding: 1px 18px;
 
-}
-.ql-html-textArea {overflow: hidden;}
-.ql-html-buttonGroup {
-    bottom: -20px !important;
-    left: calc(85% - 60px) !important;
-}
-.ql-container {height: auto !important;}
+:root {
+    --ae-gap: 3px;
+    --ae-text-area-border: 1px solid #ddd;
+    --ae-text-area-border-radius: 0;
+    --ae-toolbar-padding: 4px;
+    
+    --ae-button-bg-color: #ffff;
+    --ae-toolbar-bg-color:#ffff;
+    --ae-button-radius: 0px;
+     
+  }

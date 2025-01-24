@@ -35,7 +35,7 @@
                         <input type="text" name="title" class="form-control" id="{{blogTitle.htmlid}}" [(ngModel)]="blogTitle.value">
                     </div>
                     <h5 class="form-label fw-bold">&nbsp;<span class="text-danger ms-1" *ngIf="blogHtml.error!==''">{{blogHtml.error}}</span></h5>
-                    <div id="editor" ></div>
+                    <angular-editor [config]="config" [(ngModel)]="blogHtml.value" name="blogHtml"></angular-editor>
                 </div>
         </div>
     </div>

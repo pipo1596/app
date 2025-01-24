@@ -1,101 +1,122 @@
 <app-header *ngIf="!child" [title]="page.title" [fullname]="page.fullname"></app-header>
 
 <section class="pb-3" [ngClass]="{'bg-light':!child,'ftco-section':!child,'ftco-sectioninner':child}">
-<div class="container-fluid mw-2000" *ngIf="page.fullname!==''">
-<!--Blog Categories List----------------------------------------------------------------------->
-<section class="position-relative">
-    <div>
-    <div class="row mb-2" *ngIf="!child">
-        <div class="col-12 col-md-6">
-            <h4 class="ms-1" >{{page.title}}</h4>
-        </div>
-        <div class="col-12 col-md-2 p-0 px-1">
-                <div class="d-grid gap-2">
-                    <button class="btn btn btn-default border-2 border rounded-0 rounded-0"  (click)="newBlog()" type="button">New Blog Post </button>
+    <div class="container-fluid mw-2000" *ngIf="page.fullname!==''">
+        <!--Blog Categories List----------------------------------------------------------------------->
+        <section class="position-relative">
+            <div>
+                <div class="row mb-2" *ngIf="!child">
+                    <div class="col-12 col-md-6">
+                        <h4 class="ms-1">{{page.title}}</h4>
+                    </div>
+                    <div class="col-12 col-md-2 p-0 px-1">
+                        <div class="d-grid gap-2">
+                            <button class="btn btn btn-default border-2 border rounded-0 rounded-0" (click)="newBlog()"
+                                type="button">New Blog Post </button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-2 p-0 px-1">
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-dark rounded-0" (click)="StartEntry()" type="button">New Blog
+                                Category</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-2 p-0 px-1">
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary rounded-0" (click)="SearchBlogs()" type="button">Search Posts
+                                &nbsp;<i class="bi bi-search fw-bold"></i></button>
+                        </div>
+                    </div>
                 </div>
-        </div>
-        <div class="col-12 col-md-2 p-0 px-1">
-                <div class="d-grid gap-2">
-                    <button class="btn btn-dark rounded-0"  (click)="StartEntry()" type="button">New Blog Category</button>
+                <div class="row bg-white">
+                    <div class="input-group p-0 mb-2 rounded-0" *ngIf="!child || page.data.categories.length>5">
+                        <button style="min-width: 250px;" *ngIf="!child"
+                            class="btn border-end-0 border border-3 dropdown-toggle btn-dark" type="button"
+                            (click)="showList=!showList" (blur)="hideDrop()">
+                            <span *ngIf="getSite()=='' || !getSite()">galls.com</span>
+                            <span *ngIf="getSite()=='K'">uspatriottactical.com</span>
+                        </button>
+                        <div class="dropdown-menu mt-5" [ngClass]="{show:showList}">
+                            <a class="dropdown-item hoverp" [routerLink]="" (click)="setSite('')">galls.com</a>
+                            <a class="dropdown-item hoverp" [routerLink]=""
+                                (click)="setSite('K')">uspatriottactical.com</a>
+                        </div>
+                        <input class="form-control border-end-0 border border-3" type="search" name="search"
+                            [(ngModel)]="search" (blur)="Search()" (keyup.enter)="Search()"
+                            placeholder="Search Blog Categories">
+                        <span class="input-group-append">
+                            <button
+                                class="btn btn-outline-secondary bg-white border-start-0  border rounded-0 border-3 ms-n5"
+                                (click)="Search()" type="button">
+                                <i class="bi bi-search bi-boldicon"></i>
+                            </button>
+                        </span>
+                    </div>
+
+                    <h5 class="text-center" *ngIf="child && page.data.categories.length<1">--- No Blog Categories Found
+                        ---</h5>
+                    <div class="card my-1 border border-3 rounded-0"
+                        *ngFor="let category of page.data.categories;index as c">
+                        <div class="row g-0">
+                            <div class="col-md-2 contbckg">
+                                <img class="mw-100 mh-100 m-auto d-block"
+                                    src="{{imgprfx}}/{{encodedurl(category.img)}}">
+                            </div>
+
+                            <div class="col-md-10 position-relative">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-1">{{category.desc}}
+
+                                    </h5>
+                                    <p class="card-text mb-1">No blog posts</p>
+                                    <p class="card-text mb-1 text-primary" *ngIf="category.count>0">{{category.count}}
+                                        blog posts</p>
+                                    <small>Tactical Gear
+                                        <button *ngIf="category.bcnp!==''" class="btn btn-dark p-0 lh-1"
+                                            (click)="getParent(c)">
+                                            <i class="bi"
+                                                [ngClass]="{'bi-plus': !category.expand,'bi-dash': category.expand}"></i>
+                                        </button>
+                                    </small>
+                                    <ul class="categories fadeIn" [ngClass]="{'show': category.expand}"
+                                        *ngIf="category.expand">
+                                        <ng-container *ngFor="let parent of category.parents; index as i">
+                                            <li class="mlpath-{{i}}"
+                                                [ngClass]="{'text-primary': category.parents.length==i+1}">
+                                                {{parent.desc}}</li>
+                                        </ng-container>
+                                    </ul>
+                                    <p class="card-text"><small class="text-muted">
+                                            <span *ngIf="category.lsdt!=='0'">last updated </span>
+                                            <span *ngIf="category.lsdt=='0'">Created </span>
+                                            {{lastUpdate(category)}}</small></p>
+                                </div>
+                                <div class="btn-group-top-right">
+                                    <button class="btn btn-light" (click)="startDelete(category.bcno)"><span
+                                            class="bi bi-trash text-danger"></span></button>
+                                    <button class="btn btn-light ms-1 d-none"
+                                        (click)="ViewCategory(category.bcno)"><span class="bi bi-eye"></span></button>
+                                    <button class="btn btn-light ms-1" (click)="EditCategory(category.bcno)"><span
+                                            class="bi bi-pencil-square"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-        </div>
-        <div class="col-12 col-md-2 p-0 px-1">
-                <div class="d-grid gap-2">
-                    <button class="btn btn-primary rounded-0"  (click)="SearchBlogs()" type="button">Search Posts &nbsp;<i class="bi bi-search fw-bold"></i></button>
-                </div>
-        </div>
-    </div>
-    <div class="row bg-white">
-            <div class="input-group p-0 mb-2 rounded-0" *ngIf="!child || page.data.categories.length>5">
-                <button style="min-width: 250px;" *ngIf="!child"
-                 class="btn border-end-0 border border-3 dropdown-toggle btn-dark" type="button" (click)="showList=!showList" (blur)="hideDrop()" >
-                    <span *ngIf="getSite()=='' || !getSite()">galls.com</span>
-                    <span *ngIf="getSite()=='K'">uspatriottactical.com</span>
-                </button>
-    <div class="dropdown-menu mt-5" [ngClass]="{show:showList}">
-      <a class="dropdown-item hoverp" [routerLink]="" (click)="setSite('')">galls.com</a>
-      <a class="dropdown-item hoverp" [routerLink]="" (click)="setSite('K')">uspatriottactical.com</a>
-    </div>
-                <input class="form-control border-end-0 border border-3" type="search"  name="search" [(ngModel)]="search" (blur)="Search()" (keyup.enter)="Search()" placeholder="Search Blog Categories">
-                <span class="input-group-append">
-                    <button class="btn btn-outline-secondary bg-white border-start-0  border rounded-0 border-3 ms-n5" (click)="Search()" type="button">
-                        <i class="bi bi-search bi-boldicon"></i>
-                    </button>
-                </span>
+
             </div>
-         
-            <h5 class="text-center" *ngIf="child && page.data.categories.length<1">---  No Blog Categories Found ---</h5>   
-        <div class="card my-1 border border-3 rounded-0"  *ngFor="let category of page.data.categories;index as c">
-            <div class="row g-0">
-            <div class="col-md-2 contbckg">
-                <img class="mw-100 mh-100 m-auto d-block" src="{{imgprfx}}/{{encodedurl(category.img)}}">
-            </div>
-            
-            <div class="col-md-10 position-relative">
-                <div class="card-body">
-                <h5 class="card-title mb-1">{{category.desc}} 
-                    
-                </h5>
-                <p class="card-text mb-1">No blog posts</p>
-                <p class="card-text mb-1 text-primary" *ngIf="category.count>0">{{category.count}} blog posts</p>
-                <small>Tactical Gear
-                    <button *ngIf="category.bcnp!==''" 
-                    class="btn btn-dark p-0 lh-1" (click)="getParent(c)">
-                        <i class="bi" [ngClass]="{'bi-plus': !category.expand,'bi-dash': category.expand}"></i>
-                    </button>
-                </small>
-                <ul class="categories fadeIn" [ngClass]="{'show': category.expand}" *ngIf="category.expand">
-                    <ng-container  *ngFor="let parent of category.parents; index as i" >
-                        <li class="mlpath-{{i}}"  [ngClass]="{'text-primary': category.parents.length==i+1}">{{parent.desc}}</li>
-                    </ng-container>
-                </ul>
-                <p class="card-text"><small class="text-muted">
-                    <span *ngIf="category.lsdt!=='0'">last updated </span>
-                    <span *ngIf="category.lsdt=='0'">Created </span>
-                    {{lastUpdate(category)}}</small></p>
-                </div>
-                <div class="btn-group-top-right" >
-                    <button class="btn btn-light" (click)="startDelete(category.bcno)" ><span class="bi bi-trash text-danger"></span></button>
-                    <button class="btn btn-light ms-1 d-none" (click)="ViewCategory(category.bcno)" ><span class="bi bi-eye"></span></button>
-                    <button class="btn btn-light ms-1" (click)="EditCategory(category.bcno)"><span class="bi bi-pencil-square"></span></button>
-                  </div>
-            </div>
-            </div>
-        </div>
+        </section>
+
+
+
     </div>
-    
+
+    <div class="alert alert-danger mt-3" role="alert" [class.invisible]="page.loading" *ngIf="page.fullname==''">
+        Make sure to login to access this feature!
     </div>
+    <app-toast [title]="'Category Deleted'" [position]="'bottom'" [body]="'Category Successfully Deleted'"></app-toast>
 </section>
-
-
-
-</div>
-
-<div class="alert alert-danger mt-3" role="alert"  [class.invisible]="page.loading" *ngIf="page.fullname==''">
-    Make sure to login to access this feature!
-</div>
-<app-toast  [title]="'Category Deleted'" [position]="'bottom'" [body]="'Category Successfully Deleted'"></app-toast>
-</section>
-<app-confirm (notify)="onDelete()" [title]="'Delete Category'" [id]="'deleteCategory'" [body]="'Delete Category?'"></app-confirm>
+<app-confirm (notify)="onDelete()" [title]="'Delete Category'" [id]="'deleteCategory'"
+    [body]="'Delete Category?'"></app-confirm>
 
 <app-footer *ngIf="!child"></app-footer>

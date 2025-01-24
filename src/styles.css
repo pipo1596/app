@@ -1,47 +1,65 @@
-
 /* You can add global styles to this file, and also import other style files */
 @media (min-width: 992px) {
     ::-webkit-scrollbar {
-        -webkit-appearance:none;
+        -webkit-appearance: none;
         width: 7px
     }
 
     ::-webkit-scrollbar-thumb {
         border-radius: 4px;
-        background-color: rgba(0,0,0,.5);
-        -webkit-box-shadow: 0 0 1px hsla(0,0%,100%,.5)
+        background-color: rgba(0, 0, 0, .5);
+        -webkit-box-shadow: 0 0 1px hsla(0, 0%, 100%, .5)
     }
 }
-.pagination {
-    --bs-pagination-padding-x: 1.1rem;
-    --bs-pagination-padding-y: 0.3rem;
-    --bs-pagination-font-size: 1.2rem;
-    --bs-pagination-color: grey;
+
+.bi.bi-boldicon {
+    -webkit-text-stroke: 1px
 }
-.bi.bi-boldicon{-webkit-text-stroke: 1px}
-.mw-2000{max-width: 2000px;}
-.contbckg{background-size: cover;
+
+.mw-2000 {
+    max-width: 2000px;
+}
+
+.contbckg {
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: top;
     height: 140px;
-    overflow: hidden; /* Optional: hides the part of the image that overflows */
-   position: relative;
-   
+    overflow: hidden;
+    /* Optional: hides the part of the image that overflows */
+    position: relative;
 }
+
 .contbckg img {
-    width: 100%;  /* Ensures the image takes up the full width of the container */
-    height: 100%; /* Ensures the image takes up the full height of the container */
-    object-fit: cover;  /* Ensures the image covers the container without distorting */
-  }
-.btn-group-top-right{position: absolute;top:1em;right:1em;}
-.loader{    opacity: .3;
+    width: 100%;
+    /* Ensures the image takes up the full width of the container */
+    height: 100%;
+    /* Ensures the image takes up the full height of the container */
+    object-fit: cover;
+    /* Ensures the image covers the container without distorting */
+}
+
+.btn-group-top-right {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+}
+
+.loader {
+    opacity: .3;
     position: fixed;
     background-color: black;
     top: 0;
     width: 100%;
     height: 100%;
-    z-index: 999;}
-.loader .spinner-border {display: inline-block;vertical-align: middle;z-index: 99999;}
+    z-index: 999;
+}
+
+.loader .spinner-border {
+    display: inline-block;
+    vertical-align: middle;
+    z-index: 99999;
+}
 
 .table tbody td .img {
     width: 150px;
@@ -49,79 +67,110 @@
     background-size: contain;
     background-repeat: no-repeat;
 }
+
 .table tbody tr {
     margin-bottom: 10px;
     border-bottom: 4px solid #f8f9fd;
 }
+
 .ftco-section {
     padding-top: 1em;
     padding-right: 1.5em;
     padding-left: 1.5em;
     min-height: 1000px;
 }
+
 .ftco-sectioninner {
     padding-top: 1em;
     min-height: 800px;
 }
-.listimg{
+
+.listimg {
     padding: 20px;
     max-width: 150px;
     margin: 0 auto;
     display: block;
 }
 
-ul.categories{
+ul.categories {
     list-style: none;
 }
+
 ul.categories li {
     background: url(/app/resources/list-item-bullet.gif) no-repeat left;
     padding-left: 10px;
     padding-top: 7px;
     margin-top: -7px;
 }
+
 @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-  }
-  
-.toast{
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.toast {
     animation: fadeIn 1s;
 }
-.fadeIn{
+
+.fadeIn {
     animation: fadeIn 1s;
 }
+
 .selectActv {
     background-color: #dff0d8 !important;
-  }
-  
-  .selectDsbl {
-    background-color: #f5d5da  !important;
-  }
-.mlpath-0{margin-left:12px}
-.mlpath-1{margin-left:24px}
-.mlpath-2{margin-left:36px}
-.mlpath-3{margin-left:48px}
-.mlpath-4{margin-left:60px}
-.mlpath-5{margin-left:72px}
+}
 
-.hoverp,.hoverp:hover {
+.selectDsbl {
+    background-color: #f5d5da !important;
+}
+
+.mlpath-0 {
+    margin-left: 12px
+}
+
+.mlpath-1 {
+    margin-left: 24px
+}
+
+.mlpath-2 {
+    margin-left: 36px
+}
+
+.mlpath-3 {
+    margin-left: 48px
+}
+
+.mlpath-4 {
+    margin-left: 60px
+}
+
+.mlpath-5 {
+    margin-left: 72px
+}
+
+.hoverp,
+.hoverp:hover {
     cursor: pointer;
 }
-.categcheckbox{
+
+.categcheckbox {
     padding-left: 2.1rem;
     float: left;
     padding-right: 20px;
 }
-
 
 :root {
     --ae-gap: 3px;
     --ae-text-area-border: 1px solid #ddd;
     --ae-text-area-border-radius: 0;
     --ae-toolbar-padding: 4px;
-    
+
     --ae-button-bg-color: #ffff;
-    --ae-toolbar-bg-color:#ffff;
+    --ae-toolbar-bg-color: #ffff;
     --ae-button-radius: 0px;
-     
-  }
+}

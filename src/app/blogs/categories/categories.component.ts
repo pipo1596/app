@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { convertToTimestamp, hideWait, openModal,  scrollToTopInstant, showToast, showWait, sortByKey, timeAgo } from '../../shared/utils';
+import { convertToTimestamp, hideWait, openModal, scrollToTopInstant, showToast, showWait, sortByKey, timeAgo } from '../../shared/utils';
 import { environment } from '../../../environments/environment.development';
 import { Router } from '@angular/router';
 import { Page } from '../../shared/textField';
@@ -9,155 +9,155 @@ import { Page } from '../../shared/textField';
 @Component({
   selector: 'app-categories',
   standalone: false,
-  
+
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css'
 })
 export class CategoriesComponent {
 
-  @Input() child : boolean | undefined;
-  @Input() bcnp : string | undefined;
-  search="";
-  pvsearch="";
-  showList=false;
+  @Input() child: boolean | undefined;
+  @Input() bcnp: string | undefined;
+  search = "";
+  pvsearch = "";
+  showList = false;
 
   imgprfx = environment.imgprfx;
 
   page = new Page();
 
   constructor(private http: HttpClient,
-              private router: Router
-  ) {}
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
 
     let data = {
       mode: 'SEARCH',
       site: this.getSite(),
-      bcnp: this.child?this.bcnp:""
+      bcnp: this.child ? this.bcnp : ""
     }
-    
-    this.http.post(environment.apiurl+'/cgi/APPLMBCATG',data).subscribe(response => {
+
+    this.http.post(environment.apiurl + '/cgi/APPLMBCATG', data).subscribe(response => {
 
       this.page.data = response;
-      if(this.page.data.title) this.page.title = this.page.data.title;
-      if(this.page.data.fullname) this.page.fullname = this.page.data.fullname;
-      this.page.loading =false;
+      if (this.page.data.title) this.page.title = this.page.data.title;
+      if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
+      this.page.loading = false;
       scrollToTopInstant();
       hideWait();
     });
   }
 
-  encodedurl(url:string){
-   return encodeURI(url);
+  encodedurl(url: string) {
+    return encodeURI(url);
   }
 
-  setSite(site:string){
+  setSite(site: string) {
     localStorage.setItem('site', site);
-    this.showList=false;
+    this.showList = false;
     this.Search(true);
   }
-  getSite(){
+  getSite() {
     return localStorage.getItem('site');
   }
 
-  hideDrop(){
+  hideDrop() {
     setTimeout(() => {
-      this.showList=false
+      this.showList = false
     }, 300);
-    
+
   }
 
-  StartEntry(){
+  StartEntry() {
     this.router.navigate(['/blogs/newcategory']);
   }
-  ViewCategory(category:string){
-    
+  ViewCategory(category: string) {
+
   }
-  EditCategory(category:string){
-    this.router.navigate(['/blogs/editcategory/'+category]);
+  EditCategory(category: string) {
+    this.router.navigate(['/blogs/editcategory/' + category]);
   }
-  startDelete(category:string){
+  startDelete(category: string) {
     this.page.rfno = category;
     openModal('deleteCategory');
 
   }
 
-  lastUpdate(category:any){
+  lastUpdate(category: any) {
     let lastdate = "0";
     let lasttime = "0";
-    if(category.addt !== "0"){
+    if (category.addt !== "0") {
       lastdate = category.addt;
       lasttime = category.adtm;
 
     }
-    if(category.lsdt !== "0"){
+    if (category.lsdt !== "0") {
       lastdate = category.lsdt;
       lasttime = category.lstm;
     }
-    if(lastdate !=="0")
-      return timeAgo(convertToTimestamp(lastdate,lasttime));
+    if (lastdate !== "0")
+      return timeAgo(convertToTimestamp(lastdate, lasttime));
     else
       return "";
   }
-  CancelEntry(){
+  CancelEntry() {
     showWait();
     hideWait();
   }
-  Search(force?:boolean){  
+  Search(force?: boolean) {
     force = force ?? false;
-    if(!force && this.search == this.pvsearch) return;
+    if (!force && this.search == this.pvsearch) return;
 
     showWait();
 
     let data = {
       mode: 'SEARCH',
       site: this.getSite(),
-      bcnp: this.child?this.bcnp:"",
-      search: this.search    
+      bcnp: this.child ? this.bcnp : "",
+      search: this.search
     }
     this.pvsearch = this.search;
-    this.http.post(environment.apiurl+'/cgi/APPLMBCATG',data).subscribe(response => {
-      this.page.data = response; 
+    this.http.post(environment.apiurl + '/cgi/APPLMBCATG', data).subscribe(response => {
+      this.page.data = response;
       scrollToTopInstant();
       hideWait();
     });
   }
 
-  newBlog(){
-    this.router.navigate(['/blogs/newblog/'+this.page.rfno]);
+  newBlog() {
+    this.router.navigate(['/blogs/newblog/' + this.page.rfno]);
   }
-  SearchBlogs(){
+  SearchBlogs() {
     this.router.navigate(['/blogs/blogslist']);
   }
 
 
-  getParent(index:number){
+  getParent(index: number) {
     this.page.data.categories[index].expand = !this.page.data.categories[index].expand;
-    if(!this.page.data || !this.page.data.categories || this.page.data.categories.length<1)return;
-    if(this.page.data.categories[index].parents?.length>0) return;
+    if (!this.page.data || !this.page.data.categories || this.page.data.categories.length < 1) return;
+    if (this.page.data.categories[index].parents?.length > 0) return;
 
     let data = {
       mode: 'PATH',
-      bcno: this.page.data.categories[index].bcno    
+      bcno: this.page.data.categories[index].bcno
     }
-    this.http.post(environment.apiurl+'/cgi/APPLMBCATG',data).subscribe(response => {
-      
-      this.page.data.categories[index].parents = sortByKey(response,'bcno','A');
+    this.http.post(environment.apiurl + '/cgi/APPLMBCATG', data).subscribe(response => {
+
+      this.page.data.categories[index].parents = sortByKey(response, 'bcno', 'A');
     });
   }
   onDelete() {
-     
-     let data = {
+
+    let data = {
       mode: 'DELETE',
-      bcno: this.page.rfno    
+      bcno: this.page.rfno
     }
-    
-    this.http.post(environment.apiurl+'/cgi/APPLMBCATG',data).subscribe(response => {
+
+    this.http.post(environment.apiurl + '/cgi/APPLMBCATG', data).subscribe(response => {
       showToast();
-      
+
       this.Search(true);
     });
-    }
+  }
 
 }

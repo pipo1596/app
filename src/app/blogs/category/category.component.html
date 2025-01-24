@@ -1,177 +1,218 @@
 <app-header [title]="page.title" [fullname]="page.fullname"></app-header>
 
-<section class="ftco-section bg-light pb-3" >
-<div class="container-fluid mw-2000" *ngIf="page.fullname!==''">
-<!--Blog Categories List----------------------------------------------------------------------->
-<section >
-    <div class="row mb-2"><!--Title & Buttons-->
-        <div class="col-12 col-md-6">
-            <button class="btn btn-dark rounded-0 me-2 float-start" title="Back"  (click)="goBack()" type="button"><i class="bi bi-arrow-left bi-boldicon"></i></button>
-            <div class="float-start">
-                <h4 *ngIf="page.entrymode" >Create New Blog Category</h4>
-                <h4 *ngIf="page.editmode">Edit Blog Category</h4>
+<section class="ftco-section bg-light pb-3">
+    <div class="container-fluid mw-2000" *ngIf="page.fullname!==''">
+        <!--Blog Categories List----------------------------------------------------------------------->
+        <section>
+            <div class="row mb-2"><!--Title & Buttons-->
+                <div class="col-12 col-md-6">
+                    <button class="btn btn-dark rounded-0 me-2 float-start" title="Back" (click)="goBack()"
+                        type="button"><i class="bi bi-arrow-left bi-boldicon"></i></button>
+                    <div class="float-start">
+                        <h4 *ngIf="page.entrymode">Create New Blog Category</h4>
+                        <h4 *ngIf="page.editmode">Edit Blog Category</h4>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3 ps-0">
+                    <div class="d-grid gap-2">
+                        <button *ngIf="!page.entrymode" class="btn btn-light rounded-0 border border-2" type="button"
+                            (click)="StartEntry()">Create New Blog Category</button>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3 pe-0">
+                    <div class="d-grid gap-2">
+                        <button *ngIf="!page.entrymode" class="btn btn-dark rounded-0" type="button"
+                            (click)="newBlog()">Create New Blog Post</button>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-12 col-md-3 ps-0">
-            <div class="d-grid gap-2">
-                <button *ngIf="!page.entrymode" class="btn btn-light rounded-0 border border-2" type="button" (click)="StartEntry()">Create New Blog Category</button>
-            </div>
-        </div>
-        <div class="col-12 col-md-3 pe-0">
-            <div class="d-grid gap-2">
-                <button *ngIf="!page.entrymode" class="btn btn-dark rounded-0" type="button" (click)="newBlog()">Create New Blog Post</button>
-            </div>
-        </div>
-    </div>
-    <!--=================================-->
+            <!--=================================-->
 
-    <div class="row justify-content-center">
-    <div class="col-12 col-md-8" *ngIf="!page.entrymode">
-        <!--Left Side-->
-    <div class="row bg-white pt-2 me-1"  >
-       
-            <div class="col">
-                <div class="d-grid gap-2">
-                    <button class="btn btn-light rounded-0 border border-2  mx-400"  [ngClass]="{'active':dspblogs}" type="button" (click)="dspblogs=true">Blog Posts</button>
-                </div>
-            </div>
-            <div class="col">
-                <div class="d-grid gap-2">
-                    <button class="btn btn-light rounded-0 border border-2 mx-400" [ngClass]="{'active':!dspblogs}" type="button" (click)="dspblogs=false">Blog Categories</button>
-                </div>
-            </div>
-            <div [ngClass]="{'d-none':!dspblogs}">
-                <app-blogs [bcnp]="page.rfno??''" [child]="true"></app-blogs>
-            </div>
-            <div [ngClass]="{'d-none':dspblogs}">
-                <app-categories [bcnp]="page.rfno??''" [child]="true"></app-categories>
-            </div>
-            
-    </div>
-    </div>
-    <!--=================================-->
-    <div class="col-12" [ngClass]="{'col-md-6':page.entrymode,'col-md-4':!page.entrymode}"> 
-        <!--Right Side-->
-        <div class="row bg-white pt-2">
-            <form (submit)="validate()">
-            <div class="col-12">
-                <div class="mb-4">
-                    <h5 class="form-label fw-bold">Blog Category Title<span class="text-danger ms-1" *ngIf="categorytitle.error!==''">{{categorytitle.error}}</span></h5>
-                    <input type="text" name="title" class="form-control" id="{{categorytitle.htmlid}}" [(ngModel)]="categorytitle.value">
-                </div>
-                <div class="mb-4">
-                    <h5 class="form-label fw-bold">Status<span class="text-danger ms-1" *ngIf="categorystatus.error!==''">{{categorystatus.error}}</span></h5>
-                    <select class="form-select form-select mb-3" name="status" id="{{categorystatus.htmlid}}" [(ngModel)]="categorystatus.value" 
-                    [ngClass]="{'selectActv':categorystatus.value=='P','selectDsbl':categorystatus.value=='U'}">
-                        <option value="">Select Status</option>
-                        <option value="P">Published</option>
-                        <option value="U">Unpublished</option>
-                      </select>
-                      
-                </div>
-                
-                
-                <div class="mb-4">
-                    <h5 class="form-label fw-bold">Site
-                        <span class="text-danger ms-1" *ngIf="site.error!==''">{{site.error}}</span>
-                    </h5>
-                    <select class="form-select form-select mb-3" name="site" (change)="this.getCategories('',0)" id="{{site.htmlid}}" [(ngModel)]="site.value">
-                        <option value="">Galls.com</option>
-                        <option value="K">Uspatriottactical.com</option>
-                    </select>
-                </div>
-                <hr>
-                <div class="mb-4">
-                    <h5 class="form-label fw-bold">Categorization</h5>
-                    <div class="row">
-                    <div class="col-2 p-0"><h5 class="text-end mt-1">1 - </h5></div>
-                    <div class="col-10 ps-1 ">
-                        <select class="form-select form-select mb-3" disabled aria-label=".form-select example">
-                            <option value="">Tactical Gear</option>
-                        </select>
-                    </div>
-                    <!-- Category Drop Down (s) -->
-                    <ng-container *ngFor="let categarr of categories;index as c">
-                    <ng-container *ngIf="categarr.list?.length>0">
-                    <div class="col-2 p-0"><h5 class="text-end mt-1">{{c+2}} - </h5></div>
-                    <div class="col-10 ps-1 ">
-                    <select class="form-select form-select mb-3" name="categ{{c}}" id="categ{{c}}" [(ngModel)]="categarr.value" (change)="getCategories(categarr.value,c+1)">
-                        <option value="">select</option>
-                        <ng-container *ngFor="let category of categarr.list">
-                            <option value="{{category.bcno}}" *ngIf="page.entrymode || page.rfno!==category.bcno">{{category.desc}}</option>
-                        </ng-container>
-                      </select>
-                    </div>
-                    </ng-container>
-                    </ng-container>
-                                       
-                    
-                    </div> 
-                </div>
-                <div class="mb-4">
-                    <h4 class="form-label fw-bold">SEO</h4>
-                    <h5>Meta Title
-                        <span class="text-danger ms-1" *ngIf="metatitle.error!==''">{{metatitle.error}}</span>
-                    </h5>
-                    <input type="text" class="form-control" maxlength="70" name="metatitle" id="{{metatitle.htmlid}}" [(ngModel)]="metatitle.value">
-                    <div class="form-text mt-0 pe-1 text-end">{{metatitle.value.length}} Of 70 Used</div>
-                    <h5>Meta Description
-                        <span class="text-danger ms-1" *ngIf="metadescription.error!==''">{{metadescription.error}}</span>
-                    </h5>
-                    <textarea class="form-control" maxlength="320" name="metadescription" id="{{metadescription.htmlid}}" [(ngModel)]="metadescription.value"></textarea>
-                    <div class="form-text mt-0 pe-1 text-end">{{metadescription.value.length}} Of 320 Used</div>
-                    <h5>URL and handle
-                        <span class="text-danger ms-1" *ngIf="urlandhandle.error!==''">{{urlandhandle.error}}</span>
-                    </h5>
-                    <input type="text" class="form-control" maxlength="256"  name="urlandhandle" id="{{urlandhandle.htmlid}}" [(ngModel)]="urlandhandle.value" >
-                    <div class="row">
-                    <div class="col-8">
-                        <h4 class="mt-2">Featured Image</h4>
-                    </div>
-                    
-                    <div class="col-4 text-end" *ngIf="!showUpload && page.editmode">
-                        <a [routerLink]="" (click)="changeImage()" class="hoverp m-2 d-block">Change Image</a>
-                    </div>
-                    </div>
-                    <div class="col-12" *ngIf="!showUpload">
-                        <img style="max-height: 300px;max-width: 100%;" src="{{page.imgprfx}}/{{image.value}}" class="preview  m-auto d-block" />
-                    </div>
-                    <div *ngIf="showUpload">
-                    <h5>Upload Image
-                        <span class="text-danger ms-1"  id="{{image.htmlid}}"  *ngIf="image.error!==''">{{image.error}}</span>
-                    </h5>
-                    <app-image-upload  (triggerEvent)="saveAfterImageUpload($event)"></app-image-upload>
-                    </div>
-                      <h5>Tags
-                        <span class="text-danger ms-1" *ngIf="tags.error!==''">{{tags.error}}</span>
-                      </h5>
-                      <input type="text" class="form-control" maxlength="256"  name="tags" id="{{tags.htmlid}}" [(ngModel)]="tags.value">
-                </div>
-                
-                    <div class="col-12 mb-3 text-end">
-                        <button class="btn btn-light rounded-0 border border-2" type="button" *ngIf="page.entrymode" (click)="preload()">Preload</button>
-                        <button class="btn btn-light rounded-0 border border-2 ms-1" type="button" (click)="cancelEntry()">Cancel</button>
-                        <button class="btn btn-danger rounded-0 border border-2 ms-1" type="button" *ngIf="page.editmode" (click)="startDelete()">Delete Category</button>
-                        <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit" *ngIf="page.editmode">Update Category</button>
-                        <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit" *ngIf="page.entrymode">Create New Category</button>
-                    </div>
-            </div>
-            </form>
-        </div>
-    </div>
-    <!--=================================-->
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8" *ngIf="!page.entrymode">
+                    <!--Left Side-->
+                    <div class="row bg-white pt-2 me-1">
 
+                        <div class="col">
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-light rounded-0 border border-2  mx-400"
+                                    [ngClass]="{'active':dspblogs}" type="button" (click)="dspblogs=true">Blog
+                                    Posts</button>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-light rounded-0 border border-2 mx-400"
+                                    [ngClass]="{'active':!dspblogs}" type="button" (click)="dspblogs=false">Blog
+                                    Categories</button>
+                            </div>
+                        </div>
+                        <div [ngClass]="{'d-none':!dspblogs}">
+                            <app-blogs [bcnp]="page.rfno??''" [child]="true"></app-blogs>
+                        </div>
+                        <div [ngClass]="{'d-none':dspblogs}">
+                            <app-categories [bcnp]="page.rfno??''" [child]="true"></app-categories>
+                        </div>
+
+                    </div>
+                </div>
+                <!--=================================-->
+                <div class="col-12" [ngClass]="{'col-md-6':page.entrymode,'col-md-4':!page.entrymode}">
+                    <!--Right Side-->
+                    <div class="row bg-white pt-2">
+                        <form (submit)="validate()">
+                            <div class="col-12">
+                                <div class="mb-4">
+                                    <h5 class="form-label fw-bold">Blog Category Title<span class="text-danger ms-1"
+                                            *ngIf="categorytitle.error!==''">{{categorytitle.error}}</span></h5>
+                                    <input type="text" name="title" class="form-control" id="{{categorytitle.htmlid}}"
+                                        [(ngModel)]="categorytitle.value">
+                                </div>
+                                <div class="mb-4">
+                                    <h5 class="form-label fw-bold">Status<span class="text-danger ms-1"
+                                            *ngIf="categorystatus.error!==''">{{categorystatus.error}}</span></h5>
+                                    <select class="form-select form-select mb-3" name="status"
+                                        id="{{categorystatus.htmlid}}" [(ngModel)]="categorystatus.value"
+                                        [ngClass]="{'selectActv':categorystatus.value=='P','selectDsbl':categorystatus.value=='U'}">
+                                        <option value="">Select Status</option>
+                                        <option value="P">Published</option>
+                                        <option value="U">Unpublished</option>
+                                    </select>
+
+                                </div>
+
+
+                                <div class="mb-4">
+                                    <h5 class="form-label fw-bold">Site
+                                        <span class="text-danger ms-1" *ngIf="site.error!==''">{{site.error}}</span>
+                                    </h5>
+                                    <select class="form-select form-select mb-3" name="site"
+                                        (change)="this.getCategories('',0)" id="{{site.htmlid}}"
+                                        [(ngModel)]="site.value">
+                                        <option value="">Galls.com</option>
+                                        <option value="K">Uspatriottactical.com</option>
+                                    </select>
+                                </div>
+                                <hr>
+                                <div class="mb-4">
+                                    <h5 class="form-label fw-bold">Categorization</h5>
+                                    <div class="row">
+                                        <div class="col-2 p-0">
+                                            <h5 class="text-end mt-1">1 - </h5>
+                                        </div>
+                                        <div class="col-10 ps-1 ">
+                                            <select class="form-select form-select mb-3" disabled
+                                                aria-label=".form-select example">
+                                                <option value="">Tactical Gear</option>
+                                            </select>
+                                        </div>
+                                        <!-- Category Drop Down (s) -->
+                                        <ng-container *ngFor="let categarr of categories;index as c">
+                                            <ng-container *ngIf="categarr.list?.length>0">
+                                                <div class="col-2 p-0">
+                                                    <h5 class="text-end mt-1">{{c+2}} - </h5>
+                                                </div>
+                                                <div class="col-10 ps-1 ">
+                                                    <select class="form-select form-select mb-3" name="categ{{c}}"
+                                                        id="categ{{c}}" [(ngModel)]="categarr.value"
+                                                        (change)="getCategories(categarr.value,c+1)">
+                                                        <option value="">select</option>
+                                                        <ng-container *ngFor="let category of categarr.list">
+                                                            <option value="{{category.bcno}}"
+                                                                *ngIf="page.entrymode || page.rfno!==category.bcno">
+                                                                {{category.desc}}</option>
+                                                        </ng-container>
+                                                    </select>
+                                                </div>
+                                            </ng-container>
+                                        </ng-container>
+
+
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <h4 class="form-label fw-bold">SEO</h4>
+                                    <h5>Meta Title
+                                        <span class="text-danger ms-1"
+                                            *ngIf="metatitle.error!==''">{{metatitle.error}}</span>
+                                    </h5>
+                                    <input type="text" class="form-control" maxlength="70" name="metatitle"
+                                        id="{{metatitle.htmlid}}" [(ngModel)]="metatitle.value">
+                                    <div class="form-text mt-0 pe-1 text-end">{{metatitle.value.length}} Of 70 Used
+                                    </div>
+                                    <h5>Meta Description
+                                        <span class="text-danger ms-1"
+                                            *ngIf="metadescription.error!==''">{{metadescription.error}}</span>
+                                    </h5>
+                                    <textarea class="form-control" maxlength="320" name="metadescription"
+                                        id="{{metadescription.htmlid}}" [(ngModel)]="metadescription.value"></textarea>
+                                    <div class="form-text mt-0 pe-1 text-end">{{metadescription.value.length}} Of 320
+                                        Used</div>
+                                    <h5>URL and handle
+                                        <span class="text-danger ms-1"
+                                            *ngIf="urlandhandle.error!==''">{{urlandhandle.error}}</span>
+                                    </h5>
+                                    <input type="text" class="form-control" maxlength="256" name="urlandhandle"
+                                        id="{{urlandhandle.htmlid}}" [(ngModel)]="urlandhandle.value">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <h4 class="mt-2">Featured Image</h4>
+                                        </div>
+
+                                        <div class="col-4 text-end" *ngIf="!showUpload && page.editmode">
+                                            <a [routerLink]="" (click)="changeImage()" class="hoverp m-2 d-block">Change
+                                                Image</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-12" *ngIf="!showUpload">
+                                        <img style="max-height: 300px;max-width: 100%;"
+                                            src="{{page.imgprfx}}/{{image.value}}" class="preview  m-auto d-block" />
+                                    </div>
+                                    <div *ngIf="showUpload">
+                                        <h5>Upload Image
+                                            <span class="text-danger ms-1" id="{{image.htmlid}}"
+                                                *ngIf="image.error!==''">{{image.error}}</span>
+                                        </h5>
+                                        <app-image-upload
+                                            (triggerEvent)="saveAfterImageUpload($event)"></app-image-upload>
+                                    </div>
+                                    <h5>Tags
+                                        <span class="text-danger ms-1" *ngIf="tags.error!==''">{{tags.error}}</span>
+                                    </h5>
+                                    <input type="text" class="form-control" maxlength="256" name="tags"
+                                        id="{{tags.htmlid}}" [(ngModel)]="tags.value">
+                                </div>
+
+                                <div class="col-12 mb-3 text-end">
+                                    <button class="btn btn-light rounded-0 border border-2" type="button"
+                                        *ngIf="page.entrymode" (click)="preload()">Preload</button>
+                                    <button class="btn btn-light rounded-0 border border-2 ms-1" type="button"
+                                        (click)="cancelEntry()">Cancel</button>
+                                    <button class="btn btn-danger rounded-0 border border-2 ms-1" type="button"
+                                        *ngIf="page.editmode" (click)="startDelete()">Delete Category</button>
+                                    <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit"
+                                        *ngIf="page.editmode">Update Category</button>
+                                    <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit"
+                                        *ngIf="page.entrymode">Create New Category</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!--=================================-->
+
+            </div>
+        </section>
+
+    </div>
+
+    <div class="alert alert-danger mt-3" role="alert" [class.d-none]="page.loading" *ngIf="page.fullname==''">
+        Make sure to login to access this feature!
     </div>
 </section>
-
-</div>
-
-<div class="alert alert-danger mt-3" role="alert" [class.d-none]="page.loading" *ngIf="page.fullname==''">
-    Make sure to login to access this feature!
-</div>
-</section>
-<app-toast  [title]="'Category Saved'"  [position]="'top'" [body]="'Category Successfully Saved'"></app-toast>
-<app-confirm (notify)="onDelete()" [title]="'Delete Category'" [id]="'deleteCategory'" [body]="'Delete Category?'"></app-confirm>
-<app-confirm (notify)="goBack()" [title]="'Cancel'" [id]="'cancelEntry'" [body]="'Cancel Category Entry? Changes will not be saved.'"></app-confirm>
+<app-toast [title]="'Category Saved'" [position]="'top'" [body]="'Category Successfully Saved'"></app-toast>
+<app-confirm (notify)="onDelete()" [title]="'Delete Category'" [id]="'deleteCategory'"
+    [body]="'Delete Category?'"></app-confirm>
+<app-confirm (notify)="goBack()" [title]="'Cancel'" [id]="'cancelEntry'"
+    [body]="'Cancel Category Entry? Changes will not be saved.'"></app-confirm>
 <app-footer></app-footer>
-

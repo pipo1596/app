@@ -42,7 +42,7 @@ export class BlogComponent {
       ],
     uploadUrl: environment.imgprfx,
     upload: (file: File) => { 
-      
+      showWait('Uploading Image...');
         return new Observable((observer) => {
           // Upload image via your Angular service
           const uniqueFileName = file.name.replace(/(\.[\w\d_-]+)$/i, `-${Date.now()}$1`);
@@ -55,12 +55,15 @@ export class BlogComponent {
                 // Prepend the base URL to the relative image path
                 const fullImageUrl:any = {"body":{"imageUrl":environment.imgprfx+'/' + imageUrl}};
                 // Pass the full image URL to the editor (this triggers the insertion)
+                hideWait();
                 observer.next(fullImageUrl);
+                
               } 
             },
             (error) => {
               observer.error('Upload failed: ' + error.message);
               observer.complete();
+              hideWait();
             }
           );
         })}

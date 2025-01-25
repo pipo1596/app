@@ -235,7 +235,10 @@ export class CategoryComponent {
 
   }
   cancelEntry() {
-    openModal('cancelEntry');
+    if(this.page.changes)
+      openModal('cancelEntry');
+    else
+      this.goBack();
   }
   setMode() {
     if (this.router.url === '/blogs/newcategory') {

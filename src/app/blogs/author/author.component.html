@@ -1,7 +1,7 @@
 <app-header [title]="page.title" [fullname]="page.fullname"></app-header>
 
 <section class="ftco-section bg-light pb-3">
-    <form (submit)="validate()">
+    <form (submit)="validate()" (change)="page.changes = true">
         <div class="row mb-2"><!--Title & Buttons-->
             <div class="col-12 col-md-6">
                 <button class="btn btn-dark rounded-0 me-2 float-start" title="Back" (click)="goBack()" type="button"><i
@@ -134,7 +134,7 @@
         </div>
     </form>
 </section>
-<app-confirm (notify)="onDelete()" [title]="'Delete Blog Author'" [id]="'deleteBlog'"
+<app-confirm (notify)="onDelete()" [title]="'Delete Blog Author'" [id]="'deleteAuthor'"
     [body]="'Delete Blog Author?'"></app-confirm>
 <app-confirm (notify)="goBack()" [title]="'Cancel'" [id]="'cancelEntry'"
     [body]="'Cancel Blog Author Entry? Changes will not be saved.'"></app-confirm>

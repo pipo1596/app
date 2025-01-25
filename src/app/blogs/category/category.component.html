@@ -60,7 +60,7 @@
                 <div class="col-12" [ngClass]="{'col-md-6':page.entrymode,'col-md-4':!page.entrymode}">
                     <!--Right Side-->
                     <div class="row bg-white pt-2">
-                        <form (submit)="validate()">
+                        <form (submit)="validate()" (change)="page.changes = true">
                             <div class="col-12">
                                 <div class="mb-4">
                                     <h5 class="form-label fw-bold">Blog Category Title<span class="text-danger ms-1"

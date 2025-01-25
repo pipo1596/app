@@ -134,7 +134,10 @@ export class AuthorComponent {
   }
 
   cancelEntry() {
-    openModal('cancelEntry');
+    if(this.page.changes)
+      openModal('cancelEntry');
+    else
+      this.goBack();
   }
   startDelete() {
     openModal('deleteAuthor');

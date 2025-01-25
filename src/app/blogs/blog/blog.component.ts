@@ -161,7 +161,11 @@ export class BlogComponent {
   }
 
   cancelEntry() {
-    openModal('cancelEntry');
+    if(this.page.changes)
+      openModal('cancelEntry');
+    else
+      this.goBack();
+
   }
   startDelete() {
     openModal('deleteBlog');

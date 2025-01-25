@@ -142,6 +142,9 @@ export class AuthorComponent {
   startDelete() {
     openModal('deleteAuthor');
   }
+  buildUrl():string{
+   return transformToSeoUrl(this.urlandhandle.value);
+  }
 
   setSeo(){
       this.urlandhandle.value = transformToSeoUrl(this.authorName.value);

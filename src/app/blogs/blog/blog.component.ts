@@ -181,6 +181,29 @@ export class BlogComponent {
   cleanUrl(){
     this.urlandhandle.value = transformToSeoUrl(this.urlandhandle.value);
   }
+  buildUrl():string{
+    let url = ""
+    this.categories.forEach((outercateg: any,indexo:number)=>{//Based on the selected primary category
+      if(indexo==parseInt(this.primarycategory.value)){
+        outercateg.forEach((categ:any)=>{
+            categ.list.forEach((list: any)=>{
+              if(list.bcno==categ.value){
+                if(url=="")
+                  url=transformToSeoUrl(list.url);
+                else
+                  url= url + '/' +  transformToSeoUrl(list.url);
+              }
+            })
+      })
+    }
+    });
+    
+    if(url=="")
+      url=transformToSeoUrl(this.urlandhandle.value);
+    else
+      url= url + '/' +  transformToSeoUrl(this.urlandhandle.value);
+    return url;
+  }
   onDelete() {
 
     let data = {
@@ -312,8 +335,8 @@ export class BlogComponent {
   }
   removeCategory(indexo: number) {
 
-    this.categories.pop();
-    if (parseInt(this.primarycategory.value) == indexo)
+    this.categories.splice(indexo,1);
+    if (parseInt(this.primarycategory.value) == indexo || this.categories.length==1)
       this.primarycategory.value = "0";
 
   }

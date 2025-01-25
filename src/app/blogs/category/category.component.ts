@@ -154,6 +154,24 @@ export class CategoryComponent {
 
 
   }
+  buildUrl():string{
+    let url = ""
+    this.categories.forEach((categ: any)=>{
+      categ.list.forEach((list: any)=>{
+        if(list.bcno==categ.value){
+          if(url=="")
+            url=transformToSeoUrl(list.url);
+          else
+            url= url + '/' +  transformToSeoUrl(list.url);
+        }
+      })
+    })
+    if(url=="")
+      url=transformToSeoUrl(this.urlandhandle.value);
+    else
+      url= url + '/' +  transformToSeoUrl(this.urlandhandle.value);
+    return url;
+  }
 
 setSeo(){
       this.urlandhandle.value = transformToSeoUrl(this.categorytitle.value);

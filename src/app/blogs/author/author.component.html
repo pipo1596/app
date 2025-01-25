@@ -4,7 +4,7 @@
     <form (submit)="validate()" (change)="page.changes = true">
         <div class="row mb-2"><!--Title & Buttons-->
             <div class="col-12 col-md-6">
-                <button class="btn btn-dark rounded-0 me-2 float-start" title="Back" (click)="goBack()" type="button"><i
+                <button class="btn btn-dark rounded-0 me-2 float-start" title="Back" (click)="cancelEntry()" type="button"><i
                         class="bi bi-arrow-left bi-boldicon"></i></button>
                 <div class="float-start">
                     <h4 *ngIf="page.entrymode">Create New Blog Author</h4>
@@ -89,6 +89,7 @@
                         </h5>
                         <input type="text" class="form-control" maxlength="256" name="urlandhandle"
                             id="{{urlandhandle.htmlid}}" [(ngModel)]="urlandhandle.value" (change)="cleanUrl()">
+                            <small>/authors/{{buildUrl()}}</small>
                         <div class="row">
                             <div class="col-8">
                                 <h4 class="mt-2">Featured Image</h4>

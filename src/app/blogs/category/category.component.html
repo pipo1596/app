@@ -6,29 +6,34 @@
         <section>
             <div class="row mb-2"><!--Title & Buttons-->
                 <div class="col-12 col-md-6">
-                    <button class="btn btn-dark rounded-0 me-2 float-start" title="Back" (click)="goBack()"
+                    <button class="btn btn-dark rounded-0 me-2 float-start" title="Back" (click)="cancelEntry()"
                         type="button"><i class="bi bi-arrow-left bi-boldicon"></i></button>
                     <div class="float-start">
                         <h4 *ngIf="page.entrymode">Create New Blog Category</h4>
                         <h4 *ngIf="page.editmode">Edit Blog Category</h4>
                     </div>
                 </div>
-                <div class="col-12 col-md-3 ps-0">
-                    <div class="d-grid gap-2">
-                        <button *ngIf="!page.entrymode" class="btn btn-light rounded-0 border border-2" type="button"
-                            (click)="StartEntry()">Create New Blog Category</button>
-                    </div>
-                </div>
-                <div class="col-12 col-md-3 pe-0">
-                    <div class="d-grid gap-2">
-                        <button *ngIf="!page.entrymode" class="btn btn-dark rounded-0" type="button"
-                            (click)="newBlog()">Create New Blog Post</button>
-                    </div>
-                </div>
+                
             </div>
             <!--=================================-->
 
             <div class="row justify-content-center">
+                <div class="row bg-white pt-2 pe-0 pb-3" *ngIf="!page.entrymode">
+                <div class="col-md-6"></div>
+                    
+                    <div class="col-12 col-md-3 pe-0">
+                        <div class="d-grid gap-2">
+                            <button class="btn btn btn-default border-2 border rounded-0 rounded-0" type="button"
+                                (click)="newBlog()"><i class="bi bi-chat-square-text me-2"></i>Create New Blog Post</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3 px-0">
+                        <div class="d-grid gap-2  ps-2">
+                            <button  class="btn btn-dark rounded-0 border border-2" type="button"
+                                (click)="StartEntry()"><i class="bi bi-list-stars me-2"></i>Create New Blog Category</button>
+                        </div>
+                    </div>
+                    </div>
                 <div class="col-12 col-md-8" *ngIf="!page.entrymode">
                     <!--Left Side-->
                     <div class="row bg-white pt-2 me-1">
@@ -154,6 +159,8 @@
                                     </h5>
                                     <input type="text" class="form-control" maxlength="256" name="urlandhandle" (change)="cleanUrl()"
                                         id="{{urlandhandle.htmlid}}" [(ngModel)]="urlandhandle.value">
+                                    <small *ngIf="site.value==''">https://galls.com/tacticalgear/{{buildUrl()}}</small>
+                                    <small *ngIf="site.value=='K'">https://www.uspatriottactical.com/tacticalgear/{{buildUrl()}}</small>
                                     <div class="row">
                                         <div class="col-8">
                                             <h4 class="mt-2">Featured Image</h4>

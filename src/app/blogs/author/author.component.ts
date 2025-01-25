@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data-trigger.service';
-import { focusField, hideWait, openModal, showWait, transformToSeoUrl, transformToTags } from '../../shared/utils';
+import { escapeHtml, focusField, hideWait, openModal, showWait, transformToSeoUrl, transformToTags } from '../../shared/utils';
 import { FileUploadService } from '../../services/file-upload.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Observable } from 'rxjs';
@@ -88,9 +88,6 @@ export class AuthorComponent {
   parents: any = [];
   fullmode: boolean = false;
   formData = new FormData();
-  chunks: any = [];
-  chunkSize: number = 10000;
-
   html: any;
 
   constructor(private http: HttpClient,
@@ -222,10 +219,12 @@ export class AuthorComponent {
       bametk: this.tags.value,
       baurl: this.urlandhandle.value,
       baimg: file,
-      bio: this.authorBio.value.slice(0, 10000),//Limited to 10k (DB)
+      bio: escapeHtml(this.authorBio.value.slice(0, 10000)),//Limited to 10k (DB)
       babano: this.page.rfno,
       parents: this.parents
     }
+
+    
 
     this.http.post(environment.apiurl + '/cgi/APPSRAUTOR', data).subscribe(response => {
 

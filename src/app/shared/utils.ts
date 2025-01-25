@@ -16,6 +16,13 @@ export function hideWait(timeout?:number): void {
     }
         
 }
+export function escapeHtml(input: string): string {
+  return input
+        .replace(/'/g, "&apos;")
+        .replace(/’/g, "&rsquo;")
+        .replace(/‘/g, "&lsquo;")
+        .replace(/”/g, "&ldquo;");
+}
 export function transformToSeoUrl(text: string): string {
   return text
     .trim()

@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data-trigger.service';
-import { dbtodspdate, dbtodsptime, focusField, getSite, hideWait, openModal, showWait, transformToSeoUrl, transformToTags } from '../../shared/utils';
+import { dbtodspdate, dbtodsptime, escapeHtml, focusField, getSite, hideWait, openModal, showWait, transformToSeoUrl, transformToTags } from '../../shared/utils';
 import { FileUploadService } from '../../services/file-upload.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Observable } from 'rxjs';
@@ -294,12 +294,13 @@ export class BlogComponent {
 
 
   htmlChunks() {
-    const length = this.blogHtml.value.length;
+    let fullhtml = escapeHtml(this.blogHtml.value);
+    const length = fullhtml.length;
     this.chunks = [];
 
     for (let i = 0; i < length; i += this.chunkSize) {
       this.chunks.push(
-        { "chunk": this.blogHtml.value.slice(i, i + this.chunkSize) }
+        { "chunk": fullhtml.slice(i, i + this.chunkSize) }
       );
     }
   }

@@ -16,6 +16,23 @@ export function hideWait(timeout?:number): void {
     }
         
 }
+export function transformToSeoUrl(text: string): string {
+  return text
+    .trim()
+    .toLowerCase() // Convert to lowercase
+    .replace(/[^a-z0-9\s-]/g, '') // Remove any non-alphanumeric characters except spaces and hyphens
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .replace(/-+/g, '-') // Replace multiple hyphens with a single hyphen
+    .trim(); // Remove leading and trailing spaces
+}
+export function transformToTags(text: string): string {
+  return text
+    .trim()
+    .toLowerCase() // Convert to lowercase
+    .replace(/[^a-z0-9\s-]/g, '') // Remove any non-alphanumeric characters except spaces and hyphens
+    .replace(/ +/g, ' ') // Replace multiple spaces with a single space
+    .trim(); // Remove leading and trailing spaces
+}
 export function sortByKey(array:any, key:string,dir:string) {
   return array.sort(function(a:any, b:any) {
       var x = a[key]; var y = b[key];

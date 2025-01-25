@@ -40,7 +40,7 @@
 
 
                             <input type="text" name="title" class="form-control" id="{{authorName.htmlid}}"
-                                [(ngModel)]="authorName.value">
+                                [(ngModel)]="authorName.value" (keyup)="setSeo()" maxlength="512">
                         </div>
                         <h5 class="form-label fw-bold">&nbsp;<span class="text-danger ms-1"
                                 *ngIf="authorBio.error!==''">{{authorBio.error}}</span></h5>
@@ -74,21 +74,21 @@
                         <h5>Meta Title
                             <span class="text-danger ms-1" *ngIf="metatitle.error!==''">{{metatitle.error}}</span>
                         </h5>
-                        <input type="text" class="form-control" maxlength="70" name="metatitle"
-                            id="{{metatitle.htmlid}}" [(ngModel)]="metatitle.value">
-                        <div class="form-text mt-0 pe-1 text-end">{{metatitle.value.length}} Of 70 Used</div>
+                        <input type="text" class="form-control" maxlength="128" name="metatitle"
+                            id="{{metatitle.htmlid}}" [(ngModel)]="metatitle.value" (change)="cleanMeta()">
+                        <div class="form-text mt-0 pe-1 text-end">{{metatitle.value.length}} Of 128 Used</div>
                         <h5>Meta Description
                             <span class="text-danger ms-1"
                                 *ngIf="metadescription.error!==''">{{metadescription.error}}</span>
                         </h5>
-                        <textarea class="form-control" maxlength="320" name="metadescription"
+                        <textarea class="form-control" maxlength="256" name="metadescription"
                             id="{{metadescription.htmlid}}" [(ngModel)]="metadescription.value"></textarea>
-                        <div class="form-text mt-0 pe-1 text-end">{{metadescription.value.length}} Of 320 Used</div>
+                        <div class="form-text mt-0 pe-1 text-end">{{metadescription.value.length}} Of 256 Used</div>
                         <h5>URL and handle
                             <span class="text-danger ms-1" *ngIf="urlandhandle.error!==''">{{urlandhandle.error}}</span>
                         </h5>
                         <input type="text" class="form-control" maxlength="256" name="urlandhandle"
-                            id="{{urlandhandle.htmlid}}" [(ngModel)]="urlandhandle.value">
+                            id="{{urlandhandle.htmlid}}" [(ngModel)]="urlandhandle.value" (change)="cleanUrl()">
                         <div class="row">
                             <div class="col-8">
                                 <h4 class="mt-2">Featured Image</h4>
@@ -117,8 +117,6 @@
 
                     </div>
                     <div class="col-12 mb-3 text-end">
-                        <button class="btn btn-light rounded-0 border border-2" type="button" *ngIf="page.entrymode"
-                            (click)="preload()">Preload</button>
                         <button class="btn btn-light rounded-0 border border-2 ms-1" type="button"
                             (click)="cancelEntry()">Cancel</button>
                         <button class="btn btn-danger rounded-0 border border-2 ms-1" type="button"

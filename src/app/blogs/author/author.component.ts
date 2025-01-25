@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data-trigger.service';
-import { focusField, hideWait, openModal, showWait } from '../../shared/utils';
+import { focusField, hideWait, openModal, showWait, transformToSeoUrl, transformToTags } from '../../shared/utils';
 import { FileUploadService } from '../../services/file-upload.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Observable } from 'rxjs';
@@ -143,6 +143,17 @@ export class AuthorComponent {
     openModal('deleteAuthor');
   }
 
+  setSeo(){
+      this.urlandhandle.value = transformToSeoUrl(this.authorName.value);
+      this.metatitle.value = transformToTags(this.authorName.value);
+    }
+    cleanMeta(){
+      this.metatitle.value = transformToTags(this.metatitle.value);
+    }
+    cleanUrl(){
+      this.urlandhandle.value = transformToSeoUrl(this.urlandhandle.value);
+    }
+
   onDelete() {
 
     let data = {
@@ -153,17 +164,6 @@ export class AuthorComponent {
     this.http.post(environment.apiurl + '/cgi/APPLMAUTOR', data).subscribe(response => {
       this.goBack();
     });
-  }
-
-  preload() {
-    //For easier testing:
-    this.authorName.value = 'Author Name';
-    this.authorstatus.value = 'A';
-    this.authorBio.value = '<h1>Test Header 1</h1>'
-    this.metatitle.value = 'test meta title';
-    this.metadescription.value = 'test meta description';
-    this.urlandhandle.value = 'test url and handle';
-    this.tags.value = 'test tags value';
   }
 
   validate() {

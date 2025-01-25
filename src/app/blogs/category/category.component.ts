@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { focusField, getSite, hideWait, openModal, showWait } from '../../shared/utils';
+import { focusField, getSite, hideWait, openModal, showWait, transformToSeoUrl, transformToTags } from '../../shared/utils';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Page, TextField } from '../../shared/textField';
 import { DataService } from '../../services/data-trigger.service';
@@ -155,17 +155,16 @@ export class CategoryComponent {
 
   }
 
-  preload() {
-    //For easier testing:
-    let now = new Date();
-    this.categorytitle.value = 'test title';
-    this.categorystatus.value = 'P';
-    this.metatitle.value = 'test meta title';
-    this.metadescription.value = 'test meta description';
-    this.urlandhandle.value = 'test url and handle';
-    this.tags.value = 'test tags value';
-
-  }
+setSeo(){
+      this.urlandhandle.value = transformToSeoUrl(this.categorytitle.value);
+      this.metatitle.value = transformToTags(this.categorytitle.value);
+    }
+    cleanMeta(){
+      this.metatitle.value = transformToTags(this.metatitle.value);
+    }
+    cleanUrl(){
+      this.urlandhandle.value = transformToSeoUrl(this.urlandhandle.value);
+    }
 
   getbcnp() {
     let bcnp = this.categories[0]?.value;

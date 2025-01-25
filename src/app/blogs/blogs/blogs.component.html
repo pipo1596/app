@@ -9,28 +9,37 @@
                     <div class="col-12 col-md-6">
                         <h4 class="ms-1">{{page.title}}</h4>
                     </div>
-                    <div class="col-12 col-md-2 p-0 px-1">
-                        <div class="d-grid gap-2">
-                            <button class="btn btn btn-default border-2 border rounded-0 rounded-0" (click)="newBlog()"
-                                type="button"> New Blog Post </button>
+                    
+                    
+                </div>
+                <div class="row bg-white">
+                    <div class="col-12 col-md-6 p-0 mt-2 mb-1" *ngIf="!child">
+                        <div class="input-group p-0 mb-2 rounded-0" >
+                            <button class="btn border border-3 btn-dark" style="min-width: 200px;" type="button" >
+                                    Blog Posts
+                            </button>
+                            <button  
+                                class="btn  border border-3  btn-default" type="button"  style="min-width: 200px;" (click)="SearchCategs()">
+                                     Blog Categories
+                            </button>
                         </div>
                     </div>
-                    <div class="col-12 col-md-2 p-0 px-1">
+                    <div class="col-12 col-md-3 p-0 mt-2 mb-1">
                         <div class="d-grid gap-2">
-                            <button class="btn btn-dark rounded-0" (click)="StartEntry()" type="button"> New Blog
+                            <button class="btn btn btn-default border-2 border rounded-0 rounded-0" (click)="newBlog()"
+                                type="button"><i class="bi bi-chat-square-text me-2"></i>Create New Blog Post </button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3 p-0 mt-2 mb-1 ps-2">
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-dark rounded-0" (click)="StartEntry()" type="button">
+                                <i class="bi bi-list-stars me-2"></i>Create New Blog
                                 Category</button>
                         </div>
                     </div>
-                    <div class="col-12 col-md-2 p-0 px-1">
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-primary rounded-0" (click)="SearchCategs()" type="button">Search
-                                Categories &nbsp;<i class="bi bi-search fw-bold"></i></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="row bg-white">
+                    <div class="col-12 p-0">
                     <div class="input-group p-0 mb-2 rounded-0" *ngIf="!child || page.data.blogs.length>5">
-                        <button style="min-width: 250px;" *ngIf="!child"
+                        <button style="min-width: 200px;" *ngIf="!child"
                             class="btn border-end-0 border border-3 dropdown-toggle btn-dark" type="button"
                             (click)="showList=!showList" (blur)="hideDrop()">
                             <span *ngIf="getSite()=='' || !getSite()">galls.com</span>
@@ -50,6 +59,7 @@
                                 <i class="bi bi-search bi-boldicon"></i>
                             </button>
                         </span>
+                    </div>
                     </div>
                     <h5 class="text-center" *ngIf="child && page.data.blogs.length<1">--- No Blog Posts Found ---</h5>
 

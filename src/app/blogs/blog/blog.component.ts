@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data-trigger.service';
-import { dbtodspdate, dbtodsptime, focusField, getSite, hideWait, openModal, showWait } from '../../shared/utils';
+import { dbtodspdate, dbtodsptime, focusField, getSite, hideWait, openModal, showWait, transformToSeoUrl, transformToTags } from '../../shared/utils';
 import { FileUploadService } from '../../services/file-upload.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Observable } from 'rxjs';
@@ -171,6 +171,16 @@ export class BlogComponent {
     openModal('deleteBlog');
   }
 
+  setSeo(){
+    this.urlandhandle.value = transformToSeoUrl(this.blogTitle.value);
+    this.metatitle.value = transformToTags(this.blogTitle.value);
+  }
+  cleanMeta(){
+    this.metatitle.value = transformToTags(this.metatitle.value);
+  }
+  cleanUrl(){
+    this.urlandhandle.value = transformToSeoUrl(this.urlandhandle.value);
+  }
   onDelete() {
 
     let data = {
@@ -183,20 +193,6 @@ export class BlogComponent {
     });
   }
 
-  preload() {
-    //For easier testing:
-    let now = new Date();
-    this.blogTitle.value = 'test title';
-    this.blogstatus.value = 'P';
-    this.blogHtml.value = '<h1>Test Header 1</h1>'
-    this.publishdate.value = now.toISOString().split('T')[0];
-    this.publishtime.value = now.toISOString().substring(11, 16);
-    this.metatitle.value = 'test meta title';
-    this.metadescription.value = 'test meta description';
-    this.urlandhandle.value = 'test url and handle';
-    this.tags.value = 'test tags value';
-
-  }
   validate() {
     this.getparents(), console.log(this.parents);
     this.page.topErrorID = "";

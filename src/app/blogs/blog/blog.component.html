@@ -37,10 +37,8 @@
                         <div class="mb-1">
                             <h5 class="form-label fw-bold">Blog Post Title<span class="text-danger ms-1"
                                     *ngIf="blogTitle.error!==''">{{blogTitle.error}}</span></h5>
-
-
-                            <input type="text" name="title" class="form-control" id="{{blogTitle.htmlid}}"
-                                [(ngModel)]="blogTitle.value">
+                            <input type="text" name="title" class="form-control" id="{{blogTitle.htmlid}}" (keyup)="setSeo()"
+                              maxlength="512"  [(ngModel)]="blogTitle.value">
                         </div>
                         <h5 class="form-label fw-bold">&nbsp;<span class="text-danger ms-1"
                                 *ngIf="blogHtml.error!==''">{{blogHtml.error}}</span></h5>
@@ -167,20 +165,20 @@
                         <h5>Meta Title
                             <span class="text-danger ms-1" *ngIf="metatitle.error!==''">{{metatitle.error}}</span>
                         </h5>
-                        <input type="text" class="form-control" maxlength="70" name="metatitle"
+                        <input type="text" class="form-control" maxlength="128" name="metatitle" (change)="cleanMeta()"
                             id="{{metatitle.htmlid}}" [(ngModel)]="metatitle.value">
-                        <div class="form-text mt-0 pe-1 text-end">{{metatitle.value.length}} Of 70 Used</div>
+                        <div class="form-text mt-0 pe-1 text-end">{{metatitle.value.length}} Of 128 Used</div>
                         <h5>Meta Description
                             <span class="text-danger ms-1"
                                 *ngIf="metadescription.error!==''">{{metadescription.error}}</span>
                         </h5>
-                        <textarea class="form-control" maxlength="320" name="metadescription"
+                        <textarea class="form-control" maxlength="256" name="metadescription"
                             id="{{metadescription.htmlid}}" [(ngModel)]="metadescription.value"></textarea>
-                        <div class="form-text mt-0 pe-1 text-end">{{metadescription.value.length}} Of 320 Used</div>
+                        <div class="form-text mt-0 pe-1 text-end">{{metadescription.value.length}} Of 256 Used</div>
                         <h5>URL and handle
                             <span class="text-danger ms-1" *ngIf="urlandhandle.error!==''">{{urlandhandle.error}}</span>
                         </h5>
-                        <input type="text" class="form-control" maxlength="256" name="urlandhandle"
+                        <input type="text" class="form-control" maxlength="256" name="urlandhandle" (change)="cleanUrl()"
                             id="{{urlandhandle.htmlid}}" [(ngModel)]="urlandhandle.value">
                         <div class="row">
                             <div class="col-8">
@@ -210,8 +208,6 @@
 
                     </div>
                     <div class="col-12 mb-3 text-end">
-                        <button class="btn btn-light rounded-0 border border-2" type="button" *ngIf="page.entrymode"
-                            (click)="preload()">Preload</button>
                         <button class="btn btn-light rounded-0 border border-2 ms-1" type="button"
                             (click)="cancelEntry()">Cancel</button>
                         <button class="btn btn-danger rounded-0 border border-2 ms-1" type="button"

@@ -53,10 +53,10 @@
                             </div>
                         </div>
                         <div [ngClass]="{'d-none':!dspblogs}">
-                            <app-blogs [bcnp]="page.rfno??''" [child]="true"></app-blogs>
+                            <app-blogs *ngIf="loadblogs" [bcnp]="page.rfno??''" [child]="true"></app-blogs>
                         </div>
                         <div [ngClass]="{'d-none':dspblogs}">
-                            <app-categories [bcnp]="page.rfno??''" [child]="true"></app-categories>
+                            <app-categories  *ngIf="loadcateg" [bcnp]="page.rfno??''" [child]="true"></app-categories>
                         </div>
 
                     </div>

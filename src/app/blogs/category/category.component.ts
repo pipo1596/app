@@ -17,7 +17,8 @@ export class CategoryComponent {
   //This contains all the share page data:
   page = new Page();
 
-
+  loadblogs:boolean = false;
+  loadcateg:boolean = false;
   //Screen Fields
   categorytitle = new TextField("categorytitle", ["required"]);
   categorystatus = new TextField("categorystatus", ["required"]);
@@ -54,7 +55,7 @@ export class CategoryComponent {
       if (this.page.data.title) this.page.title = this.page.data.title;
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
       this.page.loading = false;
-
+      
       hideWait();
 
       if (this.page.editmode) {
@@ -226,12 +227,22 @@ setSeo(){
         this.categories[index].list = response;
         if (initialize) {
           this.initDrop(index);
-          if (this.categories[index].value !== '') this.getCategories(this.categories[index].value, index + 1, true);
+          if (this.categories[index].value !== '') 
+            this.getCategories(this.categories[index].value, index + 1, true);
+          else{
+            this.loadblogs = true;
+      
+              setTimeout(() => {
+                this.loadcateg = true;
+              }, 1000);
+          }
+
         }
         else {
           this.categories[index].value = '';
         }
       }
+      
 
 
       hideWait();

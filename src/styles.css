@@ -97,7 +97,7 @@ ul.categories {
 }
 
 ul.categories li {
-    background: url(/app/resources/list-item-bullet.gif) no-repeat left;
+    background: url(/app/resources/assets/list-item-bullet.gif) no-repeat left;
     padding-left: 10px;
     padding-top: 7px;
     margin-top: -7px;

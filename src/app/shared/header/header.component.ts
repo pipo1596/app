@@ -10,5 +10,5 @@ import { environment } from '../../../environments/environment.development';
 export class HeaderComponent {
   @Input() title : string = "";
   @Input() fullname : string = "";
-  imgprfx = environment.imgprfx;
+  imgprfx = environment.logoprfx;
 }

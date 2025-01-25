@@ -61,7 +61,7 @@
                         </span>
                     </div>
                     </div>
-                    <h5 class="text-center" *ngIf="child && page.data.blogs.length<1">--- No Blog Posts Found ---</h5>
+                    <h5 class="text-center" *ngIf="page.data.blogs.length<1">--- No Blog Posts Found ---</h5>
 
                     <div class="card my-1 border border-3 rounded-0" *ngFor="let blog of page.data.blogs;index as b">
                         <div class="row g-0">

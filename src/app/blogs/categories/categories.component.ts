@@ -79,7 +79,7 @@ export class CategoriesComponent {
   }
   startDelete(category: string) {
     this.page.rfno = category;
-    openModal('deleteCategory');
+    openModal('deleteCategories');
 
   }
 

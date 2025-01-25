@@ -42,7 +42,7 @@
                             <input type="text" name="title" class="form-control" id="{{authorName.htmlid}}"
                                 [(ngModel)]="authorName.value" (keyup)="setSeo()" maxlength="512">
                         </div>
-                        <h5 class="form-label fw-bold">&nbsp;<span class="text-danger ms-1"
+                        <h5 class="form-label fw-bold">Author Bio&nbsp;<span class="text-danger ms-1"
                                 *ngIf="authorBio.error!==''">{{authorBio.error}}</span></h5>
                         <angular-editor [config]="config" [(ngModel)]="authorBio.value"
                             name="blogHtml"></angular-editor>

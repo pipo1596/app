@@ -63,7 +63,7 @@
                     </div>
                     </div>
 
-                    <h5 class="text-center" *ngIf="child && page.data.categories.length<1">--- No Blog Categories Found
+                    <h5 class="text-center" *ngIf="page.data.categories.length<1">--- No Blog Categories Found
                         ---</h5>
                     <div class="card my-1 border border-3 rounded-0"
                         *ngFor="let category of page.data.categories;index as c">
@@ -116,9 +116,6 @@
 
             </div>
         </section>
-
-
-
     </div>
 
     <div class="alert alert-danger mt-3" role="alert" [class.invisible]="page.loading" *ngIf="page.fullname==''">
@@ -126,7 +123,7 @@
     </div>
     <app-toast [title]="'Category Deleted'" [position]="'bottom'" [body]="'Category Successfully Deleted'"></app-toast>
 </section>
-<app-confirm (notify)="onDelete()" [title]="'Delete Category'" [id]="'deleteCategory'"
+<app-confirm (notify)="onDelete()" [title]="'Delete Category'" [id]="'deleteCategories'"
     [body]="'Delete Category?'"></app-confirm>
 
 <app-footer *ngIf="!child"></app-footer>

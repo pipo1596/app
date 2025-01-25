@@ -1,5 +1,6 @@
 export const environment = {
     production: true,
     imgprfx:"/photos/blogs",
-    apiurl:""
+    apiurl:"",
+    logoprfx:"/app/resources/assets"
 };

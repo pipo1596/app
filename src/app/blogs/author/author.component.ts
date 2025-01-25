@@ -19,7 +19,7 @@ export class AuthorComponent {
   config: AngularEditorConfig = {
     editable: true,
     spellcheck: false,
-    height: '15rem',
+    height: 'auto',
     minHeight: '700px',
     placeholder: 'Enter Text here...',
     translate: 'no',
@@ -44,9 +44,7 @@ export class AuthorComponent {
       showWait('Uploading Image...');
       return new Observable((observer) => {
         // Upload image via your Angular service
-        const uniqueFileName = file.name.replace(/(\.[\w\d_-]+)$/i, `-${Date.now()}$1`);
-        const uniqueFile = new File([file], uniqueFileName, { type: file.type });
-        this.uploadService.uploadWyzywig(uniqueFile).subscribe(
+        this.uploadService.uploadWyzywig(file).subscribe(
           (response) => {
             // Check the response for the image URL
             const imageUrl = response?.imageUrl;
@@ -56,7 +54,6 @@ export class AuthorComponent {
               // Pass the full image URL to the editor (this triggers the insertion)
               hideWait();
               observer.next(fullImageUrl);
-
             }
           },
           (error) => {

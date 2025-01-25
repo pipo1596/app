@@ -40,7 +40,7 @@
                             <input type="text" name="title" class="form-control" id="{{blogTitle.htmlid}}" (keyup)="setSeo()"
                               maxlength="512"  [(ngModel)]="blogTitle.value">
                         </div>
-                        <h5 class="form-label fw-bold">&nbsp;<span class="text-danger ms-1"
+                        <h5 class="form-label fw-bold">Content&nbsp;<span class="text-danger ms-1"
                                 *ngIf="blogHtml.error!==''">{{blogHtml.error}}</span></h5>
                         <angular-editor [config]="config" [(ngModel)]="blogHtml.value" name="blogHtml"></angular-editor>
                     </div>
@@ -93,11 +93,12 @@
                         <h5 class="form-label fw-bold">Author
                             <span class="text-danger ms-1" *ngIf="author.error!==''">{{author.error}}</span>
                         </h5>
-                        <select class="form-select form-select mb-3" name="author" id="{{author.htmlid}}"
+                        <select  class="form-select form-select mb-3" name="author" id="{{author.htmlid}}"
                             [(ngModel)]="author.value">
                             <option value="">Select</option>
-                            <option value="1">Author 1</option>
-                            <option value="2">Author 2</option>
+                            <ng-container *ngIf="page?.data?.authors" >
+                                <option *ngFor="let author of page.data.authors" value="{{author.bano}}">{{author.name}}</option>
+                            </ng-container>
                         </select>
                     </div>
                     <div class="mb-4">

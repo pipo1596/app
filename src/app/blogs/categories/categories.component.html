@@ -78,7 +78,7 @@
                                     <h5 class="card-title mb-1">{{category.desc}}
 
                                     </h5>
-                                    <p class="card-text mb-1">No blog posts</p>
+                                    <p class="card-text mb-1" *ngIf="category.count<1">No blog posts</p>
                                     <p class="card-text mb-1 text-primary" *ngIf="category.count>0">{{category.count}}
                                         blog posts</p>
                                     <small>Tactical Gear

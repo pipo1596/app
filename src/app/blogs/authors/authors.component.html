@@ -41,7 +41,9 @@
                             <div class="col-md-10 position-relative">
                                 <div class="card-body">
                                     <h5 class="card-title mb-1">{{author.name}}</h5>
-
+                                    <p class="card-text mb-1" *ngIf="author.count<1">No blog posts</p>
+                                    <p class="card-text mb-1 text-primary" *ngIf="author.count>0">{{author.count}}
+                                        blog posts</p>
                                     <p class="card-text"><small class="text-muted">
                                             <span *ngIf="author.lsdt!=='0'">last updated </span>
                                             <span *ngIf="author.lsdt=='0'">Created </span>

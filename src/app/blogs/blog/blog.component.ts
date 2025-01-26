@@ -309,16 +309,21 @@ export class BlogComponent {
     this.parents = [];
     this.categories.forEach((categ: any, io: number) => {
       let bcnp = ""
-      categ.forEach((categi: any, ii: number) => {
+      categ.forEach((categi: any) => {
 
         if (categi.value !== "") bcnp = categi.value
 
       });
-      this.parents.push(
-        {
-          "bcnp": bcnp,
-          "primary": (parseInt(this.primarycategory.value) == io)
-        });
+      let categElmt = {
+        "bcnp": bcnp,
+        "primary": (parseInt(this.primarycategory.value) == io)
+      }
+      let ii = this.parents.findIndex((item:any)=>item.bcnp==bcnp);
+      if (ii<0) {
+        this.parents.push(categElmt);
+      }else{
+        if(categElmt.primary) this.parents[ii].primary = categElmt.primary;
+      }
     });
 
 

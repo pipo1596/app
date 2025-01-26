@@ -53,7 +53,8 @@
                             </div>
                         </div>
                         <div [ngClass]="{'d-none':!dspblogs}">
-                            <app-blogs *ngIf="loadblogs" [bcnp]="page.rfno??''" [child]="true"></app-blogs>
+                            <app-blogs *ngIf="loadblogs" [bcnp]="page.rfno??''" 
+                                [child]="true"  (triggerEvent)="gotbBLogs($event)"></app-blogs>
                         </div>
                         <div [ngClass]="{'d-none':dspblogs}">
                             <app-categories  *ngIf="loadcateg" [bcnp]="page.rfno??''" [child]="true"></app-categories>
@@ -107,7 +108,7 @@
                                         </div>
                                         <div class="col-10 ps-1 ">
                                             <select class="form-select form-select mb-3" disabled
-                                                aria-label=".form-select example">
+                                                aria-label=".form-select example" name="tactical" id="tactical">
                                                 <option value="">Tactical Gear</option>
                                             </select>
                                         </div>
@@ -194,7 +195,7 @@
                                     <button class="btn btn-light rounded-0 border border-2 ms-1" type="button"
                                         (click)="cancelEntry()">Cancel</button>
                                     <button class="btn btn-danger rounded-0 border border-2 ms-1" type="button"
-                                        *ngIf="page.editmode" (click)="startDelete()">Delete Category</button>
+                                        *ngIf="page.editmode && blogcount <1 && childcount<1" (click)="startDelete()">Delete Category</button>
                                     <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit"
                                         *ngIf="page.editmode">Update Category</button>
                                     <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit"

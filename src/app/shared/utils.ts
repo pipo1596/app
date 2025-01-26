@@ -21,6 +21,7 @@ export function escapeHtml(input: string): string {
         .replace(/'/g, "&apos;")
         .replace(/’/g, "&rsquo;")
         .replace(/‘/g, "&lsquo;")
+        .replace(/°/g, "&deg;")
         .replace(/”/g, "&ldquo;");
 }
 export function transformToSeoUrl(text: string): string {
@@ -127,12 +128,15 @@ export function convertToTimestamp(dateStr: string, timeStr: string): Date {
   const second = timeStr.substring(4, 6); // SS
   
   // Format into an ISO 8601 string
-  const isoDateStr = `${year}-${month}-${day}T${hour}:${minute}:${second}Z`;
-  
+  let isoDateStr = `${year}-${month}-${day}T${hour}:${minute}:${second}Z`;
+  isoDateStr = adjustTimeFormat(isoDateStr)
   // Convert to a Date object and get the timestamp
   const date = new Date(isoDateStr);
   date.setHours(date.getHours() + 5);//This is the server time 
   return date;
+}
+function adjustTimeFormat(timeStr:string) {
+  return timeStr.replace(/:(\d)(Z|$)/, ':0$1$2');  // Adds a leading zero to single digit seconds
 }
 export function timeAgo(date: Date): string {
   const now = new Date();
@@ -142,7 +146,6 @@ export function timeAgo(date: Date): string {
   const days = Math.floor(seconds / (24 * 60 * 60));
   const hours = Math.floor((seconds % (24 * 60 * 60)) / (60 * 60));
   const minutes = Math.floor((seconds % (60 * 60)) / 60);
-  const remainingSeconds = seconds % 60;
 
   if (years > 0) {
     return `${years} year${years > 1 ? 's' : ''} ago`;

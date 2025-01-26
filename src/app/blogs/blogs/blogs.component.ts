@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
@@ -15,6 +15,7 @@ import { convertToTimestamp, hideWait, openModal, scrollToTopInstant, showToast,
 export class BlogsComponent {
   @Input() child: boolean | undefined;
   @Input() bcnp: string | undefined;
+  @Output() triggerEvent = new EventEmitter<string>();
   search = "";
   pvsearch = "";
   showList = false;
@@ -41,6 +42,7 @@ export class BlogsComponent {
       if (this.page.data.title) this.page.title = this.page.data.title;
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
       this.page.loading = false;
+      if(this.child)this.triggerEvent.emit('Y');
       scrollToTopInstant();
       hideWait();
     });

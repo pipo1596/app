@@ -50,7 +50,7 @@
                                             {{lastUpdate(author)}}</small></p>
                                 </div>
                                 <div class="btn-group-top-right">
-                                    <button class="btn btn-light" (click)="startDelete(author.bano)"><span
+                                    <button class="btn btn-light" *ngIf="author.count<1" (click)="startDelete(author.bano)"><span
                                             class="bi bi-trash text-danger"></span></button>
                                     <button class="btn btn-light ms-1" (click)="EditAuthor(author.bano)"><span
                                             class="bi bi-pencil-square"></span></button>

@@ -14,6 +14,7 @@ import { environment } from '../../../environments/environment.development';
   styleUrl: './category.component.css'
 })
 export class CategoryComponent {
+
   //This contains all the share page data:
   page = new Page();
 
@@ -32,6 +33,9 @@ export class CategoryComponent {
   categories: any = [];
   showUpload: boolean = false;
   dspblogs: boolean = true;
+  blogcount:number = 0;
+  childcount:number = 0;
+  
 
 
   constructor(private http: HttpClient,
@@ -67,19 +71,28 @@ export class CategoryComponent {
         this.urlandhandle.value = this.page.data.category.url;
         this.tags.value = this.page.data.category.metk;
         this.image.value = this.page.data.category.img;
+        this.loadblogs = true;
+        this.blogcount = this.page.data.category.count;
+        this.childcount = this.page.data.category.catgct;
 
-
+        
       }
-
       if (this.page.entrymode) {
         this.site.value = getSite();
         this.getCategories('', 0, false);
-      } else {
-        this.getCategories('', 0, true);
       }
+
+
+      
     });
   }
 
+  gotbBLogs($event: string) {
+    
+     
+      this.getCategories('', 0, true);
+  
+  }
   changeImage() {
     this.showUpload = true;
   }
@@ -230,11 +243,7 @@ setSeo(){
           if (this.categories[index].value !== '') 
             this.getCategories(this.categories[index].value, index + 1, true);
           else{
-            this.loadblogs = true;
-      
-              setTimeout(() => {
-                this.loadcateg = true;
-              }, 1000);
+            this.loadcateg = true;
           }
 
         }

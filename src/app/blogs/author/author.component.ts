@@ -16,6 +16,7 @@ import { Observable } from 'rxjs';
   styleUrl: './author.component.css'
 })
 export class AuthorComponent {
+  blogCount:number = 0;
   config: AngularEditorConfig = {
     editable: true,
     spellcheck: false,
@@ -123,6 +124,7 @@ export class AuthorComponent {
         this.urlandhandle.value = this.page.data.author.url;
         this.tags.value = this.page.data.author.metk;
         this.image.value = this.page.data.author.img;
+        this.blogCount = this.page.data.author.count;
       }
     })
   }
@@ -219,7 +221,7 @@ export class AuthorComponent {
       bametk: this.tags.value,
       baurl: this.urlandhandle.value,
       baimg: file,
-      bio: escapeHtml(this.authorBio.value.slice(0, 10000)),//Limited to 10k (DB)
+      bio: escapeHtml(this.authorBio.value).slice(0, 10000),//Limited to 10k (DB)
       babano: this.page.rfno,
       parents: this.parents
     }

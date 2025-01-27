@@ -3,9 +3,9 @@
 <section class="ftco-section bg-light pb-3">
     <form (submit)="validate()" (change)="page.changes = true">
         <div class="row mb-2"><!--Title & Buttons-->
-            <div class="col-12 col-md-6">
-                <button class="btn btn-dark rounded-0 me-2 float-start" title="Back" (click)="cancelEntry()" type="button"><i
-                        class="bi bi-arrow-left bi-boldicon"></i></button>
+            <div class="col-12 col-md-6 ps-0">
+                <button class="btn btn-dark rounded-0 me-2 py-1 float-start" title="Go Back" (click)="cancelEntry()" type="button"><i
+                        class="bi bi-arrow-left"></i></button>
                 <div class="float-start">
                     <h4 *ngIf="page.entrymode">Create New Blog Author</h4>
                     <h4 *ngIf="page.editmode">Edit Blog Author</h4>

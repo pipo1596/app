@@ -71,7 +71,7 @@ export class CategoriesComponent {
   StartEntry() {
     this.router.navigate(['/blogs/newcategory']);
   }
-  ViewCategory(category: string) {
+  ViewCategory(category: any) {
 
   }
   EditCategory(category: string) {

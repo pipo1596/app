@@ -71,8 +71,8 @@ export class BlogsComponent {
   StartEntry() {
     this.router.navigate(['/blogs/newcategory']);
   }
-  ViewBLog(blogid: string) {
-    this.router.navigate(['/blogs/viewcblog/' + blogid]);
+  ViewBLog(blog: any) {
+    
   }
   EditBlog(blogid: string) {
     this.router.navigate(['/blogs/editblog/' + blogid]);

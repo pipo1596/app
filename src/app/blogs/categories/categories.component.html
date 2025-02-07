@@ -78,8 +78,8 @@
                                     <h5 class="card-title mb-1">{{category.desc}}
 
                                     </h5>
-                                    <p class="card-text mb-1" *ngIf="category.count<1">No blog posts</p>
-                                    <p class="card-text mb-1 text-primary" *ngIf="category.count>0">{{category.count}}
+                                    <p class="card-text mb-1 text-secondary fst-italic" *ngIf="category.count<1">No blog posts</p>
+                                    <p class="card-text mb-1 text-secondary fst-italic" *ngIf="category.count>0">{{category.count}}
                                         blog posts</p>
                                     <small>Tactical Gear
                                         <button *ngIf="category.bcnp!==''" class="btn btn-dark p-0 lh-1"
@@ -92,7 +92,7 @@
                                         *ngIf="category.expand">
                                         <ng-container *ngFor="let parent of category.parents; index as i">
                                             <li class="mlpath-{{i}}"
-                                                [ngClass]="{'text-primary': category.parents.length==i+1}">
+                                                [ngClass]="{'text-secondary': category.parents.length==i+1}">
                                                 {{parent.desc}}</li>
                                         </ng-container>
                                     </ul>
@@ -103,11 +103,11 @@
                                 </div>
                                 <div class="btn-group-top-right">
                                     <button class="btn btn-light" *ngIf="category.count<1 && category.catgct<1" (click)="startDelete(category.bcno)"><span
-                                            class="bi bi-trash text-danger"></span></button>
+                                            class="bi bi-trash text-danger" title="Delete Category"></span></button>
                                     <button class="btn btn-light ms-1 d-none"
-                                        (click)="ViewCategory(category.bcno)"><span class="bi bi-eye"></span></button>
+                                        (click)="ViewCategory(category)" title="Preview Live"><span class="bi bi-eye"></span></button>
                                     <button class="btn btn-light ms-1" (click)="EditCategory(category.bcno)"><span
-                                            class="bi bi-pencil-square"></span></button>
+                                            class="bi bi-pencil-square" title="Edit Category"></span></button>
                                 </div>
                             </div>
                         </div>

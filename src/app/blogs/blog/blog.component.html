@@ -145,7 +145,7 @@
                                                 <option value="">select</option>
                                                 <ng-container *ngFor="let category of categarr.list">
                                                     <option value="{{category.bcno}}"
-                                                        *ngIf="page.entrymode || page.rfno!==category.bcno">
+                                                        *ngIf="page.entrymode">
                                                         {{category.desc}}</option>
                                                 </ng-container>
                                             </select>

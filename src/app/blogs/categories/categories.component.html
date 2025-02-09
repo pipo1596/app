@@ -6,8 +6,11 @@
         <section class="position-relative">
             <div>
                 <div class="row mb-2" *ngIf="!child">
-                    <div class="col-12 col-md-8">
+                    <div class="col-12 col-md-6">
                         <h4 class="ms-1">{{page.title}}</h4>
+                    </div>
+                    <div class="col-12 col-md-6 text-end">
+                        <h5 class="ms-1 text-secondary fst-italic">[{{page.data.categories.length}} Categories Found]</h5>
                     </div>
                     
                     
@@ -23,7 +26,7 @@
                                 class="btn  border border-3  btn-dark" type="button"  style="min-width: 200px;">
                                      Blog Categories
                             </button>
-                        </div>
+                        </div>                        
                     </div>
                     <div class="col-12 col-md-3 p-0 mt-2 mb-1" *ngIf="!child">
                         <div class="d-grid gap-2">
@@ -79,7 +82,7 @@
 
                                     </h5>
                                     <p class="card-text mb-1 text-secondary fst-italic" *ngIf="category.count<1">No blog posts</p>
-                                    <p class="card-text mb-1 text-secondary fst-italic" *ngIf="category.count>0">{{category.count}}
+                                    <p class="card-text mb-1 text-secondary fst-italic" *ngIf="category.count>0"><b>{{category.count}}</b>
                                         blog posts</p>
                                     <small>Tactical Gear
                                         <button *ngIf="category.bcnp!==''" class="btn btn-dark p-0 lh-1"
@@ -96,15 +99,18 @@
                                                 {{parent.desc}}</li>
                                         </ng-container>
                                     </ul>
+                                    
+                                    <p class="text-success" *ngIf="category.stat=='P'"><i class="bi bi-check2-circle pe-1"></i>Published</p>
+                                    <p class="text-danger" *ngIf="category.stat=='U'"><i class="bi bi-exclamation-circle pe-1"></i>Unpublished</p>
                                     <p class="card-text"><small class="text-muted">
-                                            <span *ngIf="category.lsdt!=='0'">last updated </span>
-                                            <span *ngIf="category.lsdt=='0'">Created </span>
-                                            {{lastUpdate(category)}}</small></p>
+                                        <span *ngIf="category.lsdt!=='0'">last updated </span>
+                                        <span *ngIf="category.lsdt=='0'">Created </span>
+                                        {{lastUpdate(category)}}</small></p>
                                 </div>
                                 <div class="btn-group-top-right">
                                     <button class="btn btn-light" *ngIf="category.count<1 && category.catgct<1" (click)="startDelete(category.bcno)"><span
                                             class="bi bi-trash text-danger" title="Delete Category"></span></button>
-                                    <button class="btn btn-light ms-1 d-none"
+                                    <button class="btn btn-light ms-1"
                                         (click)="ViewCategory(category)" title="Preview Live"><span class="bi bi-eye"></span></button>
                                     <button class="btn btn-light ms-1" (click)="EditCategory(category.bcno)"><span
                                             class="bi bi-pencil-square" title="Edit Category"></span></button>

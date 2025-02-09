@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment.development';
 import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { convertToTimestamp, hideWait, openModal, scrollToTopInstant, showToast, showWait, sortByKey, timeAgo } from '../../shared/utils';
+import { baseliveurl, convertToDate, convertToTimestamp, formatDateUS, hideWait, openModal, scrollToTopInstant, showToast, showWait, sortByKey, timeAgo } from '../../shared/utils';
 
 @Component({
   selector: 'app-blogs',
@@ -72,7 +72,30 @@ export class BlogsComponent {
     this.router.navigate(['/blogs/newcategory']);
   }
   ViewBLog(blog: any) {
+    showWait();
+    let data = {
+          mode: 'URL',
+          bpno:blog.bpno
+        }
+        this.http.post(environment.apiurl + '/cgi/APPLMBLOG', data).subscribe(response => {
+          let url:any = response;
+          if(url?.url.length>2)
+            window.open(baseliveurl()+'/tacticalgear'+url.url.trim()+'?pmpreview=Y');
+          else
+            window.open(baseliveurl()+'/tacticalgear/'+blog.url.trim()+'?pmpreview=Y');
+          hideWait();
+        });
     
+  }
+  dsppbdate(blog:any){
+    let pbdt = new Date(convertToDate(blog.pbdt));
+    let tody = new Date();
+    if(tody<=pbdt){
+      return ' - on '+formatDateUS(pbdt);
+    }else{
+      return '';
+    }
+
   }
   EditBlog(blogid: string) {
     this.router.navigate(['/blogs/editblog/' + blogid]);

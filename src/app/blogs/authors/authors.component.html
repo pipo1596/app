@@ -6,8 +6,11 @@
         <section class="position-relative">
             <div>
                 <div class="row mb-2">
-                    <div class="col-12 col-md-10">
+                    <div class="col-12 col-md-5">
                         <h4 class="ms-1">{{page.title}}</h4>
+                    </div>
+                    <div class="col-12 col-md-5 text-end">
+                        <h5 class="ms-1 text-secondary fst-italic mt-2">[{{page.data.authors.length}} Authors Found]</h5>
                     </div>
                     <div class="col-12 col-md-2 p-0">
                         <div class="d-grid gap-2">
@@ -41,9 +44,11 @@
                             <div class="col-md-10 position-relative">
                                 <div class="card-body">
                                     <h5 class="card-title mb-1">{{author.name}}</h5>
-                                    <p class="card-text mb-1" *ngIf="author.count<1">No blog posts</p>
-                                    <p class="card-text mb-1 text-primary" *ngIf="author.count>0">{{author.count}}
+                                    <p class="card-text mb-1 text-secondary fst-italic" *ngIf="author.count<1">No blog posts</p>
+                                    <p class="card-text mb-1 text-secondary fst-italic" *ngIf="author.count>0"><b>{{author.count}}</b>
                                         blog posts</p>
+                                        <p class="text-success" *ngIf="author.stat=='A'"><i class="bi bi-check2-circle pe-1"></i>Active</p>
+                                        <p class="text-danger" *ngIf="author.stat=='I'"><i class="bi bi-exclamation-circle pe-1"></i>Inactive</p>
                                     <p class="card-text"><small class="text-muted">
                                             <span *ngIf="author.lsdt!=='0'">last updated </span>
                                             <span *ngIf="author.lsdt=='0'">Created </span>
@@ -52,6 +57,8 @@
                                 <div class="btn-group-top-right">
                                     <button class="btn btn-light" *ngIf="author.count<1" (click)="startDelete(author.bano)"><span
                                             class="bi bi-trash text-danger"></span></button>
+                                    <button class="btn btn-light ms-1"
+                                            (click)="ViewAuthor(author)" title="Preview Live"><span class="bi bi-eye"></span></button>
                                     <button class="btn btn-light ms-1" (click)="EditAuthor(author.bano)"><span
                                             class="bi bi-pencil-square"></span></button>
                                 </div>

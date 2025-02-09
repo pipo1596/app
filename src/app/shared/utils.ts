@@ -16,6 +16,21 @@ export function hideWait(timeout?:number): void {
     }
         
 }
+export function formatDateUS(date:Date) {
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+  const day = String(date.getDate()).padStart(2, '0');
+  const year = date.getFullYear();
+
+  return `${month}/${day}/${year}`;
+}
+export function baseliveurl(){
+ let url = window.location.href;
+ if(url.indexOf('localhost')>=0)return "https://itestv2.galls.com";
+ if(url.indexOf('.54')>=0)return "https://itestv2.galls.com";
+ if(url.indexOf('.56')>=0)return "https://istage.galls.com/";
+ if(url.indexOf('.52')>=0)return "https://www.galls.com/";
+ return "https://www.galls.com/"
+}
 export function escapeHtml(input: string): string {
   return input
         .replace(/'/g, "&apos;")
@@ -116,6 +131,22 @@ export function showToast(): void {
         }, 2500);
         
      
+}
+export function convertToDate(dateStr: string): Date {
+  // Ensure the date and time are padded to the correct length if needed
+  const year = dateStr.substring(0, 4);
+  const month = dateStr.substring(4, 6);  // MM
+  const day = dateStr.substring(6, 8);    // DD
+  
+  
+  
+  // Format into an ISO 8601 string
+  let isoDateStr = `${year}-${month}-${day}T00:00:00Z`;
+  isoDateStr = adjustTimeFormat(isoDateStr)
+  // Convert to a Date object and get the timestamp
+  const date = new Date(isoDateStr);
+  date.setHours(date.getHours() + 5);//This is the server time 
+  return date;
 }
 export function convertToTimestamp(dateStr: string, timeStr: string): Date {
   // Ensure the date and time are padded to the correct length if needed

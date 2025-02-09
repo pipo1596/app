@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment.development';
 import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { convertToTimestamp, hideWait, openModal, scrollToTopInstant, showToast, showWait, timeAgo } from '../../shared/utils';
+import { baseliveurl, convertToTimestamp, hideWait, openModal, scrollToTopInstant, showToast, showWait, timeAgo } from '../../shared/utils';
 
 @Component({
   selector: 'app-authors',
@@ -60,7 +60,9 @@ export class AuthorsComponent {
     openModal('deleteAuthor');
 
   }
-
+  ViewAuthor(author:any){
+    window.open(baseliveurl()+'/tacticalgear/authors/'+author.url+'?pmpreview=Y');
+  }
   lastUpdate(author: any) {
     let lastdate = "0";
     let lasttime = "0";
@@ -116,3 +118,5 @@ export class AuthorsComponent {
   }
 
 }
+
+

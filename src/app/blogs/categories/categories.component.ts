@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { convertToTimestamp, hideWait, openModal, scrollToTopInstant, showToast, showWait, sortByKey, timeAgo } from '../../shared/utils';
+import { baseliveurl, convertToTimestamp, hideWait, openModal, scrollToTopInstant, showToast, showWait, sortByKey, timeAgo } from '../../shared/utils';
 import { environment } from '../../../environments/environment.development';
 import { Router } from '@angular/router';
 import { Page } from '../../shared/textField';
@@ -72,6 +72,21 @@ export class CategoriesComponent {
     this.router.navigate(['/blogs/newcategory']);
   }
   ViewCategory(category: any) {
+    showWait();
+     
+     let data = {
+      mode: 'URL',
+      bcno:category.bcno
+    }
+    this.http.post(environment.apiurl + '/cgi/APPLMBCATG', data).subscribe(response => {
+
+      let url:any = response;
+      if(url?.url.length>2)
+        window.open(baseliveurl()+'/tacticalgear'+url.url.trim()+'?pmpreview=Y');
+      else
+        window.open(baseliveurl()+'/tacticalgear/'+category.url.trim()+'?pmpreview=Y');
+      hideWait();
+    });
 
   }
   EditCategory(category: string) {

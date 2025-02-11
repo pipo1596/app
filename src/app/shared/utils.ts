@@ -51,6 +51,21 @@ export function escapeHtml(input: string): string {
         .replace(/’/g, "&rsquo;")
         .replace(/‘/g, "&lsquo;")
         .replace(/°/g, "&deg;")
+        .replace(/®/g, "&reg;")
+        .replace(/€/g, "&euro;")
+        .replace(/–/g, "&ndash;")
+        .replace(/—/g, "&mdash;")
+        .replace(/‚/g, "&sbquo;")
+        .replace(/“/g, "&ldquo;")
+        .replace(/”/g, "&rdquo;")
+        .replace(/„/g, "&bdquo;")
+        .replace(/•/g, "&bull;")
+        .replace(/′/g, "&prime;")
+        .replace(/″/g, "&Prime;")
+        .replace(/‹/g, "&lsaquo;")
+        .replace(/›/g, "&rsaquo;")
+        .replace(/‾/g, "&oline;")
+        .replace(/™/g, "&trade;")
         .replace(/”/g, "&ldquo;");
 }
 export function transformToSeoUrl(text: string): string {

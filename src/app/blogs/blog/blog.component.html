@@ -12,16 +12,13 @@
                 </div>
             </div>
             <div class="col-12 col-md-6 text-end pe-0">
-                <button class="btn btn-light rounded-0 border border-2 ms-1" type="button"
+                <button class="btn btn-light rounded-0 border border-2 ms-1 d-none" type="button"
                     (click)="ViewBLog()"><i class="bi bi-eye"></i></button>   
                 <button class="btn btn-light rounded-0 border border-2 ms-1" type="button"
                     (click)="cancelEntry()">Cancel</button>             
                 <button class="btn btn-danger rounded-0 border border-2 ms-1" type="button" *ngIf="page.editmode"
-                    (click)="startDelete()">Delete Blog Post</button>
-                <button class="btn btn-dark rounded-0 border border-2 ms-1" type="button" (click)="validate()"
-                    *ngIf="page.editmode">Update Blog Post</button>
-                <button class="btn btn-dark rounded-0 border border-2 ms-1" type="button" (click)="validate()"
-                    *ngIf="page.entrymode">Save New Blog Post</button>
+                    (click)="startDelete()">Delete</button>
+                <button class="btn btn-dark rounded-0 border border-2 ms-1" type="button" (click)="validate()">Save</button>
             </div>
         </div>
         <div class="row">
@@ -215,11 +212,8 @@
                         <button class="btn btn-light rounded-0 border border-2 ms-1" type="button"
                             (click)="cancelEntry()">Cancel</button>
                         <button class="btn btn-danger rounded-0 border border-2 ms-1" type="button"
-                            *ngIf="page.editmode" (click)="startDelete()">Delete Blog Post</button>
-                        <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit"
-                            *ngIf="page.editmode">Update Blog Post</button>
-                        <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit"
-                            *ngIf="page.entrymode">Save Blog Post</button>
+                            *ngIf="page.editmode" (click)="startDelete()">Delete</button>
+                        <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit">Save</button>
                     </div>
 
                 </div>

@@ -7,7 +7,7 @@
                 <button class="btn btn-dark rounded-0 me-2 py-1 float-start" title="Go Back" (click)="cancelEntry()" type="button"><i
                         class="bi bi-arrow-left"></i></button>
                 <div class="float-start">
-                    <h4 *ngIf="page.entrymode">Save Blog Author</h4>
+                    <h4 *ngIf="page.entrymode">Create New Blog Author</h4>
                     <h4 *ngIf="page.editmode">Edit Blog Author</h4>
                 </div>
             </div>
@@ -15,11 +15,8 @@
                 <button class="btn btn-light rounded-0 border border-2 ms-1" type="button"
                     (click)="cancelEntry()">Cancel</button>
                 <button class="btn btn-danger rounded-0 border border-2 ms-1" type="button" *ngIf="page.editmode && blogCount<1"
-                    (click)="startDelete()">Delete Blog Author</button>
-                <button class="btn btn-dark rounded-0 border border-2 ms-1" type="button" (click)="validate()"
-                    *ngIf="page.editmode">Update Blog Author</button>
-                <button class="btn btn-dark rounded-0 border border-2 ms-1" type="button" (click)="validate()"
-                    *ngIf="page.entrymode">Save Blog Author</button>
+                    (click)="startDelete()">Delete</button>
+                <button class="btn btn-dark rounded-0 border border-2 ms-1" type="button" (click)="validate()">Save</button>                
             </div>
         </div>
         <div class="row">
@@ -121,11 +118,8 @@
                         <button class="btn btn-light rounded-0 border border-2 ms-1" type="button"
                             (click)="cancelEntry()">Cancel</button>
                         <button class="btn btn-danger rounded-0 border border-2 ms-1" type="button"
-                            *ngIf="page.editmode && blogCount<1" (click)="startDelete()">Delete Blog Author</button>
-                        <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit"
-                            *ngIf="page.editmode">Update Blog Author</button>
-                        <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit"
-                            *ngIf="page.entrymode">Save Blog Author</button>
+                            *ngIf="page.editmode && blogCount<1" (click)="startDelete()">Delete</button>
+                        <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit">Save</button>
                     </div>
 
                 </div>

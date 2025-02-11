@@ -191,9 +191,6 @@ setSeo(){
       this.urlandhandle.value = transformToSeoUrl(this.categorytitle.value);
       this.metatitle.value = transformToTags(this.categorytitle.value);
     }
-    cleanMeta(){
-      this.metatitle.value = transformToTags(this.metatitle.value);
-    }
     cleanUrl(){
       this.urlandhandle.value = transformToSeoUrl(this.urlandhandle.value);
     }

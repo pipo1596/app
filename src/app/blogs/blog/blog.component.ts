@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data-trigger.service';
-import { dbtodspdate, dbtodsptime, escapeHtml, focusField, getSite, hideWait, openModal, showWait, transformToSeoUrl, transformToTags } from '../../shared/utils';
+import { baseliveurl, dbtodspdate, dbtodsptime, escapeHtml, focusField, getSite, hideWait, openModal, showWait, transformToSeoUrl, transformToTags } from '../../shared/utils';
 import { FileUploadService } from '../../services/file-upload.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Observable } from 'rxjs';
@@ -174,9 +174,6 @@ export class BlogComponent {
     this.urlandhandle.value = transformToSeoUrl(this.blogTitle.value);
     this.metatitle.value = transformToTags(this.blogTitle.value);
   }
-  cleanMeta(){
-    this.metatitle.value = transformToTags(this.metatitle.value);
-  }
   cleanUrl(){
     this.urlandhandle.value = transformToSeoUrl(this.urlandhandle.value);
   }
@@ -291,7 +288,22 @@ export class BlogComponent {
 
     });
   }
-
+ViewBLog() {
+    showWait();
+    let data = {
+          mode: 'URL',
+          bpno:this.page.rfno
+        }
+        this.http.post(environment.apiurl + '/cgi/APPLMBLOG', data).subscribe(response => {
+          let url:any = response;
+          if(url?.url.length>2)
+            window.open(baseliveurl()+'/tacticalgear'+url.url.trim()+'?pmpreview=Y');
+          else
+            window.open(baseliveurl()+'/tacticalgear/'+this.urlandhandle.value.trim()+'?pmpreview=Y');
+          hideWait();
+        });
+    
+  }
 
   htmlChunks() {
     let fullhtml = escapeHtml(this.blogHtml.value);

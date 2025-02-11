@@ -25,11 +25,25 @@ export function formatDateUS(date:Date) {
 }
 export function baseliveurl(){
  let url = window.location.href;
- if(url.indexOf('localhost')>=0)return "https://itestv2.galls.com";
- if(url.indexOf('.54')>=0)return "https://itestv2.galls.com";
- if(url.indexOf('.56')>=0)return "https://istage.galls.com/";
- if(url.indexOf('.52')>=0)return "https://www.galls.com/";
- return "https://www.galls.com/"
+ if(getSite()=='K'){
+
+      if(url.indexOf('localhost')>=0)return "https://stage.uspatriottactical.com/";
+      if(url.indexOf('.54')>=0)return "https://stage.uspatriottactical.com/";
+      if(url.indexOf('.56')>=0)return "https://stage.uspatriottactical.com/";
+      if(url.indexOf('stage')>=0)return "https://stage.uspatriottactical.com/";
+      if(url.indexOf('.52')>=0)return "https://www.uspatriottactical.com";
+      return "https://www.uspatriottactical.com" 
+
+ }else{
+
+      if(url.indexOf('localhost')>=0)return "https://itestv2.galls.com";
+      if(url.indexOf('.54')>=0)return "https://itestv2.galls.com";
+      if(url.indexOf('.56')>=0)return "https://istage.galls.com";
+      if(url.indexOf('stage')>=0)return "https://istage.galls.com";
+      if(url.indexOf('.52')>=0)return "https://www.galls.com";
+      return "https://www.galls.com/"
+
+ }
 }
 export function escapeHtml(input: string): string {
   return input

@@ -9,7 +9,7 @@
                     <button class="btn btn-dark rounded-0 me-2 float-start py-1" title="Back" (click)="cancelEntry()"
                         type="button"><i class="bi bi-arrow-left"></i></button>
                     <div class="float-start">
-                        <h4 *ngIf="page.entrymode">Create New Blog Category</h4>
+                        <h4 *ngIf="page.entrymode">Save Blog Category</h4>
                         <h4 *ngIf="page.editmode">Edit Blog Category</h4>
                     </div>
                 </div>
@@ -24,13 +24,13 @@
                     <div class="col-12 col-md-3 pe-0">
                         <div class="d-grid gap-2">
                             <button class="btn btn btn-default border-2 border rounded-0 rounded-0" type="button"
-                                (click)="newBlog()"><i class="bi bi-list-columns-reverse me-2"></i>Create New Blog Post</button>
+                                (click)="newBlog()"><i class="bi bi-list-columns-reverse me-2"></i>Save Blog Post</button>
                         </div>
                     </div>
                     <div class="col-12 col-md-3 px-0">
                         <div class="d-grid gap-2  ps-2">
                             <button  class="btn btn-dark rounded-0 border border-2" type="button"
-                                (click)="StartEntry()"><i class="bi bi-filter-right me-2"></i>Create New Blog Category</button>
+                                (click)="StartEntry()"><i class="bi bi-filter-right me-2"></i>Save Blog Category</button>
                         </div>
                     </div>
                     </div>
@@ -143,7 +143,7 @@
                                             *ngIf="metatitle.error!==''">{{metatitle.error}}</span>
                                     </h5>
                                     <input type="text" class="form-control" maxlength="128" name="metatitle"
-                                        id="{{metatitle.htmlid}}" [(ngModel)]="metatitle.value" (change)="cleanMeta()">
+                                        id="{{metatitle.htmlid}}" [(ngModel)]="metatitle.value">
                                     <div class="form-text mt-0 pe-1 text-end">{{metatitle.value.length}} Of 128 Used
                                     </div>
                                     <h5>Meta Description
@@ -199,7 +199,7 @@
                                     <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit"
                                         *ngIf="page.editmode">Update Category</button>
                                     <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit"
-                                        *ngIf="page.entrymode">Create New Category</button>
+                                        *ngIf="page.entrymode">Save Category</button>
                                 </div>
                             </div>
                         </form>

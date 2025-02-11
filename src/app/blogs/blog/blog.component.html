@@ -7,19 +7,21 @@
                 <button class="btn btn-dark rounded-0 me-2 float-start py-1" title="Back" (click)="cancelEntry()" type="button"><i
                         class="bi bi-arrow-left"></i></button>
                 <div class="float-start">
-                    <h4 *ngIf="page.entrymode">Create New Blog </h4>
+                    <h4 *ngIf="page.entrymode">Save New Blog </h4>
                     <h4 *ngIf="page.editmode">Edit Blog </h4>
                 </div>
             </div>
             <div class="col-12 col-md-6 text-end pe-0">
                 <button class="btn btn-light rounded-0 border border-2 ms-1" type="button"
-                    (click)="cancelEntry()">Cancel</button>
+                    (click)="ViewBLog()"><i class="bi bi-eye"></i></button>   
+                <button class="btn btn-light rounded-0 border border-2 ms-1" type="button"
+                    (click)="cancelEntry()">Cancel</button>             
                 <button class="btn btn-danger rounded-0 border border-2 ms-1" type="button" *ngIf="page.editmode"
                     (click)="startDelete()">Delete Blog Post</button>
                 <button class="btn btn-dark rounded-0 border border-2 ms-1" type="button" (click)="validate()"
                     *ngIf="page.editmode">Update Blog Post</button>
                 <button class="btn btn-dark rounded-0 border border-2 ms-1" type="button" (click)="validate()"
-                    *ngIf="page.entrymode">Create New Blog Post</button>
+                    *ngIf="page.entrymode">Save New Blog Post</button>
             </div>
         </div>
         <div class="row">
@@ -165,7 +167,7 @@
                         <h5>Meta Title
                             <span class="text-danger ms-1" *ngIf="metatitle.error!==''">{{metatitle.error}}</span>
                         </h5>
-                        <input type="text" class="form-control" maxlength="128" name="metatitle" (change)="cleanMeta()"
+                        <input type="text" class="form-control" maxlength="128" name="metatitle" 
                             id="{{metatitle.htmlid}}" [(ngModel)]="metatitle.value">
                         <div class="form-text mt-0 pe-1 text-end">{{metatitle.value.length}} Of 128 Used</div>
                         <h5>Meta Description
@@ -217,7 +219,7 @@
                         <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit"
                             *ngIf="page.editmode">Update Blog Post</button>
                         <button class="btn btn-dark rounded-0 border border-2 ms-1" type="submit"
-                            *ngIf="page.entrymode">Create New Blog Post</button>
+                            *ngIf="page.entrymode">Save Blog Post</button>
                     </div>
 
                 </div>

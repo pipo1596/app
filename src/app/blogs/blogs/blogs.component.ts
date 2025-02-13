@@ -159,12 +159,12 @@ export class BlogsComponent {
     
         // Traverse up the hierarchy, adding URLs to the path
         while (current) {
-            path.unshift(current.desc);  // Add category description (or any other URL part) to path
+            path.unshift(current.desc.toLowerCase());  // Add category description (or any other URL part) to path
             current = categoryMap.get(current.bcnp);  // Move to parent category
         }
     
         // Return the constructed URL or fallback to base path
-        return 'tacticalgear' + (path.length > 0 ? '>' + path.join('>') : '');
+        return 'tacticalgear' + (path.length > 0 ? ' > ' + path.join(' > ') : '');
     }
 
   newBlog() {

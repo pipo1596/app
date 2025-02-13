@@ -144,6 +144,29 @@ export class BlogsComponent {
     });
   }
 
+  breadcrumbs(bcno:string):string {
+        // Create category map with string-based bcno
+        const categoryMap = new Map<string, any>(this.page.data.categories.map((cat: { bcno: any; }) => [cat.bcno, cat]));
+
+        // Initialize path and find starting category
+        let path: string[] = [];
+        let current = categoryMap.get(bcno);
+    
+        // Check if category exists for the given bcno
+        if (!current) {
+            return 'tacticalgear'; // Return default if category not found
+        }
+    
+        // Traverse up the hierarchy, adding URLs to the path
+        while (current) {
+            path.unshift(current.desc);  // Add category description (or any other URL part) to path
+            current = categoryMap.get(current.bcnp);  // Move to parent category
+        }
+    
+        // Return the constructed URL or fallback to base path
+        return 'tacticalgear' + (path.length > 0 ? '>' + path.join('>') : '');
+    }
+
   newBlog() {
     this.router.navigate(['/blogs/newblog/' + this.page.rfno]);
   }

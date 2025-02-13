@@ -79,11 +79,13 @@
                                     <p class="text-success mb-0" *ngIf="blog.stat=='P'">
                                         <i class="bi bi-check2-circle pe-1"></i>Published {{dsppbdate(blog)}}</p>
                                     <p class="text-danger" *ngIf="blog.stat=='U'"><i class="bi bi-exclamation-circle pe-1"></i>Unpublished</p>
+                                    
+                                    <p class="mb-0"><b>Author:</b> &nbsp;{{blog.autr}}</p>
+                                    <p><b>Primary Category:</b><br> &nbsp;{{breadcrumbs(blog.bcno)}}</p>
                                     <p class="card-text"><small class="text-muted">
-                                            <span *ngIf="blog.lsdt!=='0'">last updated </span>
-                                            <span *ngIf="blog.lsdt=='0'">Created </span>
-                                            {{lastUpdate(blog)}}</small></p>
-                                    <p><b>Author:</b> &nbsp;{{blog.autr}}</p>
+                                        <span *ngIf="blog.lsdt!=='0'">last updated </span>
+                                        <span *ngIf="blog.lsdt=='0'">Created </span>
+                                        {{lastUpdate(blog)}}</small></p>
                                 </div>
                                 <div class="btn-group-top-right">
                                     <button class="btn btn-light" (click)="startDelete(blog.bpno)"><span

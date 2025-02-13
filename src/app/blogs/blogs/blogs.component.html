@@ -76,7 +76,7 @@
                             <div class="col-md-10 position-relative">
                                 <div class="card-body">
                                     <h5 class="card-title mb-1">{{blog.titl}}</h5>
-                                    <p class="text-success" *ngIf="blog.stat=='P'">
+                                    <p class="text-success mb-0" *ngIf="blog.stat=='P'">
                                         <i class="bi bi-check2-circle pe-1"></i>Published {{dsppbdate(blog)}}</p>
                                     <p class="text-danger" *ngIf="blog.stat=='U'"><i class="bi bi-exclamation-circle pe-1"></i>Unpublished</p>
                                     <p class="card-text"><small class="text-muted">

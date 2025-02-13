@@ -79,11 +79,14 @@ export class BlogsComponent {
         }
         this.http.post(environment.apiurl + '/cgi/APPLMBLOG', data).subscribe(response => {
           let url:any = response;
+          hideWait();
+          setTimeout(() => {           
+          
           if(url?.url.length>2)
             window.open(baseliveurl()+'/tacticalgear'+url.url.trim()+'?pmpreview=Y');
           else
             window.open(baseliveurl()+'/tacticalgear/'+blog.url.trim()+'?pmpreview=Y');
-          hideWait();
+          }, 50);
         });
     
   }

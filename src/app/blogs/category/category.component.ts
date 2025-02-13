@@ -189,7 +189,7 @@ export class CategoryComponent {
 
 setSeo(){
       this.urlandhandle.value = transformToSeoUrl(this.categorytitle.value);
-      this.metatitle.value = transformToTags(this.categorytitle.value);
+      this.metatitle.value = this.categorytitle.value;
     }
     cleanUrl(){
       this.urlandhandle.value = transformToSeoUrl(this.urlandhandle.value);

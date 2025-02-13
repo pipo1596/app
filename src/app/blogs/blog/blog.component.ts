@@ -172,7 +172,7 @@ export class BlogComponent {
 
   setSeo(){
     this.urlandhandle.value = transformToSeoUrl(this.blogTitle.value);
-    this.metatitle.value = transformToTags(this.blogTitle.value);
+    this.metatitle.value = this.blogTitle.value;
   }
   cleanUrl(){
     this.urlandhandle.value = transformToSeoUrl(this.urlandhandle.value);
@@ -222,6 +222,7 @@ export class BlogComponent {
     if (!this.publishdate.validate()) this.setTopErrorID(this.publishdate.htmlid);
     if (!this.publishtime.validate()) this.setTopErrorID(this.publishtime.htmlid);
     if (!this.site.validate()) this.setTopErrorID(this.site.htmlid);
+    if (!this.author.validate()) this.setTopErrorID(this.author.htmlid);
     if (!this.metatitle.validate()) this.setTopErrorID(this.metatitle.htmlid);
     if (!this.metadescription.validate()) this.setTopErrorID(this.metadescription.htmlid);
     if (!this.urlandhandle.validate()) this.setTopErrorID(this.urlandhandle.htmlid);

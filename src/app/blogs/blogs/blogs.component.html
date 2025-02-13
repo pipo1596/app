@@ -83,6 +83,7 @@
                                             <span *ngIf="blog.lsdt!=='0'">last updated </span>
                                             <span *ngIf="blog.lsdt=='0'">Created </span>
                                             {{lastUpdate(blog)}}</small></p>
+                                    <p><b>Author:</b> &nbsp;{{blog.autr}}</p>
                                 </div>
                                 <div class="btn-group-top-right">
                                     <button class="btn btn-light" (click)="startDelete(blog.bpno)"><span

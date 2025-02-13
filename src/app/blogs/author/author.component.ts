@@ -144,11 +144,9 @@ export class AuthorComponent {
 
   setSeo(){
       this.urlandhandle.value = transformToSeoUrl(this.authorName.value);
-      this.metatitle.value = transformToTags(this.authorName.value);
+      this.metatitle.value = this.authorName.value;
     }
-    cleanMeta(){
-      this.metatitle.value = transformToTags(this.metatitle.value);
-    }
+    
     cleanUrl(){
       this.urlandhandle.value = transformToSeoUrl(this.urlandhandle.value);
     }

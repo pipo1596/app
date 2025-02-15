@@ -84,9 +84,9 @@ export class CategoriesComponent {
       hideWait();
       setTimeout(() => {      
       if(url?.url.length>2)
-        window.open(baseliveurl()+'/tacticalgear'+url.url.trim()+'?pmpreview=Y');
+        window.open(baseliveurl()+url.url.trim()+'?pmpreview=Y');
       else
-        window.open(baseliveurl()+'/tacticalgear/'+category.url.trim()+'?pmpreview=Y');
+        window.open(baseliveurl()+category.url.trim()+'?pmpreview=Y');
       }, 50);
     });
 

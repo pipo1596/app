@@ -83,9 +83,9 @@ export class BlogsComponent {
           setTimeout(() => {           
           
           if(url?.url.length>2)
-            window.open(baseliveurl()+'/tacticalgear'+url.url.trim()+'?pmpreview=Y');
+            window.open(baseliveurl()+url.url.trim()+'?pmpreview=Y');
           else
-            window.open(baseliveurl()+'/tacticalgear/'+blog.url.trim()+'?pmpreview=Y');
+            window.open(baseliveurl()+'/'+blog.url.trim()+'?pmpreview=Y');
           }, 50);
         });
     
@@ -147,17 +147,18 @@ export class BlogsComponent {
     });
   }
 
-  breadcrumbs(bcno:string):string {
+  breadcrumbs(bcno:string,site:any):string {
         // Create category map with string-based bcno
         const categoryMap = new Map<string, any>(this.page.data.categories.map((cat: { bcno: any; }) => [cat.bcno, cat]));
-
+        let suffix = 'tacticalgear';
+        if(site=='K')suffix = 'blogs';
         // Initialize path and find starting category
         let path: string[] = [];
         let current = categoryMap.get(bcno);
     
         // Check if category exists for the given bcno
         if (!current) {
-            return 'tacticalgear'; // Return default if category not found
+            return suffix; // Return default if category not found
         }
     
         // Traverse up the hierarchy, adding URLs to the path
@@ -167,7 +168,7 @@ export class BlogsComponent {
         }
     
         // Return the constructed URL or fallback to base path
-        return 'tacticalgear' + (path.length > 0 ? ' > ' + path.join(' > ') : '');
+        return suffix + (path.length > 0 ? ' > ' + path.join(' > ') : '');
     }
 
   newBlog() {

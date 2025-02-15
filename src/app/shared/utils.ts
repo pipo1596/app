@@ -27,21 +27,21 @@ export function baseliveurl(){
  let url = window.location.href;
  if(getSite()=='K'){
 
-      if(url.indexOf('localhost')>=0)return "https://stage.uspatriottactical.com/";
-      if(url.indexOf('.54')>=0)return "https://stage.uspatriottactical.com/";
-      if(url.indexOf('.56')>=0)return "https://stage.uspatriottactical.com/";
-      if(url.indexOf('stage')>=0)return "https://stage.uspatriottactical.com/";
-      if(url.indexOf('.52')>=0)return "https://www.uspatriottactical.com";
-      return "https://www.uspatriottactical.com" 
+      if(url.indexOf('localhost')>=0)return "https://stage.uspatriottactical.com/blogs";
+      if(url.indexOf('.54')>=0)return "https://stage.uspatriottactical.com/blogs";
+      if(url.indexOf('.56')>=0)return "https://stage.uspatriottactical.com/blogs";
+      if(url.indexOf('stage')>=0)return "https://stage.uspatriottactical.com/blogs";
+      if(url.indexOf('.52')>=0)return "https://www.uspatriottactical.com/blogs";
+      return "https://www.uspatriottactical.com/blogs" 
 
  }else{
 
-      if(url.indexOf('localhost')>=0)return "https://itestv2.galls.com";
-      if(url.indexOf('.54')>=0)return "https://itestv2.galls.com";
-      if(url.indexOf('.56')>=0)return "https://istage.galls.com";
-      if(url.indexOf('stage')>=0)return "https://istage.galls.com";
-      if(url.indexOf('.52')>=0)return "https://www.galls.com";
-      return "https://www.galls.com/"
+      if(url.indexOf('localhost')>=0)return "https://itestv2.galls.com/tacticalgear";
+      if(url.indexOf('.54')>=0)return "https://itestv2.galls.com/tacticalgear";
+      if(url.indexOf('.56')>=0)return "https://istage.galls.com/tacticalgear";
+      if(url.indexOf('stage')>=0)return "https://istage.galls.com/tacticalgear";
+      if(url.indexOf('.52')>=0)return "https://www.galls.com/tacticalgear";
+      return "https://www.galls.com/tacticalgear"
 
  }
 }

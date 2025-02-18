@@ -160,8 +160,8 @@
                                     </h5>
                                     <input type="text" class="form-control" maxlength="256" name="urlandhandle" (change)="cleanUrl()"
                                         id="{{urlandhandle.htmlid}}" [(ngModel)]="urlandhandle.value">
-                                    <small *ngIf="site.value==''">https://galls.com/tacticalgear/{{buildUrl()}}</small>
-                                    <small *ngIf="site.value=='K'">https://www.uspatriottactical.com/blogs/{{buildUrl()}}</small>
+                                    <small *ngIf="site.value==''">https://www.galls.com/blog/{{buildUrl()}}</small>
+                                    <small *ngIf="site.value=='K'">https://www.uspatriottactical.com/blog/{{buildUrl()}}</small>
                                     <div class="row">
                                         <div class="col-8">
                                             <h4 class="mt-2">Featured Image</h4>

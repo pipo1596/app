@@ -150,8 +150,8 @@ export class BlogsComponent {
   breadcrumbs(bcno:string,site:any):string {
         // Create category map with string-based bcno
         const categoryMap = new Map<string, any>(this.page.data.categories.map((cat: { bcno: any; }) => [cat.bcno, cat]));
-        let suffix = 'tacticalgear';
-        if(site=='K')suffix = 'blogs';
+        let suffix = 'blog';
+        if(site=='K')suffix = 'blog';
         // Initialize path and find starting category
         let path: string[] = [];
         let current = categoryMap.get(bcno);

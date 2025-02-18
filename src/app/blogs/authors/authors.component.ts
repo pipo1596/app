@@ -60,9 +60,7 @@ export class AuthorsComponent {
     openModal('deleteAuthor');
 
   }
-  ViewAuthor(author:any){
-    window.open(baseliveurl()+'/tacticalgear/authors/'+author.url+'?pmpreview=Y');
-  }
+  
   lastUpdate(author: any) {
     let lastdate = "0";
     let lasttime = "0";

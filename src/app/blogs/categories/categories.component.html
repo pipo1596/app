@@ -1,4 +1,4 @@
-<app-header *ngIf="!child" [title]="page.title" [fullname]="page.fullname"></app-header>
+<app-header *ngIf="!child" [title]="page.title"></app-header>
 
 <section class="pb-3" [ngClass]="{'bg-light':!child,'ftco-section':!child,'ftco-sectioninner':child}">
     <div class="container-fluid mw-2000" *ngIf="page.fullname!==''">

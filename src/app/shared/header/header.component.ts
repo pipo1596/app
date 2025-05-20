@@ -16,7 +16,7 @@ export class HeaderComponent {
   fullname : string = "";
   imgprfx = environment.logoprfx;
   showSidebar = false;
-  expanded: String[] = [];
+  expanded: String = "";
 
     constructor(private http: HttpClient,
       private router: Router,
@@ -29,27 +29,9 @@ export class HeaderComponent {
     this.fullname = response.name;
   }
 
-toggleSidebar() { // Display or Hide the sidebar
-  if(this.showSidebar){
-    this.showSidebar = false;
-  } else{
-    this.showSidebar = true;
-  }
-}
-
 goMenu(menu: String) { //Go to selected sidebar menu with current UP
   let nhno = this.route.snapshot.paramMap.get('nhno');
   this.router.navigate([`/uniforms/${menu}/` + nhno]);
-}
-
-sidebarNav(optn: String) {
-  if(this.expanded.includes(optn)){
-    this.expanded.pop()
-    console.log(this.expanded)
-  } else {
-    this.expanded[0] = optn
-    console.log(this.expanded)
-  }
 }
 
 }

@@ -39,6 +39,7 @@ export class BlogsComponent {
     this.http.post(environment.apiurl + '/cgi/APPLMBLOG', data).subscribe(response => {
 
       this.page.data = response;
+      this.page.menu = "U"
       if (this.page.data.title) this.page.title = this.page.data.title;
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
       this.page.loading = false;

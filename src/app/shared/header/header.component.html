@@ -1,7 +1,7 @@
 <title>{{title}}</title>
 
 <div class="d-flex position-fixed" style="z-index: 999;" *ngIf="this.menu != ''">
-    <button class="toggle-btn" (click)="toggleSidebar()"
+    <button class="toggle-btn" (click)="showSidebar = !showSidebar"
             [ngStyle]="{'right': (this.showSidebar) ? '-300px' : '-40px'}">
     <i [ngClass]="{'bi bi-chevron-right': (!this.showSidebar), 'bi bi-chevron-left': (this.showSidebar)}" ></i>
     </button>
@@ -17,107 +17,107 @@
       </div>
 
       <div class="nav flex-column">
-          <a (click)="sidebarNav('dashboard')" class="sidebar-link text-decoration-none p-3">
+          <a class="sidebar-link text-decoration-none p-3" (click)="goMenu('dashboard')">
               <span>Dashboard</span>
           </a>
-          <a (click)="sidebarNav('customers')" class="sidebar-link text-decoration-none p-3">
+          <a class="sidebar-link text-decoration-none p-3" (click)="goMenu('customers')">
               <span>Customers</span>
           </a>
 
           <!-- Pricing -->
-          <a (click)="sidebarNav('pricing')" class="sidebar-link text-decoration-none p-3"
-             [ngClass]="{'active': (this.expanded.includes('pricing')), '': (!this.expanded.includes('pricing'))}">
-             <span>Pricing &nbsp;&nbsp;
+          <a (click)="(expanded == 'pricing') ? expanded = '' : expanded = 'pricing'" class="sidebar-link text-decoration-none p-3"
+             [ngClass]="{'active': (this.expanded.includes('pricing'))}">
+             <span>Pricing
                 <i [ngClass]="{'bi bi-chevron-down': (this.expanded.includes('pricing')), 'bi bi-chevron-right': (!this.expanded.includes('pricing'))}" ></i>
              </span> 
           </a>
-          <div class="sidebar-sub-3" 
-               [ngStyle]="{'display': (this.expanded.includes('pricing')) ? '' : 'none'}">
+          <div class="sidebar-sub-3"
+                [ngClass]="{'d-none': (!this.expanded.includes('pricing'))}">
               <a class="sidebar-link-sub text-decoration-none">
-                  <span>UP Price List &nbsp;&nbsp;<br></span> 
+                  <span>UP Price List<br></span> 
               </a>
               <a class="sidebar-link-sub text-decoration-none">
-                  <span>UP VAS Pricing &nbsp;&nbsp;<br></span> 
+                  <span>UP VAS Pricing<br></span> 
               </a>
           </div>
 
           <!-- Catalog -->
-          <a (click)="sidebarNav('catalog')" class="sidebar-link text-decoration-none p-3"
-             [ngClass]="{'active': (this.expanded.includes('catalog')), '': (!this.expanded.includes('catalog'))}">
-            <span>Catalog &nbsp;&nbsp;
+          <a (click)="(expanded == 'catalog') ? expanded = '' : expanded = 'catalog'" class="sidebar-link text-decoration-none p-3"
+             [ngClass]="{'active': (this.expanded.includes('catalog'))}">
+            <span>Catalog
                 <i [ngClass]="{'bi bi-chevron-down': (this.expanded.includes('catalog')), 'bi bi-chevron-right': (!this.expanded.includes('catalog'))}" ></i>
             </span>
           </a>
           <div class="sidebar-sub-4"
-          [ngStyle]="{'display': (this.expanded.includes('catalog')) ? '' : 'none'}">
+                [ngClass]="{'d-none': (!this.expanded.includes('catalog'))}">
               <a class="sidebar-link-sub text-decoration-none" (click)="goMenu('products')">
-                  <span>Products &nbsp;&nbsp;<br></span> 
+                  <span>Products<br></span> 
               </a>
               <a class="sidebar-link-sub text-decoration-none" (click)="goMenu('categories')">
-                  <span>Categories &nbsp;&nbsp;<br></span> 
+                  <span>Categories<br></span> 
               </a>
               <a class="sidebar-link-sub text-decoration-none" (click)="goMenu('customizations')">
-                  <span>Customization &nbsp;&nbsp;<br></span> 
+                  <span>Customization<br></span> 
               </a>
               <a class="sidebar-link-sub text-decoration-none" (click)="goMenu('warehouses')">
-                  <span>Warehouse &nbsp;&nbsp;</span> 
+                  <span>Warehouse</span> 
               </a>
           </div>
 
           <!-- Content -->
-          <a (click)="sidebarNav('content')" class="sidebar-link text-decoration-none p-3"
-             [ngClass]="{'active': (this.expanded.includes('content')), '': (!this.expanded.includes('catalog'))}">
-            <span>Content &nbsp;&nbsp; 
+          <a (click)="(expanded == 'content') ? expanded = '' : expanded = 'content'" class="sidebar-link text-decoration-none p-3"
+             [ngClass]="{'active': (this.expanded.includes('content'))}">
+            <span>Content
                 <i [ngClass]="{'bi bi-chevron-down': (this.expanded.includes('content')), 'bi bi-chevron-right': (!this.expanded.includes('content'))}" ></i>
             </span>
           </a>
           <div class="sidebar-sub-5"
-          [ngStyle]="{'display': (this.expanded.includes('content')) ? '' : 'none'}">
+                [ngClass]="{'d-none': (!this.expanded.includes('content'))}">
               <a class="sidebar-link-sub text-decoration-none">
-                  <span>Images &nbsp;&nbsp;<br></span> 
+                  <span>Images<br></span> 
               </a>
               <a class="sidebar-link-sub text-decoration-none">
-                  <span>Notes &nbsp;&nbsp;<br></span> 
+                  <span>Notes<br></span> 
               </a>
           </div>
 
            <!-- Tools -->
-          <a (click)="sidebarNav('tools')" class="sidebar-link text-decoration-none p-3"
-             [ngClass]="{'active': (this.expanded.includes('tools')), '': (!this.expanded.includes('catalog'))}">
-              <span>Tools &nbsp;&nbsp; 
+          <a (click)="(expanded == 'tools') ? expanded = '' : expanded = 'tools'" class="sidebar-link text-decoration-none p-3"
+             [ngClass]="{'active': (this.expanded.includes('tools'))}">
+              <span>Tools
                 <i [ngClass]="{'bi bi-chevron-down': (this.expanded.includes('tools')), 'bi bi-chevron-right': (!this.expanded.includes('tools'))}" ></i>
             </span>
           </a>
           <div class="sidebar-sub-6"
-          [ngStyle]="{'display': (this.expanded.includes('tools')) ? '' : 'none'}">
+                [ngClass]="{'d-none': (!this.expanded.includes('tools'))}">
               <a class="sidebar-link-sub text-decoration-none">
-                  <span>Data Import &nbsp;&nbsp;<br></span> 
+                  <span>Data Import<br></span> 
               </a>
               <a class="sidebar-link-sub text-decoration-none">
-                  <span>Data Export &nbsp;&nbsp;<br></span> 
+                  <span>Data Export<br></span> 
               </a>
               <a class="sidebar-link-sub text-decoration-none">
-                  <span>CXML Configuration &nbsp;&nbsp;<br></span> 
+                  <span>CXML Configuration<br></span> 
               </a>
           </div>
 
           <!-- Reports -->
-          <a (click)="sidebarNav('reports')" class="sidebar-link text-decoration-none p-3"
-             [ngClass]="{'active': (this.expanded.includes('reports')), '': (!this.expanded.includes('catalog'))}">
-            <span>Reports &nbsp;&nbsp; 
+          <a (click)="(expanded == 'reports') ? expanded = '' : expanded = 'reports'" class="sidebar-link text-decoration-none p-3"
+             [ngClass]="{'active': (this.expanded.includes('reports'))}">
+            <span>Reports
                 <i [ngClass]="{'bi bi-chevron-down': (this.expanded.includes('reports')), 'bi bi-chevron-right': (!this.expanded.includes('reports'))}" ></i>
             </span>
           </a>
           <div class="sidebar-sub-7"
-          [ngStyle]="{'display': (this.expanded.includes('reports')) ? '' : 'none'}">
+          [ngClass]="{'d-none': (!this.expanded.includes('reports'))}">
               <a class="sidebar-link-sub text-decoration-none">
-                  <span>UP Assortment Report &nbsp;&nbsp;<br></span> 
+                  <span>UP Assortment Report<br></span> 
               </a>
               <a class="sidebar-link-sub text-decoration-none">
-                  <span>UP Personalization Group &nbsp;&nbsp;<br></span> 
+                  <span>UP Personalization Group<br></span> 
               </a>
               <a class="sidebar-link-sub text-decoration-none">
-                  <span>UP Program Audit Log &nbsp;&nbsp;<br></span> 
+                  <span>UP Program Audit Log<br></span> 
               </a>
           </div>
       </div>

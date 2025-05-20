@@ -15,6 +15,8 @@ export class HeaderComponent {
   @Input() menu : string = "";
   fullname : string = "";
   imgprfx = environment.logoprfx;
+  showSidebar = false;
+  expanded: String[] = [];
 
     constructor(private http: HttpClient,
       private router: Router,
@@ -27,13 +29,12 @@ export class HeaderComponent {
     this.fullname = response.name;
   }
 
-goHome() { // Return to home page 
-  this.router.navigate(['/uniforms']);
-}
-
 toggleSidebar() { // Display or Hide the sidebar
-  const sidebar = document.querySelector('.sidebar');
-  sidebar!.classList.toggle('collapsed');
+  if(this.showSidebar){
+    this.showSidebar = false;
+  } else{
+    this.showSidebar = true;
+  }
 }
 
 goMenu(menu: String) { //Go to selected sidebar menu with current UP
@@ -41,35 +42,15 @@ goMenu(menu: String) { //Go to selected sidebar menu with current UP
   this.router.navigate([`/uniforms/${menu}/` + nhno]);
 }
 
-sidebarNav(n: number) {
-  let i: number = 1;
-  var sidebarlink = document.querySelector(`:nth-child(${i} of .sidebar-link)`); //Sidebar links
-  var sidebarsub = document.querySelector(`.sidebar-sub-${i}`); //Sub menus of sidebar links
-  var sidebarOpt = sidebarlink?.querySelector(`.arrow`); //Arrow Indicator 
-
-  //Set option active
-  while (sidebarlink) {
-    if(i !== n){ //If not the selected link
-    if(sidebarlink!.classList.contains('active')){
-      sidebarlink!.classList.remove('active');
-    }
-    sidebarsub?.classList.add("closed")  //Close links that are not active
-    sidebarOpt?.classList.replace("down","right"); 
-    } else { //If is the selected link
-    sidebarlink!.classList.toggle('active');
-    if(sidebarsub?.classList.contains("closed")){
-      sidebarsub?.classList.remove("closed") //Open selected link if inactive
-      sidebarOpt?.classList.replace("right","down"); 
-    } else {
-      sidebarsub?.classList.add("closed") //Close selected link if already active
-      sidebarOpt?.classList.replace("down","right"); 
-    }
-  }
-    i++;
-    sidebarlink = document.querySelector(`:nth-child(${i} of .sidebar-link)`);
-    sidebarsub = document.querySelector(`.sidebar-sub-${i}`);
-    sidebarOpt = sidebarlink?.querySelector(`.arrow`);
+sidebarNav(optn: String) {
+  if(this.expanded.includes(optn)){
+    this.expanded.pop()
+    console.log(this.expanded)
+  } else {
+    this.expanded[0] = optn
+    console.log(this.expanded)
   }
 }
+
 }
 

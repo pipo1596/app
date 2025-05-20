@@ -1,0 +1,53 @@
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+<app-uniform-modal *ngIf="isPopupVisible" (close)="isPopupVisible = false"></app-uniform-modal>
+
+<section class="pb-3">
+    <div class="mw-2000 m-4">
+        <div class="col-12 col-lg-7">
+            <h6><strong style="color: red;">{{error}}</strong></h6>
+            <h4 class="ms-1">Create your Uniform Program</h4>
+            <h6 class="card-title mb-1 ps-3">
+                <span [ngStyle]="{'color': (programName) ? 'green' : 'red'}">{{ (programName) ? '&#x2713;' : '1.' }}</span>Name the Program 
+            </h6>
+            <h6 class="card-title mb-1 ps-3">
+                <span [ngStyle]="{'color': (customerAcct) ? 'green' : 'red'}">{{ (customerAcct) ? '&#x2713;' : '2.' }}</span>Assign the Customer (Don't know customer #? No worries! You can add the account)
+            </h6><br>
+        </div>
+
+        <table>
+            <tr>
+                <th align="left"><span style="color:red">*</span> Program Name</th>
+                <td nowrap align="left" colspan="3" class="ps-2">
+                    <input #name [(ngModel)]='programName' [value] = 'programName' type="text">
+                </td>
+            </tr><br>
+
+            <tr>
+                <th align="left"><span style="color:red">*</span> Customer Account</th>
+                <td nowrap align="left" colspan="3" class="ps-2">
+                    <input #name [(ngModel)]='customerAcct' [value] = 'customerAcct' type="text">
+                </td>
+            </tr><br>
+
+            <tr>
+                <th align="left"></th>
+                <td class="ps-2">
+                        <button class="btn btn btn-default border-2 border rounded-0 rounded-0" type="button" (click)="goBack()" style="color: black; background-color: #ffffff;"> 
+                            Cancel
+                        </button>
+                        <div style="display:inline-block; width:6px;"></div> 
+                        <button class="btn btn btn-default border-2 border rounded-0 rounded-0" type="button" (click)="newUniform()" style="color: white; background-color: #197abf;"> 
+                            Build My Uniform Program 
+                        </button>
+                </td>
+            </tr>
+
+        </table><br>
+
+        <strong><span style="color:red">* </span></strong><i>Denotes required information</i>
+    </div>
+    <app-footer></app-footer>
+
+</section>
+
+

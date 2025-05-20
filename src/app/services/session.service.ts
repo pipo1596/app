@@ -25,20 +25,27 @@ export class SessionService {
         nfmt: "",
         emal: "",
     };
-    try {
-      const response = await lastValueFrom( this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSECURE', {}));
-      this.page.data = response
-      session.user = this.page.data.user
-      session.name = this.page.data.name
-      session.auth = this.page.data.auth
-      session.curr = this.page.data.curr
-      session.dfmt = this.page.data.dfmt
-      session.nfmt = this.page.data.nfmt
-      session.emal = this.page.data.emal
-      return session;
-    } catch (error) {
-      console.error('An error occurred:', error);
-      throw error;
-    }
+    if (localStorage.getItem("name")){
+      session = JSON.parse(localStorage.getItem("name")!);
+      return session
+    } 
+    else{
+      try {
+        const response = await lastValueFrom( this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSECURE', {}));
+        this.page.data = response
+        localStorage.setItem("name", JSON.stringify(this.page.data));
+        session.user = this.page.data.user
+        session.name = this.page.data.name
+        session.auth = this.page.data.auth
+        session.curr = this.page.data.curr
+        session.dfmt = this.page.data.dfmt
+        session.nfmt = this.page.data.nfmt
+        session.emal = this.page.data.emal
+        return session;
+      } catch (error) {
+        console.error('An error occurred:', error);
+        throw error;
+      }
+  }
   }
 }

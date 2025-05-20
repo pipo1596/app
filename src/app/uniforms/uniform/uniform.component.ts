@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment.development';
 import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { hideWait } from '../../shared/utils';
+import { showWait, hideWait } from '../../shared/utils';
 
 @Component({
   selector: 'app-uniform',
@@ -13,10 +13,8 @@ import { hideWait } from '../../shared/utils';
 })
 export class UniformComponent {
   @Output() triggerEvent = new EventEmitter<string>();
-  isPopupVisible = false;
   page = new Page();
   error = "";
-
   programName = ""
   customerAcct = ""
 
@@ -29,7 +27,7 @@ export class UniformComponent {
   }
 
   newUniform() {
-    this.isPopupVisible = true;
+    showWait('Creating your new Uniform Program...');
 
     let data = {
       mode: 'create',
@@ -43,7 +41,7 @@ export class UniformComponent {
         this.router.navigate(['/uniforms/dashboard/' + this.page.data.nhno]);
       } else {
         this.error = this.page.data.errors
-        this.isPopupVisible = false;
+        hideWait();
       }
     });
 

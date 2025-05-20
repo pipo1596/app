@@ -4,12 +4,10 @@ import { SharedModule } from '../shared/shared.module';
 import { UniformsRoutingModule } from './uniforms-routing.module';
 import { UniformComponent } from './uniform/uniform.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
-import { UniformModalComponent } from './uniform/uniform-modal/uniform-modal.component';
 
 @NgModule({
   declarations: [
-    UniformComponent,
-    UniformModalComponent
+    UniformComponent
   ],
   imports: [
     CommonModule,

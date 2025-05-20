@@ -1,4 +1,108 @@
 <title>{{title}}</title>
+
+<div class="d-flex position-fixed" style="z-index: 999;" *ngIf="this.menu != ''">
+  <nav class="sidebar d-flex flex-column flex-shrink-0 position-fixed collapsed">
+      <button class="toggle-btn" (click)="toggleSidebar()">
+          <i class="fas fa-chevron-left"></i>
+      </button>
+
+      <div class="p-4">
+          <h4 class="logo-text fw-bold mb-0">
+              <a (click)="goHome()"><li class="nav-item nav-link link-body-emphasis px-2">
+                  <img src="{{imgprfx}}/logo.png" style="max-width: 120px;">
+                  </li>
+              </a>
+          </h4>
+      </div>
+
+      <div class="nav flex-column">
+          <a (click)="sidebarNav(1)" class="sidebar-link text-decoration-none p-3">
+              <span class="hide-on-collapse">Dashboard</span>
+          </a>
+          <a (click)="sidebarNav(2)" class="sidebar-link text-decoration-none p-3">
+              <span class="hide-on-collapse">Customers</span>
+          </a>
+
+          <!-- Pricing -->
+          <a (click)="sidebarNav(3)" class="sidebar-link text-decoration-none p-3">
+              <span class="hide-on-collapse">Pricing &nbsp;&nbsp; <i class="arrow right"></i></span> 
+          </a>
+          <div class="sidebar-sub-3 closed">
+              <a class="sidebar-link-sub text-decoration-none">
+                  <span class="hide-on-collapse">UP Price List &nbsp;&nbsp;<br></span> 
+              </a>
+              <a class="sidebar-link-sub text-decoration-none">
+                  <span class="hide-on-collapse">UP VAS Pricing &nbsp;&nbsp;<br></span> 
+              </a>
+          </div>
+
+          <!-- Catalog -->
+          <a (click)="sidebarNav(4)" class="sidebar-link text-decoration-none p-3">
+              <span class="hide-on-collapse">Catalog &nbsp;&nbsp; <i class="arrow right"></i></span>
+          </a>
+          <div class="sidebar-sub-4 closed">
+              <a class="sidebar-link-sub text-decoration-none" (click)="goMenu('products')">
+                  <span class="hide-on-collapse">Products &nbsp;&nbsp;<br></span> 
+              </a>
+              <a class="sidebar-link-sub text-decoration-none" (click)="goMenu('categories')">
+                  <span class="hide-on-collapse">Categories &nbsp;&nbsp;<br></span> 
+              </a>
+              <a class="sidebar-link-sub text-decoration-none" (click)="goMenu('customizations')">
+                  <span class="hide-on-collapse">Customization &nbsp;&nbsp;<br></span> 
+              </a>
+              <a class="sidebar-link-sub text-decoration-none" (click)="goMenu('warehouses')">
+                  <span class="hide-on-collapse">Warehouse &nbsp;&nbsp;</span> 
+              </a>
+          </div>
+
+          <!-- Content -->
+          <a (click)="sidebarNav(5)" class="sidebar-link text-decoration-none p-3">
+              <span class="hide-on-collapse">Content &nbsp;&nbsp; <i class="arrow right"></i></span>
+          </a>
+          <div class="sidebar-sub-5 closed">
+              <a class="sidebar-link-sub text-decoration-none">
+                  <span class="hide-on-collapse">Images &nbsp;&nbsp;<br></span> 
+              </a>
+              <a class="sidebar-link-sub text-decoration-none">
+                  <span class="hide-on-collapse">Notes &nbsp;&nbsp;<br></span> 
+              </a>
+          </div>
+
+           <!-- Tools -->
+          <a (click)="sidebarNav(6)" class="sidebar-link text-decoration-none p-3">
+              <span class="hide-on-collapse">Tools &nbsp;&nbsp; <i class="arrow right"></i></span>
+          </a>
+          <div class="sidebar-sub-6 closed">
+              <a class="sidebar-link-sub text-decoration-none">
+                  <span class="hide-on-collapse">Data Import &nbsp;&nbsp;<br></span> 
+              </a>
+              <a class="sidebar-link-sub text-decoration-none">
+                  <span class="hide-on-collapse">Data Export &nbsp;&nbsp;<br></span> 
+              </a>
+              <a class="sidebar-link-sub text-decoration-none">
+                  <span class="hide-on-collapse">CXML Configuration &nbsp;&nbsp;<br></span> 
+              </a>
+          </div>
+
+          <!-- Reports -->
+          <a (click)="sidebarNav(7)" class="sidebar-link text-decoration-none p-3">
+              <span class="hide-on-collapse">Reports &nbsp;&nbsp; <i class="arrow right"></i></span>
+          </a>
+          <div class="sidebar-sub-7 closed">
+              <a class="sidebar-link-sub text-decoration-none">
+                  <span class="hide-on-collapse">UP Assortment Report &nbsp;&nbsp;<br></span> 
+              </a>
+              <a class="sidebar-link-sub text-decoration-none">
+                  <span class="hide-on-collapse">UP Personalization Group &nbsp;&nbsp;<br></span> 
+              </a>
+              <a class="sidebar-link-sub text-decoration-none">
+                  <span class="hide-on-collapse">UP Program Audit Log &nbsp;&nbsp;<br></span> 
+              </a>
+          </div>
+      </div>
+  </nav>
+</div>
+
 <nav class="border-bottom">
     <div class="container-fluid d-flex flex-wrap bg-dark mw-2000">
       <ul class="nav me-auto">

@@ -54,5 +54,5 @@ export class TextField {
     valid: boolean = false;
     changes: boolean = false;
     topErrorID:string = "";
-    
+    menu:string = '';
   }

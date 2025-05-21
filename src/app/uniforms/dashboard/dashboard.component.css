@@ -1,0 +1,22 @@
+.divider {
+    height:0px;
+    border:none;
+    border-top: 3px solid #197abf;
+    opacity: 100%;
+}
+
+.dash-img {
+    margin-left: 200px;
+}
+
+.btn.btn-light {
+    --bs-btn-bg:'';
+    --bs-btn-border-color:'';
+}
+
+.card-body.step {
+    flex: 1 1 auto;
+    padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
+    color: var(--bs-card-color);
+    width: 40%;
+}

@@ -1,7 +1,7 @@
 <title>{{title}}</title>
 
 <div class="d-flex position-fixed" style="z-index: 999;" *ngIf="this.menu != ''">
-    <button class="toggle-btn" (click)="showSidebar = !showSidebar"
+    <button class="toggle-btn" (click)="showSidebar = !showSidebar; expanded = ''"
             [ngStyle]="{'right': (this.showSidebar) ? '-300px' : '-40px'}">
     <i [ngClass]="{'bi bi-chevron-right': (!this.showSidebar), 'bi bi-chevron-left': (this.showSidebar)}" ></i>
     </button>

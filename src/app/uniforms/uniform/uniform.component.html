@@ -1,29 +1,32 @@
 <app-header [title]="page.title" [menu]="page.menu" ></app-header>
 <section class="ftco-section bg-light pb-3 pt-5">
-    <div class="card mx-auto mb-5" style="width: 30rem; height: 450px; align-items: center;">
+    <div class="card uniform mx-auto mb-5 w-5">
         <div class="card-body">
-                <h6><strong style="color: red;">{{error}}</strong></h6>
+                <h6><strong class="text-danger">{{error}}</strong></h6>
                 <h4 class="card-title ms-1">Create your Uniform Program</h4>
 
+                <!-- Requirements -->
                 <h6 class="card-text mb-1 ps-3">
-                    <span [ngStyle]="{'color': (programName) ? 'green' : 'red'}">{{ (programName) ? '&#x2713;' : '1.' }}</span> Name the Program 
+                    <span [ngClass]="{'text-danger': (!programName), 'text-success': (programName)}">{{ (programName) ? '&#x2713;' : '1.' }}</span> Name the Program 
                 </h6>
-                <h6 class="card-text mb-1 ps-3">
-                    <span [ngStyle]="{'color': (customerAcct) ? 'green' : 'red'}">{{ (customerAcct) ? '&#x2713;' : '2.' }}</span> Assign the Customer
-                </h6><br>
-
-                <h6 class="card-text mb-1 ps-3"><span style="color:red">*</span>Program Name<br><br>
-                    <input #name [(ngModel)]='programName' [value] = 'programName' type="text">
-                </h6><br>
-                <h6 class="card-text mb-1 ps-3">Customer Account<br><br>
-                    <input #name [(ngModel)]='customerAcct' [value] = 'customerAcct' type="text">
+                <h6 class="card-text mb-5 ps-3">
+                    <span [ngClass]="{'text-danger': (!customerAcct), 'text-success': (customerAcct)}">{{ (customerAcct) ? '&#x2713;' : '2.' }}</span> Assign the Customer
                 </h6>
-                <p class="card-text ms-3" style="font-size:9pt; color: #2581c3;">Don't know customer #? You can add the account later</p><br>
 
-                <button class="btn border rounded-0 mt-4 mb-1 ms-3" type="button" (click)="goBack()" style="color: black; background-color: #d8d8d8;"> 
+                <!-- Program Name Input -->
+                <h6 class="form-label mb-1 ps-3"><span class="text-danger">*</span> Program Name</h6>
+                <input class="form-control mb-3 ms-3" [(ngModel)]='programName' [value] = 'programName' type="text" placeholder="Program Name">
+
+                <!-- Customer Account Input -->
+                <h6 class="form-label mb-1 ps-3">Customer Account</h6>
+                <input class="form-control mb-1 ms-3" [(ngModel)]='customerAcct' [value] = 'customerAcct' type="text" placeholder="Customer Account">
+                <p class="text-primary ms-3"><small>Don't know customer #? You can add the account later</small></p>
+
+
+                <button class="btn btn-secondary rounded-0 mt-4 mb-1 ms-3" type="button" (click)="goBack()"> 
                     Cancel
                 </button> 
-                <button class="btn border rounded-0 mt-4 mb-1 ms-3" type="button" (click)="newUniform()" style="color: white; background-color: #197abf;"> 
+                <button class="btn btn-primary rounded-0 mt-4 mb-1 ms-3" type="button" (click)="newUniform()"> 
                     Build My Uniform Program 
                 </button>
         </div>

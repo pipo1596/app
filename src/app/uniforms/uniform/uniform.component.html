@@ -2,33 +2,53 @@
 <section class="ftco-section bg-light pb-3 pt-5">
     <div class="card uniform mx-auto mb-5 w-5">
         <div class="card-body">
+            
+            <form>
                 <h6><strong class="text-danger">{{error}}</strong></h6>
                 <h4 class="card-title ms-1">Create your Uniform Program</h4>
 
                 <!-- Requirements -->
-                <h6 class="card-text mb-1 ps-3">
-                    <span [ngClass]="{'text-danger': (!programName), 'text-success': (programName)}">{{ (programName) ? '&#x2713;' : '1.' }}</span> Name the Program 
-                </h6>
-                <h6 class="card-text mb-5 ps-3">
-                    <span [ngClass]="{'text-danger': (!customerAcct), 'text-success': (customerAcct)}">{{ (customerAcct) ? '&#x2713;' : '2.' }}</span> Assign the Customer
-                </h6>
+                <div class="row g-3 ps-3 mb-4">
+                    <div class="col-md-12">
+                        <h6 class="card-text">
+                            <span [ngClass]="{'text-danger': (!programName), 'text-success': (programName)}">{{ (programName) ? '&#x2713;' : '1.' }}</span> Name the Program 
+                        </h6>
+                        <h6 class="card-text">
+                            <span [ngClass]="{'text-danger': (!customerAcct), 'text-success': (customerAcct)}">{{ (customerAcct) ? '&#x2713;' : '2.' }}</span> Assign the Customer
+                        </h6>
+                    </div>
+                </div>
 
                 <!-- Program Name Input -->
-                <h6 class="form-label mb-1 ps-3"><span class="text-danger">*</span> Program Name</h6>
-                <input class="form-control mb-3 ms-3" [(ngModel)]='programName' [value] = 'programName' type="text" placeholder="Program Name">
+                <div class="row g-3">
+                    <div class="col-md-12 mb-3">
+                        <h6 class="form-label"><span class="text-danger">*</span> Program Name</h6>
+                        <input class="form-control" [(ngModel)]='programName' [value] = 'programName' type="text" name="program" placeholder="Program Name">
+                    </div>
+                </div>
 
                 <!-- Customer Account Input -->
-                <h6 class="form-label mb-1 ps-3">Customer Account</h6>
-                <input class="form-control mb-1 ms-3" [(ngModel)]='customerAcct' [value] = 'customerAcct' type="text" placeholder="Customer Account">
-                <p class="text-primary ms-3"><small>Don't know customer #? You can add the account later</small></p>
+                <div class="row g-3">
+                    <div class="col-md-12 mb-3">
+                        <h6 class="form-label">Customer Account</h6>
+                        <input class="form-control" [(ngModel)]='customerAcct' [value] = 'customerAcct' type="text" name="customer" placeholder="Customer Account">
+                        <small class="text-primary">Don't know customer #? You can add the account later</small>
+                    </div>             
+                </div>
 
 
-                <button class="btn btn-secondary rounded-0 mt-4 mb-1 ms-3" type="button" (click)="goBack()"> 
-                    Cancel
-                </button> 
-                <button class="btn btn-primary rounded-0 mt-4 mb-1 ms-3" type="button" (click)="newUniform()"> 
-                    Build My Uniform Program 
-                </button>
+                <div class="row g-3">
+                    <div class="col-md-12 mb-3">
+                        <button class="btn btn-secondary rounded-0 mt-4 mb-1" type="button" (click)="goBack()"> 
+                            Cancel
+                        </button> 
+                        <button class="btn btn-primary rounded-0 mt-4 mb-1 ms-3" type="button" (click)="newUniform()"> 
+                            Build My Uniform Program 
+                        </button>
+                    </div>             
+                </div>
+            </form>
+
         </div>
     </div>
     <app-footer></app-footer>

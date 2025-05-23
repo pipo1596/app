@@ -51,4 +51,8 @@ export class UniformComponent {
     this.router.navigate(['/uniforms/']);
   }
 
+  inqAccount() {
+    this.router.navigate(['/uniforms/account/']);
+  }
+
 }

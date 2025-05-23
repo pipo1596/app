@@ -5,11 +5,13 @@ import { UniformsRoutingModule } from './uniforms-routing.module';
 import { UniformComponent } from './uniform/uniform.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AccountComponent } from './uniform/account/account.component';
 
 @NgModule({
   declarations: [
     UniformComponent,
-    DashboardComponent
+    DashboardComponent,
+    AccountComponent
   ],
   imports: [
     CommonModule,

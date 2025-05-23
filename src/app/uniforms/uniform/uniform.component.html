@@ -21,7 +21,7 @@
 
                 <!-- Program Name Input -->
                 <div class="row g-3">
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-11 mb-3">
                         <h6 class="form-label"><span class="text-danger">*</span> Program Name</h6>
                         <input class="form-control" [(ngModel)]='programName' [value] = 'programName' type="text" name="program" placeholder="Program Name">
                     </div>
@@ -29,13 +29,27 @@
 
                 <!-- Customer Account Input -->
                 <div class="row g-3">
-                    <div class="col-md-12 mb-3">
+                    <div class="col-11">
                         <h6 class="form-label">Customer Account</h6>
-                        <input class="form-control" [(ngModel)]='customerAcct' [value] = 'customerAcct' type="text" name="customer" placeholder="Customer Account">
-                        <small class="text-primary">Don't know customer #? You can add the account later</small>
-                    </div>             
+                    </div>     
                 </div>
 
+                <div class="row g-3 mb-2">
+                    <div class="col-11">
+                        <input class="form-control" [(ngModel)]='customerAcct' [value] = 'customerAcct' type="text" name="customer" placeholder="Customer Account">
+                    </div>     
+                    <div class="col-1">
+                        <button class="btn btn-light btn-outline-primary" (click)="inqAccount()">
+                            <span class="bi bi-search" title="Inquire"></span>
+                        </button>
+                    </div>  
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-12">
+                        <small class="text-primary">Don't know customer #? You can add the account later</small>
+                    </div>     
+                </div>
 
                 <div class="row g-3">
                     <div class="col-md-12 mb-3">

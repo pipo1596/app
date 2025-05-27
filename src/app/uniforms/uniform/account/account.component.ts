@@ -28,4 +28,8 @@ export class AccountComponent {
   getSafeUrl(url: string): SafeResourceUrl {
   return this.sanitizer.bypassSecurityTrustResourceUrl(url);
 }
+
+  selectAcct(acno: string){
+    this.router.navigate(['/uniforms/newuniform/' + acno]);
+  }
 }

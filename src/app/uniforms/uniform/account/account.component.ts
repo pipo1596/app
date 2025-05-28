@@ -17,7 +17,7 @@ export class AccountComponent {
   programName = ""
   customerAcct = ""
 
-  @HostListener('window:message', ['$event']) onPostMessage(event: MessageEvent) {
+  @HostListener('window:message', ['$event']) onMessage(event: MessageEvent) {
     this.router.navigate(['/uniforms/newuniform/' + event.data]);
   }
 

@@ -17,13 +17,13 @@ export class AccountComponent {
   programName = ""
   customerAcct = ""
 
-  @HostListener('window:message', ['$event']) onMessage(event: MessageEvent) {
-    this.router.navigate(['/uniforms/newuniform/' + event.data]);
-  }
-
   constructor(private http: HttpClient,
     private router: Router, private sanitizer: DomSanitizer
   ) { }
+
+  @HostListener('window:message', ['$event']) onMessage(event: MessageEvent) {
+    this.router.navigate(['/uniforms/newuniform/' + event.data]);
+  }
 
   ngOnInit(): void {
     hideWait();

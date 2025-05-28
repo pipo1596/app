@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { HostListener, Component} from '@angular/core';
 import { Page } from '../../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -16,6 +16,12 @@ export class AccountComponent {
   error = ""
   programName = ""
   customerAcct = ""
+  acno = ""
+
+  @HostListener('window:message', ['$event'])
+  onMessage(event: MessageEvent) {
+    this.router.navigate(['/uniforms/newuniform/' + event.data]);
+  }
 
   constructor(private http: HttpClient,
     private router: Router, private sanitizer: DomSanitizer

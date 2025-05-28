@@ -7,6 +7,7 @@ import { AccountComponent } from './uniform/account/account.component';
 
 const routes: Routes = [
   { path: 'newuniform', component: UniformComponent },
+  { path: 'newuniform/:acno', component: UniformComponent },
   { path: 'dashboard/:nhno', component: DashboardComponent },
   { path: 'account', component: AccountComponent },
   { path: '**', component: HomeComponent }

@@ -16,10 +16,8 @@ export class AccountComponent {
   error = ""
   programName = ""
   customerAcct = ""
-  acno = ""
 
-  @HostListener('window:message', ['$event'])
-  onMessage(event: MessageEvent) {
+  @HostListener('window:message', ['$event']) onPostMessage(event: MessageEvent) {
     this.router.navigate(['/uniforms/newuniform/' + event.data]);
   }
 
@@ -34,8 +32,4 @@ export class AccountComponent {
   getSafeUrl(url: string): SafeResourceUrl {
   return this.sanitizer.bypassSecurityTrustResourceUrl(url);
 }
-
-  selectAcct(acno: string){
-    this.router.navigate(['/uniforms/newuniform/' + acno]);
-  }
 }

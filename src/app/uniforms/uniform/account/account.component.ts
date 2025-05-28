@@ -22,7 +22,7 @@ export class AccountComponent {
   ) { }
 
   @HostListener('window:message', ['$event']) onMessage(event: MessageEvent) {
-    this.router.navigate(['/uniforms/newuniform/' + event.data]);
+    this.router.navigate(['/uniforms/newuniform/' + event.data.data]);
   }
 
   ngOnInit(): void {

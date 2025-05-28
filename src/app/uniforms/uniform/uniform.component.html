@@ -14,7 +14,7 @@
                             <span [ngClass]="{'text-danger': (!programName), 'text-success': (programName)}">{{ (programName) ? '&#x2713;' : '1.' }}</span> Name the Program 
                         </h6>
                         <h6 class="card-text">
-                            <span [ngClass]="{'text-danger': (!customerAcct), 'text-success': (customerAcct)}">{{ (customerAcct) ? '&#x2713;' : '2.' }}</span> Assign the Customer
+                            <span [ngClass]="{'text-danger': (!acno), 'text-success': (acno)}">{{ (acno) ? '&#x2713;' : '2.' }}</span> Assign the Customer
                         </h6>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
 
                 <div class="row g-3 mb-2">
                     <div class="col-11">
-                        <input class="form-control" [(ngModel)]='customerAcct' [value] = 'customerAcct' type="text" name="customer" placeholder="Customer Account">
+                        <input class="form-control" [(ngModel)]='acno' [value] = 'acno' type="text" name="customer" placeholder="Customer Account">
                     </div>     
                     <div class="col-1">
                         <button class="btn btn-light btn-outline-primary" (click)="inqAccount()">

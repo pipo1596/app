@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { showWait, hideWait } from '../../shared/utils';
 
 @Component({
@@ -16,14 +16,18 @@ export class UniformComponent {
   page = new Page();
   error = "";
   programName = ""
-  customerAcct = ""
+  acno: any;
 
   constructor(private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     hideWait();
+    this.route.paramMap.subscribe(params => {
+      this.acno = params.get('acno');
+    });
   }
 
   newUniform() {
@@ -32,7 +36,6 @@ export class UniformComponent {
     let data = {
       mode: 'create',
       name: this.programName,
-      acno: this.customerAcct
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNH', data).subscribe(response => {

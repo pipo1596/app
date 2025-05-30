@@ -31,5 +31,10 @@ export class AccountComponent {
 
   getSafeUrl(url: string): SafeResourceUrl {
   return this.sanitizer.bypassSecurityTrustResourceUrl(url);
-}
+  }
+
+  goBack() {
+    this.router.navigate(['/uniforms/newuniform/']);
+  }
+
 }

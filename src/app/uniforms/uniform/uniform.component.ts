@@ -28,6 +28,7 @@ export class UniformComponent {
     this.route.paramMap.subscribe(params => {
       this.acno = params.get('acno');
     });
+    localStorage.clear();
   }
 
   newUniform() {
@@ -55,6 +56,8 @@ export class UniformComponent {
   }
 
   inqAccount() {
+    localStorage.clear();
+    localStorage.setItem('partpg','/uniforms/newuniform/')
     this.router.navigate(['/uniforms/account/']);
   }
 

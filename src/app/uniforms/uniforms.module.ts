@@ -5,7 +5,7 @@ import { UniformsRoutingModule } from './uniforms-routing.module';
 import { UniformComponent } from './uniform/uniform.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { AccountComponent } from './uniform/account/account.component';
+import { AccountComponent } from './account/account.component';
 
 @NgModule({
   declarations: [

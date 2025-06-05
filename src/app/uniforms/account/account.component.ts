@@ -1,8 +1,8 @@
 import { HostListener, Component} from '@angular/core';
-import { Page } from '../../../shared/textField';
+import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { hideWait } from '../../../shared/utils';
+import { hideWait } from '../../shared/utils';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
@@ -22,7 +22,7 @@ export class AccountComponent {
   ) { }
 
   @HostListener('window:message', ['$event']) onMessage(event: MessageEvent) {
-    this.router.navigate(['/uniforms/newuniform/' + event.data.data]);
+    this.router.navigate([localStorage.getItem('partpg') + event.data.data]);
   }
 
   ngOnInit(): void {
@@ -34,7 +34,11 @@ export class AccountComponent {
   }
 
   goBack() {
-    this.router.navigate(['/uniforms/newuniform/']);
+    if(localStorage.getItem('acno')){
+      this.router.navigate([ localStorage.getItem('partpg')! + localStorage.getItem('acno') ]);
+    } else {
+      this.router.navigate([localStorage.getItem('partpg')]);
+    }
   }
 
 }

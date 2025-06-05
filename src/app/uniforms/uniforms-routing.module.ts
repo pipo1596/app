@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
 import { UniformComponent } from './uniform/uniform.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { AccountComponent } from './uniform/account/account.component';
+import { AccountComponent } from './account/account.component';
 
 const routes: Routes = [
   { path: 'newuniform', component: UniformComponent },

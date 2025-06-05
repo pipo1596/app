@@ -89,6 +89,7 @@ export class CustomerComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNC', data).subscribe(response => {
       this.page.data = response;
+      if(this.page?.data?.upct) this.upct = this.page.data.upct;
 
       if (mode !== 'update') {
         if (this.page.data.result == 'pass' && this.page.data.nhno){

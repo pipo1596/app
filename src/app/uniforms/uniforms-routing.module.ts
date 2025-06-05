@@ -7,6 +7,7 @@ import { AccountComponent } from './account/account.component';
 import { CustomersComponent } from './customers/customers.component';
 import { CustomerComponent } from './customer/customer.component';
 import { NotesComponent } from './notes/notes.component';
+import { NoteComponent } from './note/note.component';
 
 const routes: Routes = [
   { path: 'newuniform', component: UniformComponent },
@@ -18,6 +19,8 @@ const routes: Routes = [
   { path: 'newcustomer/:nhno/:acno', component: CustomerComponent },
   { path: 'editcustomer/:nhno/:acno', component: CustomerComponent },
   { path: 'notes/:nhno', component: NotesComponent },
+  { path: 'newnote/:nhno', component: NoteComponent },
+  { path: 'editnote/:nhno/:nono', component: NoteComponent },
   { path: '**', component: HomeComponent }
 ];
 

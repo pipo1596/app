@@ -9,6 +9,7 @@ import { AccountComponent } from './account/account.component';
 import { CustomersComponent } from './customers/customers.component';
 import { CustomerComponent } from './customer/customer.component';
 import { NotesComponent } from './notes/notes.component';
+import { NoteComponent } from './note/note.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { NotesComponent } from './notes/notes.component';
     AccountComponent,
     CustomersComponent,
     CustomerComponent,
-    NotesComponent
+    NotesComponent,
+    NoteComponent
   ],
   imports: [
     CommonModule,

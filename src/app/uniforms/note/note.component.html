@@ -1,0 +1,58 @@
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+<section class="ftco-section bg-light pb-3 pt-5">
+    <div class="card mx-auto mb-5 w-75 h-100">
+        <div class="card-body">
+                <form>
+                    <h6 class="mb-3" *ngIf="page?.data?.result == 'fail' && !(page.data.info)"><strong class="text-danger">{{page.data.errors}}</strong></h6>
+                    <h6 class="mb-3" *ngIf="page?.data?.result == 'pass' && page.data.nono"><strong class="text-primary">Note Updated Successfully</strong></h6>
+                    <div class="row g-3">
+                        <div class="col-md-9">
+                            <h6>Uniform Program - {{ page?.data?.pgName }}</h6>
+                        </div>
+                        <div class="col-md-2">
+                            <button (click)="drop = !drop" class="btn btn-primary rounded-0 w-100" type="button"> 
+                                More Actions 
+                            </button>
+                            <div (mouseleave)="drop = false" id="myDropdown" class="actions-content me-5 bg-light position-absolute shadow"
+                                 [ngClass]="{'d-block': (drop), 'd-none': !(drop)}">
+                                <a class="p-2 text-dark d-block text-decoration-none" href="#">Add Customization</a>
+                                <a class="p-2 text-dark d-block text-decoration-none" href="#">Delete</a>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <button class="btn">
+                                <span class="bi bi-question-circle" title="FAQ"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-5">
+                        <div class="col-md-9">
+                            <h6><small>Content > Notes > Add New Note</small></h6>
+                        </div>
+                    </div>
+
+                    <h4 class="card-title mb-4">Add New Note</h4>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-5">
+                            <label for="inputItem" class="form-label"><strong>Note:</strong> </label>
+                            <textarea class="form-control" rows="5" name="note" [(ngModel)]="note"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-row">
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary me-3" (click)="page.editmode ? loadNote('update') : loadNote('create')">Save</button>
+                            <button *ngIf="page.editmode" type="submit" class="btn btn-primary me-3" (click)="loadNote('delete')">Delete</button>
+                            <button type="submit" class="btn btn-primary me-3" (click)="goBack()">Cancel</button>
+                        </div>
+                    </div>
+                    
+                </form>
+        </div>
+    </div>
+    
+    <app-footer></app-footer>
+
+</section>

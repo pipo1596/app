@@ -73,10 +73,10 @@
           </a>
           <div class="sidebar-sub-5"
                 [ngClass]="{'d-none': (!this.expanded.includes('content'))}">
-              <a class="sidebar-link-sub text-decoration-none">
+              <a class="sidebar-link-sub text-decoration-none" (click)="goMenu('images')">
                   <span>Images<br></span> 
               </a>
-              <a class="sidebar-link-sub text-decoration-none">
+              <a class="sidebar-link-sub text-decoration-none" (click)="goMenu('notes')">
                   <span>Notes<br></span> 
               </a>
           </div>

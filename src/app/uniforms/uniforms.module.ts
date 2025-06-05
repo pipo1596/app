@@ -7,13 +7,15 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AccountComponent } from './account/account.component';
 import { CustomersComponent } from './customers/customers.component';
+import { CustomerComponent } from './customer/customer.component';
 
 @NgModule({
   declarations: [
     UniformComponent,
     DashboardComponent,
     AccountComponent,
-    CustomersComponent
+    CustomersComponent,
+    CustomerComponent
   ],
   imports: [
     CommonModule,

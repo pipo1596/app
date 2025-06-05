@@ -5,6 +5,7 @@ import { UniformComponent } from './uniform/uniform.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AccountComponent } from './account/account.component';
 import { CustomersComponent } from './customers/customers.component';
+import { CustomerComponent } from './customer/customer.component';
 
 const routes: Routes = [
   { path: 'newuniform', component: UniformComponent },
@@ -12,6 +13,8 @@ const routes: Routes = [
   { path: 'dashboard/:nhno', component: DashboardComponent },
   { path: 'account', component: AccountComponent },
   { path: 'customers/:nhno', component: CustomersComponent },
+  { path: 'newcustomer/:nhno', component: CustomerComponent },
+  { path: 'editcustomer/:nhno/:acno', component: CustomerComponent },
   { path: '**', component: HomeComponent }
 ];
 

@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: 'account', component: AccountComponent },
   { path: 'customers/:nhno', component: CustomersComponent },
   { path: 'newcustomer/:nhno', component: CustomerComponent },
+  { path: 'newcustomer/:nhno/:acno', component: CustomerComponent },
   { path: 'editcustomer/:nhno/:acno', component: CustomerComponent },
   { path: '**', component: HomeComponent }
 ];

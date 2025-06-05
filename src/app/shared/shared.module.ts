@@ -7,6 +7,7 @@ import { ConfirmComponent } from './confirm/confirm.component';
 import { ToastComponent } from './toast/toast.component';  // Import HttpClientModule explicitly
 import { FormsModule } from '@angular/forms';
 import { ImageUploadComponent } from './imageupload/imageupload.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 
@@ -27,10 +28,12 @@ import { ImageUploadComponent } from './imageupload/imageupload.component';
     ImageUploadComponent,
     CommonModule,
     HttpClientModule,
-    FormsModule 
+    FormsModule,
+    NgxPaginationModule
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    NgxPaginationModule
   ]
 })
 export class SharedModule { }

@@ -174,3 +174,13 @@ ul.categories li {
     --ae-toolbar-bg-color: #ffff;
     --ae-button-radius: 0px;
 }
+
+/* More Actions Dropdown*/
+.actions-content {
+  width: 208px;
+  z-index: 999;
+}
+
+.actions-content a:hover {
+    background-color: #ddd;
+}

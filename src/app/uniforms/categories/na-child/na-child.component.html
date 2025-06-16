@@ -1,0 +1,41 @@
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th align="left" class="ps-5">Actions</th>
+            <th align="left">Category</th>
+            <th align="left">Sort Order</th>
+            <th align="left"># Sub Categories</th>
+            <th align="left"># Products</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <ng-container *ngFor="let category of page?.data?.categories">
+                        <tr>
+                            <td class="ps-5">
+                                <button class="btn bg-transparent"><span
+                                    class="bi bi-pencil-square" title="Edit Category" (click)="loadCategory('edit', category.nano)"></span></button>
+                                <button class="btn bg-transparent"><span
+                                    class="bi bi-clipboard" title="Copy Category" (click)="loadCategory('copy', category.nano)"></span></button>
+                                <button class="btn bg-transparent"><span
+                                    class="bi bi-trash" title="Delete Category" (click)="deleteCategory(category.nano)"></span></button>
+                                <button class="btn bg-transparent" *ngIf="category.bttn == 'Y'"><span
+                                    [ngClass]="expanded.includes(category.nano) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category" 
+                                    (click)="expandCategory(category.nano)"></span></button>
+                                <button class="btn bg-transparent" *ngIf="category.bttn !== 'Y'"><span></span></button>
+                            </td>
+                            <td align="left">{{category.desc}}</td>
+                            <td align="left">{{category.seq}}</td>
+                            <td align="left">{{category.sub}}</td>
+                            <td align="left">{{category.prod}}</td>
+                        </tr>
+                        <ng-container *ngIf="expanded.includes(category.nano)">
+                            <tr>
+                                <td colspan="5">
+                                    <app-na-child [nhno]="nhno" [nano]="category.nano" [expanded]="expanded"></app-na-child>
+                                </td>
+                            </tr>
+                        </ng-container>
+        </ng-container>
+    </tbody>
+</table>

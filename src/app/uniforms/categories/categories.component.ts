@@ -1,0 +1,144 @@
+import { Component, ChangeDetectorRef} from '@angular/core';
+import { environment } from '../../../environments/environment.development';
+import { Page } from '../../shared/textField';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { scrollToTopInstant, hideWait, showWait } from '../../shared/utils';
+
+@Component({
+  selector: 'app-categories',
+  standalone: false,
+  templateUrl: './categories.component.html',
+  styleUrl: './categories.component.css'
+})
+
+export class CategoriesComponent {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
+  ) { }
+
+  page = new Page();
+  drop = false;
+
+  //Search 
+  srch = "";
+  expanded: any[] = [];
+
+  //Paging
+  p: number = 1;
+  itemsPerPage: number = 10;
+  total: number = 0;
+
+  ngOnInit(): void {
+      hideWait();
+      this.route.paramMap.subscribe(params => {
+      this.page.rfno = params.get('nhno');
+    });
+
+    let data = {
+      mode: 'SEARCH',
+      nhno: this.page.rfno,
+      srch: this.srch,
+      itemsPerPage: this.itemsPerPage,
+      currentPage: this.p
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNA', data).subscribe(response => {
+
+      this.page.data = response;
+      if (this.page.data.title) this.page.title = this.page.data.title;
+      if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
+      if (this.page.data.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data.total) this.total = this.page.data.total
+      this.page.loading = false;
+      scrollToTopInstant();
+    });
+  }
+
+  ngAfterContentChecked(): void {
+   this.cdr.detectChanges();
+  }  
+
+  getCategories() {
+    let data = {
+      mode: 'SEARCH',
+      nhno: this.page.rfno,
+      srch: this.srch,
+      itemsPerPage: this.itemsPerPage,
+      currentPage: this.p
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNA', data).subscribe(response => {
+
+      this.page.data = response;
+      if (this.page.data.title) this.page.title = this.page.data.title;
+      if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
+      if (this.page.data.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data.total) this.total = this.page.data.total
+      this.page.loading = false;
+      hideWait();
+      scrollToTopInstant();
+    });
+  }
+
+  expandCategory(nano: any, isParent: boolean){
+    if(this.expanded.includes(nano)){
+      this.expanded.splice(this.expanded.indexOf(nano),this.expanded.length)
+    } else{
+      if(isParent){ this.expanded = [] }
+      this.expanded.push(nano)
+    }
+    console.log(this.expanded)
+  }
+
+  loadCategory(mode: any, nano: any){
+    switch(mode){
+      case 'new':
+        this.router.navigate(['/uniforms/newcategory/' + this.page.rfno]);
+        break;
+      case 'edit':
+        this.router.navigate(['/uniforms/editcategory/' + this.page.rfno + '/' + nano]);
+        break;
+      case 'copy':
+        this.router.navigate(['/uniforms/copycategory/' + this.page.rfno + '/' + nano]);
+        break;
+    }
+  }
+
+  deleteCategory(nano: string){
+    showWait();
+    
+    let data = {
+      mode: 'delete',
+      nhno: this.page.rfno,
+      nano: nano
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNA', data).subscribe(response => {
+      this.page.data = response;
+
+      if (this.page.data.result != 'pass'){
+        this.page.loading = false;
+        hideWait();
+      } else {
+        this.getCategories();
+      }
+    });
+  }
+
+  onItemChange(event: number){
+    this.itemsPerPage = event
+    this.getCategories()
+    this.expanded = []
+  }
+
+  onPageChange(event: number) {
+    this.p = event
+    this.getCategories() 
+    this.expanded = []
+  }
+
+  }

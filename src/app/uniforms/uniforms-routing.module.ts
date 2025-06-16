@@ -8,19 +8,33 @@ import { CustomersComponent } from './customers/customers.component';
 import { CustomerComponent } from './customer/customer.component';
 import { NotesComponent } from './notes/notes.component';
 import { NoteComponent } from './note/note.component';
+import { CategoriesComponent } from './categories/categories.component';
 
 const routes: Routes = [
+  //Uniform
   { path: 'newuniform', component: UniformComponent },
   { path: 'newuniform/:acno', component: UniformComponent },
+
+  //Dashboard
   { path: 'dashboard/:nhno', component: DashboardComponent },
-  { path: 'account', component: AccountComponent },
+
+  //Categories
+  { path: 'categories/:nhno', component: CategoriesComponent },
+
+  //Customers
   { path: 'customers/:nhno', component: CustomersComponent },
   { path: 'newcustomer/:nhno', component: CustomerComponent },
   { path: 'newcustomer/:nhno/:acno', component: CustomerComponent },
   { path: 'editcustomer/:nhno/:acno', component: CustomerComponent },
+
+  //Notes 
   { path: 'notes/:nhno', component: NotesComponent },
   { path: 'newnote/:nhno', component: NoteComponent },
   { path: 'editnote/:nhno/:nono', component: NoteComponent },
+
+  //Inquiry
+  { path: 'account', component: AccountComponent },
+  
   { path: '**', component: HomeComponent }
 ];
 

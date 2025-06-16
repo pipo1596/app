@@ -1,0 +1,106 @@
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+
+<section class="ftco-section bg-light pb-3 pt-5">
+    <div class="card mx-auto mb-5 w-75 h-100">
+        <div class="card-body">
+
+            <div class="row g-4">
+                <div class="col-8">
+                    <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
+                </div>
+
+                <div class="col-2">
+                    <button (click)="drop = !drop" class="btn btn-primary rounded-0 w-100" type="button">More Actions</button>
+                    <div (mouseleave)="drop = false" id="myDropdown" class="actions-content me-5 bg-light position-absolute shadow"
+                         [ngClass]="{'d-block': (drop), 'd-none': !(drop)}">
+                        <a class="p-2 text-dark d-block text-decoration-none" href="#">Add Customization</a>
+                        <a class="p-2 text-dark d-block text-decoration-none" href="#">Delete</a>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <button (click)="loadCategory('new','')" class="btn btn-primary rounded-0 w-50" type="button">New</button>
+                    <button class="btn">
+                        <span class="bi bi-question-circle" title="FAQ"></span>
+                    </button>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-9">
+                        <h6><small>Catalog > Categories</small></h6>
+                    </div>
+                </div>
+    
+                <div class="row g-3">
+                    <div class="col-md-3">
+                         <input list="matchesSrch" placeholder="Search" [(ngModel)]="srch" class="form-control">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary rounded-0 w-50 me-3" type="button" (click)="getCategories()">Go</button>
+                    </div>
+                </div>
+            </div>
+            <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
+
+            <table class="table table-striped w-100">
+                <thead>
+                    <tr>
+                        <th align="left" class="ps-3">Actions</th>
+                        <th align="left">Category</th>
+                        <th align="left">Sort Order</th>
+                        <th align="left"># Sub Categories</th>
+                        <th align="left"># Products</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <ng-container *ngFor="let category of page?.data?.categories | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
+                        <tr>
+                            <td>
+                                <button class="btn bg-transparent" (click)="loadCategory('edit', category.nano)"><span
+                                    class="bi bi-pencil-square" title="Edit Category"></span></button>
+                                <button class="btn bg-transparent" (click)="loadCategory('copy', category.nano)"><span
+                                    class="bi bi-clipboard" title="Copy Category"></span></button>
+                                <button class="btn bg-transparent" (click)="deleteCategory(category.nano)"><span
+                                    class="bi bi-trash" title="Delete Category"></span></button>
+                                <button class="btn bg-transparent" *ngIf="category.bttn == 'Y'" (click)="expandCategory(category.nano, true)"><span
+                                    [ngClass]="expanded.includes(category.nano) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category"></span></button>
+                            </td>
+                            <td align="left">{{category.desc}}</td>
+                            <td align="left">{{category.seq}}</td>
+                            <td align="left">{{category.sub}}</td>
+                            <td align="left">{{category.prod}}</td>
+                        </tr>
+
+                        <ng-container *ngIf="expanded.includes(category.nano)">
+                            <tr>
+                                <td colspan="5">
+                                    <app-na-child [nhno]="page.rfno" [nano]="category.nano" [expanded]="expanded" [rtpg]="page"></app-na-child>
+                                </td>
+                            </tr>        
+                        </ng-container>
+                    </ng-container>
+                </tbody>
+            </table> 
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-8 mx-auto w-50">
+            <label>Items per page:
+                <select [(ngModel)]="itemsPerPage" (change)="onItemChange(itemsPerPage)">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="col-2 w-25">
+            <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</section>

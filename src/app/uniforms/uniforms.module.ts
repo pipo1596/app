@@ -10,6 +10,8 @@ import { CustomersComponent } from './customers/customers.component';
 import { CustomerComponent } from './customer/customer.component';
 import { NotesComponent } from './notes/notes.component';
 import { NoteComponent } from './note/note.component';
+import { CategoriesComponent } from './categories/categories.component';
+import { NaChildComponent } from './categories/na-child/na-child.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { NoteComponent } from './note/note.component';
     CustomersComponent,
     CustomerComponent,
     NotesComponent,
-    NoteComponent
+    NoteComponent,
+    CategoriesComponent,
+    NaChildComponent
   ],
   imports: [
     CommonModule,

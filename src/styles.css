@@ -175,6 +175,10 @@ ul.categories li {
     --ae-button-radius: 0px;
 }
 
+.altRow {
+    background-color: rgb(233, 232, 232);
+}
+
 /* More Actions Dropdown*/
 .actions-content {
   width: 208px;
@@ -183,4 +187,8 @@ ul.categories li {
 
 .actions-content a:hover {
     background-color: #ddd;
+}
+
+.ngx-dropdown-list-container {
+    top: 0px !important;
 }

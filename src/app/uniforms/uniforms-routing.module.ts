@@ -11,6 +11,7 @@ import { NoteComponent } from './note/note.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { CategoryComponent } from './category/category.component';
 import { ProductsComponent } from './products/products.component';
+import { StyleComponent } from './style/style.component';
 
 const routes: Routes = [
   //Uniform
@@ -26,7 +27,7 @@ const routes: Routes = [
 
   //Categories
   { path: 'categories/:nhno', component: CategoriesComponent },
-    { path: 'editcategory/:nhno/:nano', component: CategoryComponent }, 
+  { path: 'editcategory/:nhno/:nano', component: CategoryComponent }, 
   { path: 'newcategory/:nhno', component: CategoryComponent }, 
   { path: 'copycategory/:nhno/:nano', component: CategoryComponent }, 
 
@@ -43,6 +44,7 @@ const routes: Routes = [
 
   //Inquiry
   { path: 'account', component: AccountComponent },
+  { path: 'style/:nhno', component: StyleComponent },
   
   { path: '**', component: HomeComponent }
 ];

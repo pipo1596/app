@@ -151,7 +151,7 @@ export class ProductsComponent {
 
   inqStyle() {
     localStorage.clear();
-    localStorage.setItem('partpg','/uniforms/products/' + this.page.rfno)
+    localStorage.setItem('partpg','/uniforms/products/' + this.page.rfno + '/')
     this.router.navigate(['/uniforms/style/' + this.page.rfno]);
   }
 

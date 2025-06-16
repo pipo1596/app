@@ -144,7 +144,6 @@ export class ProductsComponent {
       placeholder: mode,
       height: '300px',
       noResultsFound: 'No results found',
-      searchOnKey: 'desc'
     }
     return config
   }

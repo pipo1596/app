@@ -22,6 +22,7 @@
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "ngx-pagination": "^6.0.3",
+    "ngx-select-dropdown": "^3.3.2",
     "router": "^2.2.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

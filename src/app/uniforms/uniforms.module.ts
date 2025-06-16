@@ -12,6 +12,8 @@ import { NotesComponent } from './notes/notes.component';
 import { NoteComponent } from './note/note.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { NaChildComponent } from './categories/na-child/na-child.component';
+import { CategoryComponent } from './category/category.component';
+import { SelectDropDownModule } from 'ngx-select-dropdown';
 
 @NgModule({
   declarations: [
@@ -23,13 +25,15 @@ import { NaChildComponent } from './categories/na-child/na-child.component';
     NotesComponent,
     NoteComponent,
     CategoriesComponent,
-    NaChildComponent
+    NaChildComponent,
+    CategoryComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
     UniformsRoutingModule,
-    AngularEditorModule
+    AngularEditorModule,
+    SelectDropDownModule
   ]
 })
 export class UniformsModule { }

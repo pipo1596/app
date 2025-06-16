@@ -9,6 +9,7 @@ import { CustomerComponent } from './customer/customer.component';
 import { NotesComponent } from './notes/notes.component';
 import { NoteComponent } from './note/note.component';
 import { CategoriesComponent } from './categories/categories.component';
+import { CategoryComponent } from './category/category.component';
 
 const routes: Routes = [
   //Uniform
@@ -20,6 +21,9 @@ const routes: Routes = [
 
   //Categories
   { path: 'categories/:nhno', component: CategoriesComponent },
+    { path: 'editcategory/:nhno/:nano', component: CategoryComponent }, 
+  { path: 'newcategory/:nhno', component: CategoryComponent }, 
+  { path: 'copycategory/:nhno/:nano', component: CategoryComponent }, 
 
   //Customers
   { path: 'customers/:nhno', component: CustomersComponent },

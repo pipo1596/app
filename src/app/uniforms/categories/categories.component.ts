@@ -130,12 +130,14 @@ export class CategoriesComponent {
   }
 
   onItemChange(event: number){
+    showWait();
     this.itemsPerPage = event
     this.getCategories()
     this.expanded = []
   }
 
   onPageChange(event: number) {
+    showWait();
     this.p = event
     this.getCategories() 
     this.expanded = []

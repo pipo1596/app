@@ -1,0 +1,128 @@
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+
+<section class="ftco-section bg-light pb-3 pt-5">
+    <div class="card mx-auto mb-5 w-75 h-100">
+        <div class="card-body">
+
+            <div class="row g-4">
+                <div class="col-8">
+                    <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
+                </div>
+
+                <div class="col-2">
+                    <button (click)="drop = !drop" class="btn btn-primary rounded-0 w-100" type="button">More Actions</button>
+                    <div (mouseleave)="drop = false" id="myDropdown" class="actions-content me-5 bg-light position-absolute shadow"
+                         [ngClass]="{'d-block': (drop), 'd-none': !(drop)}">
+                        <a class="p-2 text-dark d-block text-decoration-none" href="#">Add Customization</a>
+                        <a class="p-2 text-dark d-block text-decoration-none" href="#">Delete</a>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <button (click)="loadProduct('new','')" class="btn btn-primary rounded-0 w-50 me-3" type="button">New</button>
+                    <button class="btn">
+                        <span class="bi bi-question-circle" title="FAQ"></span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-9">
+                    <h6><small>Catalog > Products</small></h6>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-2">
+                    <input list="matchesSrch" placeholder="Search" [(ngModel)]="style" class="form-control">
+                </div>
+
+                <div class="col-md-1">
+                    <button class="btn" (click)="inqStyle()">
+                        <span class="bi bi-search" title="Inquire"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="row g-3">    
+                <div class="col-md-2">
+                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Customization')" [options]="page.data?.customizations" [(ngModel)]="customization" (change)="getProducts()"></ngx-select-dropdown>
+                </div>
+
+                <div class="col-md-2">
+                     <ngx-select-dropdown name="inputNANO" [config]="searchConfig('Category')" [options]="page.data?.categories" [(ngModel)]="category" (change)="getProducts()"></ngx-select-dropdown>
+                </div>
+
+                <div class="col-md-2">
+                     <ngx-select-dropdown name="inputWHNO" [config]="searchConfig('Warehouse')" [options]="page.data?.warehouses" [(ngModel)]="warehouse" (change)="getProducts()"></ngx-select-dropdown>
+                </div>
+
+                <div class="col-md-3">
+                    <ngx-select-dropdown name="inputVFGN" [config]="searchConfig('Style Configurator Template')" [options]="page.data?.stylconfig" [(ngModel)]="stylconfig" (change)="getProducts()"></ngx-select-dropdown>
+                </div>
+
+                <div class="col-md-2">
+                    <button class="btn btn-primary rounded-0 w-50 me-3" type="button" (click)="getProducts()">Go</button>
+                </div>
+            </div>
+
+            <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
+
+            <table class="table table-striped w-100">
+                <thead>
+                    <tr>
+                        <th align="left" colspan="1" class="ps-2 pe-3 pb-1"><input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked()"></th>
+                        <th align="left" colspan="1" class="ps-3">Actions</th>
+                        <th align="left" colspan="1">Style</th>
+                        <th align="left" colspan="2">Style Description</th>
+                        <th align="left" colspan="1" style="width: 10%;">Option 1</th>
+                        <th align="left" colspan="1" style="width: 15%;">Category</th>
+                        <th align="left" colspan="1">Customization</th>
+                        <th align="left" colspan="1" style="width: 10%;">DS Allowed?</th>
+                        <th align="left" colspan="2" style="width: 25%">Fulfillment Location</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let product of page?.data?.products | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
+                        <td align="left" class="ps-2" colspan="1"><input type="checkbox" class="form-check-input" id="ckbx{{ product.nino }}"  value="{{ product }}" (click)="checkProduct(product)" [checked] = "isChecked(product)"></td>
+                        <td style="width: 15%;">
+                            <button class="btn bg-transparent" (click)="loadProduct('edit', product.nino)"><span
+                                class="bi bi-pencil-square" title="Edit Product"></span></button>
+                            <button class="btn bg-transparent" (click)="loadProduct('copy', product.nino)"><span
+                                class="bi bi-clipboard" title="Copy Product"></span></button>
+                            <button class="btn bg-transparent" (click)="deleteProduct(product.nino)"><span
+                                class="bi bi-trash" title="Product Details"></span></button>
+                        </td>
+                        <td align="left" colspan="1">{{product.styl}}</td>
+                        <td align="left" colspan="2">{{product.desc}}</td>
+                        <td align="left" colspan="1" style="width: 10%;">{{product.opv1}}</td>
+                        <td align="left" colspan="1">{{product.nadesc}}</td>
+                        <td align="left" colspan="1">{{product.custcount}}</td>
+                        <td align="left" colspan="1" *ngIf="product.dsallowed == 'Y'" style="width: 10%;">Yes</td>
+                        <td align="left" colspan="1" *ngIf="product.dsallowed !== 'Y'" style="width: 10%;">No</td>
+                        <td align="left" colspan="2" style="width: 25%">{{product.frcfulloc}}</td>
+                    </tr>
+                </tbody> 
+            </table> 
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-8 mx-auto w-50">
+            <label>Items per page:
+                <select [(ngModel)]="itemsPerPage" (change)="onItemChange(itemsPerPage)">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="col-2 w-25">
+            <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
+        </div>
+    </div>
+    <app-footer></app-footer>
+</section>
+

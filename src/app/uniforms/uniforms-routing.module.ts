@@ -10,6 +10,7 @@ import { NotesComponent } from './notes/notes.component';
 import { NoteComponent } from './note/note.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { CategoryComponent } from './category/category.component';
+import { ProductsComponent } from './products/products.component';
 
 const routes: Routes = [
   //Uniform
@@ -18,6 +19,10 @@ const routes: Routes = [
 
   //Dashboard
   { path: 'dashboard/:nhno', component: DashboardComponent },
+
+  //Products
+  { path: 'products/:nhno', component: ProductsComponent }, 
+  { path: 'products/:nhno/:styl', component: ProductsComponent }, 
 
   //Categories
   { path: 'categories/:nhno', component: CategoriesComponent },

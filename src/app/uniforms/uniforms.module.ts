@@ -14,6 +14,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { NaChildComponent } from './categories/na-child/na-child.component';
 import { CategoryComponent } from './category/category.component';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
+import { ProductsComponent } from './products/products.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { SelectDropDownModule } from 'ngx-select-dropdown';
     NoteComponent,
     CategoriesComponent,
     NaChildComponent,
-    CategoryComponent
+    CategoryComponent,
+    ProductsComponent
   ],
   imports: [
     CommonModule,

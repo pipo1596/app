@@ -16,6 +16,7 @@ export class UplistComponent {
   drop = false;
   plno: any;
   desc: any;
+  inqPL: any;
   upct: any;
 
   constructor(
@@ -28,7 +29,7 @@ export class UplistComponent {
     showWait();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
-      this.plno = params.get('plno');
+      this.inqPL = params.get('plno');
     });
     this.loadList('getInfo')
   }
@@ -44,14 +45,26 @@ export class UplistComponent {
       mode: mode,
       nhno: this.page.rfno,
       plno: this.plno,
+      inq: this.inqPL,
       upct: (mode == 'update') ? this.upct : ''
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRPL', data).subscribe(response => {
       this.page.data = response;
       if(this.page?.data?.menu) this.page.menu = 'Y';
-      if(this.page?.data?.info.plno) this.plno = this.page.data.info.plno;
-      if(this.page?.data?.info.desc) this.desc = this.page.data.info.desc;
+
+      if(this.page?.data?.inq?.plnoi){
+        this.plno = this.page.data.inq.plnoi
+      } else if (this.page?.data?.info.plno) {
+        this.plno = this.page.data.info.plno;
+      }
+
+      if(this.page?.data?.inq?.desci){
+        this.desc = this.page.data.inq.desci
+      } else if (this.page?.data?.info.desc) {
+        this.desc = this.page.data.info.desc;
+      }
+
       if(this.page?.data?.info.upct) this.upct = this.page.data.info.upct;
       this.page.loading = false;
       hideWait();

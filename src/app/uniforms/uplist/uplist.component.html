@@ -1,0 +1,52 @@
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+
+<section class="ftco-section bg-light pb-3 pt-5">
+    <div class="card mx-auto mb-5 w-75 h-100">
+        <div class="card-body">
+            <form>
+                <h6 class="mb-3" *ngIf="page?.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
+                <h6 class="mb-3" *ngIf="page?.data?.result == 'pass' && page.data.plno"><strong class="text-primary">Price List Updated Successfully</strong></h6> 
+                <div class="row g-4">
+                    <div class="col-8 mb-5">
+                        <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
+                    </div>
+
+                    <div class="col-2">
+                        <button (click)="drop = !drop" class="btn btn-primary rounded-0 w-100" type="button">More Actions</button>
+                        <div (mouseleave)="drop = false" id="myDropdown" class="actions-content me-5 bg-light position-absolute shadow"
+                            [ngClass]="{'d-block': (drop), 'd-none': !(drop)}">
+                            <a class="p-2 text-dark d-block text-decoration-none" href="#">Add Customization</a>
+                            <a class="p-2 text-dark d-block text-decoration-none" href="#">Delete</a>
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <button class="btn btn-primary rounded-0 w-50 me-3" type="submit" (click)="loadList('update')">Save</button>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-2 mb-3">
+                        <h6><small>Add/Edit UP Price List</small></h6>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-3" *ngIf="plno">
+                        <input list="matchesSrch" placeholder="Search" class="form-control" name="description" [(ngModel)]="desc" readonly>
+                    </div>
+
+                    <div class="col-md-1">
+                        <button class="btn btn-light" (click)="inqList()">
+                            <span class="bi bi-search" title="Inquire"></span>
+                        </button>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</section>
+

@@ -12,6 +12,8 @@ import { CategoriesComponent } from './categories/categories.component';
 import { CategoryComponent } from './category/category.component';
 import { ProductsComponent } from './products/products.component';
 import { StyleComponent } from './style/style.component';
+import { UplistComponent } from './uplist/uplist.component';
+import { PricelistComponent } from './pricelist/pricelist.component';
 
 const routes: Routes = [
   //Uniform
@@ -42,9 +44,15 @@ const routes: Routes = [
   { path: 'newnote/:nhno', component: NoteComponent },
   { path: 'editnote/:nhno/:nono', component: NoteComponent },
 
+  //UP Price List
+  { path: 'uplist/:nhno', component: UplistComponent },
+  { path: 'uplist/:nhno/:plno', component: UplistComponent },
+
   //Inquiry
   { path: 'account', component: AccountComponent },
   { path: 'style/:nhno', component: StyleComponent },
+  { path: 'pricelist/:nhno', component: PricelistComponent },
+  { path: 'pricelist/:nhno/:plno', component: PricelistComponent },
   
   { path: '**', component: HomeComponent }
 ];

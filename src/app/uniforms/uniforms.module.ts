@@ -16,6 +16,8 @@ import { CategoryComponent } from './category/category.component';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { ProductsComponent } from './products/products.component';
 import { StyleComponent } from './style/style.component';
+import { UplistComponent } from './uplist/uplist.component';
+import { PricelistComponent } from './pricelist/pricelist.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { StyleComponent } from './style/style.component';
     NaChildComponent,
     CategoryComponent,
     ProductsComponent,
-    StyleComponent
+    StyleComponent,
+    UplistComponent,
+    PricelistComponent
   ],
   imports: [
     CommonModule,

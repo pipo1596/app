@@ -14,6 +14,7 @@ import { ProductsComponent } from './products/products.component';
 import { StyleComponent } from './style/style.component';
 import { UplistComponent } from './uplist/uplist.component';
 import { PricelistComponent } from './pricelist/pricelist.component';
+import { VaspriceComponent } from './vasprice/vasprice.component';
 
 const routes: Routes = [
   //Uniform
@@ -47,6 +48,9 @@ const routes: Routes = [
   //UP Price List
   { path: 'uplist/:nhno', component: UplistComponent },
   { path: 'uplist/:nhno/:plno', component: UplistComponent },
+
+  //Vas Price
+  { path: 'vasprice/:nhno', component: VaspriceComponent },
 
   //Inquiry
   { path: 'account', component: AccountComponent },

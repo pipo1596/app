@@ -18,6 +18,7 @@ import { ProductsComponent } from './products/products.component';
 import { StyleComponent } from './style/style.component';
 import { UplistComponent } from './uplist/uplist.component';
 import { PricelistComponent } from './pricelist/pricelist.component';
+import { VaspriceComponent } from './vasprice/vasprice.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { PricelistComponent } from './pricelist/pricelist.component';
     ProductsComponent,
     StyleComponent,
     UplistComponent,
-    PricelistComponent
+    PricelistComponent,
+    VaspriceComponent
   ],
   imports: [
     CommonModule,

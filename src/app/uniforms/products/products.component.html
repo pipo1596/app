@@ -70,7 +70,7 @@
             <table class="table table-striped w-100">
                 <thead>
                     <tr>
-                        <th align="left" colspan="1" class="ps-2 pe-3 pb-1"><input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked()"></th>
+                        <th align="left" colspan="1" class="ps-2 pe-3 pb-1"><input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked() && page.data?.products.length > 0"></th>
                         <th align="left" colspan="1" class="ps-3">Actions</th>
                         <th align="left" colspan="1">Style</th>
                         <th align="left" class="w-25" colspan="2" >Style Description</th>
@@ -83,7 +83,7 @@
                 </thead>
 
                 <tbody>
-                    <tr *ngFor="let product of page?.data?.products | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
+                    <tr *ngFor="let product of page.data?.products | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
                         <td align="left" class="ps-2" colspan="1"><input type="checkbox" class="form-check-input" id="ckbx{{ product.nino }}"  value="{{ product }}" (click)="checkProduct(product)" [checked] = "isChecked(product)"></td>
                         <td class="w-25">
                             <button class="btn bg-transparent" (click)="loadProduct('edit', product.nino)"><span

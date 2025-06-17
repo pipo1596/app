@@ -33,10 +33,10 @@
           </a>
           <div class="sidebar-sub-3"
                 [ngClass]="{'d-none': (!this.expanded.includes('pricing'))}">
-              <a class="sidebar-link-sub text-decoration-none">
+              <a class="sidebar-link-sub text-decoration-none" (click)="goMenu('uplist')">
                   <span>UP Price List<br></span> 
               </a>
-              <a class="sidebar-link-sub text-decoration-none">
+              <a class="sidebar-link-sub text-decoration-none" (click)="goMenu('vasprice')">
                   <span>UP VAS Pricing<br></span> 
               </a>
           </div>

@@ -122,8 +122,12 @@ export class ProductsComponent {
   }
 
   checkAll() {
+    var all = this.allChecked()
     for (let i = 0; i < this.page.data.products.length; i++) {
-      this.checkProduct(this.page.data.products[i])
+      if (!all && !this.isChecked(this.page.data.products[i]) ||
+           all && this.isChecked(this.page.data.products[i])) {
+        this.checkProduct(this.page.data.products[i])
+      }
     }
   }
 

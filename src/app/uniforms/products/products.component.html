@@ -73,19 +73,19 @@
                         <th align="left" colspan="1" class="ps-2 pe-3 pb-1"><input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked()"></th>
                         <th align="left" colspan="1" class="ps-3">Actions</th>
                         <th align="left" colspan="1">Style</th>
-                        <th align="left" colspan="2">Style Description</th>
-                        <th align="left" colspan="1" style="width: 10%;">Option 1</th>
-                        <th align="left" colspan="1" style="width: 15%;">Category</th>
+                        <th align="left" class="w-25" colspan="2" >Style Description</th>
+                        <th align="left" colspan="1">Option 1</th>
+                        <th align="left" colspan="1">Category</th>
                         <th align="left" colspan="1">Customization</th>
-                        <th align="left" colspan="1" style="width: 10%;">DS Allowed?</th>
-                        <th align="left" colspan="2" style="width: 25%">Fulfillment Location</th>
+                        <th align="left" colspan="1">DS Allowed?</th>
+                        <th align="left" class="w-50" colspan="2">Fulfillment Location</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <tr *ngFor="let product of page?.data?.products | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
                         <td align="left" class="ps-2" colspan="1"><input type="checkbox" class="form-check-input" id="ckbx{{ product.nino }}"  value="{{ product }}" (click)="checkProduct(product)" [checked] = "isChecked(product)"></td>
-                        <td style="width: 15%;">
+                        <td class="w-25">
                             <button class="btn bg-transparent" (click)="loadProduct('edit', product.nino)"><span
                                 class="bi bi-pencil-square" title="Edit Product"></span></button>
                             <button class="btn bg-transparent" (click)="loadProduct('copy', product.nino)"><span
@@ -95,12 +95,12 @@
                         </td>
                         <td align="left" colspan="1">{{product.styl}}</td>
                         <td align="left" colspan="2">{{product.desc}}</td>
-                        <td align="left" colspan="1" style="width: 10%;">{{product.opv1}}</td>
+                        <td align="left" class="w-25" colspan="1">{{product.opv1}}</td>
                         <td align="left" colspan="1">{{product.nadesc}}</td>
                         <td align="left" colspan="1">{{product.custcount}}</td>
-                        <td align="left" colspan="1" *ngIf="product.dsallowed == 'Y'" style="width: 10%;">Yes</td>
-                        <td align="left" colspan="1" *ngIf="product.dsallowed !== 'Y'" style="width: 10%;">No</td>
-                        <td align="left" colspan="2" style="width: 25%">{{product.frcfulloc}}</td>
+                        <td align="left" colspan="1" *ngIf="product.dsallowed == 'Y'">Yes</td>
+                        <td align="left" colspan="1" *ngIf="product.dsallowed !== 'Y'">No</td>
+                        <td align="left" colspan="2">{{product.frcfulloc}}</td>
                     </tr>
                 </tbody> 
             </table> 

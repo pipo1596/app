@@ -15,6 +15,8 @@ import { StyleComponent } from './style/style.component';
 import { UplistComponent } from './uplist/uplist.component';
 import { PricelistComponent } from './pricelist/pricelist.component';
 import { VaspriceComponent } from './vasprice/vasprice.component';
+import { ImagesComponent } from './images/images.component';
+import { ImageComponent } from './image/image.component';
 
 const routes: Routes = [
   //Uniform
@@ -44,6 +46,10 @@ const routes: Routes = [
   { path: 'notes/:nhno', component: NotesComponent },
   { path: 'newnote/:nhno', component: NoteComponent },
   { path: 'editnote/:nhno/:nono', component: NoteComponent },
+
+  //Images
+  { path: 'images/:nhno', component: ImagesComponent },
+  { path: 'newimage/:nhno', component: ImageComponent },
 
   //UP Price List
   { path: 'uplist/:nhno', component: UplistComponent },

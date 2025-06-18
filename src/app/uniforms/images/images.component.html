@@ -1,0 +1,89 @@
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+
+<section class="ftco-section bg-light pb-3 pt-5">
+    <div class="card mx-auto mb-5 w-75 h-100">
+        <div class="card-body">
+            
+            <div class="row g-4">
+                <div class="col-8">
+                    <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
+                </div>
+
+                <div class="col-2">
+                    <button (click)="drop = !drop" class="btn btn-primary rounded-0 w-100" type="button">More Actions</button>
+                    <div (mouseleave)="drop = false" id="myDropdown" class="actions-content me-5 bg-light position-absolute shadow"
+                         [ngClass]="{'d-block': (drop), 'd-none': !(drop)}">
+                        <a class="p-2 text-dark d-block text-decoration-none" href="#">Add Customization</a>
+                        <a class="p-2 text-dark d-block text-decoration-none" href="#">Delete</a>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <button class="btn btn-primary rounded-0 w-50 me-3" type="button" (click)="newImage()">New</button>
+                    <button class="btn">
+                        <span class="bi bi-question-circle" title="FAQ"></span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-9">
+                    <h6><small>Manage Attachments</small></h6>
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-md-2">
+                    <input type="text" class="form-control" name="imgSrch" [(ngModel)]="img" placeholder="Search">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary me-3" (click)="getImages(img)">Go</button>
+                </div>
+            </div>
+
+            <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
+
+            <table class="table table-striped w-100">
+                <thead>
+                    <tr>
+                        <th align="left" class="ps-3">Actions</th>
+                        <th align="left">Name</th>
+                        <th align="left">Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let image of page.data?.images | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
+                        <td>
+                            <a class="btn" [id]="'viewLink' + image.iono" (click)="viewImage(image.iono)"><span
+                                class="bi bi-eye" title="View Image"></span></a>
+                            <button class="btn" (click)="deleteImage(image.iono)"><span
+                                class="bi bi-trash" title="Delete Image"></span></button>
+                        </td>
+                        <td align="left">{{image.name}}</td>
+                        <td align="left">{{image.desc}}</td>
+                    </tr> 
+                </tbody>
+            </table> 
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-8 mx-auto w-50">
+            <label>Items per page:
+                <select [(ngModel)]="itemsPerPage" (change)="onItemChange(itemsPerPage)">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="col-2 w-25">
+            <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
+        </div>
+    </div>
+    <app-footer></app-footer>
+</section>
+

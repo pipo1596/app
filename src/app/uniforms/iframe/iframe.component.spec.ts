@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StyleComponent } from './style.component';
+import { IframeComponent } from './iframe.component';
 
-describe('StyleComponent', () => {
-  let component: StyleComponent;
-  let fixture: ComponentFixture<StyleComponent>;
+describe('IframeComponent', () => {
+  let component: IframeComponent;
+  let fixture: ComponentFixture<IframeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [StyleComponent]
+      declarations: [IframeComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(StyleComponent);
+    fixture = TestBed.createComponent(IframeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

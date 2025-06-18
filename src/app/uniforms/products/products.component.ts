@@ -155,7 +155,8 @@ export class ProductsComponent {
   inqStyle() {
     localStorage.clear();
     localStorage.setItem('partpg','/uniforms/products/' + this.page.rfno + '/')
-    this.router.navigate(['/uniforms/style/' + this.page.rfno]);
+    localStorage.setItem('menu','/cgi/APOELMIS?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
+    this.router.navigate(['/uniforms/iframe/APOELMIS'])
   }
 
   onItemChange(event: number){

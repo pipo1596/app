@@ -37,7 +37,8 @@ export class UplistComponent {
   inqList(){
     localStorage.clear();
     localStorage.setItem('partpg','/uniforms/uplist/' + this.page.rfno + '/')
-    this.router.navigate(['/uniforms/pricelist/' + this.page.rfno]);
+    localStorage.setItem('menu','/cgi/APOELMPL?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
+    this.router.navigate(['/uniforms/iframe/APOELMPL'])
   }
 
   loadList(mode: any){

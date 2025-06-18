@@ -16,7 +16,7 @@ export class UniformComponent {
   page = new Page();
   error = "";
   programName = ""
-  acno: any;
+  acno: any
 
   constructor(private http: HttpClient,
     private router: Router,
@@ -58,7 +58,8 @@ export class UniformComponent {
   inqAccount() {
     localStorage.clear();
     localStorage.setItem('partpg','/uniforms/newuniform/')
-    this.router.navigate(['/uniforms/account/']);
+    localStorage.setItem('menu','/cgi/APOELMAC?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
+    this.router.navigate(['/uniforms/iframe/APOELMAC'])
   }
 
 }

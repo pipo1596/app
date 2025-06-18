@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
 import { UniformComponent } from './uniform/uniform.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { AccountComponent } from './account/account.component';
 import { CustomersComponent } from './customers/customers.component';
 import { CustomerComponent } from './customer/customer.component';
 import { NotesComponent } from './notes/notes.component';
@@ -11,12 +10,11 @@ import { NoteComponent } from './note/note.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { CategoryComponent } from './category/category.component';
 import { ProductsComponent } from './products/products.component';
-import { StyleComponent } from './style/style.component';
 import { UplistComponent } from './uplist/uplist.component';
-import { PricelistComponent } from './pricelist/pricelist.component';
 import { VaspriceComponent } from './vasprice/vasprice.component';
 import { ImagesComponent } from './images/images.component';
 import { ImageComponent } from './image/image.component';
+import { IframeComponent } from './iframe/iframe.component';
 
 const routes: Routes = [
   //Uniform
@@ -58,12 +56,7 @@ const routes: Routes = [
   //Vas Price
   { path: 'vasprice/:nhno', component: VaspriceComponent },
 
-  //Inquiry
-  { path: 'account', component: AccountComponent },
-  { path: 'style/:nhno', component: StyleComponent },
-  { path: 'pricelist/:nhno', component: PricelistComponent },
-  { path: 'pricelist/:nhno/:plno', component: PricelistComponent },
-  
+  { path: 'iframe/:menu', component: IframeComponent },
   { path: '**', component: HomeComponent }
 ];
 

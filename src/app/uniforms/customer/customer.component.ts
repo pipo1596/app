@@ -20,7 +20,7 @@ export class CustomerComponent {
   acno:any
   effd = "";
   expd = "";
-  upct = "0";
+  upct = "";
 
   constructor(
     private http: HttpClient,
@@ -40,6 +40,7 @@ export class CustomerComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNC', data).subscribe(response => {
       this.page.data = response;
+      if (this.page.data.menu) this.page.menu = this.page.data.menu;
       if(this.page?.data?.info?.acno) this.acno = this.page.data.info.acno;
       if(this.page?.data?.info?.effd) this.effd = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
       if(this.page?.data?.info?.expd) this.expd = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
@@ -67,12 +68,14 @@ export class CustomerComponent {
   inqAcct() {
     localStorage.clear();
     if(this.page.editmode){
-      localStorage.setItem('acno', this.acno)
+      localStorage.setItem('p1', this.acno)
       localStorage.setItem('partpg','/uniforms/editcustomer/' + this.nhno + '/')
     } else {
       localStorage.setItem('partpg','/uniforms/newcustomer/' + this.nhno + '/')
     }
-    this.router.navigate(['/uniforms/account/']);
+
+    localStorage.setItem('menu','/cgi/APOELMAC?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
+    this.router.navigate(['/uniforms/iframe/APOELMAC'])
   }
 
   loadCustomer(mode: string){

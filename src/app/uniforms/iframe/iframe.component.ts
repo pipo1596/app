@@ -3,7 +3,7 @@ import { Page } from '../../shared/textField';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait } from '../../shared/utils';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-iframe',
@@ -33,7 +33,7 @@ export class IframeComponent {
   }
 
   getSafeUrl(url: string): SafeResourceUrl {
-  return this.sanitizer.bypassSecurityTrustResourceUrl(environment.apiurl + '/' + url);
+  return this.sanitizer.bypassSecurityTrustResourceUrl(environment.apiurl + url);
   }
 
   goBack() {

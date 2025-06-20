@@ -13,15 +13,14 @@
         <ng-container *ngFor="let category of page?.data?.categories">
                         <tr>
                             <td class="ps-5">
-                                <button class="btn bg-transparent"><span
-                                    class="bi bi-pencil-square" title="Edit Category" (click)="loadCategory('edit', category.nano)"></span></button>
-                                <button class="btn bg-transparent"><span
-                                    class="bi bi-clipboard" title="Copy Category" (click)="loadCategory('copy', category.nano)"></span></button>
-                                <button class="btn bg-transparent"><span
-                                    class="bi bi-trash" title="Delete Category" (click)="deleteCategory(category.nano)"></span></button>
-                                <button class="btn bg-transparent" *ngIf="category.bttn == 'Y'"><span
-                                    [ngClass]="expanded.includes(category.nano) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category" 
-                                    (click)="expandCategory(category.nano)"></span></button>
+                                <button class="btn bg-transparent" (click)="loadCategory('edit', category.nano)"><span
+                                    class="bi bi-pencil-square" title="Edit Category"></span></button>
+                                <button class="btn bg-transparent" (click)="loadCategory('copy', category.nano)"><span
+                                    class="bi bi-clipboard" title="Copy Category"></span></button>
+                                <button class="btn bg-transparent" (click)="deleteCategory(category.nano)"><span
+                                    class="bi bi-trash" title="Delete Category"></span></button>
+                                <button class="btn bg-transparent" *ngIf="category.bttn == 'Y'" (click)="expandCategory(category)"><span
+                                    [ngClass]="expanded.includes(category) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category" ></span></button>
                                 <button class="btn bg-transparent" *ngIf="category.bttn !== 'Y'"><span></span></button>
                             </td>
                             <td align="left">{{category.desc}}</td>
@@ -29,10 +28,10 @@
                             <td align="left">{{category.sub}}</td>
                             <td align="left">{{category.prod}}</td>
                         </tr>
-                        <ng-container *ngIf="expanded.includes(category.nano)">
+                        <ng-container *ngIf="expanded.includes(category)">
                             <tr>
                                 <td colspan="5">
-                                    <app-na-child [nhno]="nhno" [nano]="category.nano" [expanded]="expanded"></app-na-child>
+                                    <app-na-child [nhno]="nhno" [category]="category" [expanded]="expanded"></app-na-child>
                                 </td>
                             </tr>
                         </ng-container>

@@ -14,7 +14,7 @@ import { hideWait, showWait } from '../../../shared/utils';
 })
 export class NaChildComponent {
   @Input() nhno : any = "";
-  @Input() nano : string = "";
+  @Input() category : any = "";
   @Input() expanded : any = [];
   @Input() rtpg: any;
 
@@ -31,7 +31,7 @@ export class NaChildComponent {
     let data = {
       mode: 'SEARCH',
       nhno: this.nhno,
-      nano: this.nano,
+      nano: this.category.nano,
       srch: '',
       itemsPerPage: 10,
       currentPage: 1
@@ -82,13 +82,12 @@ export class NaChildComponent {
     });
   }
 
-  expandCategory(nano: any) {
-    if(this.expanded.includes(nano)){
-      this.expanded.splice(this.expanded.indexOf(nano),this.expanded.length)
+  expandCategory(category: any) {
+    if(this.expanded.includes(category)){
+      this.expanded.splice(this.expanded.indexOf(category),1)
     } else{
-      this.expanded.splice(1,1,nano)
+      this.expanded.push(category)
     }
-    console.log(this.expanded)
   }
 
   getCategories() {

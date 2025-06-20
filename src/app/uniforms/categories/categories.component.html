@@ -63,8 +63,8 @@
                                     class="bi bi-clipboard" title="Copy Category"></span></button>
                                 <button class="btn bg-transparent" (click)="deleteCategory(category.nano)"><span
                                     class="bi bi-trash" title="Delete Category"></span></button>
-                                <button class="btn bg-transparent" *ngIf="category.bttn == 'Y'" (click)="expandCategory(category.nano, true)"><span
-                                    [ngClass]="expanded.includes(category.nano) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category"></span></button>
+                                <button class="btn bg-transparent" *ngIf="category.bttn == 'Y'" (click)="expandCategory(category, true)"><span
+                                    [ngClass]="expanded.includes(category) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category"></span></button>
                             </td>
                             <td align="left">{{category.desc}}</td>
                             <td align="left">{{category.seq}}</td>
@@ -72,10 +72,10 @@
                             <td align="left">{{category.prod}}</td>
                         </tr>
 
-                        <ng-container *ngIf="expanded.includes(category.nano)">
+                        <ng-container *ngIf="expanded.includes(category)">
                             <tr>
                                 <td colspan="5">
-                                    <app-na-child [nhno]="page.rfno" [nano]="category.nano" [expanded]="expanded" [rtpg]="page"></app-na-child>
+                                    <app-na-child [nhno]="page.rfno" [category]="category" [expanded]="expanded" [rtpg]="page"></app-na-child>
                                 </td>
                             </tr>        
                         </ng-container>

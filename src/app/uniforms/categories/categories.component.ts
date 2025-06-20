@@ -84,14 +84,13 @@ export class CategoriesComponent {
     });
   }
 
-  expandCategory(nano: any, isParent: boolean){
-    if(this.expanded.includes(nano)){
-      this.expanded.splice(this.expanded.indexOf(nano),this.expanded.length)
+  expandCategory(category: any, isParent: boolean){
+    if(this.expanded.includes(category)){
+      this.expanded.splice(this.expanded.indexOf(category),this.expanded.length)
     } else{
       if(isParent){ this.expanded = [] }
-      this.expanded.push(nano)
+      this.expanded.push(category)
     }
-    console.log(this.expanded)
   }
 
   loadCategory(mode: any, nano: any){
@@ -130,14 +129,12 @@ export class CategoriesComponent {
   }
 
   onItemChange(event: number){
-    showWait();
     this.itemsPerPage = event
     this.getCategories()
     this.expanded = []
   }
 
   onPageChange(event: number) {
-    showWait();
     this.p = event
     this.getCategories() 
     this.expanded = []

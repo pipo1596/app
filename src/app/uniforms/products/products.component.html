@@ -43,17 +43,18 @@
                     </button>
                 </div>
             </div>
+            
             <div class="row g-3">    
                 <div class="col-md-2">
                     <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Customization')" [options]="page.data?.customizations" [(ngModel)]="customization" (change)="getProducts()"></ngx-select-dropdown>
                 </div>
 
                 <div class="col-md-2">
-                     <ngx-select-dropdown name="inputNANO" [config]="searchConfig('Category')" [options]="page.data?.categories" [(ngModel)]="category" (change)="getProducts()"></ngx-select-dropdown>
+                    <ngx-select-dropdown name="inputNANO" [config]="searchConfig('Category')" [options]="page.data?.categories" [(ngModel)]="category" (change)="getProducts()"></ngx-select-dropdown>
                 </div>
 
-                <div class="col-md-2">
-                     <ngx-select-dropdown name="inputWHNO" [config]="searchConfig('Warehouse')" [options]="page.data?.warehouses" [(ngModel)]="warehouse" (change)="getProducts()"></ngx-select-dropdown>
+                <div class="col-md-3">
+                    <ngx-select-dropdown name="inputWHNO" [config]="searchConfig('Warehouse')" [options]="page.data?.warehouses" [(ngModel)]="warehouse" (change)="getProducts()"></ngx-select-dropdown>
                 </div>
 
                 <div class="col-md-3">

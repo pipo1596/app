@@ -62,7 +62,6 @@ export class NaChildComponent {
   }
 
   deleteCategory(nano: string){
-    showWait();
     
     let data = {
       mode: 'delete',

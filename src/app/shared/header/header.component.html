@@ -1,7 +1,7 @@
 <title>{{title}}</title>
 
 <div class="d-flex position-fixed" style="z-index: 999;" *ngIf="this.menu != ''">
-    <button class="toggle-btn" (click)="showSidebar = !showSidebar; expanded = ''"
+    <button class="toggle-btn" (click)="showSidebar = !showSidebar"
             [ngStyle]="{'right': (this.showSidebar) ? '-300px' : '-40px'}">
     <i [ngClass]="{'bi bi-chevron-right': (!this.showSidebar), 'bi bi-chevron-left': (this.showSidebar)}" ></i>
     </button>
@@ -90,13 +90,13 @@
           </a>
           <div class="sidebar-sub-6"
                 [ngClass]="{'d-none': (!this.expanded.includes('tools'))}">
-              <a class="sidebar-link-sub text-decoration-none">
+              <a class="sidebar-link-sub text-decoration-none" (click)="goMenu('import')">
                   <span>Data Import<br></span> 
               </a>
-              <a class="sidebar-link-sub text-decoration-none">
+              <a class="sidebar-link-sub text-decoration-none" (click)="goMenu('export')">
                   <span>Data Export<br></span> 
               </a>
-              <a class="sidebar-link-sub text-decoration-none">
+              <a class="sidebar-link-sub text-decoration-none" (click)="goMenu('cxmlconfigs')">
                   <span>CXML Configuration<br></span> 
               </a>
           </div>

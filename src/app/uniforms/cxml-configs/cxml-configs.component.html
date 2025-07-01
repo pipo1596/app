@@ -1,0 +1,30 @@
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+<section class="ftco-section bg-light pb-3 pt-5">
+    <div class="card mx-auto mb-5 w-75 h-100">
+        <div class="card-body">
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-12">
+                    <h6 class="">CXML Configuration</h6>
+                </div>         
+            </div>
+
+            <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
+
+            <div class="col-md-8 card-body">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-11">
+                        <h5>Are you configuring CXML (Punchout) at the Category level or the Customer Level?</h5>
+                    </div>
+                </div>
+                <div class="d-flex flex-row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary me-3 w-25" (click)="getConfig('update','customer')">Customer</button>
+                        <button type="submit" class="btn btn-primary me-3 w-25" (click)="getConfig('update','category')">Category</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-footer></app-footer>
+</section>

@@ -22,6 +22,8 @@ import { IframeComponent } from './iframe/iframe.component';
 import { OERP52Component } from './reports/oerp52/oerp52.component';
 import { OERP53Component } from './reports/oerp53/oerp53.component';
 import { ExportComponent } from './export/export.component';
+import { CxmlConfigsComponent } from './cxml-configs/cxml-configs.component';
+import { CxmlCustomersComponent } from './cxml-customers/cxml-customers.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { ExportComponent } from './export/export.component';
     IframeComponent,
     OERP52Component,
     OERP53Component,
-    ExportComponent
+    ExportComponent,
+    CxmlConfigsComponent,
+    CxmlCustomersComponent
   ],
   imports: [
     CommonModule,

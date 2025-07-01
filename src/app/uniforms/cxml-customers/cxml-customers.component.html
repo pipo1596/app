@@ -1,0 +1,95 @@
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+<section class="ftco-section bg-light pb-3 pt-5">
+    <div class="card mx-auto mb-5 w-75 h-100">
+        <div class="card-body">
+
+            <div class="row g-3 mb-2">
+                <div class="col-md-11">
+                    <h6 class="">Uniform Program - {{ page.data?.info?.name }}</h6>
+                </div>
+                <div class="col-md-1">
+                    <button class="btn">
+                        <span class="bi bi-question-circle" title="FAQ"></span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-12">
+                    <h6 class="">CXML Configuration</h6>
+                </div>         
+            </div>
+
+            <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
+
+            <!-- Customer CXML Configuration -->
+                <div class="d-flex flex-row">
+                    <div class="col-md-10 mr-auto p-2">
+                        <h6 class=""><u>Customer CXML Configuration</u></h6>
+                    </div>     
+
+                    <div class="col-md-3 p-2">
+                        <button type="submit" class="btn btn-primary w-50" (click)="newConfig()">New</button>
+                    </div>         
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="d-flex flex-row">
+                        <p class="p-2">Account: </p>
+                        <div class="col-md-3">
+                            <select class="form-select p-2" (change)="filterConfigs($event)">
+                                <option>Select</option>
+                                <option value="*DEFAULT">Default</option>
+                                <option *ngFor="let account of page.data?.accounts" [value]="account.acno">{{account.acno}} - {{account.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table table-striped w-100">
+                    <thead>
+                        <tr>
+                            <th align="left">Edit</th>
+                            <th align="left">Account</th>
+                            <th align="left">Merchandizing Category</th>
+                            <th align="left">Category</th>
+                            <th align="left">Product Class</th>
+                            <th align="left">UNSPSC</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let config of page.data?.configs | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
+                            <td>
+                                <button class="btn bg-transparent" (click)="editConfig(config.guno)"><span
+                                    class="bi bi-pencil-square" title="Edit Config"></span></button>
+                            </td>
+                            <td align="left">{{config.acno}}<br>{{config.name}}</td>
+                            <td *ngIf="config.ccnm == '*ALL'" align="left">ALL</td>
+                            <td *ngIf="config.ccnm !== '*ALL'" align="left">{{config.nmdesc}}</td>
+                            <td align="left">{{config.ncdesc}}</td>
+                            <td align="left">{{config.nsdesc}}</td>
+                            <td align="left">{{config.unsp}}</td>
+                        </tr>  
+                    </tbody>
+                </table> 
+        </div>
+    </div>
+    <div class="row g-4">
+        <div class="col-8 mx-auto w-50">
+            <label>Items per page:
+                <select [(ngModel)]="itemsPerPage" (change)="onItemChange(itemsPerPage)">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="col-2 w-25">
+            <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
+        </div>
+    </div>
+    <app-footer></app-footer>
+</section>

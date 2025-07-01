@@ -1,0 +1,91 @@
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+<section class="ftco-section bg-light pb-3 pt-5">
+
+    <div class="d-flex flex-row-reverse mb-3">
+        <div class="col-md-2">
+          <input type="button" value="Cancel" class="btn btn-secondary" (click)="goBack()">
+        </div>
+    </div>
+
+    <div class="card mx-auto mb-5 w-75 h-100">
+        <div class="card-body">
+            <form>
+                <h6 class="mb-3" *ngIf="page?.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
+                <h6 class="mb-3" *ngIf="submitError"><strong class="text-danger">{{submitError}}</strong></h6>
+            
+                <div class="d-flex flex-row">
+                    <div class="col-md-10 mr-auto p-2">
+                        <h6 class=""><u>Customer CXML Configuration</u></h6>
+                    </div>        
+                </div>
+
+                <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
+
+                <div class="form-group row g-3 mb-3 ms-5" *ngIf="!dflt">
+                    <label class="col-md-2 col-form-label">Account #: </label>
+                        <div class="col-md-3">
+                            <select class="form-select p-2" name="inputACNO" [(ngModel)]="acno">
+                                <option value="undefined">Select</option>
+                                <option *ngFor="let account of page.data?.accounts" [ngValue]="account.acno" [selected]="page.data?.info?.acno == account.acno">{{account.acno}} - {{account.name}}</option>
+                            </select>
+                        </div>
+                </div>
+
+                <div class="form-group row g-3 mb-3 ms-5">
+                    <label class="col-md-2 col-form-label">Default: </label>
+                    <div class="col-md-3">
+                        <input class="form-check-input" type="checkbox" value="" id="defaultCkbx" (change)="dflt = !dflt" [checked]="dflt">
+                    </div>
+                </div>
+
+                <div class="form-group row g-3 mb-3 ms-5">
+                    <label class="col-md-2 col-form-label">Merchandizing Category: </label>
+                    <div class="col-md-3">
+                        <select name='selectCCNM' [(ngModel)]="ccnm" class="form-select p-2" (change)="ccnm? showCCNC = true : showCCNC = false" (change)="getConfig()">
+                            <option [ngValue]="undefined">Select</option>
+                            <option value="*ALL">All</option>
+                            <option *ngFor="let category of page.data?.merchCategory" [ngValue]="category.ccnm">{{category.desc}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row g-3 mb-3 ms-5" *ngIf="showCCNC">
+                    <label class="col-md-2 col-form-label">Category: </label>
+                    <div class="col-md-3">
+                        <select name='selectCCNC' [(ngModel)]="ccnc" class="form-select p-2" (change)="ccnc? showCCNS = true : showCCNS = false" (change)="getConfig()">
+                            <option [ngValue]="undefined">Select</option>
+                            <option *ngFor="let category of page.data?.category" [ngValue]="category.ccnc">{{category.desc}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row g-3 mb-3 ms-5" *ngIf="showCCNS">
+                    <label class="col-md-2 col-form-label">Product Class: </label>
+                    <div class="col-md-3">
+                        <select name='selectCCNS' [(ngModel)]="ccns" class="form-select p-2" (change)="getConfig()">
+                            <option [ngValue]="undefined">Select</option>
+                            <option *ngFor="let class of page.data?.productClass" [ngValue]="class.ccns">{{class.desc}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row g-3 mb-3 ms-5">
+                    <label class="col-md-2 col-form-label">UNSPSC: </label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" name='inputUNSP' [(ngModel)]="unsp">
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row">
+                    <div class="col-md-3 ms-5">
+                        <button type="submit" class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>
+                        <button type="submit" class="btn btn-primary me-3" (click)="mode == 'update' ? submitConfig('update') : submitConfig('create')">Save</button>
+                        <button type="submit" *ngIf="mode == 'update'" class="btn btn-primary me-3" (click)="submitConfig('delete')">Delete</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    <app-footer></app-footer>
+</section>

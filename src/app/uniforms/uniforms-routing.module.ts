@@ -20,6 +20,7 @@ import { OERP52Component } from './reports/oerp52/oerp52.component';
 import { OERP53Component } from './reports/oerp53/oerp53.component';
 import { CxmlConfigsComponent } from './cxml-configs/cxml-configs.component';
 import { CxmlCustomersComponent } from './cxml-customers/cxml-customers.component';
+import { CxmlCustomerComponent } from './cxml-customer/cxml-customer.component';
 
 const routes: Routes = [
   //Uniform
@@ -69,6 +70,8 @@ const routes: Routes = [
   //CXML Configuration
   { path: 'cxmlconfigs/:nhno', component: CxmlConfigsComponent },
   { path: 'cxmlcustomers/:nhno', component: CxmlCustomersComponent },
+  { path: 'cxmlcustomer/:nhno', component: CxmlCustomerComponent },
+  { path: 'cxmlcustomer/:nhno/:guno', component: CxmlCustomerComponent },
 
   { path: 'iframe/:menu', component: IframeComponent },
   { path: '**', component: HomeComponent }

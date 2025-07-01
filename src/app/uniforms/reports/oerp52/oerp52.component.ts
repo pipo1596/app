@@ -1,0 +1,78 @@
+import { Component } from '@angular/core';
+import { environment } from '../../../../environments/environment.development';
+import { Page } from '../../../shared/textField';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { showWait, hideWait } from '../../../shared/utils';
+
+@Component({
+  selector: 'app-oerp52',
+  standalone: false,
+  templateUrl: './oerp52.component.html',
+  styleUrl: './oerp52.component.css'
+})
+export class OERP52Component {
+  page = new Page();
+  upload = "";
+  showEmail = false;
+  email = "";
+  method: any = "";
+  format: any = "";
+
+  constructor(private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
+
+  ngOnInit(): void {
+    this.showEmail = false;
+    showWait();
+    this.route.paramMap.subscribe(params => {
+      this.page.rfno = params.get('nhno');
+    });
+    this.getReport();
+  }
+
+  getReport(){
+    let data = {
+      mode: 'getInfo',
+      nhno: this.page.rfno
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPRP52', data).subscribe(response => {
+      this.page.data = response;
+      if (this.page.data.title) this.page.title = this.page.data.title;
+      if (this.page.data.menu) this.page.menu = this.page.data.menu;
+      if(this.page.data?.method && !this.method) this.method = this.page.data.method[0].valu
+      if(this.page.data?.format && !this.format) this.format = this.page.data.format[0].valu
+      hideWait();
+      this.page.loading = false;
+    });
+  }
+
+  submitReport(){
+    let data = {
+      mode: 'update',
+      nhno: this.page.rfno,
+      method: this.method,
+      format: this.format,
+      email: this.email
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPRP52', data).subscribe(response => {
+      this.goBack();
+    });
+  }
+
+  resetFields(){
+        this.showEmail = false;
+        this.email = "";
+        this.method = this.page.data.method[0].valu;
+        this.format = this.page.data.format[0].valu;
+  }
+
+  goBack(){
+    this.router.navigate(['/uniforms/export/' + this.page.rfno]);
+  }
+
+}

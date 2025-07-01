@@ -19,6 +19,9 @@ import { VaspriceComponent } from './vasprice/vasprice.component';
 import { ImagesComponent } from './images/images.component';
 import { ImageComponent } from './image/image.component';
 import { IframeComponent } from './iframe/iframe.component';
+import { OERP52Component } from './reports/oerp52/oerp52.component';
+import { OERP53Component } from './reports/oerp53/oerp53.component';
+import { ExportComponent } from './export/export.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,10 @@ import { IframeComponent } from './iframe/iframe.component';
     VaspriceComponent,
     ImagesComponent,
     ImageComponent,
-    IframeComponent
+    IframeComponent,
+    OERP52Component,
+    OERP53Component,
+    ExportComponent
   ],
   imports: [
     CommonModule,

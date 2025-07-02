@@ -18,6 +18,7 @@
     margin: 4px 16px;
     white-space: nowrap;
     overflow: hidden;
+    display: block;
 }
 
 .sidebar-link-sub {
@@ -37,7 +38,6 @@
 .sidebar-link:hover {
     color: #2581c3;
     background: rgba(255, 255, 255, 0.1);
-    
     transform: translateX(5px);
 }
 

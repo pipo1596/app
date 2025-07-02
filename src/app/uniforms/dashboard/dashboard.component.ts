@@ -36,14 +36,50 @@ export class DashboardComponent {
       if (this.page.data.title) this.page.title = this.page.data.title;
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data.info.effd) this.page.data.info.effd = this.page.data.info.effd;
+      if (this.page.data.info.expd) this.page.data.info.expd = this.page.data.info.expd;
     });
   }
 
-    addProduct(nhno: string) {
-    this.router.navigate(['uniforms/addproduct/' + nhno]);
+  loadProduct (menu: any) {
+    switch(menu){
+      case 'addProduct':
+        this.router.navigate(['uniforms/newproduct/' + this.page.rfno]);
+        break;
+      case 'importProduct':
+        break;
+      case 'createCategory':
+        this.router.navigate(['/uniforms/newcategory/' + this.page.rfno]);
+        break;
+      case 'cxmlConfig':
+        this.router.navigate(['/uniforms/cxmlconfigs/' + this.page.rfno]);
+        break;
+      case 'bldCustomization':
+        break;
+    }
+  }
+
+  loadWarehouse(menu: any){
+    switch(menu){
+      case 'addCatalog':
+        break;
+      case 'addProduct':
+        break;
+    }
+  }
+
+  loadPricing(menu: any){
+    switch(menu){
+      case 'addList':
+        this.router.navigate(['/uniforms/uplist/' + this.page.rfno]);
+        break;
+      case 'addPricing':
+        this.router.navigate(['/uniforms/vasprice/' + this.page.rfno]);
+        break;
+    }
   }
 
     dsppbdate(date:any){
-        return formatDateUS(new Date(convertToDate(date)));
+      return formatDateUS(new Date(convertToDate(date)));
     }
 }

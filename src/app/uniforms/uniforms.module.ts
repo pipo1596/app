@@ -26,6 +26,7 @@ import { CxmlConfigsComponent } from './cxml-configs/cxml-configs.component';
 import { CxmlCustomersComponent } from './cxml-customers/cxml-customers.component';
 import { CxmlCustomerComponent } from './cxml-customer/cxml-customer.component';
 import { OERP302Component } from './reports/oerp302/oerp302.component';
+import { CxmlCategoriesComponent } from './cxml-categories/cxml-categories.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { OERP302Component } from './reports/oerp302/oerp302.component';
     CxmlConfigsComponent,
     CxmlCustomersComponent,
     CxmlCustomerComponent,
-    OERP302Component
+    OERP302Component,
+    CxmlCategoriesComponent
   ],
   imports: [
     CommonModule,

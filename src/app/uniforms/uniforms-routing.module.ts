@@ -22,6 +22,7 @@ import { OERP302Component } from './reports/oerp302/oerp302.component';
 import { CxmlConfigsComponent } from './cxml-configs/cxml-configs.component';
 import { CxmlCustomersComponent } from './cxml-customers/cxml-customers.component';
 import { CxmlCustomerComponent } from './cxml-customer/cxml-customer.component';
+import { CxmlCategoriesComponent } from './cxml-categories/cxml-categories.component';
 
 const routes: Routes = [
   //Uniform
@@ -75,6 +76,7 @@ const routes: Routes = [
   { path: 'cxmlcustomers/:nhno', component: CxmlCustomersComponent },
   { path: 'cxmlcustomer/:nhno', component: CxmlCustomerComponent },
   { path: 'cxmlcustomer/:nhno/:guno', component: CxmlCustomerComponent },
+  { path: 'cxmlcategories/:nhno', component: CxmlCategoriesComponent },
 
   { path: 'iframe/:menu', component: IframeComponent },
   { path: '**', component: HomeComponent }

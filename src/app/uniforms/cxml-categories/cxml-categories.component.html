@@ -32,7 +32,7 @@
                 <div class="d-flex flex-row">
                     <div class="col-md-3 me-3">
                         <select class="form-select p-2" [(ngModel)]="assign">
-                                <option value="">Select</option>
+                                <option value="" selected>Select</option>
                                 <option *ngFor="let unsp of page.data?.unspc" [value]="unsp.valu">{{unsp.valu}} - {{unsp.desc}}</option>
                         </select>
                     </div>

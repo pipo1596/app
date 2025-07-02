@@ -14,7 +14,7 @@ import { showWait, hideWait } from '../../shared/utils';
 export class CxmlCategoriesComponent {
   page = new Page();
   level: any = "";
-  assign: any;
+  assign: any = "";
   unsp: any = [];
 
   constructor(private http: HttpClient,

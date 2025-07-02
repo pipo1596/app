@@ -25,6 +25,7 @@ import { ExportComponent } from './export/export.component';
 import { CxmlConfigsComponent } from './cxml-configs/cxml-configs.component';
 import { CxmlCustomersComponent } from './cxml-customers/cxml-customers.component';
 import { CxmlCustomerComponent } from './cxml-customer/cxml-customer.component';
+import { OERP302Component } from './reports/oerp302/oerp302.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { CxmlCustomerComponent } from './cxml-customer/cxml-customer.component';
     ExportComponent,
     CxmlConfigsComponent,
     CxmlCustomersComponent,
-    CxmlCustomerComponent
+    CxmlCustomerComponent,
+    OERP302Component
   ],
   imports: [
     CommonModule,

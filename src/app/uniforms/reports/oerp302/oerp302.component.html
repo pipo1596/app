@@ -1,0 +1,89 @@
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+<section class="ftco-section bg-light pb-3 pt-5">
+
+    <div class="d-flex flex-row-reverse mb-3">
+        <div class="col-md-2">
+          <input type="button" value="Cancel" class="btn btn-secondary" (click)="goBack()">
+        </div>
+    </div>
+
+    <div class="card mx-auto mb-5 w-75 h-100">
+        <div class="card-body">
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-12">
+                    <h6 class="">Data Export > {{page.data?.title}}</h6>
+                </div>         
+            </div>
+
+            <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
+
+            <div class="form-group row g-3 mb-3 ms-5">
+                <div class="col-md-4">
+                    <h6 class="mb-3" *ngIf="(errors)"><strong class="text-danger">{{errors}}</strong></h6>
+                </div>
+            </div>
+
+            <div class="form-group row g-3 mb-3 ms-5">
+                    <label class="col-md-2 col-form-label">User: </label>
+                    <div class="col-md-4">
+                        <select [(ngModel)]="user" class="form-select p-2">
+                            <option value="undefined" selected>All</option>
+                            <option *ngFor="let user of page.data?.user" [ngValue]="user.valu">{{(user.desc !== ',') ? user.desc : user.valu}}</option>
+                        </select>
+                    </div>
+            </div>
+
+            <div class="form-group row g-3 mb-3 ms-5">
+                    <label class="col-md-2 col-form-label">From Date: </label>
+                    <div class="col-md-3">
+                        <input type="date" class="form-control" name="effective" [(ngModel)]="frdt">
+                    </div>
+            </div>
+
+            <div class="form-group row g-3 mb-5 ms-5">
+                    <label class="col-md-2 col-form-label">To Date: </label>
+                    <div class="col-md-3">
+                        <input type="date" class="form-control" name="effective" [(ngModel)]="todt">
+                    </div>
+            </div>
+
+            <div class="form-group row g-3 mb-3 ms-5">
+                    <label class="col-md-2 col-form-label">Reciept Method: </label>
+                    <div class="col-md-3">
+                        <select [(ngModel)]="method" class="form-select p-2" (change)="toggleEmail()">
+                            <option value="">Select</option>
+                            <option *ngFor="let method of page.data?.method" [ngValue]="method.valu">{{method.desc}}</option>
+                        </select>
+                    </div>
+            </div>
+
+            <div class="form-group row g-3 mb-3 ms-5" *ngIf="showEmail">
+                    <label for="acnoInput" class="col-md-2 col-form-label">Email: </label>
+                    <div class="col-md-3">
+                        <input class="form-control" type="text" name=inputEmail [(ngModel)]="email">
+                    </div>
+            </div>
+
+            <div class="form-group row g-3 mb-4 ms-5">
+                    <label class="col-md-2 col-form-label">Format: </label>
+                    <div class="col-md-3">
+                        <select [(ngModel)]="format" class="form-select p-2">
+                            <option value="">Select</option>
+                            <option *ngFor="let format of page.data?.format" [ngValue]="format.valu">{{format.desc}}</option>
+                        </select>
+                    </div>
+            </div>
+
+
+            <div class="d-flex flex-row">
+                <div class="col-md-3 ms-5">
+                    <button type="submit" class="btn btn-primary me-3" (click)="submitReport()">Submit Report</button>
+                    <button type="submit" class="btn btn-secondary me-3" (click)="resetFields()">Reset</button>
+                </div>
+            </div>
+                
+        </div>
+    </div>
+    <app-footer></app-footer>
+</section>

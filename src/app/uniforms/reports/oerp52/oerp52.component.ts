@@ -4,6 +4,7 @@ import { Page } from '../../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { showWait, hideWait } from '../../../shared/utils';
+import { SessionService } from '../../../services/session.service';
 
 @Component({
   selector: 'app-oerp52',
@@ -13,6 +14,7 @@ import { showWait, hideWait } from '../../../shared/utils';
 })
 export class OERP52Component {
   page = new Page();
+  security: any;
   upload = "";
   showEmail = false;
   email = "";
@@ -21,10 +23,12 @@ export class OERP52Component {
 
   constructor(private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sessionService: SessionService
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.security = await this.sessionService.getSession();
     this.showEmail = false;
     showWait();
     this.route.paramMap.subscribe(params => {
@@ -48,6 +52,16 @@ export class OERP52Component {
       hideWait();
       this.page.loading = false;
     });
+  }
+
+  toggleEmail(){
+    if(this.method == 'EMAIL'){
+      this.showEmail = true
+    } else this.showEmail = false
+
+    if (this.showEmail){
+      this.email = this.security.emal
+    } else this.email = ''
   }
 
   submitReport(){

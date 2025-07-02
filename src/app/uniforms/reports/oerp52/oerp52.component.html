@@ -19,20 +19,20 @@
             <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
 
             <div class="form-group row g-3 mb-3 ms-5">
-                <label class="col-md-2 col-form-label">Reciept Method: </label>
-                <div class="col-md-3">
-                    <select [(ngModel)]="method" class="form-select p-2" (change)="method == 'EMAIL' ? showEmail = true : showEmail = false">
-                        <option value="">Select</option>
-                        <option *ngFor="let method of page.data?.method" [ngValue]="method.valu">{{method.desc}}</option>
-                    </select>
-                </div>
+                    <label class="col-md-2 col-form-label">Reciept Method: </label>
+                    <div class="col-md-3">
+                        <select [(ngModel)]="method" class="form-select p-2" (change)="toggleEmail()">
+                            <option value="">Select</option>
+                            <option *ngFor="let method of page.data?.method" [ngValue]="method.valu">{{method.desc}}</option>
+                        </select>
+                    </div>
             </div>
 
             <div class="form-group row g-3 mb-3 ms-5" *ngIf="showEmail">
-                <label for="acnoInput" class="col-md-2 col-form-label">Email: </label>
-                <div class="col-md-3">
-                    <input class="form-control" type="text" name=inputEmail [(ngModel)]="email">
-                </div>
+                    <label for="acnoInput" class="col-md-2 col-form-label">Email: </label>
+                    <div class="col-md-3">
+                        <input class="form-control" type="text" name=inputEmail [(ngModel)]="email">
+                    </div>
             </div>
 
             <div class="form-group row g-3 mb-4 ms-5">

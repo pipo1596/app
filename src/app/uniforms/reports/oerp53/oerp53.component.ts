@@ -14,6 +14,7 @@ import { SessionService } from '../../../services/session.service';
 })
 export class OERP53Component {
   page = new Page();
+  errors = "";
   security: any;
   upload = "";
   showEmail = false;
@@ -68,7 +69,30 @@ export class OERP53Component {
     } else this.email = ''
   }
 
+validate(){
+  if(!this.method){
+    let error = 'Reciept Method is Required'
+    if(!this.errors){
+      this.errors = error
+    } else this.errors += ', ' + error
+  }
+  if(!this.format){
+    let error = 'Format is Required'
+    if(!this.errors){
+      this.errors = error
+    } else this.errors += ', ' + error 
+  }
+  if(this.method == 'EMAIL' && !this.email){
+    let error = 'Email Address is Required'
+    if(!this.errors){
+      this.errors = error
+    } else this.errors += ', ' + error
+  }
+}
+
   submitReport(){
+    this.validate();
+    if (this.errors) return
     let data = {
       mode: 'update',
       nhno: this.page.rfno,

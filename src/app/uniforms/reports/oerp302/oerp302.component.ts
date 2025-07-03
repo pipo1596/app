@@ -83,11 +83,23 @@ export class OERP302Component {
   }
 
   validate(){
+    if(!this.method){
+      let error = 'Reciept Method is Required'
+      if(!this.errors){
+        this.errors = error
+      } else this.errors += ', ' + error
+    }
+    if(!this.format){
+      let error = 'Format is Required'
+      if(!this.errors){
+        this.errors = error
+      } else this.errors += ', ' + error 
+    }
     if(this.method == 'EMAIL' && !this.email){
       let error = 'Email Address is Required'
       if(!this.errors){
         this.errors = error
-      } else this.errors += error + ', '
+      } else this.errors += ', ' + error
     }
   }
 

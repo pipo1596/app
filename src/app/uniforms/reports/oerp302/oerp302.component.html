@@ -28,7 +28,7 @@
                     <label class="col-md-2 col-form-label">User: </label>
                     <div class="col-md-4">
                         <select [(ngModel)]="user" class="form-select p-2">
-                            <option value="undefined" selected>All</option>
+                            <option value="">All</option>
                             <option *ngFor="let user of page.data?.user" [ngValue]="user.valu">{{(user.desc !== ',') ? user.desc : user.valu}}</option>
                         </select>
                     </div>

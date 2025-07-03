@@ -20,7 +20,7 @@ export class OERP302Component {
   errors = "";
 
   //Input
-  user: any;
+  user: any = "";
   frdt: any;
   frdtUsa: any;
   todt: any;

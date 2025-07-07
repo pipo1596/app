@@ -33,9 +33,16 @@
 
                 <div class="row g-3">
                     <div class="col-md-3">
-                        <ngx-select-dropdown name="priceDrop" [config]="searchConfig()" (change)="price = $event.value" [options]="pricings" [(ngModel)]="price"></ngx-select-dropdown>
+                        <select class="form-select p-2" name="inputPrice" [(ngModel)]="price">
+                            <option value="">Select</option>
+                            <option *ngFor="let pricing of pricings" [ngValue]="pricing.price" [selected]="page.data?.info?.price == pricing.price">{{pricing.desc}}</option>
+                        </select>
                     </div>
                 </div>
+
+
+
+            
             </form>
         </div>
     </div>

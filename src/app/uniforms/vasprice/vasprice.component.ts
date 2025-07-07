@@ -15,7 +15,7 @@ export class VaspriceComponent {
   page = new Page();
   drop = false;
   price: any;
-  pricings = [];
+  pricings: any = [];
 
   constructor(
     private http: HttpClient,
@@ -30,21 +30,11 @@ export class VaspriceComponent {
     this.loadVAS('getInfo')
   }
 
-  searchConfig(){
-    var config ={
-      displayKey: "desc",
-      placeholder: 'Select',
-      limitTo: 10,
-      noResultsFound: 'No results found',
-    }
-    return config
-  }
-
-    loadVAS(mode: any){
+  loadVAS(mode: any){
     let data = {
       mode: mode,
       nhno: this.page.rfno,
-      price: (mode !== 'getInfo') ? this.price.price : '' 
+      price: (mode !== 'getInfo') ? this.price : '' 
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNHPR', data).subscribe(response => {
@@ -52,13 +42,12 @@ export class VaspriceComponent {
       if (this.page.data.title) this.page.title = this.page.data.title;
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
-      if (this.page.data?.pricing) this.pricings = this.page.data.pricing
-      if (this.page.data?.info) this.price = this.page.data.info
+      if (this.page.data?.pricing) this.pricings = this.page.data.pricing;
+      if (this.page.data?.info?.price) this.price = this.page.data.info.price;
 
       this.page.loading = false;
       hideWait();
     });
-
   }
 
 }

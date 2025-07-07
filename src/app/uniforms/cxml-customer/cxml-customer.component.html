@@ -25,7 +25,7 @@
                     <label class="col-md-2 col-form-label">Account #: </label>
                         <div class="col-md-3">
                             <select class="form-select p-2" name="inputACNO" [(ngModel)]="acno">
-                                <option value="undefined">Select</option>
+                                <option value="">Select</option>
                                 <option *ngFor="let account of page.data?.accounts" [ngValue]="account.acno" [selected]="page.data?.info?.acno == account.acno">{{account.acno}} - {{account.name}}</option>
                             </select>
                         </div>
@@ -41,8 +41,8 @@
                 <div class="form-group row g-3 mb-3 ms-5">
                     <label class="col-md-2 col-form-label">Merchandizing Category: </label>
                     <div class="col-md-3">
-                        <select name='selectCCNM' [(ngModel)]="ccnm" class="form-select p-2" (change)="ccnm? showCCNC = true : showCCNC = false" (change)="getConfig()">
-                            <option [ngValue]="undefined">Select</option>
+                        <select name='selectCCNM' [(ngModel)]="ccnm" class="form-select p-2" (change)="ccnm? showCCNC = true : showCCNC = false" (change)="getCCNM()">
+                            <option value="">Select</option>
                             <option value="*ALL">All</option>
                             <option *ngFor="let category of page.data?.merchCategory" [ngValue]="category.ccnm">{{category.desc}}</option>
                         </select>
@@ -52,8 +52,8 @@
                 <div class="form-group row g-3 mb-3 ms-5" *ngIf="showCCNC">
                     <label class="col-md-2 col-form-label">Category: </label>
                     <div class="col-md-3">
-                        <select name='selectCCNC' [(ngModel)]="ccnc" class="form-select p-2" (change)="ccnc? showCCNS = true : showCCNS = false" (change)="getConfig()">
-                            <option [ngValue]="undefined">Select</option>
+                        <select name='selectCCNC' [(ngModel)]="ccnc" class="form-select p-2" (change)="ccnc? showCCNS = true : showCCNS = false" (change)="getCCNC()">
+                            <option value="">Select</option>
                             <option *ngFor="let category of page.data?.category" [ngValue]="category.ccnc">{{category.desc}}</option>
                         </select>
                     </div>
@@ -62,8 +62,8 @@
                 <div class="form-group row g-3 mb-3 ms-5" *ngIf="showCCNS">
                     <label class="col-md-2 col-form-label">Product Class: </label>
                     <div class="col-md-3">
-                        <select name='selectCCNS' [(ngModel)]="ccns" class="form-select p-2" (change)="getConfig()">
-                            <option [ngValue]="undefined">Select</option>
+                        <select name='selectCCNS' [(ngModel)]="ccns" class="form-select p-2">
+                            <option value="">Select</option>
                             <option *ngFor="let class of page.data?.productClass" [ngValue]="class.ccns">{{class.desc}}</option>
                         </select>
                     </div>

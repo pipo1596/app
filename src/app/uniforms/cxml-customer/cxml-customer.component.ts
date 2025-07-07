@@ -18,11 +18,11 @@ export class CxmlCustomerComponent {
   showCCNC = false;
   showCCNS = false;
   guno: any;
-  acno: any;
+  acno: any = "";
   dflt: any;
-  ccnm: any;
-  ccnc: any;
-  ccns: any;
+  ccnm: any = "";
+  ccnc: any = "";
+  ccns: any = "";
   unsp: any;
   upct: any;
   
@@ -45,50 +45,105 @@ export class CxmlCustomerComponent {
     });
     if(localStorage.getItem('error')) this.submitError = localStorage.getItem('error')
     localStorage.clear()
-    this.getConfig();
+    showWait();
+        let data = {
+          mode: 'getInfo',
+          nhno: this.page.rfno,
+          guno: this.guno,
+          ccnm: this.ccnm,
+          ccnc: this.ccnc,
+          ccns: this.ccns
+        }
+
+        this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRCGU', data).subscribe(response => {
+          this.page.data = response;
+          if (this.page.data?.title) this.page.title = this.page.data.title;
+          if (this.page.data?.menu) this.page.menu = this.page.data.menu;
+          if (this.page.data?.info?.acno){
+            if(this.page.data?.info.acno == '*DEFAULT'){
+              this.acno = ''
+              this.dflt = true
+            } else {
+              this.acno = this.page.data?.info?.acno
+              this.dflt = false
+            }
+          }
+
+          if (this.page.data?.info?.ccnm){
+            this.ccnm = this.page.data.info.ccnm;
+            this.showCCNC = true;
+          }
+
+          if (this.page.data?.info?.ccnc){
+            this.ccnc = this.page.data.info.ccnc;
+            this.showCCNS = true;
+          } 
+
+          if (this.page.data?.info?.ccns){
+            this.ccns = this.page.data.info.ccns;
+          }
+          
+          if (this.page.data?.merchCategory) this.page.data.merchCategory = this.page.data.merchCategory.sort((a: any,b: any) => a.ccnm.localeCompare(b.ccnm))
+          if (this.page.data?.category) this.page.data.category = this.page.data.category.sort((a: any,b: any) => a.ccnc.localeCompare(b.ccnc))
+          if (this.page.data?.productClass) this.page.data.productClass = this.page.data.productClass.sort((a: any,b: any) => a.ccns.localeCompare(b.ccns))
+          if (this.page.data?.info?.unsp) this.unsp = this.page.data.info.unsp;
+          if (this.page.data?.info?.upct) this.upct = this.page.data.info.upct;
+          hideWait();
+          this.page.loading = false;
+        }); 
   }
 
-  getConfig(){
-    showWait();
-    let data = {
-      mode: 'getInfo',
-      nhno: this.page.rfno,
-      guno: this.guno,
-      ccnm: this.ccnm,
-      ccnc: this.ccnc,
-      ccns: this.ccns
-    }
-
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRCGU', data).subscribe(response => {
-      this.page.data = response;
-      if (this.page.data?.title) this.page.title = this.page.data.title;
-      if (this.page.data?.menu) this.page.menu = this.page.data.menu;
-      if (this.page.data?.info?.acno){
-        if(this.page.data?.info.acno == '*DEFAULT'){
-          this.acno = ''
-          this.dflt = true
-        } else {
-          this.acno = this.page.data?.info?.acno
-          this.dflt = false
+  getCCNM(){
+      this.ccnc = ''
+      this.ccns = ''
+      this.showCCNC = false;
+      this.showCCNS = false;
+      
+    if (!this.ccnm){
+      this.ccnm = ''
+    } else {
+        let data = {
+          mode: 'getInfo',
+          nhno: this.page.rfno,
+          guno: this.guno,
+          ccnm: this.ccnm
         }
-      }
-      if (this.page.data?.info?.ccnm){
-        this.ccnm = this.page.data.info.ccnm;
-        this.showCCNC = true;
-      }
-      if (this.page.data?.info?.ccnc){
-        this.ccnc = this.page.data.info.ccnc;
-        this.showCCNS = true;
-      }
-      if (this.page.data?.info?.ccns) this.ccns = this.page.data.info.ccns;
-      if (this.page.data?.merchCategory) this.page.data.merchCategory = this.page.data.merchCategory.sort((a: any,b: any) => a.ccnm.localeCompare(b.ccnm))
-      if (this.page.data?.category) this.page.data.category = this.page.data.category.sort((a: any,b: any) => a.ccnc.localeCompare(b.ccnc))
-      if (this.page.data?.productClass) this.page.data.productClass = this.page.data.productClass.sort((a: any,b: any) => a.ccns.localeCompare(b.ccns))
-      if (this.page.data?.info?.unsp) this.unsp = this.page.data.info.unsp;
-      if (this.page.data?.info?.upct) this.upct = this.page.data.info.upct;
-      hideWait();
-      this.page.loading = false;
-    });
+        this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRCGU', data).subscribe(response => {
+          this.page.data = response;
+          this.showCCNC = true;
+          if (this.page.data?.merchCategory) this.page.data.merchCategory = this.page.data.merchCategory.sort((a: any,b: any) => a.ccnm.localeCompare(b.ccnm))
+          if (this.page.data?.category) this.page.data.category = this.page.data.category.sort((a: any,b: any) => a.ccnc.localeCompare(b.ccnc))
+          if (this.page.data?.productClass) this.page.data.productClass = this.page.data.productClass.sort((a: any,b: any) => a.ccns.localeCompare(b.ccns))
+          hideWait();
+          this.page.loading = false;
+        }); 
+    }
+  }
+
+  getCCNC(){
+      this.ccns = ''
+      this.showCCNS = false;
+
+    if (!this.ccnc){
+      this.ccnc = ''
+    } else {
+        let data = {
+          mode: 'getInfo',
+          nhno: this.page.rfno,
+          guno: this.guno,
+          ccnm: this.ccnm,
+          ccnc: this.ccnc
+        }
+        this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRCGU', data).subscribe(response => {
+          this.page.data = response;
+          this.showCCNS = true;
+          if (this.page.data?.merchCategory) this.page.data.merchCategory = this.page.data.merchCategory.sort((a: any,b: any) => a.ccnm.localeCompare(b.ccnm))
+          if (this.page.data?.category) this.page.data.category = this.page.data.category.sort((a: any,b: any) => a.ccnc.localeCompare(b.ccnc))
+          if (this.page.data?.productClass) this.page.data.productClass = this.page.data.productClass.sort((a: any,b: any) => a.ccns.localeCompare(b.ccns))
+          hideWait();
+          this.page.loading = false;
+        }); 
+    }
   }
 
   submitConfig(mode: any){

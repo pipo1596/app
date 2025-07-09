@@ -8,8 +8,7 @@ import { ToastComponent } from './toast/toast.component';  // Import HttpClientM
 import { FormsModule } from '@angular/forms';
 import { ImageUploadComponent } from './imageupload/imageupload.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-
-
+import { FileUploadComponent } from './fileupload/fileupload.component';
 
 
 @NgModule({
@@ -18,7 +17,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     FooterComponent,
     ConfirmComponent,
     ToastComponent,
-    ImageUploadComponent
+    ImageUploadComponent,
+    FileUploadComponent,
   ],
   exports:[
     HeaderComponent,
@@ -26,6 +26,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ConfirmComponent,
     ToastComponent,
     ImageUploadComponent,
+    FileUploadComponent,
     CommonModule,
     HttpClientModule,
     FormsModule,

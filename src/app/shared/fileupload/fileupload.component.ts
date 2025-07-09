@@ -6,12 +6,12 @@ import { DataService } from '../../services/data-trigger.service';
 import { hideWait, showWait } from '../utils';
 
 @Component({
-  selector: 'app-image-upload',
+  selector: 'app-file-upload',
   standalone:false,
-  templateUrl: './imageupload.component.html',
-  styleUrls: ['./imageupload.component.css'],
+  templateUrl: './fileupload.component.html',
+  styleUrls: ['./fileupload.component.css'],
 })
-export class ImageUploadComponent implements OnInit {
+export class FileUploadComponent implements OnInit {
   selectedFiles?: FileList;
   currentFile?: File;
   progress = 0;
@@ -19,6 +19,8 @@ export class ImageUploadComponent implements OnInit {
   preview = '';
   @Output() triggerEvent = new EventEmitter<string>();
   @Input() mode : string = "";
+  @Input() types : string = "";
+  @Input() iono : string = "";
 
   imageInfos?: Observable<any>;
 
@@ -50,12 +52,10 @@ export class ImageUploadComponent implements OnInit {
         showWait();
         this.preview = '';
         this.currentFile = file;
-
         const reader = new FileReader();
 
         reader.onload = (e: any) => {
-          //console.log(e.target.result);
-          this.preview = e.target.result;
+          if(file.type.indexOf('image') >= 0) this.preview = e.target.result;
           hideWait();
         };
 
@@ -78,6 +78,9 @@ export class ImageUploadComponent implements OnInit {
             if (event.type === HttpEventType.UploadProgress) {
               this.progress = Math.round((100 * event.loaded) / event.total);
             } else if (event instanceof HttpResponse) {
+              if(event.body.iono){
+                localStorage.setItem('iono', event.body.iono)
+              }
               this.message = event.body.message;
               this.imageInfos = this.uploadService.getFiles();
               this.triggerParentFunction(file.name);
@@ -91,7 +94,7 @@ export class ImageUploadComponent implements OnInit {
             if (err.error && err.error.message) {
               this.message = err.error.message;
             } else {
-              this.message = 'Could not upload the image!';
+              this.message = 'Could not upload the file!';
             }
 
             this.currentFile = undefined;

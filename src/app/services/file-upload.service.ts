@@ -11,7 +11,10 @@ export class FileUploadService {
 
   constructor(private http: HttpClient) {}
 
-  upload(file: File): Observable<HttpEvent<any>> {
+  upload(file: File, mode: string): Observable<HttpEvent<any>> {
+    if(mode && this.baseUrl.indexOf('MODE') == -1){
+      this.baseUrl += `?MODE=${mode}`
+    }
     const formData: FormData = new FormData();
 
     formData.append('file', file);

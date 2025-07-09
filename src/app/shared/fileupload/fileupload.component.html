@@ -1,0 +1,21 @@
+
+    <div class="col-8">
+        <div class="input-group mb-3">
+            <input type="file" [accept]="types"  class="form-control" id="inputGroupFile01" (change)="selectFile($event)" />
+        </div>
+    </div>  
+    
+      
+      <div *ngIf="message" class="alert alert-secondary" role="alert">
+        {{ message }}
+      </div>
+      
+    <div class="col-12">
+        <img style="max-height: 300px;max-width: 100%;" [src]="preview" class="preview  m-auto d-block" />
+    </div>
+
+  
+
+  
+
+  

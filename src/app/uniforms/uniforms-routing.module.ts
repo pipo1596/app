@@ -15,6 +15,7 @@ import { VaspriceComponent } from './vasprice/vasprice.component';
 import { ImagesComponent } from './images/images.component';
 import { ImageComponent } from './image/image.component';
 import { IframeComponent } from './iframe/iframe.component';
+import { ImportComponent } from './import/import.component';
 import { ExportComponent } from './export/export.component';
 import { OERP52Component } from './reports/oerp52/oerp52.component';
 import { OERP53Component } from './reports/oerp53/oerp53.component';
@@ -63,6 +64,9 @@ const routes: Routes = [
 
   //Vas Price
   { path: 'vasprice/:nhno', component: VaspriceComponent },
+
+  //Data Import
+    { path: 'import/:nhno', component: ImportComponent },
 
   //Data Export
   { path: 'export/:nhno', component: ExportComponent },

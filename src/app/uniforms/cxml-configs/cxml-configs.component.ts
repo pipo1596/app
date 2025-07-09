@@ -47,9 +47,9 @@ export class CxmlConfigsComponent {
 
   selectConfig(level: any){
     if(level == 'CUSTOMER'){
-      this.router.navigate(['/uniforms/cxmlcustomers/' + this.page.rfno]);
+      this.router.navigate(['/uniforms/cxmlcustomers/' + this.page.rfno], { skipLocationChange: true });
     } else if (level == 'CATEGORY') {
-      this.router.navigate(['/uniforms/cxmlcategories/' + this.page.rfno]);
+      this.router.navigate(['/uniforms/cxmlcategories/' + this.page.rfno], { skipLocationChange: true });
     }
   }
 }

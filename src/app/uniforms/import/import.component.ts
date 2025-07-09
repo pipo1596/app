@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Page } from '../../shared/textField';
-import { Router } from '@angular/router';
-import {hideWait } from '../../shared/utils';
+import { ActivatedRoute, Router } from '@angular/router';
+import { hideWait } from '../../shared/utils';
 
 @Component({
   selector: 'app-import',
@@ -14,12 +14,16 @@ export class ImportComponent {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    this.page.menu = 'Y'
+    this.route.paramMap.subscribe(params => {
+      this.page.rfno = params.get('nhno');
+    });
     hideWait();
     this.page.loading = false;
-    this.page.menu = 'Y'
   }
 
   loadUpload(ulid: any){

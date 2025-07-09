@@ -17,6 +17,8 @@ import { ImageComponent } from './image/image.component';
 import { IframeComponent } from './iframe/iframe.component';
 import { ImportComponent } from './import/import.component';
 import { ExportComponent } from './export/export.component';
+import { OEUL22Component } from './uploads/oeul22/oeul22.component';
+import { OEUL36Component } from './uploads/oeul36/oeul36.component';
 import { OERP52Component } from './reports/oerp52/oerp52.component';
 import { OERP53Component } from './reports/oerp53/oerp53.component';
 import { OERP302Component } from './reports/oerp302/oerp302.component';
@@ -66,7 +68,9 @@ const routes: Routes = [
   { path: 'vasprice/:nhno', component: VaspriceComponent },
 
   //Data Import
-    { path: 'import/:nhno', component: ImportComponent },
+  { path: 'import/:nhno', component: ImportComponent },
+  { path: 'OEUL22/:nhno/:ulid', component: OEUL22Component },
+  { path: 'OEUL36/:nhno/:ulid', component: OEUL36Component },
 
   //Data Export
   { path: 'export/:nhno', component: ExportComponent },

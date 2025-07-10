@@ -15,6 +15,7 @@ export class IframeComponent {
   page = new Page();
   menu: any;
   p1: any;
+  partpg: any;
   error = ""
 
   constructor(private router: Router, private route: ActivatedRoute, private sanitizer: DomSanitizer) { }
@@ -25,13 +26,14 @@ export class IframeComponent {
   }
 
   ngOnInit(): void {
-    localStorage.clear();
     hideWait();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
     });
     this.menu = localStorage.getItem('menu');
     this.p1 = localStorage.getItem('p1');
+    this.partpg = localStorage.getItem('partpg');
+    localStorage.clear()
   }
 
   getSafeUrl(url: string): SafeResourceUrl {
@@ -40,10 +42,10 @@ export class IframeComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    if(localStorage.getItem('p1')){
-      this.router.navigate([ localStorage.getItem('partpg')! + localStorage.getItem('p1') ]);
+    if(this.p1){
+      this.router.navigate([ this.partpg + this.p1 ]);
     } else {
-      this.router.navigate([localStorage.getItem('partpg')]);
+      this.router.navigate([this.partpg]);
     }
   }
 

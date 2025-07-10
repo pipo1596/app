@@ -22,7 +22,7 @@ export class IframeComponent {
 
   @HostListener('window:message', ['$event']) onMessage(event: MessageEvent) {
     localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate([localStorage.getItem('partpg') + event.data.data]);
+    this.router.navigate([this.partpg + event.data.data]);
   }
 
   ngOnInit(): void {

@@ -21,6 +21,7 @@ export class ImageComponent {
 
 
   ngOnInit(): void {
+    localStorage.clear();
     hideWait();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -32,8 +33,9 @@ export class ImageComponent {
   }
 
   goBack() {
-      this.router.navigate([localStorage.getItem('partpg')]);
-    }
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate([localStorage.getItem('partpg')]);
+  }
 
   }
 

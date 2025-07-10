@@ -31,6 +31,7 @@ export class CategoryComponent {
   ) { hideWait(); }
 
   ngOnInit(): void {
+    localStorage.clear();
     showWait();
     this.setMode();
 
@@ -109,6 +110,7 @@ export class CategoryComponent {
   
         if (mode !== 'update') {
           if (this.page.data.result == 'pass' && this.page.data.nhno){
+            localStorage.setItem('UP_AUTH','Y');
             this.router.navigate(['/uniforms/categories/' + this.page.data.nhno]);
           }
         }
@@ -118,6 +120,7 @@ export class CategoryComponent {
   }
 
   goBack() {
+    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/categories/' + this.nhno]);
   }
 

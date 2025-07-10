@@ -29,6 +29,7 @@ export class CustomerComponent {
 ) { }
 
   ngOnInit(): void {
+    localStorage.clear();
     showWait();
     this.setMode();
 
@@ -75,6 +76,7 @@ export class CustomerComponent {
     }
 
     localStorage.setItem('menu','/cgi/APOELMAC?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
+    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/iframe/APOELMAC'])
   }
 
@@ -96,6 +98,7 @@ export class CustomerComponent {
 
       if (mode !== 'update') {
         if (this.page.data.result == 'pass' && this.page.data.nhno){
+          localStorage.setItem('UP_AUTH','Y');
           this.router.navigate(['/uniforms/customers/' + this.page.data.nhno]);
         }
       }
@@ -105,6 +108,7 @@ export class CustomerComponent {
   }
 
   goBack() {
+    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/customers/' + this.nhno]);
   }
 }

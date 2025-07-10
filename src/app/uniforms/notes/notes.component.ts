@@ -30,6 +30,7 @@ export class NotesComponent {
   ) { }
 
   ngOnInit(): void {
+    localStorage.clear();
     hideWait();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -59,6 +60,7 @@ export class NotesComponent {
   }
 
   editNote(nono: string) {
+    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/editnote/' + this.page.rfno + '/' + nono]);
   }
 
@@ -86,6 +88,7 @@ export class NotesComponent {
   }
 
   newNote() {
+    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/newnote/' + this.page.rfno]);
   }
 

@@ -33,6 +33,7 @@ export class CxmlCustomerComponent {
   ) { }
 
   ngOnInit(): void {
+    localStorage.clear();
     this.showCCNC = false;
     this.showCCNS = false;
     this.route.paramMap.subscribe(params => {
@@ -168,6 +169,7 @@ export class CxmlCustomerComponent {
         this.goBack();
       } else{
         localStorage.setItem('error', 'Record not found')
+        localStorage.setItem('UP_AUTH','Y');
         this.router.navigate(['/uniforms/cxmlcustomer/' + this.page.rfno]);
       }
     });
@@ -175,6 +177,7 @@ export class CxmlCustomerComponent {
   }
 
   goBack(){
+    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/cxmlcustomers/' + this.page.rfno]);
   }
 

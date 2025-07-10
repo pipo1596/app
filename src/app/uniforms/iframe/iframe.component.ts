@@ -20,10 +20,12 @@ export class IframeComponent {
   constructor(private router: Router, private route: ActivatedRoute, private sanitizer: DomSanitizer) { }
 
   @HostListener('window:message', ['$event']) onMessage(event: MessageEvent) {
+    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate([localStorage.getItem('partpg') + event.data.data]);
   }
 
   ngOnInit(): void {
+    localStorage.clear();
     hideWait();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -37,6 +39,7 @@ export class IframeComponent {
   }
 
   goBack() {
+    localStorage.setItem('UP_AUTH','Y');
     if(localStorage.getItem('p1')){
       this.router.navigate([ localStorage.getItem('partpg')! + localStorage.getItem('p1') ]);
     } else {

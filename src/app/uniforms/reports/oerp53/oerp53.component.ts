@@ -33,6 +33,7 @@ export class OERP53Component {
   ) { }
 
   async ngOnInit() {
+    localStorage.clear();
     this.security = await this.sessionService.getSession();
     this.showEmail = false;
     showWait();
@@ -118,6 +119,7 @@ validate(){
   }
 
   goBack(){
+    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/export/' + this.page.rfno]);
   }
 

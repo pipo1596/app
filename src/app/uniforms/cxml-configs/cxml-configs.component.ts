@@ -20,6 +20,7 @@ export class CxmlConfigsComponent {
   ) { }
 
   ngOnInit(): void {
+    localStorage.clear();
     hideWait();
     this.page.loading = false;
     this.route.paramMap.subscribe(params => {
@@ -46,6 +47,7 @@ export class CxmlConfigsComponent {
   }
 
   selectConfig(level: any){
+    localStorage.setItem('UP_AUTH','Y');
     if(level == 'CUSTOMER'){
       this.router.navigate(['/uniforms/cxmlcustomers/' + this.page.rfno]);
     } else if (level == 'CATEGORY') {

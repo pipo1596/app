@@ -27,6 +27,7 @@ export class OEUL22Component {
   ) { }
 
   ngOnInit(): void {
+    localStorage.clear();
     showWait();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -117,6 +118,7 @@ export class OEUL22Component {
   }
 
   goBack(){
+    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/import/' + this.page.rfno]);
   }
 

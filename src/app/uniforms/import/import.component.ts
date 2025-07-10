@@ -18,6 +18,7 @@ export class ImportComponent {
   ) { }
 
   ngOnInit(): void {
+    localStorage.clear();
     this.page.menu = 'Y'
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -27,6 +28,7 @@ export class ImportComponent {
   }
 
   loadUpload(ulid: any){
+    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/' + ulid + '/' + this.page.rfno + '/' + ulid]);
   }
 

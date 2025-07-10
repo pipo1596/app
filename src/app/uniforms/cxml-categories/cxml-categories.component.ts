@@ -23,6 +23,7 @@ export class CxmlCategoriesComponent {
   ) { }
 
   ngOnInit(): void {
+    localStorage.clear();
     this.level = ''
     this.unsp = [];
     hideWait();

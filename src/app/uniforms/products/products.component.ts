@@ -38,6 +38,7 @@ export class ProductsComponent {
   ) { }
 
   ngOnInit(): void {
+    localStorage.clear();
     hideWait();
     this.checked = [];
     this.offset = '0';
@@ -49,6 +50,7 @@ export class ProductsComponent {
   }
 
   loadProduct(mode: any, nino: any){
+    localStorage.setItem('UP_AUTH','Y');
     switch(mode){
       case 'new':
         this.router.navigate(['/uniforms/newproduct/' + this.page.rfno]);
@@ -156,6 +158,7 @@ export class ProductsComponent {
     localStorage.clear();
     localStorage.setItem('partpg','/uniforms/products/' + this.page.rfno + '/')
     localStorage.setItem('menu','/cgi/APOELMIS?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
+    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/iframe/APOELMIS'])
   }
 

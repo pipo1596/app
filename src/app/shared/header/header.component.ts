@@ -25,6 +25,7 @@ export class HeaderComponent {
     ) { }
   
   async ngOnInit() {
+    localStorage.clear();
     const response = await this.sessionService.getSession();
     this.fullname = response.name;
   }
@@ -32,7 +33,8 @@ export class HeaderComponent {
 goMenu(menu: String) { //Go to selected sidebar menu with current UP
   let nhno = this.route.snapshot.paramMap.get('nhno');
   this.router.onSameUrlNavigation = 'reload';
-  this.router.navigate([`/uniforms/${menu}/` + nhno]);
+  localStorage.setItem('UP_AUTH','Y');
+  this.router.navigate([`/uniforms/${menu}/` + nhno] );
 }
 
 }

@@ -33,6 +33,7 @@ export class CategoriesComponent {
   total: number = 0;
 
   ngOnInit(): void {
+      localStorage.clear();
       hideWait();
       this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -94,6 +95,7 @@ export class CategoriesComponent {
   }
 
   loadCategory(mode: any, nano: any){
+    localStorage.setItem('UP_AUTH','Y');
     switch(mode){
       case 'new':
         this.router.navigate(['/uniforms/newcategory/' + this.page.rfno]);

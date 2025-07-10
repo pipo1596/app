@@ -27,6 +27,7 @@ export class CxmlCustomersComponent {
   ) { }
 
   ngOnInit(): void {
+    localStorage.clear();
     this.level = ''
     hideWait();
     this.page.loading = false;
@@ -63,10 +64,12 @@ export class CxmlCustomersComponent {
   }
 
   editConfig(guno: any){
+    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/cxmlcustomer/' + this.page.rfno + '/' + guno]);
   }
 
   newConfig(){
+    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/cxmlcustomer/' + this.page.rfno]);
   }
 

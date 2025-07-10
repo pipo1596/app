@@ -23,6 +23,7 @@ export class VaspriceComponent {
   ) { }
 
   ngOnInit(): void {
+    localStorage.clear();
     showWait();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');

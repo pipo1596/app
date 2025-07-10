@@ -21,6 +21,7 @@ export class DashboardComponent {
   ) { }
 
   ngOnInit(): void {
+    localStorage.clear();
     hideWait();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -42,6 +43,7 @@ export class DashboardComponent {
   }
 
   loadProduct (menu: any) {
+    localStorage.setItem('UP_AUTH','Y');
     switch(menu){
       case 'addProduct':
         this.router.navigate(['uniforms/newproduct/' + this.page.rfno]);
@@ -60,6 +62,7 @@ export class DashboardComponent {
   }
 
   loadWarehouse(menu: any){
+    localStorage.setItem('UP_AUTH','Y');
     switch(menu){
       case 'addCatalog':
         break;
@@ -69,6 +72,7 @@ export class DashboardComponent {
   }
 
   loadPricing(menu: any){
+    localStorage.setItem('UP_AUTH','Y');
     switch(menu){
       case 'addList':
         this.router.navigate(['/uniforms/uplist/' + this.page.rfno]);

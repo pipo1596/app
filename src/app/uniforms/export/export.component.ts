@@ -25,6 +25,7 @@ export class ExportComponent {
   ) { }
 
   ngOnInit(): void {
+    localStorage.clear();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
     });
@@ -52,6 +53,7 @@ export class ExportComponent {
   }
 
   openReport(rpno: any){
+    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/' + rpno + '/' + this.page.rfno]); 
   }
 

@@ -30,6 +30,7 @@ export class CustomersComponent {
   ) { }
 
   ngOnInit(): void {
+    localStorage.clear();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
     });
@@ -58,6 +59,7 @@ export class CustomersComponent {
   }
 
   editCustomer(acno: string) {
+    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/editcustomer/' + this.page.rfno + '/' + acno]);
   }
 
@@ -83,6 +85,7 @@ export class CustomersComponent {
   }
 
   newCustomer() {
+    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/newcustomer/' + this.page.rfno]);
   }
 

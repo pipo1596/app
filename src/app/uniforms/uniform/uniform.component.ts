@@ -24,6 +24,7 @@ export class UniformComponent {
   ) { }
 
   ngOnInit(): void {
+    localStorage.clear();
     hideWait();
     this.route.paramMap.subscribe(params => {
       this.acno = params.get('acno');
@@ -42,6 +43,7 @@ export class UniformComponent {
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNH', data).subscribe(response => {
       this.page.data = response;
       if (this.page.data.result == 'pass' && this.page.data.nhno){
+        localStorage.setItem('UP_AUTH','Y');
         this.router.navigate(['/uniforms/dashboard/' + this.page.data.nhno]);
       } else {
         this.error = this.page.data.errors
@@ -51,14 +53,11 @@ export class UniformComponent {
 
   }
 
-  goBack() {
-    this.router.navigate(['/uniforms/']);
-  }
-
   inqAccount() {
     localStorage.clear();
     localStorage.setItem('partpg','/uniforms/newuniform/')
     localStorage.setItem('menu','/cgi/APOELMAC?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
+    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/iframe/APOELMAC'])
   }
 

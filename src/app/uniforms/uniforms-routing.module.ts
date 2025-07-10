@@ -26,67 +26,68 @@ import { CxmlConfigsComponent } from './cxml-configs/cxml-configs.component';
 import { CxmlCustomersComponent } from './cxml-customers/cxml-customers.component';
 import { CxmlCustomerComponent } from './cxml-customer/cxml-customer.component';
 import { CxmlCategoriesComponent } from './cxml-categories/cxml-categories.component';
+import { authGuard } from './auth.guard';
 
 const routes: Routes = [
   //Uniform
-  { path: 'newuniform', component: UniformComponent },
-  { path: 'newuniform/:acno', component: UniformComponent },
+  { path: 'newuniform', component: UniformComponent},
+  { path: 'newuniform/:acno', component: UniformComponent, canActivate: [authGuard]},
 
   //Dashboard
-  { path: 'dashboard/:nhno', component: DashboardComponent },
+  { path: 'dashboard/:nhno', component: DashboardComponent},
 
   //Products
-  { path: 'products/:nhno', component: ProductsComponent }, 
-  { path: 'products/:nhno/:styl', component: ProductsComponent }, 
+  { path: 'products/:nhno', component: ProductsComponent, canActivate: [authGuard]   }, 
+  { path: 'products/:nhno/:styl', component: ProductsComponent, canActivate: [authGuard]   }, 
 
   //Categories
-  { path: 'categories/:nhno', component: CategoriesComponent },
-  { path: 'editcategory/:nhno/:nano', component: CategoryComponent }, 
-  { path: 'newcategory/:nhno', component: CategoryComponent }, 
-  { path: 'copycategory/:nhno/:nano', component: CategoryComponent }, 
+  { path: 'categories/:nhno', component: CategoriesComponent, canActivate: [authGuard]   },
+  { path: 'editcategory/:nhno/:nano', component: CategoryComponent, canActivate: [authGuard]   }, 
+  { path: 'newcategory/:nhno', component: CategoryComponent, canActivate: [authGuard]   }, 
+  { path: 'copycategory/:nhno/:nano', component: CategoryComponent, canActivate: [authGuard]   }, 
 
   //Customers
-  { path: 'customers/:nhno', component: CustomersComponent },
-  { path: 'newcustomer/:nhno', component: CustomerComponent },
-  { path: 'newcustomer/:nhno/:acno', component: CustomerComponent },
-  { path: 'editcustomer/:nhno/:acno', component: CustomerComponent },
+  { path: 'customers/:nhno', component: CustomersComponent, canActivate: [authGuard]   },
+  { path: 'newcustomer/:nhno', component: CustomerComponent, canActivate: [authGuard]   },
+  { path: 'newcustomer/:nhno/:acno', component: CustomerComponent, canActivate: [authGuard]   },
+  { path: 'editcustomer/:nhno/:acno', component: CustomerComponent, canActivate: [authGuard]   },
 
   //Notes 
-  { path: 'notes/:nhno', component: NotesComponent },
-  { path: 'newnote/:nhno', component: NoteComponent },
-  { path: 'editnote/:nhno/:nono', component: NoteComponent },
+  { path: 'notes/:nhno', component: NotesComponent, canActivate: [authGuard]   },
+  { path: 'newnote/:nhno', component: NoteComponent, canActivate: [authGuard]   },
+  { path: 'editnote/:nhno/:nono', component: NoteComponent, canActivate: [authGuard]   },
 
   //Images
-  { path: 'images/:nhno', component: ImagesComponent },
-  { path: 'newimage/:nhno', component: ImageComponent },
+  { path: 'images/:nhno', component: ImagesComponent, canActivate: [authGuard]   },
+  { path: 'newimage/:nhno', component: ImageComponent, canActivate: [authGuard]   },
 
   //UP Price List
-  { path: 'uplist/:nhno', component: UplistComponent },
-  { path: 'uplist/:nhno/:plno', component: UplistComponent },
+  { path: 'uplist/:nhno', component: UplistComponent, canActivate: [authGuard]   },
+  { path: 'uplist/:nhno/:plno', component: UplistComponent, canActivate: [authGuard]   },
 
   //Vas Price
-  { path: 'vasprice/:nhno', component: VaspriceComponent },
+  { path: 'vasprice/:nhno', component: VaspriceComponent, canActivate: [authGuard]   },
 
   //Data Import
-  { path: 'import/:nhno', component: ImportComponent },
-  { path: 'OEUL22/:nhno/:ulid', component: OEUL22Component },
-  { path: 'OEUL36/:nhno/:ulid', component: OEUL36Component },
+  { path: 'import/:nhno', component: ImportComponent, canActivate: [authGuard]   },
+  { path: 'OEUL22/:nhno/:ulid', component: OEUL22Component, canActivate: [authGuard]   },
+  { path: 'OEUL36/:nhno/:ulid', component: OEUL36Component, canActivate: [authGuard]   },
 
   //Data Export
-  { path: 'export/:nhno', component: ExportComponent },
-  { path: 'OERP52/:nhno', component: OERP52Component },
-  { path: 'OERP53/:nhno', component: OERP53Component },
-  { path: 'OERP302/:nhno', component: OERP302Component },
+  { path: 'export/:nhno', component: ExportComponent, canActivate: [authGuard]   },
+  { path: 'OERP52/:nhno', component: OERP52Component, canActivate: [authGuard]   },
+  { path: 'OERP53/:nhno', component: OERP53Component, canActivate: [authGuard]   },
+  { path: 'OERP302/:nhno', component: OERP302Component, canActivate: [authGuard]   },
 
 
   //CXML Configuration
-  { path: 'cxmlconfigs/:nhno', component: CxmlConfigsComponent },
-  { path: 'cxmlcustomers/:nhno', component: CxmlCustomersComponent },
-  { path: 'cxmlcustomer/:nhno', component: CxmlCustomerComponent },
-  { path: 'cxmlcustomer/:nhno/:guno', component: CxmlCustomerComponent },
-  { path: 'cxmlcategories/:nhno', component: CxmlCategoriesComponent },
+  { path: 'cxmlconfigs/:nhno', component: CxmlConfigsComponent, canActivate: [authGuard]   },
+  { path: 'cxmlcustomers/:nhno', component: CxmlCustomersComponent, canActivate: [authGuard]   },
+  { path: 'cxmlcustomer/:nhno', component: CxmlCustomerComponent, canActivate: [authGuard]   },
+  { path: 'cxmlcustomer/:nhno/:guno', component: CxmlCustomerComponent, canActivate: [authGuard]   },
+  { path: 'cxmlcategories/:nhno', component: CxmlCategoriesComponent, canActivate: [authGuard]   },
 
-  { path: 'iframe/:menu', component: IframeComponent },
+  { path: 'iframe/:menu', component: IframeComponent, canActivate: [authGuard]   },
   { path: '**', component: HomeComponent }
 ];
 

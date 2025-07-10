@@ -37,6 +37,7 @@ export class OERP302Component {
   ) { }
 
   async ngOnInit() {
+    localStorage.clear();
     this.security = await this.sessionService.getSession();
     this.showEmail = false;
     showWait();
@@ -134,6 +135,7 @@ export class OERP302Component {
   }
 
   goBack(){
+    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/export/' + this.page.rfno]);
   }
 

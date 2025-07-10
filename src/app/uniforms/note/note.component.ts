@@ -28,6 +28,7 @@ export class NoteComponent {
   ) { hideWait(); }
 
   ngOnInit(): void {
+    localStorage.clear();
     showWait();
     this.setMode();
 
@@ -79,6 +80,7 @@ export class NoteComponent {
 
       if (mode !== 'update') {
         if (this.page.data.result == 'pass' && this.page.data.nhno){
+          localStorage.setItem('UP_AUTH','Y');
           this.router.navigate(['/uniforms/notes/' + this.page.data.nhno]);
         }
       }
@@ -88,6 +90,7 @@ export class NoteComponent {
   }
 
   goBack() {
+    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/notes/' + this.nhno]);
   }
 }

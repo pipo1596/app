@@ -53,6 +53,7 @@ export class ImagesComponent {
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
       if (this.page.data.total) this.total = this.page.data.total;
+      if (this.page.data?.images) this.page.data.images = this.page.data.images.sort((a: any,b: any) => a.iono.localeCompare(b.iono))
       this.page.loading = false;
       hideWait();
     });

@@ -19,6 +19,9 @@ export class FileUploadComponent implements OnInit {
   preview = '';
   @Output() triggerEvent = new EventEmitter<string>();
   @Input() mode : string = "";
+  @Input() iofile : string = "";
+  @Input() iofkey : string = "";
+  @Input() desc : string = "";
   @Input() types : string = "";
   @Input() iono : string = "";
 
@@ -73,7 +76,7 @@ export class FileUploadComponent implements OnInit {
       if (file) {
         this.currentFile = file;
 
-        this.uploadService.upload(this.currentFile, this.mode).subscribe({
+        this.uploadService.upload(this.currentFile, this.mode, this.iofkey, this.iofile, this.desc).subscribe({
           next: (event: any) => {
             if (event.type === HttpEventType.UploadProgress) {
               this.progress = Math.round((100 * event.loaded) / event.total);

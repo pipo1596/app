@@ -1,19 +1,53 @@
 <app-header [title]="page.title" [menu]="page.menu" ></app-header>
-
 <section class="ftco-section bg-light pb-3 pt-5">
 
-    <div class="row g-3 mb-3">
-        <div class="col-2">
+    <div class="d-flex flex-row-reverse mb-3">
+        <div class="col-md-2">
           <input type="button" value="Cancel" class="btn btn-secondary" (click)="goBack()">
         </div>
     </div>
 
-    <div class="card align-items-center mx-auto mb-5 w-50">
-        <div class="card-body w-75">
-            <iframe style="border: 0; width:100%; height: 600px; overflow: auto;"
-            [src]="getSafeUrl('https://10.32.234.54/cgi/APGLSRIO?PAMODE=*ENTR&PMFILE=FPOENH&PMFKEY=' + page.rfno + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame')"></iframe>
+    <div class="card mx-auto mb-5 w-75 h-100">
+        <div class="card-body">
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-12">
+                    <h6 class="">Attachment Upload</h6>
+                </div>         
+            </div>
+
+            <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
+
+            <div class="form-group row g-3 mb-3">
+                    <label for="uploadFile" class="col-sm-1 col-form-label">File: </label>
+                    <div class="col-md-6">
+                         <app-file-upload (triggerEvent)="saveAfterFileUpload()" [mode]="'2'" [types]="accept" [iofile]="'FPOENH'" [iofkey]="page.rfno!" [desc]="desc"></app-file-upload>
+                    </div>
+            </div>
+            <div class="form-group row g-3 mb-4">
+                    <label for="descInput" class="col-sm-1 col-form-label">Description: </label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="descInput" [(ngModel)]="desc">
+                    </div>
+            </div>
+
+            <div class="d-flex flex-row-reverse mb-3">
+                <div class="col-md-8">
+                    <button type="submit" class="btn btn-primary me-3" (click)="validate()">Upload File</button>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <h3 class="card-title ms-1">Directions</h3>
+                <ul class="ms-4">
+                    <li>Click on the "Choose File" button above and select a file to upload</li>
+                    <li>Valid Extensions: txt, doc, docx, pdf, xls, xlsx, ppt, pptx, gif, jpeg, jpg, tif, png, bmp, dst, msg, html, htm</li>      
+                    <li>Click on the "Upload File" button to upload the selected file</li>
+                </ul>
+            </div>
+
+
         </div>
     </div>
     <app-footer></app-footer>
-
 </section>

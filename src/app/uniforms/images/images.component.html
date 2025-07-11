@@ -5,17 +5,8 @@
         <div class="card-body">
             
             <div class="row g-4">
-                <div class="col-8">
+                <div class="col-10">
                     <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
-                </div>
-
-                <div class="col-2">
-                    <button (click)="drop = !drop" class="btn btn-primary rounded-0 w-100" type="button">More Actions</button>
-                    <div (mouseleave)="drop = false" id="myDropdown" class="actions-content me-5 bg-light position-absolute shadow"
-                         [ngClass]="{'d-block': (drop), 'd-none': !(drop)}">
-                        <a class="p-2 text-dark d-block text-decoration-none" href="#">Add Customization</a>
-                        <a class="p-2 text-dark d-block text-decoration-none" href="#">Delete</a>
-                    </div>
                 </div>
 
                 <div class="col-2">

@@ -51,7 +51,7 @@
                 </thead>
 
                 <tbody>
-                    <tr *ngFor="let category of page?.data?.categories; index as i ">
+                    <tr *ngFor="let category of page.data?.categories; index as i ">
                         <td align="left">{{category.desc}}</td>
                         <td>
                             <select class="form-select" (change)="selectUNSP(category.nano, $event)" [id]="'unsp' + category.nano">

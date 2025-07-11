@@ -54,21 +54,21 @@ export class UplistComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRPL', data).subscribe(response => {
       this.page.data = response;
-      if(this.page?.data?.menu) this.page.menu = 'Y';
+      if(this.page.data?.menu) this.page.menu = 'Y';
 
-      if(this.page?.data?.inq?.plnoi){
+      if(this.page.data?.inq?.plnoi){
         this.plno = this.page.data.inq.plnoi
-      } else if (this.page?.data?.info.plno) {
+      } else if (this.page.data?.info.plno) {
         this.plno = this.page.data.info.plno;
       }
 
-      if(this.page?.data?.inq?.desci){
+      if(this.page.data?.inq?.desci){
         this.desc = this.page.data.inq.desci
-      } else if (this.page?.data?.info.desc) {
+      } else if (this.page.data?.info.desc) {
         this.desc = this.page.data.info.desc;
       }
 
-      if(this.page?.data?.info.upct) this.upct = this.page.data.info.upct;
+      if(this.page.data?.info.upct) this.upct = this.page.data.info.upct;
       this.page.loading = false;
       hideWait();
     });

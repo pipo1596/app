@@ -112,7 +112,7 @@ export class ProductsComponent {
   }
 
   allChecked(){
-    for (let x = 0; x < this.page?.data?.products.length; x++) {
+    for (let x = 0; x < this.page.data?.products.length; x++) {
       if(!(this.isChecked(this.page.data.products[x]))){
         return false;
       }

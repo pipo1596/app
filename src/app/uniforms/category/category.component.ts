@@ -46,10 +46,10 @@ export class CategoryComponent {
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
 
       if (this.router.url.indexOf('/uniforms/copycategory') >= 0){
-        this.name = 'Copy of ' + this.page?.data?.info?.desc;
-      } else { this.name = this.page?.data?.info?.desc; }
+        this.name = 'Copy of ' + this.page.data?.info?.desc;
+      } else { this.name = this.page.data?.info?.desc; }
 
-      if(this.page?.data?.info?.pnan){
+      if(this.page.data?.info?.pnan){
         let parent = {
           nano: this.page.data.info.pnan,
           desc: this.page.data.info.pdesc
@@ -106,7 +106,7 @@ export class CategoryComponent {
   
       this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNA', data).subscribe(response => {
         this.page.data = response;
-        if(this.page?.data?.upct) this.upct = this.page.data.upct;
+        if(this.page.data?.upct) this.upct = this.page.data.upct;
   
         if (mode !== 'update') {
           if (this.page.data.result == 'pass' && this.page.data.nhno){

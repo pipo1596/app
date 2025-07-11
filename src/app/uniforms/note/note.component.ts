@@ -43,9 +43,9 @@ export class NoteComponent {
       this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNO', data).subscribe(response => {
         this.page.data = response;
         if (this.page.data.menu) this.page.menu = this.page.data.menu;
-        if (this.page?.data?.info?.nono) this.nono = this.page.data.info.nono;
-        if (this.page?.data?.info?.note) this.note = this.page.data.info.note;
-        if (this.page?.data?.info?.upct) this.upct = this.page.data.info.upct;
+        if (this.page.data?.info?.nono) this.nono = this.page.data.info.nono;
+        if (this.page.data?.info?.note) this.note = this.page.data.info.note;
+        if (this.page.data?.info?.upct) this.upct = this.page.data.info.upct;
       });
 
     this.page.loading = false;

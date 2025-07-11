@@ -17,8 +17,8 @@
             </div>
 
             <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
-               <h6 class="mb-3" *ngIf="page?.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
-            <h6 class="mb-3" *ngIf="page?.data?.result == 'pass'"><strong class="text-primary">Your request is being processed. You will receive an email of failed records (only if any exist).</strong></h6>
+               <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
+            <h6 class="mb-3" *ngIf="page.data?.result == 'pass'"><strong class="text-primary">Your request is being processed. You will receive an email of failed records (only if any exist).</strong></h6>
 
             <div class="row g-3 mb-3">
                 <h3 class="card-title ms-1">Directions</h3>

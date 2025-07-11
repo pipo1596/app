@@ -3,19 +3,10 @@
 <section class="ftco-section bg-light pb-3 pt-5">
     <div class="card mx-auto mb-5 w-75 h-100">
         <div class="card-body">
-            <h6><strong class="text-danger">{{page?.data?.errors}}</strong></h6>
+            <h6><strong class="text-danger">{{page.data?.errors}}</strong></h6>
                         <div class="row g-4">
-                <div class="col-8">
-                    <h6 class="">Uniform Program - {{ page?.data?.pgName }}</h6>
-                </div>
-
-                <div class="col-2">
-                    <button (click)="drop = !drop" class="btn btn-primary rounded-0 w-100" type="button">More Actions</button>
-                    <div (mouseleave)="drop = false" id="myDropdown" class="actions-content me-5 bg-light position-absolute shadow d-none"
-                         [ngClass]="{'d-block': (drop), 'd-none': !(drop)}">
-                        <a class="p-2 text-dark d-block text-decoration-none" href="#">Add Customization</a>
-                        <a class="p-2 text-dark d-block text-decoration-none" href="#">Delete</a>
-                    </div>
+                <div class="col-10">
+                    <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
                 </div>
 
                 <div class="col-2">
@@ -55,7 +46,7 @@
                 </thead>
 
                 <tbody>
-                    <tr *ngFor="let customer of page?.data?.customers | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u " 
+                    <tr *ngFor="let customer of page.data?.customers | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u " 
                         [ngClass]="{'altRow': (u % 2 == 0)}">
                         <td>
                             <button class="btn bg-transparent" (click)="editCustomer(customer.acno)"><span

@@ -57,12 +57,12 @@ export class OERP302Component {
       this.page.data = response;
       if (this.page.data?.title) this.page.title = this.page.data.title;
       if (this.page.data?.menu) this.page.menu = this.page.data.menu;
-      if(this.page?.data?.user)  this.page.data.user = this.page.data.user.sort((a: any,b: any) => a.valu.localeCompare(b.valu))
-      if(this.page?.data?.info?.frdt){
+      if(this.page.data?.user)  this.page.data.user = this.page.data.user.sort((a: any,b: any) => a.valu.localeCompare(b.valu))
+      if(this.page.data?.info?.frdt){
         this.frdt = this.page.data.info.frdt.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
         this.frdtUsa = this.page.data.info.frdt.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
       }
-      if(this.page?.data?.info?.todt){
+      if(this.page.data?.info?.todt){
         this.todt = this.page.data.info.todt.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
         this.todtUsa = this.page.data.info.todt.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
       }

@@ -19,7 +19,9 @@ export class CustomerComponent {
   nhno:any
   acno:any
   effd = "";
+  effdUsa: any;
   expd = "";
+  expdUsa: any;
   upct = "";
 
   constructor(
@@ -42,14 +44,19 @@ export class CustomerComponent {
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNC', data).subscribe(response => {
       this.page.data = response;
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
-      if(this.page?.data?.info?.acno) this.acno = this.page.data.info.acno;
-      if(this.page?.data?.info?.effd) this.effd = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
-      if(this.page?.data?.info?.expd) this.expd = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
-      if(this.page?.data?.info?.upct) this.upct = this.page.data.info.upct;
+      if(this.page.data?.info?.acno) this.acno = this.page.data.info.acno;
+      if(this.page.data?.info?.effd){
+        this.effd = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
+        this.effdUsa = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
+      }
+      if(this.page.data?.info?.expd){
+        this.expd = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
+        this.expdUsa = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
+      }
+      if(this.page.data?.info?.upct) this.upct = this.page.data.info.upct;
       hideWait();
       this.page.loading = false;
     });
-
   }
 
   setMode() {
@@ -69,15 +76,15 @@ export class CustomerComponent {
   inqAcct() {
     localStorage.clear();
     if(this.page.editmode){
-      localStorage.setItem('p1', this.acno)
-      localStorage.setItem('partpg','/uniforms/editcustomer/' + this.nhno + '/')
+      localStorage.setItem('p1', this.acno);
+      localStorage.setItem('partpg','/uniforms/editcustomer/' + this.nhno + '/');
     } else {
-      localStorage.setItem('partpg','/uniforms/newcustomer/' + this.nhno + '/')
+      localStorage.setItem('partpg','/uniforms/newcustomer/' + this.nhno + '/');
     }
 
-    localStorage.setItem('menu','/cgi/APOELMAC?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
+    localStorage.setItem('menu','/cgi/APOELMAC?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N');
     localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate(['/uniforms/iframe/APOELMAC'])
+    this.router.navigate(['/uniforms/iframe/APOELMAC']);
   }
 
   loadCustomer(mode: string){
@@ -87,14 +94,14 @@ export class CustomerComponent {
       mode: mode,
       nhno: this.nhno,
       acno: this.acno,
-      effd: (mode !== 'delete') ? this.effd.replaceAll('-','').replace(/(\d{2})(\d{2})(\d{2})(\d{2})/, "$3/$4/$2") : '',
-      expd: (mode !== 'delete') ? this.expd.replaceAll('-','').replace(/(\d{2})(\d{2})(\d{2})(\d{2})/, "$3/$4/$2") : '',
+      effd: (mode !== 'delete') ? this.effdUsa : '',
+      expd: (mode !== 'delete') ? this.expdUsa : '',
       upct: (mode == 'update') ? this.upct : ''
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNC', data).subscribe(response => {
       this.page.data = response;
-      if(this.page?.data?.upct) this.upct = this.page.data.upct;
+      if(this.page.data?.upct) this.upct = this.page.data.upct;
 
       if (mode !== 'update') {
         if (this.page.data.result == 'pass' && this.page.data.nhno){

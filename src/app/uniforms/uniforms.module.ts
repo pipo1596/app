@@ -30,6 +30,7 @@ import { CxmlCategoriesComponent } from './cxml-categories/cxml-categories.compo
 import { ImportComponent } from './import/import.component';
 import { OEUL22Component } from './uploads/oeul22/oeul22.component';
 import { OEUL36Component } from './uploads/oeul36/oeul36.component';
+import { WarehouseComponent } from './warehouse/warehouse.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { OEUL36Component } from './uploads/oeul36/oeul36.component';
     CxmlCategoriesComponent,
     ImportComponent,
     OEUL22Component,
-    OEUL36Component
+    OEUL36Component,
+    WarehouseComponent
   ],
   imports: [
     CommonModule,

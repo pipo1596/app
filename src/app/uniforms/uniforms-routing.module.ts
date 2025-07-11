@@ -8,6 +8,7 @@ import { CustomerComponent } from './customer/customer.component';
 import { NotesComponent } from './notes/notes.component';
 import { NoteComponent } from './note/note.component';
 import { CategoriesComponent } from './categories/categories.component';
+import { WarehouseComponent } from './warehouse/warehouse.component';
 import { CategoryComponent } from './category/category.component';
 import { ProductsComponent } from './products/products.component';
 import { UplistComponent } from './uplist/uplist.component';
@@ -45,6 +46,9 @@ const routes: Routes = [
   { path: 'editcategory/:nhno/:nano', component: CategoryComponent, canActivate: [authGuard]   }, 
   { path: 'newcategory/:nhno', component: CategoryComponent, canActivate: [authGuard]   }, 
   { path: 'copycategory/:nhno/:nano', component: CategoryComponent, canActivate: [authGuard]   }, 
+
+  //Warehouse
+  { path: 'warehouse/:nhno', component: WarehouseComponent, canActivate: [authGuard]   }, 
 
   //Customers
   { path: 'customers/:nhno', component: CustomersComponent, canActivate: [authGuard]   },

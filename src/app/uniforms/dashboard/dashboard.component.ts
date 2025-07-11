@@ -43,12 +43,13 @@ export class DashboardComponent {
   }
 
   loadProduct (menu: any) {
-    localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('UP_AUTH','Y')
     switch(menu){
       case 'addProduct':
         this.router.navigate(['uniforms/newproduct/' + this.page.rfno]);
         break;
       case 'importProduct':
+        this.router.navigate(['/uniforms/OEUL36/' + this.page.rfno + '/OEUL36']);
         break;
       case 'createCategory':
         this.router.navigate(['/uniforms/newcategory/' + this.page.rfno]);
@@ -61,18 +62,13 @@ export class DashboardComponent {
     }
   }
 
-  loadWarehouse(menu: any){
-    localStorage.setItem('UP_AUTH','Y');
-    switch(menu){
-      case 'addCatalog':
-        break;
-      case 'addProduct':
-        break;
-    }
+  loadWarehouse(){
+    localStorage.setItem('UP_AUTH','Y')
+    this.router.navigate(['/uniforms/warehouse/' + this.page.rfno]);
   }
 
   loadPricing(menu: any){
-    localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('UP_AUTH','Y')
     switch(menu){
       case 'addList':
         this.router.navigate(['/uniforms/uplist/' + this.page.rfno]);

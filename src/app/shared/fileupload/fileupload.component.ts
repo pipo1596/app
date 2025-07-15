@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { FileUploadService } from '../../services/file-upload.service';
+import { AttachmentUploadService } from '../../services/attachment-upload.service';
 import { DataService } from '../../services/data-trigger.service';
 import { hideWait, showWait } from '../utils';
 
@@ -27,7 +27,7 @@ export class FileUploadComponent implements OnInit {
 
   imageInfos?: Observable<any>;
 
-  constructor(private uploadService: FileUploadService,
+  constructor(private uploadService: AttachmentUploadService,
     private dataService: DataService
   ) {}
 

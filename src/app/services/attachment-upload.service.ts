@@ -6,12 +6,29 @@ import { environment } from '../../environments/environment.development';
 @Injectable({
   providedIn: 'root',
 })
-export class FileUploadService {
-  private baseUrl = environment.apiurl+'/cgi/APPIMGUPL';
+export class AttachmentUploadService {
+  private baseUrl = environment.apiurl+'/cgi/APPFLUPL';
 
   constructor(private http: HttpClient) {}
 
-  upload(file: File): Observable<HttpEvent<any>> {
+  upload(file: File, mode: string, iofkey: string, iofile: string, desc: string): Observable<HttpEvent<any>> {
+
+    if(mode && this.baseUrl.indexOf('MODE') == -1){
+      this.baseUrl += `?MODE=${mode}`
+    }
+
+    if(iofkey && this.baseUrl.indexOf('FKEY') == -1){
+      this.baseUrl += `&FKEY=${iofkey}`
+    }
+
+    if(iofile && this.baseUrl.indexOf('FILE') == -1){
+      this.baseUrl += `&FILE=${iofile}`
+    }
+
+    if(desc && this.baseUrl.indexOf('DESC') == -1){
+      this.baseUrl += `&DESC=${desc}`
+    }
+
     const formData: FormData = new FormData();
 
     formData.append('file', file);

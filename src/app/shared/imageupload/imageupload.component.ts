@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { FileUploadService } from '../../services/file-upload.service';
@@ -18,7 +18,6 @@ export class ImageUploadComponent implements OnInit {
   message = '';
   preview = '';
   @Output() triggerEvent = new EventEmitter<string>();
-  @Input() mode : string = "";
 
   imageInfos?: Observable<any>;
 
@@ -54,7 +53,6 @@ export class ImageUploadComponent implements OnInit {
         const reader = new FileReader();
 
         reader.onload = (e: any) => {
-          //console.log(e.target.result);
           this.preview = e.target.result;
           hideWait();
         };
@@ -73,7 +71,7 @@ export class ImageUploadComponent implements OnInit {
       if (file) {
         this.currentFile = file;
 
-        this.uploadService.upload(this.currentFile, this.mode,'','','').subscribe({
+        this.uploadService.upload(this.currentFile).subscribe({
           next: (event: any) => {
             if (event.type === HttpEventType.UploadProgress) {
               this.progress = Math.round((100 * event.loaded) / event.total);

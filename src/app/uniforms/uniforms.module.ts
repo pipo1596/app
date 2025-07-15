@@ -36,6 +36,9 @@ import { CustomizationsComponent } from './customizations/customizations.compone
 import { CustomizationComponent } from './customization/customization.component';
 import { VasCustomizationsComponent } from './vas-customizations/vas-customizations.component';
 import { VasCustomizationComponent } from './vas-customization/vas-customization.component';
+import { MassAppComponent } from './mass-app/mass-app.component';
+import { MassItemComponent } from './mass-item/mass-item.component';
+import { MassQuestionComponent } from './mass-question/mass-question.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +73,10 @@ import { VasCustomizationComponent } from './vas-customization/vas-customization
     CustomizationsComponent,
     CustomizationComponent,
     VasCustomizationsComponent,
-    VasCustomizationComponent
+    VasCustomizationComponent,
+    MassAppComponent,
+    MassItemComponent,
+    MassQuestionComponent
   ],
   imports: [
     CommonModule,

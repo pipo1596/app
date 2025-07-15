@@ -32,6 +32,9 @@ import { CustomizationsComponent } from './customizations/customizations.compone
 import { CustomizationComponent } from './customization/customization.component';
 import { VasCustomizationsComponent } from './vas-customizations/vas-customizations.component';
 import { VasCustomizationComponent } from './vas-customization/vas-customization.component';
+import { MassAppComponent } from './mass-app/mass-app.component';
+import { MassItemComponent } from './mass-item/mass-item.component';
+import { MassQuestionComponent } from './mass-question/mass-question.component';
 import { authGuard } from './auth.guard';
 
 const routes: Routes = [
@@ -74,6 +77,11 @@ const routes: Routes = [
   { path: 'vascustomizations/:nhno/:npno', component: VasCustomizationsComponent, canActivate: [authGuard]  },
   { path: 'newvascustomization/:nhno', component: VasCustomizationComponent, canActivate: [authGuard]  },
   { path: 'editvascustomization/:nhno/:npno', component: VasCustomizationComponent, canActivate: [authGuard]  },
+
+  //Mass Updates
+  { path: 'massquestion/:nhno', component: MassQuestionComponent, canActivate: [authGuard]  },
+  { path: 'massitem/:nhno', component: MassItemComponent, canActivate: [authGuard]  },
+  { path: 'massapp/:nhno', component: MassAppComponent, canActivate: [authGuard]  },
 
   //Notes 
   { path: 'notes/:nhno', component: NotesComponent, canActivate: [authGuard]   },

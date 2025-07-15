@@ -186,7 +186,7 @@ export class ProductComponent {
   }
 
   loadProduct(mode: string){
-    showWait();
+    // showWait();
 
     let data = {
 
@@ -211,19 +211,19 @@ export class ProductComponent {
       upctNic: (mode == 'update') ? this.upctNic : ''
     }
 
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
-      this.page.data = response;
-      if(this.page.data?.upct) this.upct = this.page.data.upct;
+    // this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
+    //   this.page.data = response;
+    //   if(this.page.data?.upct) this.upct = this.page.data.upct;
 
-      if (mode !== 'update') {
-        if (this.page.data.result == 'pass' && this.page.data.nhno){
-          localStorage.setItem('UP_AUTH','Y');
-          this.router.navigate(['/uniforms/products/' + this.page.data.nhno]);
-        }
-      }
-      this.page.loading = false;
-      hideWait();
-    });
+    //   if (mode !== 'update') {
+    //     if (this.page.data.result == 'pass' && this.page.data.nhno){
+    //       localStorage.setItem('UP_AUTH','Y');
+    //       this.router.navigate(['/uniforms/products/' + this.page.data.nhno]);
+    //     }
+    //   }
+    //   this.page.loading = false;
+    //   hideWait();
+    // });
   }
 
   //Image Upload Functions

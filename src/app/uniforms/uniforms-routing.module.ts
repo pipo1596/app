@@ -11,6 +11,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { CategoryComponent } from './category/category.component';
 import { ProductsComponent } from './products/products.component';
+import { ProductComponent } from './product/product.component';
 import { UplistComponent } from './uplist/uplist.component';
 import { VaspriceComponent } from './vasprice/vasprice.component';
 import { ImagesComponent } from './images/images.component';
@@ -40,6 +41,12 @@ const routes: Routes = [
   //Products
   { path: 'products/:nhno', component: ProductsComponent, canActivate: [authGuard]   }, 
   { path: 'products/:nhno/:styl', component: ProductsComponent, canActivate: [authGuard]   }, 
+  { path: 'editproduct/:nhno/:nino', component: ProductComponent, canActivate: [authGuard] }, //Editing Product
+  { path: 'editproduct/:nhno/:nino/:styl', component: ProductComponent, canActivate: [authGuard]  }, //Editing Product + Selected Style
+  { path: 'newproduct/:nhno', component: ProductComponent, canActivate: [authGuard]  }, //Creating Product
+  { path: 'newproduct/:nhno/:styl', component: ProductComponent, canActivate: [authGuard]  }, //Creating Product + Selected Style
+  { path: 'copyproduct/:nhno/:nino', component: ProductComponent, canActivate: [authGuard]  }, //Copying Product
+  { path: 'copyproduct/:nhno/:nino/:styl', component: ProductComponent, canActivate: [authGuard]  }, //Copying Product + Selected Style
 
   //Categories
   { path: 'categories/:nhno', component: CategoriesComponent, canActivate: [authGuard]   },

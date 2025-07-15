@@ -34,6 +34,8 @@ import { WarehouseComponent } from './warehouse/warehouse.component';
 import { ProductComponent } from './product/product.component';
 import { CustomizationsComponent } from './customizations/customizations.component';
 import { CustomizationComponent } from './customization/customization.component';
+import { VasCustomizationsComponent } from './vas-customizations/vas-customizations.component';
+import { VasCustomizationComponent } from './vas-customization/vas-customization.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +68,9 @@ import { CustomizationComponent } from './customization/customization.component'
     WarehouseComponent,
     ProductComponent,
     CustomizationsComponent,
-    CustomizationComponent
+    CustomizationComponent,
+    VasCustomizationsComponent,
+    VasCustomizationComponent
   ],
   imports: [
     CommonModule,

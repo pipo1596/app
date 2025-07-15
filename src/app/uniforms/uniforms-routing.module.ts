@@ -28,6 +28,10 @@ import { CxmlConfigsComponent } from './cxml-configs/cxml-configs.component';
 import { CxmlCustomersComponent } from './cxml-customers/cxml-customers.component';
 import { CxmlCustomerComponent } from './cxml-customer/cxml-customer.component';
 import { CxmlCategoriesComponent } from './cxml-categories/cxml-categories.component';
+import { CustomizationsComponent } from './customizations/customizations.component';
+import { CustomizationComponent } from './customization/customization.component';
+import { VasCustomizationsComponent } from './vas-customizations/vas-customizations.component';
+import { VasCustomizationComponent } from './vas-customization/vas-customization.component';
 import { authGuard } from './auth.guard';
 
 const routes: Routes = [
@@ -62,6 +66,14 @@ const routes: Routes = [
   { path: 'newcustomer/:nhno', component: CustomerComponent, canActivate: [authGuard]   },
   { path: 'newcustomer/:nhno/:acno', component: CustomerComponent, canActivate: [authGuard]   },
   { path: 'editcustomer/:nhno/:acno', component: CustomerComponent, canActivate: [authGuard]   },
+
+  //Customizations
+  { path: 'customizations/:nhno', component: CustomizationsComponent, canActivate: [authGuard]  },
+  { path: 'newcustomization/:nhno', component: CustomizationComponent, canActivate: [authGuard]  }, 
+  { path: 'editcustomization/:nhno/:npno', component: CustomizationComponent, canActivate: [authGuard]  }, 
+  { path: 'vascustomizations/:nhno/:npno', component: VasCustomizationsComponent, canActivate: [authGuard]  },
+  { path: 'newvascustomization/:nhno', component: VasCustomizationComponent, canActivate: [authGuard]  },
+  { path: 'editvascustomization/:nhno/:npno', component: VasCustomizationComponent, canActivate: [authGuard]  },
 
   //Notes 
   { path: 'notes/:nhno', component: NotesComponent, canActivate: [authGuard]   },

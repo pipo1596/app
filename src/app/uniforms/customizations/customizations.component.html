@@ -1,0 +1,153 @@
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+
+<section class="ftco-section bg-light pb-3 pt-5">
+    <div class="card mx-auto mb-5 w-75 h-100">
+        <div class="card-body">
+
+            <div class="row g-4">
+                <div class="col-8">
+                    <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
+                </div>
+
+                <div class="col-2">
+                    <button (click)="drop = !drop" class="btn btn-primary rounded-0 w-100" type="button">More Actions</button>
+                    <div (mouseleave)="drop = false" id="myDropdown" class="actions-content me-5 bg-light position-absolute shadow"
+                         [ngClass]="{'d-block': (drop), 'd-none': !(drop)}">
+                        <a class="p-2 text-dark d-block text-decoration-none user-select-none" href="javascript:void" (click)="loadAction('question')">Mass Question Update</a>
+                        <a class="p-2 text-dark d-block text-decoration-none user-select-none" href="javascript:void" (click)="loadAction('app')">Mass Application Update</a>
+                        <a class="p-2 text-dark d-block text-decoration-none user-select-none" href="javascript:void" (click)="loadAction('item')">Mass VAS Item Update</a>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <button (click)="loadCustomization('new','')" class="btn btn-primary rounded-0 w-50 me-3" type="button">New</button>
+                    <button class="btn">
+                        <span class="bi bi-question-circle" title="FAQ"></span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-9">
+                    <h6><small>Catalog > Customization</small></h6>
+                </div>
+            </div>
+
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-2">
+                    <input list="matchesSrch" placeholder="Search" [(ngModel)]="style" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('VAS Item')" [options]="page.data?.customizations" [(ngModel)]="customization" (change)="getCustomizations()"></ngx-select-dropdown>
+                </div>
+                <div class="col-md-2">
+                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Application')" [options]="page.data?.customizations" [(ngModel)]="customization" (change)="getCustomizations()"></ngx-select-dropdown>
+                </div>
+                <div class="col-md-2">
+                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Image')" [options]="page.data?.customizations" [(ngModel)]="customization" (change)="getCustomizations()"></ngx-select-dropdown>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-2">
+                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style')" [options]="page.data?.customizations" [(ngModel)]="customization" (change)="getCustomizations()"></ngx-select-dropdown>
+                </div>
+                <div class="col-md-3">
+                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style Configurator Template')" [options]="page.data?.customizations" [(ngModel)]="customization" (change)="getCustomizations()"></ngx-select-dropdown>
+                </div>
+                <div class="col-md-2">
+                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('VAS Category')" [options]="page.data?.customizations" [(ngModel)]="customization" (change)="getCustomizations()"></ngx-select-dropdown>
+                </div>
+                <div class="col-md-2">
+                    <input list="matchesSrch" placeholder="Last Usage Date" [(ngModel)]="style" class="form-control">
+                </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <strong>Show Styles: </strong>
+                    <input class="form-check-input ms-1 me-5" type="checkbox" value="">
+                </div>
+                <div class="col-md-6 d-flex flex-row-reverse justify-content-between">
+                    <input type="button" value="Assign Styles" class="btn btn-primary" id="ASSIGN" (click)="assignStyles()">
+                </div>
+            </div>
+
+            <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
+
+            <table class="table table-striped w-100">
+                <thead>
+                    <tr>
+                        <th align="left" class="ps-2 pe-3 pb-1"><input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked()"></th>
+                        <th align="left" class="w-25" class="ps-3">Actions</th>
+                        <th align="left">Customization Name</th>
+                        <th align="left">Customization Desc</th>
+                        <th align="left">Style Count</th>
+                        <th align="left">Image</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td align="left" class="ps-2"><input type="checkbox" class="form-check-input"></td>
+                        <td class="w-25">
+                            <button class="btn bg-transparent" (click)="editCustomization('000000000043825')"><span
+                                class="bi bi-pencil-square" title="Edit Product"></span></button>
+                            <button class="btn bg-transparent"><span
+                                class="bi bi-clipboard" title="Copy Product"></span></button>
+                            <button class="btn bg-transparent"><span
+                                class="bi bi-trash" title="Product Details"></span></button>
+                            <button class="btn btn-outline-primary btn-sm" (click)="loadVAS('000000000043825')">VAS</button>
+                        </td>
+                        <td align="left">Polo</td>
+                        <td align="left">EC9173</td>
+                        <td align="left">
+                            <div class="tooltip">0
+                                <span class="tooltiptext">
+                                    Style A<br>Style B<br>Style C<br>Style D<br>Style E<br>
+                                </span>
+                            </div>
+                        </td>
+                        <td align="left">2</td>
+                    </tr>
+                    <!-- <tr *ngFor="let product of page.data?.products | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
+                        <td align="left" class="ps-2" colspan="1"><input type="checkbox" class="form-check-input" id="ckbx{{ product.nino }}"  value="{{ product }}" (click)="checkCustomization(product)" [checked] = "isChecked(product)"></td>
+                        <td class="w-25">
+                            <button class="btn bg-transparent" (click)="loadCustomization('edit', product.nino)"><span
+                                class="bi bi-pencil-square" title="Edit Product"></span></button>
+                            <button class="btn bg-transparent" (click)="loadCustomization('copy', product.nino)"><span
+                                class="bi bi-clipboard" title="Copy Product"></span></button>
+                            <button class="btn bg-transparent" (click)="deleteCustomization(product.nino)"><span
+                                class="bi bi-trash" title="Product Details"></span></button>
+                            <button class="btn btn-outline-primary btn-sm" (click)="loadVAS('000000000043825')">VAS</button>
+                        </td>
+                        <td align="left" colspan="1">{{product.styl}}</td>
+                        <td align="left" colspan="2">{{product.desc}}</td>
+                        <td align="left" colspan="1" style="width: 10%;">{{product.opv1}}</td>
+                        <td align="left" colspan="1">{{product.nadesc}}</td>
+                    </tr> -->
+                </tbody> 
+            </table> 
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-8 mx-auto w-50">
+            <label>Items per page:
+                <select [(ngModel)]="itemsPerPage" (change)="onItemChange(itemsPerPage)">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="col-2 w-25">
+            <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
+        </div>
+    </div>
+    <app-footer></app-footer>
+</section>
+

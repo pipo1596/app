@@ -1,0 +1,102 @@
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+<section class="ftco-section bg-light pb-3 pt-5">
+    <div class="card mx-auto mb-5 w-75 h-100">
+        <div class="card-body">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-md-9">
+                            <h6>Uniform Program - {{ page.data?.pgName }}</h6>
+                        </div>
+                        <div class="col-md-2">
+                            <button (click)="drop = !drop" class="btn btn-primary rounded-0 w-100" type="button"> 
+                                More Actions 
+                            </button>
+                            <div (mouseleave)="drop = false" id="myDropdown" class="actions-content me-5 bg-light position-absolute shadow"
+                                 [ngClass]="{'d-block': (drop), 'd-none': !(drop)}">
+                                <a class="p-2 text-dark d-block text-decoration-none" href="#">Add Customization</a>
+                                <a class="p-2 text-dark d-block text-decoration-none" href="#">Delete</a>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <button class="btn">
+                                <span class="bi bi-question-circle" title="FAQ"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-9">
+                            <h6><small>Catalog > Customization > Create New Customization</small></h6>
+                        </div>
+                    </div>
+
+                    <h6 class="card-title ms-1 mb-3">Basic Customization Information</h6>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-3">
+                            <label for="inputItem" class="form-label">Name: </label>
+                            <input type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="styl" [value] = 'styl'>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-3">
+                            <label for="inputDesc" class="form-label">Description: </label>
+                            <input type="text" class="form-control" id="inputDesc" name='description' [(ngModel)]="desc" [value] = 'desc'>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-3">
+                            <label for="inputCat" class="form-label">VAS Category: </label>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-3">
+                            <label for="inputCnfg" class="form-label">Style Configurator Template: </label>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-3">
+                            <label for="inputEffd" class="form-label">Effective Date: </label>
+                            <input type="date" class="form-control" name="effective" [(ngModel)]="effd">
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-3">
+                            <label for="inputExpd" class="form-label">Expiration Date: </label>
+                            <input type="date" class="form-control" name="expiration" [(ngModel)]="expd"> 
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-1">
+                            <label for="inputSeq" class="form-label">Sequence: </label>
+                            <input type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="seq" [value] = 'seq'>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-2">
+                            <label for="inputSeq" class="form-label me-2">Active:</label>
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-row">
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary me-3" (click)="page.editmode ? loadProduct('update') : loadProduct('create')">Save</button>
+                            <button *ngIf="page.editmode" type="submit" class="btn btn-primary me-3" (click)="loadProduct('delete')">Delete</button>
+                            <button type="submit" class="btn btn-primary me-3" (click)="goBack()">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+        </div>
+    </div>
+    
+    <app-footer></app-footer>
+
+</section>

@@ -32,6 +32,8 @@ import { OEUL22Component } from './uploads/oeul22/oeul22.component';
 import { OEUL36Component } from './uploads/oeul36/oeul36.component';
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { ProductComponent } from './product/product.component';
+import { CustomizationsComponent } from './customizations/customizations.component';
+import { CustomizationComponent } from './customization/customization.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,9 @@ import { ProductComponent } from './product/product.component';
     OEUL22Component,
     OEUL36Component,
     WarehouseComponent,
-    ProductComponent
+    ProductComponent,
+    CustomizationsComponent,
+    CustomizationComponent
   ],
   imports: [
     CommonModule,

@@ -48,28 +48,16 @@ export class CustomizationComponent {
       styl: this.styl
     }
 
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
-      this.page.data = response;
-      if (this.page.data?.menu) this.page.menu = this.page.data.menu;
-      if (this.page.data?.info?.styl) this.styl = this.page.data.info.styl
-      if(this.page.data?.info?.effd) this.effd = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
-      if(this.page.data?.info?.expd) this.expd = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
-    });
+    // this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
+    //   this.page.data = response;
+    //   if (this.page.data?.menu) this.page.menu = this.page.data.menu;
+    //   if (this.page.data?.info?.styl) this.styl = this.page.data.info.styl
+    //   if(this.page.data?.info?.effd) this.effd = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
+    //   if(this.page.data?.info?.expd) this.expd = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
+    // });
 
     this.page.loading = false;
     hideWait();
-  }
-
-  inqStyle() {
-    localStorage.clear();
-    if(this.page.editmode){
-      localStorage.setItem('styl', this.styl)
-      localStorage.setItem('partpg','/uniforms/editproduct/' + this.nhno + '/' + this.nino + '/')
-    } else {
-      localStorage.setItem('partpg','/uniforms/newproduct/' + this.nhno + '/')
-    }
-    localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate(['/uniforms/style/' + this.nhno]);
   }
 
   searchConfig(){
@@ -85,7 +73,7 @@ export class CustomizationComponent {
   }
 
   setMode() {
-    if (this.router.url.indexOf('/uniforms/editproduct') >= 0) {
+    if (this.router.url.indexOf('/uniforms/editcustomization') >= 0) {
       this.page.editmode = true;
       this.page.entrymode = false;
     } else { 
@@ -101,7 +89,7 @@ export class CustomizationComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate(['/uniforms/products/' + this.nhno]);
+    this.router.navigate(['/uniforms/customizations/' + this.nhno]);
   }
 
   loadProduct(mode: string){

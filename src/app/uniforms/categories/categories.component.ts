@@ -33,7 +33,7 @@ export class CategoriesComponent {
   total: number = 0;
 
   ngOnInit(): void {
-      localStorage.clear();
+    localStorage.clear();
       hideWait();
       this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -79,8 +79,8 @@ export class CategoriesComponent {
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
       if (this.page.data.total) this.total = this.page.data.total
-      this.page.loading = false;
       hideWait();
+      this.page.loading = false;
       scrollToTopInstant();
     });
   }
@@ -95,16 +95,17 @@ export class CategoriesComponent {
   }
 
   loadCategory(mode: any, nano: any){
-    localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('UP_AUTH','Y')
     switch(mode){
       case 'new':
-        this.router.navigate(['/uniforms/newcategory/' + this.page.rfno]);
+        this.router.navigate(['/uniforms/category/' + this.page.rfno]);
         break;
       case 'edit':
-        this.router.navigate(['/uniforms/editcategory/' + this.page.rfno + '/' + nano]);
+        this.router.navigate(['/uniforms/category/' + this.page.rfno + '/' + nano]);
         break;
       case 'copy':
-        this.router.navigate(['/uniforms/copycategory/' + this.page.rfno + '/' + nano]);
+        localStorage.setItem('copy',nano)
+        this.router.navigate(['/uniforms/category/' + this.page.rfno + '/' + nano]);
         break;
     }
   }
@@ -122,8 +123,8 @@ export class CategoriesComponent {
       this.page.data = response;
 
       if (this.page.data.result != 'pass'){
-        this.page.loading = false;
         hideWait();
+        this.page.loading = false;
       } else {
         this.getCategories();
       }

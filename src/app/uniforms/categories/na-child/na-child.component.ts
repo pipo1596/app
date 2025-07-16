@@ -50,13 +50,14 @@ export class NaChildComponent {
   loadCategory(mode: any, nano: any){
     switch(mode){
       case 'new':
-        this.router.navigate(['/uniforms/newcategory/' + this.nhno]);
+        this.router.navigate(['/uniforms/category/' + this.nhno]);
         break;
       case 'edit':
-        this.router.navigate(['/uniforms/editcategory/' + this.nhno + '/' + nano]);
+        this.router.navigate(['/uniforms/category/' + this.nhno + '/' + nano]);
         break;
       case 'copy':
-        this.router.navigate(['/uniforms/copycategory/' + this.nhno + '/' + nano]);
+        localStorage.setItem('copy', nano)
+        this.router.navigate(['/uniforms/category/' + this.nhno + '/' + nano]);
         break;
     }
   }
@@ -87,6 +88,7 @@ export class NaChildComponent {
     } else{
       this.expanded.push(category)
     }
+    console.log(this.expanded)
   }
 
   getCategories() {

@@ -14,6 +14,7 @@ import { hideWait, showWait } from '../../shared/utils';
 export class CategoryComponent {
   page = new Page();
   drop = false; // More Actions
+  copy: any;
 
   // Parms
   nhno:any
@@ -31,9 +32,8 @@ export class CategoryComponent {
   ) { hideWait(); }
 
   ngOnInit(): void {
-    localStorage.clear();
-    showWait();
     this.setMode();
+    showWait();
 
     let data = {
       mode: 'getInfo',
@@ -45,7 +45,7 @@ export class CategoryComponent {
       this.page.data = response;
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
 
-      if (this.router.url.indexOf('/uniforms/copycategory') >= 0){
+      if (this.copy){
         this.name = 'Copy of ' + this.page.data?.info?.desc;
       } else { this.name = this.page.data?.info?.desc; }
 
@@ -57,25 +57,27 @@ export class CategoryComponent {
         this.pnan = parent
       }
 
+      localStorage.clear();
       hideWait();
       this.page.loading = false;
     });
   }
 
   setMode() {
-    if (this.router.url.indexOf('/uniforms/editcategory') >= 0) {
+    this.copy = localStorage.getItem('copy')
+
+    this.route.paramMap.subscribe(params => {
+      this.nhno = params.get('nhno')
+      this.nano = params.get('nano')
+    });
+
+    if (this.nano && !this.copy) {
       this.page.editmode = true;
       this.page.entrymode = false;
     } else {
       this.page.editmode = false;
       this.page.entrymode = true;
     }
-
-    this.route.paramMap.subscribe(params => {
-      this.nhno = params.get('nhno')
-      this.nano = params.get('nano')
-    });
-    localStorage.clear();
   }
 
   searchConfig(){

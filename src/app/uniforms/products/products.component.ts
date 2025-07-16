@@ -53,13 +53,14 @@ export class ProductsComponent {
     localStorage.setItem('UP_AUTH','Y');
     switch(mode){
       case 'new':
-        this.router.navigate(['/uniforms/newproduct/' + this.page.rfno]);
+        this.router.navigate(['/uniforms/product/' + this.page.rfno]);
         break;
       case 'edit':
-        this.router.navigate(['/uniforms/editproduct/' + this.page.rfno + '/' + nino]);
+        this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + nino]);
         break;
       case 'copy':
-        this.router.navigate(['/uniforms/copyproduct/' + this.page.rfno + '/' + nino]);
+        localStorage.setItem('copy',nino)
+        this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + nino]);
         break;
     }
   }
@@ -120,7 +121,7 @@ export class ProductsComponent {
   }
 
   isChecked(product: any){
-    return this.checked.some(function(el){ return el.nino === product.nino})
+    return this.checked.some(function(x){ return x.nino === product.nino})
   }
 
   checkAll() {
@@ -156,9 +157,9 @@ export class ProductsComponent {
 
   inqStyle() {
     localStorage.clear();
+    localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('partpg','/uniforms/products/' + this.page.rfno + '/')
     localStorage.setItem('menu','/cgi/APOELMIS?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
-    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/iframe/APOELMIS'])
   }
 

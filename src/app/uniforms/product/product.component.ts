@@ -16,6 +16,7 @@ import { hideWait, showWait } from '../../shared/utils';
 export class ProductComponent {
   page = new Page();
   drop = false; // More Actions
+  copy: any;
 
   // Parms
   nhno: any;
@@ -51,9 +52,8 @@ export class ProductComponent {
   ) { hideWait(); }
 
   ngOnInit(): void {
-    localStorage.clear();
-    hideWait();
     this.setMode();
+    hideWait();
 
     let data = {
       mode: 'getInfo',
@@ -72,9 +72,10 @@ export class ProductComponent {
       if (this.page.data?.info?.customizations) this.custs = this.page.data.info.customizations
       if(this.page.data?.info?.upct) this.upct = this.page.data.info.upct;
 
-      if (this.router.url.indexOf('/uniforms/copyproduct') >= 0){
+      if (this.copy){
         this.desc = 'Copy of ' + this.page.data.info.desc;
       } else { this.desc = this.page.data.info.desc; }
+      
 
       if (this.page.data?.info?.options){
         for (let i = 0; i < this.page.data?.info?.options.length; i++) {
@@ -101,7 +102,7 @@ export class ProductComponent {
       if (this.page.data?.info?.nicupct) this.upctNic = this.page.data?.info?.nicupct
 
     });
-
+    localStorage.clear();
     this.page.loading = false;
     hideWait();
   }
@@ -163,18 +164,21 @@ export class ProductComponent {
   }
 
   setMode() {
-    if (this.router.url.indexOf('/uniforms/editproduct') >= 0) {
+    this.copy = localStorage.getItem('copy')
+
+    this.route.paramMap.subscribe(params => {
+      this.nhno = params.get('nhno')
+      this.nino = params.get('nino')
+      this.styl = params.get('styl')
+    });
+
+    if (this.nino && !this.copy) {
       this.page.editmode = true;
       this.page.entrymode = false;
     } else { 
       this.page.entrymode = true;
       this.page.editmode = false;
     }
-    this.route.paramMap.subscribe(params => {
-      this.nhno = params.get('nhno')
-      this.nino = params.get('nino')
-      this.styl = params.get('styl')
-    });
 
     // if (this.page.entrymode) this.showUpload = true;
     this.showUpload = true;

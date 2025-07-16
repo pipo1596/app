@@ -46,13 +46,13 @@ export class DashboardComponent {
     localStorage.setItem('UP_AUTH','Y')
     switch(menu){
       case 'addProduct':
-        this.router.navigate(['uniforms/newproduct/' + this.page.rfno]);
+        this.router.navigate(['uniforms/product/' + this.page.rfno]);
         break;
       case 'importProduct':
         this.router.navigate(['/uniforms/OEUL36/' + this.page.rfno + '/OEUL36']);
         break;
       case 'createCategory':
-        this.router.navigate(['/uniforms/newcategory/' + this.page.rfno]);
+        this.router.navigate(['/uniforms/category/' + this.page.rfno]);
         break;
       case 'cxmlConfig':
         this.router.navigate(['/uniforms/cxmlconfigs/' + this.page.rfno]);

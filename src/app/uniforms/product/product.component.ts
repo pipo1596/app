@@ -53,6 +53,7 @@ export class ProductComponent {
 
   ngOnInit(): void {
     this.setMode();
+    this.page.menu = 'Y'
     hideWait();
 
     let data = {

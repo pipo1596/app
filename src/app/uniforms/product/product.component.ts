@@ -111,9 +111,9 @@ export class ProductComponent {
     localStorage.clear();
     if(this.page.editmode){
       localStorage.setItem('p1', this.styl)
-      localStorage.setItem('partpg','/uniforms/editproduct/' + this.nhno + '/' + this.nino + '/')
+      localStorage.setItem('partpg','/uniforms/product/' + this.nhno + '/' + this.nino + '/')
     } else {
-      localStorage.setItem('partpg','/uniforms/newproduct/' + this.nhno + '/')
+      localStorage.setItem('partpg','/uniforms/product/' + this.nhno + '/')
     }
     localStorage.setItem('menu','/cgi/APOELMIS?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     localStorage.setItem('UP_AUTH','Y');

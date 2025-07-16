@@ -30,14 +30,18 @@
                     <div class="row g-3 mb-4">
                         <div class="col-md-4">
                             <label for="inputItem" class="form-label">Select a Location or Select "Non Location Application" </label>
-                            <input type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="styl" [value] = 'styl'>
+                            <select name="inputItem" id="inputItem" class="form-select">
+                                <option value="">Select</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="row g-3 mb-4">
                         <div class="col-md-4">
                             <label for="inputDesc" class="form-label">Select an Application from the list below </label>
-                            <input type="text" class="form-control" id="inputDesc" name='description' [(ngModel)]="desc" [value] = 'desc'>
+                            <select name="inputDesc" id="inputDesc" class="form-select">
+                                <option value="">Select</option>
+                            </select>
                         </div>
                     </div>
 

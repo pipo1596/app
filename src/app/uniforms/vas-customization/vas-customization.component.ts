@@ -21,7 +21,7 @@ export class VasCustomizationComponent {
   // Parms
   nhno: any;
   npno: any;
-  nino: any;
+  n1no: any;
   upct = "0";
 
   // Input
@@ -44,12 +44,12 @@ export class VasCustomizationComponent {
     hideWait();
     this.setMode();
 
-    let data = {
-      mode: 'getInfo',
-      nhno: this.nhno,
-      nino: this.nino,
-      styl: this.styl
-    }
+    // let data = {
+    //   mode: 'getInfo',
+    //   nhno: this.nhno,
+    //   nino: this.nino,
+    //   styl: this.styl
+    // }
 
     // this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
     //   this.page.data = response;
@@ -66,18 +66,6 @@ export class VasCustomizationComponent {
 
     this.page.loading = false;
     hideWait();
-  }
-
-  inqStyle() {
-    localStorage.clear();
-    if(this.page.editmode){
-      localStorage.setItem('styl', this.styl)
-      localStorage.setItem('partpg','/uniforms/editproduct/' + this.nhno + '/' + this.nino + '/')
-    } else {
-      localStorage.setItem('partpg','/uniforms/newproduct/' + this.nhno + '/')
-    }
-    localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate(['/uniforms/style/' + this.nhno]);
   }
 
   searchConfig(){
@@ -97,10 +85,10 @@ export class VasCustomizationComponent {
 
     this.route.paramMap.subscribe(params => {
       this.nhno = params.get('nhno')
-      this.npno = params.get('npno')
+      this.n1no = params.get('n1no')
     });
 
-    if (this.npno && !this.copy) {
+    if (this.n1no && !this.copy) {
       this.page.editmode = true;
       this.page.entrymode = false;
     } else { 
@@ -111,7 +99,7 @@ export class VasCustomizationComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate(['/uniforms/vascustomizations/' + this.nhno + '/' + this.npno]);
+    this.router.navigate(['/uniforms/vascustomizations/' + this.nhno + '/' + this.n1no]);
   }
 
   loadProduct(mode: string){

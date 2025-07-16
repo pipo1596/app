@@ -30,18 +30,14 @@
                     <div class="row g-3 mb-4">
                         <div class="col-md-4">
                             <label for="inputItem" class="form-label">Select a Location or Select "Non Location Application" </label>
-                            <select name="inputItem" id="inputItem" class="form-select">
-                                <option value="">Select</option>
-                            </select>
+                            <input type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="styl" [value] = 'styl'>
                         </div>
                     </div>
 
                     <div class="row g-3 mb-4">
                         <div class="col-md-4">
                             <label for="inputDesc" class="form-label">Select an Application from the list below </label>
-                            <select name="inputDesc" id="inputDesc" class="form-select">
-                                <option value="">Select</option>
-                            </select>
+                            <input type="text" class="form-control" id="inputDesc" name='description' [(ngModel)]="desc" [value] = 'desc'>
                         </div>
                     </div>
 
@@ -68,8 +64,8 @@
 
                     <div class="d-flex flex-row">
                         <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary me-3">Build Application</button>
-                            <button *ngIf="page.editmode" type="submit" class="btn btn-primary me-3">Delete</button>
+                            <button type="submit" class="btn btn-primary me-3" (click)="page.editmode ? loadProduct('update') : loadProduct('create')">Build Application</button>
+                            <button *ngIf="page.editmode" type="submit" class="btn btn-primary me-3" (click)="loadProduct('delete')">Delete</button>
                             <button type="submit" class="btn btn-primary me-3" (click)="goBack()">Cancel</button>
                         </div>
                     </div>

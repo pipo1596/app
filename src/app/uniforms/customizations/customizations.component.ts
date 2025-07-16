@@ -58,13 +58,14 @@ export class CustomizationsComponent {
     localStorage.setItem('UP_AUTH','Y')
     switch(mode){
       case 'new':
-        this.router.navigate(['/uniforms/newcustomization/' + this.page.rfno]);
+        this.router.navigate(['/uniforms/customization/' + this.page.rfno]);
         break;
       case 'edit':
-        this.router.navigate(['/uniforms/editcustomization/' + this.page.rfno + '/' + npno]);
+        this.router.navigate(['/uniforms/customization/' + this.page.rfno + '/' + npno]);
         break;
       case 'copy':
-        this.router.navigate(['/uniforms/copycustomization/' + this.page.rfno + '/' + npno]);
+        localStorage.setItem('copy',npno)
+        this.router.navigate(['/uniforms/customization/' + this.page.rfno + '/' + npno]);
         break;
     }
   }
@@ -164,11 +165,6 @@ export class CustomizationsComponent {
   loadVAS(npno: any){
     localStorage.setItem('UP_AUTH','Y')
     this.router.navigate(['/uniforms/vascustomizations/' + this.page.rfno + '/' + npno]);
-  }
-
-  editCustomization(npno: any){
-    localStorage.setItem('UP_AUTH','Y')
-    this.router.navigate(['/uniforms/editcustomization/' + this.page.rfno + '/' + npno]);
   }
 
   onItemChange(event: number){

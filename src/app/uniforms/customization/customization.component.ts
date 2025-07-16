@@ -16,18 +16,26 @@ import { hideWait, showWait } from '../../shared/utils';
 export class CustomizationComponent {
   page = new Page();
   drop = false; // More Actions
+  copy: any;
 
   // Parms
   nhno: any;
-  nino: any;
+  npno: any;
   upct = "0";
 
   // Input
-  styl: any;
+  name: any;
   desc: any;
-  effd = "";
-  expd = "";
-  seq = "";
+  vfgn: any = "";
+  vfgdesc: any = "";
+  ctno: any = "";
+  ctdesc: any = "";
+  effd: any = "";
+  effdUsa: any;
+  expd: any = "";
+  expdUsa: any;
+  seq: any = "";
+  actv: any;
 
 
   constructor(
@@ -44,47 +52,53 @@ export class CustomizationComponent {
     let data = {
       mode: 'getInfo',
       nhno: this.nhno,
-      nino: this.nino,
-      styl: this.styl
+      npno: this.npno,
     }
 
-    // this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
-    //   this.page.data = response;
-    //   if (this.page.data?.menu) this.page.menu = this.page.data.menu;
-    //   if (this.page.data?.info?.styl) this.styl = this.page.data.info.styl
-    //   if(this.page.data?.info?.effd) this.effd = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
-    //   if(this.page.data?.info?.expd) this.expd = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
-    // });
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
+      this.page.data = response;
+      if (this.page.data?.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data?.info.name) this.name = this.page.data.info.name
+      if (this.copy){
+        this.desc = 'Copy of ' + this.page.data?.info?.desc;
+      } else { this.desc = this.page.data?.info?.desc; }
+      if (this.page.data?.info.vfgn) this.vfgn = this.page.data.info.vfgn
+      if (this.page.data?.info.vfgdesc) this.vfgdesc = this.page.data.info.vfgdesc
+      if (this.page.data?.info.ctno) this.ctno = this.page.data.info.ctno
+      if (this.page.data?.info.ctdesc) this.ctdesc = this.page.data.info.ctdesc
+      if (this.page.data?.info.effd){
+        this.effd = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
+        this.effdUsa = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
+      }
+      if (this.page.data?.info.expd){
+        this.expd = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
+        this.expdUsa = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
+      }
+      if (this.page.data?.info.seq) this.seq = this.page.data.info.seq
+      if (this.page.data?.info.stat == 'Y'){
+        this.actv = true;
+      } else this.actv = false;
+    });
 
     this.page.loading = false;
     hideWait();
   }
 
-  searchConfig(){
-    var config ={
-      displayKey: 'desc',
-      search: true,
-      placeholder: 'Select',
-      height: '300px',
-      noResultsFound: 'No results found',
-      searchOnKey: 'desc'
-    }
-    return config
-  }
-
   setMode() {
-    if (this.router.url.indexOf('/uniforms/editcustomization') >= 0) {
+    this.copy = localStorage.getItem('copy')
+  
+    this.route.paramMap.subscribe(params => {
+      this.nhno = params.get('nhno')
+      this.npno = params.get('npno')
+    });
+
+    if (this.npno && !this.copy) {
       this.page.editmode = true;
       this.page.entrymode = false;
     } else { 
       this.page.entrymode = true;
       this.page.editmode = false;
     }
-    this.route.paramMap.subscribe(params => {
-      this.nhno = params.get('nhno')
-      this.nino = params.get('nino')
-      this.styl = params.get('styl')
-    });
   }
 
   goBack() {
@@ -93,31 +107,45 @@ export class CustomizationComponent {
   }
 
   loadProduct(mode: string){
-  //   showWait();
+    showWait();
+    let data = {}
 
-  //   let data = {
-  //     mode: mode,
-  //     nhno: this.nhno,
-  //     nino: this.nino,
-  //     styl: this.styl,
-  //     options: this.opv,
-  //     whno: this.warehouse,
-  //     vfgn: this.custs,
+    if(mode == 'delete'){
+      data = {
+        mode: mode,
+        nhno: this.nhno,
+        npno: this.npno
+      }
+    } else {
+      data = {
+        mode: mode,
+        nhno: this.nhno,
+        npno: this.npno,
+        name: this.name,
+        desc: this.desc,
+        ctno: this.ctno,
+        vfgn: this.vfgn,
+        effd: this.effdUsa,
+        expd: this.expdUsa,
+        seq: this.seq,
+        stat: (this.actv) ? 'Y' : '',
+        upct: (mode == 'update') ? this.upct : ''
+      }
+    }
 
-  //     upct: (mode == 'update') ? this.upct : ''
-  //   }
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
+      this.page.data = response;
+      if(this.page.data?.upct) this.upct = this.page.data.upct;
 
-  //   this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
-  //     this.page.data = response;
-  //     if(this.page.data?.upct) this.upct = this.page.data.upct;
+      if (mode !== 'update') {
+        if (this.page.data.result == 'pass' && this.page.data.nhno){
+          localStorage.setItem('UP_AUTH','Y');
+          this.router.navigate(['/uniforms/customizations/' + this.page.data.nhno]);
+        }
+      }
+      this.page.loading = false;
+      hideWait();
+    });
 
-  //     if (mode !== 'update') {
-  //       if (this.page.data.result == 'pass' && this.page.data.nhno){
-  //         this.router.navigate(['/uniforms/products/' + this.page.data.nhno]);
-  //       }
-  //     }
-  //     this.page.loading = false;
-  //     hideWait();
-  //   });
   }
 }

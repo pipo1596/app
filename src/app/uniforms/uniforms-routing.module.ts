@@ -69,11 +69,11 @@ const routes: Routes = [
 
   //Customizations
   { path: 'customizations/:nhno', component: CustomizationsComponent, canActivate: [authGuard]  },
-  { path: 'newcustomization/:nhno', component: CustomizationComponent, canActivate: [authGuard]  }, 
-  { path: 'editcustomization/:nhno/:npno', component: CustomizationComponent, canActivate: [authGuard]  }, 
+  { path: 'customization/:nhno', component: CustomizationComponent, canActivate: [authGuard]  }, 
+  { path: 'customization/:nhno/:npno', component: CustomizationComponent, canActivate: [authGuard]  }, 
   { path: 'vascustomizations/:nhno/:npno', component: VasCustomizationsComponent, canActivate: [authGuard]  },
-  { path: 'newvascustomization/:nhno', component: VasCustomizationComponent, canActivate: [authGuard]  },
-  { path: 'editvascustomization/:nhno/:npno', component: VasCustomizationComponent, canActivate: [authGuard]  },
+  { path: 'vascustomization/:nhno', component: VasCustomizationComponent, canActivate: [authGuard]  },
+  { path: 'vascustomization/:nhno/:n1no', component: VasCustomizationComponent, canActivate: [authGuard]  },
 
   //Mass Updates
   { path: 'massquestion/:nhno', component: MassQuestionComponent, canActivate: [authGuard]  },
@@ -82,12 +82,12 @@ const routes: Routes = [
 
   //Notes 
   { path: 'notes/:nhno', component: NotesComponent, canActivate: [authGuard]   },
-  { path: 'newnote/:nhno', component: NoteComponent, canActivate: [authGuard]   },
-  { path: 'editnote/:nhno/:nono', component: NoteComponent, canActivate: [authGuard]   },
+  { path: 'note/:nhno', component: NoteComponent, canActivate: [authGuard]   },
+  { path: 'note/:nhno/:nono', component: NoteComponent, canActivate: [authGuard]   },
 
   //Images
   { path: 'images/:nhno', component: ImagesComponent, canActivate: [authGuard]   },
-  { path: 'newimage/:nhno', component: ImageComponent, canActivate: [authGuard]   },
+  { path: 'image/:nhno', component: ImageComponent, canActivate: [authGuard]   },
 
   //UP Price List
   { path: 'uplist/:nhno', component: UplistComponent, canActivate: [authGuard]   },

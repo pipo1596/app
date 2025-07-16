@@ -53,16 +53,18 @@ export class NoteComponent {
   }
 
   setMode() {
-    if (this.router.url.indexOf('/uniforms/newnote') >= 0) {
-      this.page.entrymode = true;
-    }
-    if (this.router.url.indexOf('/uniforms/editnote') >= 0) {
-      this.page.editmode = true;
-    }
     this.route.paramMap.subscribe(params => {
       this.nhno = params.get('nhno')
       this.nono = params.get('nono')
     });
+
+  if (this.nono) {
+      this.page.editmode = true;
+      this.page.entrymode = false;
+    } else {
+      this.page.editmode = false;
+      this.page.entrymode = true;
+    }
   }
 
   loadNote(mode: string){

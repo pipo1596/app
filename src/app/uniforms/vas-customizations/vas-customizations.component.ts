@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment.development';
 import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { hideWait, showWait, scrollToTopInstant} from '../../shared/utils';
+import { hideWait, showWait, convertToDate, formatDateUS } from '../../shared/utils';
 
 @Component({
   selector: 'app-vas-customizations',
@@ -16,16 +16,17 @@ export class VasCustomizationsComponent {
   page = new Page();
   drop = false; // More Actions
   expanded: any[] = [];
-  
-  //Search / Dropdown
-  style: any;
-  customization: any;
-  category: any;
-  warehouse: any;
-  stylconfig: any;
 
-  //Checkboxes
+  // Input 
+  npno: any;
+
+  // Checkboxes
   checked: any[] = [];
+
+  //Paging
+  p: number = 1;
+  itemsPerPage: number = 10;
+  total: number = 0;
 
   constructor(private http: HttpClient,
     private router: Router,
@@ -34,115 +35,117 @@ export class VasCustomizationsComponent {
 
   ngOnInit(): void {
     localStorage.clear();
-    hideWait();
-    this.page.loading = false;
     this.checked = [];
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
-      this.style = params.get('styl');
+      this.npno = params.get('npno');
     });
     this.getCustomizations()
   }
 
-  loadCustomization(mode: any, npno: any){
-    localStorage.setItem('UP_AUTH','Y');
-    switch(mode){
-      case 'new':
-        this.router.navigate(['/uniforms/newvascustomization/' + this.page.rfno]);
-        break;
-      case 'edit':
-        this.router.navigate(['/uniforms/editvascustomization/' + this.page.rfno + '/' + npno]);
-        break;
-      case 'copy':
-        this.router.navigate(['/uniforms/copyvascustomization/' + this.page.rfno + '/' + npno]);
-        break;
-    }
-  }
-
-  deleteCustomization(npno: string){
-    showWait();
-    let data = {
-      mode: 'delete',
-      nhno: this.page.rfno,
-      npno: npno
-    }
-
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
-      this.page.data = response;
-
-      if (this.page.data.result != 'pass'){
-        this.page.loading = false;
-        hideWait();
-      } else {
-        this.getCustomizations();
-      }
-    });
-  }
-
   getCustomizations() {
      let data = {
+      mode: 'getInfo',
       nhno: this.page.rfno,
-      style: this.style,
-      customization: this?.customization?.npno,
-      category: this?.category?.nano,
-      warehouse: this?.warehouse?.whno,
-      stylconfig: this?.stylconfig?.vfgn,
+      npno: this.npno,
+      itemsPerPage: this.itemsPerPage,
+      currentPage: this.p
     }
 
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNI', data).subscribe(response => {
-
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNV1', data).subscribe(response => {
       this.page.data = response;
       if (this.page.data.title) this.page.title = this.page.data.title;
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
       this.page.loading = false;
       hideWait();
-      scrollToTopInstant();
     });
   }
 
+  loadCustomization(mode: any, n1no: any){
+    localStorage.setItem('UP_AUTH','Y');
+    switch(mode){
+      case 'new':
+        this.router.navigate(['/uniforms/vascustomization/' + this.page.rfno]);
+        break;
+      case 'edit':
+        this.router.navigate(['/uniforms/vascustomization/' + this.page.rfno + '/' + n1no]);
+        break;
+      case 'copy':
+        localStorage.setItem('copy', n1no)
+        this.router.navigate(['/uniforms/vascustomization/' + this.page.rfno + '/' + n1no]);
+        break;
+    }
+  }
+
+  deleteCustomization(n1no: string){
+    showWait();
+    let data = {
+      mode: 'delete',
+      nhno: this.page.rfno,
+      npno: this.npno,
+      n1no: n1no
+    }
+
+    // this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
+    //   this.page.data = response;
+
+    //   if (this.page.data.result != 'pass'){
+    //     this.page.loading = false;
+    //     hideWait();
+    //   } else {
+    //     this.getCustomizations();
+    //   }
+    // });
+  }
+
   allChecked(){
-    for (let i = 0; i < this.page.data?.products.length; i++) {
-      if(!(this.isChecked(this.page.data.customizations[i]))){
+    for (let i = 0; i < this.page.data?.applications.length; i++) {
+      if(!(this.isChecked(this.page.data.applications[i]))){
         return false;
       }
     } return true;
   }
 
-  isChecked(customization: any){
-    return this.checked.some(function(el){ return el.npno === customization.npno})
+  isChecked(application: any){
+    return this.checked.some(function(el){ return el.n1no === application.n1no})
   }
 
   checkAll() {
-    for (let i = 0; i < this.page.data.customizations.length; i++) {
-      this.checkCustomization(this.page.data.customizations[i])
+    for (let i = 0; i < this.page.data.applications.length; i++) {
+      this.checkCustomization(this.page.data.applications[i])
     }
   }
 
-  checkCustomization(customization: any) {
-    if(this.isChecked(customization)) {
-      let index = this.checked.findIndex(x => x.npno === customization.npno)
+  checkCustomization(application: any) {
+    if(this.isChecked(application)) {
+      let index = this.checked.findIndex(x => x.npno === application.n1no)
       this.checked.splice(index,1)
     } else {
-      this.checked.push(customization);
+      this.checked.push(application);
       this.checked.sort();
     }    
   }
 
-  assignStyles(){
+  goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate(['/uniforms/customizations/assign/' + this.page.rfno]);
+    this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }
 
-  searchConfig(mode: string){
-    var config ={
-      displayKey: "desc",
-      search: true,
-      placeholder: mode,
-      height: '300px',
-      noResultsFound: 'No results found',
-      searchOnKey: 'desc'
-    }
-    return config
+  dsppbdate(date:any){
+      return formatDateUS(new Date(convertToDate(date)));
   }
+
+  onItemChange(event: number){
+    showWait();
+    this.itemsPerPage = event
+    this.getCustomizations()
+  }
+
+  onPageChange(event: number) {
+    showWait();
+    this.p = event
+    this.getCustomizations()
+  }
+
 }

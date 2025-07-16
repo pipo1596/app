@@ -63,7 +63,7 @@ export class ImagesComponent {
     localStorage.clear();
     localStorage.setItem('partpg','/uniforms/images/' + this.page.rfno + '/')
     localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate(['/uniforms/newimage/' + this.page.rfno]);
+    this.router.navigate(['/uniforms/image/' + this.page.rfno]);
   }
 
   viewImage(iono: any){

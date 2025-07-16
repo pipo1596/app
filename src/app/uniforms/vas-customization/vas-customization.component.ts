@@ -16,6 +16,7 @@ import { hideWait, showWait } from '../../shared/utils';
 export class VasCustomizationComponent {
   page = new Page();
   drop = false; // More Actions
+  copy: any;
 
   // Parms
   nhno: any;
@@ -50,13 +51,18 @@ export class VasCustomizationComponent {
       styl: this.styl
     }
 
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
-      this.page.data = response;
-      if (this.page.data?.menu) this.page.menu = this.page.data.menu;
-      if (this.page.data?.info?.styl) this.styl = this.page.data.info.styl
-      if(this.page.data?.info?.effd) this.effd = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
-      if(this.page.data?.info?.expd) this.expd = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
-    });
+    // this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
+    //   this.page.data = response;
+    //   if (this.page.data?.menu) this.page.menu = this.page.data.menu;
+
+    //   if (this.copy){
+    //     this.desc = 'Copy of ' + this.page.data?.info?.desc;
+    //   } else { this.desc = this.page.data?.info?.desc; }
+
+    //   if (this.page.data?.info?.styl) this.styl = this.page.data.info.styl
+    //   if(this.page.data?.info?.effd) this.effd = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
+    //   if(this.page.data?.info?.expd) this.expd = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
+    // });
 
     this.page.loading = false;
     hideWait();
@@ -87,18 +93,20 @@ export class VasCustomizationComponent {
   }
 
   setMode() {
-    if (this.router.url.indexOf('/uniforms/editproduct') >= 0) {
+    this.copy = localStorage.getItem('copy')
+
+    this.route.paramMap.subscribe(params => {
+      this.nhno = params.get('nhno')
+      this.npno = params.get('npno')
+    });
+
+    if (this.npno && !this.copy) {
       this.page.editmode = true;
       this.page.entrymode = false;
     } else { 
       this.page.entrymode = true;
       this.page.editmode = false;
     }
-    this.route.paramMap.subscribe(params => {
-      this.nhno = params.get('nhno')
-      this.nino = params.get('nino')
-      this.styl = params.get('styl')
-    });
   }
 
   goBack() {

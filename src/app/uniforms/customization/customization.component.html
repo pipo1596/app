@@ -7,21 +7,6 @@
                         <div class="col-md-9">
                             <h6>Uniform Program - {{ page.data?.pgName }}</h6>
                         </div>
-                        <div class="col-md-2">
-                            <button (click)="drop = !drop" class="btn btn-primary rounded-0 w-100" type="button"> 
-                                More Actions 
-                            </button>
-                            <div (mouseleave)="drop = false" id="myDropdown" class="actions-content me-5 bg-light position-absolute shadow"
-                                 [ngClass]="{'d-block': (drop), 'd-none': !(drop)}">
-                                <a class="p-2 text-dark d-block text-decoration-none" href="#">Add Customization</a>
-                                <a class="p-2 text-dark d-block text-decoration-none" href="#">Delete</a>
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <button class="btn">
-                                <span class="bi bi-question-circle" title="FAQ"></span>
-                            </button>
-                        </div>
                     </div>
 
                     <div class="row g-3 mb-4">
@@ -30,31 +15,33 @@
                         </div>
                     </div>
 
-                    <h6 class="card-title ms-1 mb-3">Basic Customization Information</h6>
+                    <h6 class="card-title ms-1 mb-4">Basic Customization Information</h6>
 
                     <div class="row g-3 mb-4">
                         <div class="col-md-3">
                             <label for="inputItem" class="form-label">Name: </label>
-                            <input type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="styl" [value] = 'styl'>
+                            <input type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="name">
                         </div>
                     </div>
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-3">
                             <label for="inputDesc" class="form-label">Description: </label>
-                            <input type="text" class="form-control" id="inputDesc" name='description' [(ngModel)]="desc" [value] = 'desc'>
+                            <input type="text" class="form-control" id="inputDesc" name='description' [(ngModel)]="desc">
                         </div>
                     </div>
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-3">
-                            <label for="inputCat" class="form-label">VAS Category: </label>
+                            <label class="form-label">VAS Category: </label>
+                            <label class="form-label">{{ctdesc}} </label>
                         </div>
                     </div>
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-3">
                             <label for="inputCnfg" class="form-label">Style Configurator Template: </label>
+                            <label class="form-label">{{vfgdesc}} </label>
                         </div>
                     </div>
 
@@ -75,14 +62,14 @@
                     <div class="row g-3 mb-3">
                         <div class="col-md-1">
                             <label for="inputSeq" class="form-label">Sequence: </label>
-                            <input type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="seq" [value] = 'seq'>
+                            <input type="text" class="form-control" name='sequence' [(ngModel)]="seq">
                         </div>
                     </div>
 
-                    <div class="row g-3 mb-3">
+                    <div class="row g-3 mb-5">
                         <div class="col-md-2">
                             <label for="inputSeq" class="form-label me-2">Active:</label>
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" [checked]="actv" (change)="actv = !actv">
                         </div>
                     </div>
 
@@ -90,7 +77,7 @@
                         <div class="col-md-3">
                             <button type="submit" class="btn btn-primary me-3" (click)="page.editmode ? loadProduct('update') : loadProduct('create')">Save</button>
                             <button *ngIf="page.editmode" type="submit" class="btn btn-primary me-3" (click)="loadProduct('delete')">Delete</button>
-                            <button type="submit" class="btn btn-primary me-3" (click)="goBack()">Cancel</button>
+                            <button type="submit" class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>
                         </div>
                     </div>
                 </form>

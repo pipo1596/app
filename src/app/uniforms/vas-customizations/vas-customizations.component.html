@@ -1,8 +1,15 @@
 <app-header [title]="page.title" [menu]="page.menu" ></app-header>
 
 <section class="ftco-section bg-light pb-3 pt-5">
+
     <div class="card mx-auto mb-5 w-75 h-100">
-        <div class="card-body">
+        <div class="card-body"
+        >
+            <div class="row g-4 mb-5">
+                <div class="col-2">
+                    <button (click)="goBack()" class="btn btn-secondary rounded-0 w-50 me-3" type="button">Cancel</button>
+                </div>
+            </div>
 
             <div class="row g-4">
                 <div class="col-8">
@@ -44,52 +51,54 @@
             <table class="table table-striped w-100">
                 <thead>
                     <tr>
-                        <th align="left" class="ps-2 pe-3 pb-1"><input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked()"></th>
-                        <th align="left" class="w-25" class="ps-3">Actions</th>
+                        <th align="left"><input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked()"></th>
+                        <th align="left">Actions</th>
                         <th align="left">VAS Code</th>
                         <th align="left">VAS Desc</th>
-                        <th align="left" style="width: 10%;">Active</th>
-                        <th align="left" style="width: 15%;">Mandatory</th>
-                        <th align="left" style="width: 15%;">Last Purchase Date</th>
+                        <th align="left">Active</th>
+                        <th align="left">Mandatory</th>
+                        <th align="left">Last Purchase Date</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr>
-                        <td align="left" class="ps-2"><input type="checkbox" class="form-check-input"></td>
+                    <tr *ngFor="let application of page.data?.applications | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
+                        <td align="left" class="ps-2" colspan="1"><input type="checkbox" class="form-check-input" id="ckbx{{ application.n1no }}"  value="{{ application }}" (click)="checkCustomization(application)" [checked] = "isChecked(application)"></td>
                         <td class="w-25">
-                            <button class="btn bg-transparent" (click)="loadCustomization('edit','0')"><span
+                            <button class="btn bg-transparent" (click)="loadCustomization('edit', application.n1no)"><span
                                 class="bi bi-pencil-square" title="Edit Product"></span></button>
-                            <button class="btn bg-transparent"><span
+                            <button class="btn bg-transparent" (click)="loadCustomization('copy', application.n1no)"><span
                                 class="bi bi-clipboard" title="Copy Product"></span></button>
-                            <button class="btn bg-transparent"><span
+                            <button class="btn bg-transparent" (click)="deleteCustomization(application.n1no)"><span
                                 class="bi bi-trash" title="Product Details"></span></button>
-                            <button class="btn bg-transparent"><span
-                                [ngClass]="expanded.includes(category) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category"></span></button>
+                            <button class="btn bg-transparent" *ngIf="application.bttn == 'Y'"><span
+                                [ngClass]="expanded.includes(application) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category"></span></button>
                         </td>
-                        <td align="left">0000000167</td>
-                        <td align="left">Custom Embroidery</td>
-                        <td align="left">Yes</td>
-                        <td align="left">Yes</td>
-                        <td align="left">4/1/2025</td>
+                        <td align="left">{{application.v1cd}}</td>
+                        <td align="left">{{application.desc}}</td>
+                        <td align="left">{{(application.actv == 'Y') ? 'Yes' : 'No'}}</td>
+                        <td align="left">{{(application.mand == 'Y') ? 'Yes' : 'No'}}</td>
+                        <td align="left">{{(application.addt) ? dsppbdate(application.addt) : ''}}</td>
                     </tr>
-                    <!-- <tr *ngFor="let product of page.data?.products | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
-                        <td align="left" class="ps-2" colspan="1"><input type="checkbox" class="form-check-input" id="ckbx{{ product.nino }}"  value="{{ product }}" (click)="checkCustomization(product)" [checked] = "isChecked(product)"></td>
-                        <td class="w-25">
-                            <button class="btn bg-transparent" (click)="loadCustomization('edit', product.nino)"><span
-                                class="bi bi-pencil-square" title="Edit Product"></span></button>
-                            <button class="btn bg-transparent" (click)="loadCustomization('copy', product.nino)"><span
-                                class="bi bi-clipboard" title="Copy Product"></span></button>
-                            <button class="btn bg-transparent" (click)="deleteCustomization(product.nino)"><span
-                                class="bi bi-trash" title="Product Details"></span></button>
-                        </td>
-                        <td align="left" colspan="1">{{product.styl}}</td>
-                        <td align="left" colspan="2">{{product.desc}}</td>
-                        <td align="left" colspan="1" style="width: 10%;">{{product.opv1}}</td>
-                        <td align="left" colspan="1">{{product.nadesc}}</td>
-                    </tr> -->
                 </tbody> 
             </table> 
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-8 mx-auto w-50">
+            <label>Items per page:
+                <select [(ngModel)]="itemsPerPage" (change)="onItemChange(itemsPerPage)">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="col-2 w-25">
+            <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
         </div>
     </div>
 

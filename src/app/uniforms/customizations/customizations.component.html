@@ -70,7 +70,7 @@
                     <input class="form-check-input ms-1 me-5" type="checkbox" value="">
                 </div>
                 <div class="col-md-6 d-flex flex-row-reverse justify-content-between">
-                    <input type="button" value="Assign Styles" class="btn btn-primary" id="ASSIGN" >
+                    <input type="button" value="Assign Styles" class="btn btn-primary" id="ASSIGN" (click)="assignStyles()">
                 </div>
             </div>
 
@@ -92,13 +92,13 @@
                     <tr>
                         <td align="left" class="ps-2"><input type="checkbox" class="form-check-input"></td>
                         <td class="w-25">
-                            <button class="btn bg-transparent" (click)="editCustomization('000000000043825')"><span
+                            <button class="btn bg-transparent" (click)="loadCustomization('edit','000000000043825')"><span
                                 class="bi bi-pencil-square" title="Edit Product"></span></button>
-                            <button class="btn bg-transparent"><span
+                            <button class="btn bg-transparent" (click)="loadCustomization('copy','000000000043825')"><span
                                 class="bi bi-clipboard" title="Copy Product"></span></button>
                             <button class="btn bg-transparent"><span
                                 class="bi bi-trash" title="Product Details"></span></button>
-                            <button class="btn btn-outline-primary btn-sm" (click)="loadVAS('000000000043825')">VAS</button>
+                            <button class="btn btn-outline-primary btn-sm" (click)="loadVAS('000000000045094')">VAS</button>
                         </td>
                         <td align="left">Polo</td>
                         <td align="left">EC9173</td>

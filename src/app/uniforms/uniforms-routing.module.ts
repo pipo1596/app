@@ -46,20 +46,17 @@ const routes: Routes = [
   { path: 'dashboard/:nhno', component: DashboardComponent},
 
   //Products
-  { path: 'products/:nhno', component: ProductsComponent, canActivate: [authGuard]   }, 
-  { path: 'products/:nhno/:styl', component: ProductsComponent, canActivate: [authGuard]   }, 
-  { path: 'editproduct/:nhno/:nino', component: ProductComponent, canActivate: [authGuard] }, //Editing Product
-  { path: 'editproduct/:nhno/:nino/:styl', component: ProductComponent, canActivate: [authGuard]  }, //Editing Product + Selected Style
-  { path: 'newproduct/:nhno', component: ProductComponent, canActivate: [authGuard]  }, //Creating Product
-  { path: 'newproduct/:nhno/:styl', component: ProductComponent, canActivate: [authGuard]  }, //Creating Product + Selected Style
-  { path: 'copyproduct/:nhno/:nino', component: ProductComponent, canActivate: [authGuard]  }, //Copying Product
-  { path: 'copyproduct/:nhno/:nino/:styl', component: ProductComponent, canActivate: [authGuard]  }, //Copying Product + Selected Style
+  { path: 'products/:nhno', component: ProductsComponent, canActivate: [authGuard]  }, //Products LM
+  { path: 'products/:nhno/:styl', component: ProductsComponent, canActivate: [authGuard]  }, //Products LM
+  { path: 'product/:nhno/:nino', component: ProductComponent, canActivate: [authGuard] }, //Editing Product
+  { path: 'product/:nhno/:nino/:styl', component: ProductComponent, canActivate: [authGuard]  }, //Editing Product + Selected Style
+  { path: 'product/:nhno', component: ProductComponent, canActivate: [authGuard]  }, //Creating Product
+  { path: 'product/:nhno/:styl', component: ProductComponent, canActivate: [authGuard]  }, //Creating Product + Selected Style
 
   //Categories
-  { path: 'categories/:nhno', component: CategoriesComponent, canActivate: [authGuard]   },
-  { path: 'editcategory/:nhno/:nano', component: CategoryComponent, canActivate: [authGuard]   }, 
-  { path: 'newcategory/:nhno', component: CategoryComponent, canActivate: [authGuard]   }, 
-  { path: 'copycategory/:nhno/:nano', component: CategoryComponent, canActivate: [authGuard]   }, 
+  { path: 'categories/:nhno', component: CategoriesComponent, canActivate: [authGuard]   },   //Categories LM
+  { path: 'category/:nhno', component: CategoryComponent, canActivate: [authGuard]   },       //Creating Category
+  { path: 'category/:nhno/:nano', component: CategoryComponent, canActivate: [authGuard]   }, //Editing Category
 
   //Warehouse
   { path: 'warehouse/:nhno', component: WarehouseComponent, canActivate: [authGuard]   }, 

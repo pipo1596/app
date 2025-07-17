@@ -72,8 +72,8 @@ const routes: Routes = [
   { path: 'customization/:nhno', component: CustomizationComponent, canActivate: [authGuard]  }, 
   { path: 'customization/:nhno/:npno', component: CustomizationComponent, canActivate: [authGuard]  }, 
   { path: 'vascustomizations/:nhno/:npno', component: VasCustomizationsComponent, canActivate: [authGuard]  },
-  { path: 'vascustomization/:nhno', component: VasCustomizationComponent, canActivate: [authGuard]  },
-  { path: 'vascustomization/:nhno/:n1no', component: VasCustomizationComponent, canActivate: [authGuard]  },
+  { path: 'vascustomization/:nhno/:npno', component: VasCustomizationComponent, canActivate: [authGuard]  },
+  { path: 'vascustomization/:nhno/:npno/:n1no', component: VasCustomizationComponent, canActivate: [authGuard]  },
 
   //Mass Updates
   { path: 'massquestion/:nhno', component: MassQuestionComponent, canActivate: [authGuard]  },

@@ -68,6 +68,18 @@ export class VasCustomizationComponent {
     hideWait();
   }
 
+  inqStyle() {
+    localStorage.clear();
+    if(this.page.editmode){
+      localStorage.setItem('styl', this.styl)
+      localStorage.setItem('partpg','/uniforms/editproduct/' + this.nhno + '/' + this.n1no + '/')
+    } else {
+      localStorage.setItem('partpg','/uniforms/newproduct/' + this.nhno + '/')
+    }
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate(['/uniforms/style/' + this.nhno]);
+  }
+
   searchConfig(){
     var config ={
       displayKey: 'desc',
@@ -85,6 +97,7 @@ export class VasCustomizationComponent {
 
     this.route.paramMap.subscribe(params => {
       this.nhno = params.get('nhno')
+      this.npno = params.get('npno')
       this.n1no = params.get('n1no')
     });
 
@@ -99,7 +112,7 @@ export class VasCustomizationComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate(['/uniforms/vascustomizations/' + this.nhno + '/' + this.n1no]);
+    this.router.navigate(['/uniforms/vascustomizations/' + this.nhno + '/' + this.npno]);
   }
 
   loadProduct(mode: string){

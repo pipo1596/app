@@ -66,14 +66,14 @@ export class VasCustomizationsComponent {
     localStorage.setItem('UP_AUTH','Y');
     switch(mode){
       case 'new':
-        this.router.navigate(['/uniforms/vascustomization/' + this.page.rfno]);
+        this.router.navigate(['/uniforms/vascustomization/' + this.page.rfno + '/' + this.npno]);
         break;
       case 'edit':
-        this.router.navigate(['/uniforms/vascustomization/' + this.page.rfno + '/' + n1no]);
+        this.router.navigate(['/uniforms/vascustomization/' + this.page.rfno + '/' + this.npno + '/' + n1no]);
         break;
       case 'copy':
         localStorage.setItem('copy', n1no)
-        this.router.navigate(['/uniforms/vascustomization/' + this.page.rfno + '/' + n1no]);
+        this.router.navigate(['/uniforms/vascustomization/' + this.page.rfno + '/' + this.npno + '/' + n1no]);
         break;
     }
   }

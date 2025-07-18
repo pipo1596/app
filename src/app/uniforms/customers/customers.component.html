@@ -49,7 +49,7 @@
                     <tbody>
                         <tr *ngFor="let customer of page.data?.customers | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
                             <td>
-                                <button class="btn bg-transparent" type="submit"><span
+                                <button class="btn bg-transparent" (click)="editCustomer(customer.acno)"><span
                                     class="bi bi-pencil-square" title="Edit Customer"></span></button>
                                 <button class="btn bg-transparent" (click)="deleteCustomer(customer.acno)"><span
                                     class="bi bi-trash" title="Delete Customer"></span></button>

@@ -46,15 +46,14 @@
                 </thead>
 
                 <tbody>
-                    <tr *ngFor="let customer of page.data?.customers | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u " 
-                        [ngClass]="{'altRow': (u % 2 == 0)}">
+                    <tr *ngFor="let customer of page.data?.customers | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
                         <td>
                             <button class="btn bg-transparent" (click)="editCustomer(customer.acno)"><span
                                 class="bi bi-pencil-square" title="Edit Customer"></span></button>
                             <button class="btn bg-transparent" (click)="deleteCustomer(customer.acno)"><span
                                 class="bi bi-trash" title="Delete Customer"></span></button>
                         </td>
-                        <td align="left">{{customer.acno}}</td>
+                        <td align="left">{{trim(customer.acno)}}</td>
                         <td align="left">{{customer.name}}</td>
                         <td align="left">{{dsppbdate(customer.effd)}}</td>
                         <td align="left">{{dsppbdate(customer.expd)}}</td>

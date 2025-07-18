@@ -30,7 +30,7 @@ export class CustomersComponent {
   ) { }
 
   ngOnInit(): void {
-    localStorage.clear();
+    localStorage.clear()
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
     });
@@ -56,6 +56,10 @@ export class CustomersComponent {
       this.page.loading = false;
       hideWait();
     });
+  }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
   }
 
   editCustomer(acno: string) {

@@ -1,9 +1,29 @@
-import { Component} from '@angular/core';
+import { Component, inject} from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
 import { hideWait, showWait, scrollToTopInstant} from '../../shared/utils';
+
+// export const appGuard_products: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+//   const router = inject(Router)
+//   const perfEntries = performance.getEntriesByType('navigation');
+//   const token = localStorage.getItem("UP_AUTH");
+
+//   let nhno = route.paramMap.get('nhno')
+//   let refreshed = (perfEntries.length > 0 && (perfEntries[0] as PerformanceNavigationTiming).type === 'reload') //Detect browser refreshed
+
+//   if(token) {
+//     return true;
+//   } else {
+//     if(nhno){
+//     router.navigate(['uniforms/dashboard/' + route.paramMap.get('nhno')]);
+//     return true;
+//     }
+//     router.navigate(['uniforms/newuniform/']);
+//     return false;
+//   }
+// };
 
 @Component({
   selector: 'app-products',
@@ -15,6 +35,7 @@ import { hideWait, showWait, scrollToTopInstant} from '../../shared/utils';
 export class ProductsComponent {
   page = new Page();
   drop = false; // More Actions
+  view: any = ''
   
   //Search / Dropdown
   style: any;
@@ -38,8 +59,8 @@ export class ProductsComponent {
   ) { }
 
   ngOnInit(): void {
+    this.view = localStorage.getItem('view')
     localStorage.clear();
-    hideWait();
     this.checked = [];
     this.offset = '0';
     this.route.paramMap.subscribe(params => {
@@ -87,6 +108,7 @@ export class ProductsComponent {
 
   getProducts() {
      let data = {
+      mode: 'getInfo',
       nhno: this.page.rfno,
       style: this.style,
       customization: this?.customization?.npno,

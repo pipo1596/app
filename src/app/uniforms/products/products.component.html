@@ -1,7 +1,8 @@
 <app-header [title]="page.title" [menu]="page.menu" ></app-header>
 
 <section class="ftco-section bg-light pb-3 pt-5">
-    <div class="card mx-auto mb-5 w-75 h-100">
+
+    <div class="card mx-auto mb-5 w-100 h-100">
         <div class="card-body">
 
             <div class="row g-4">
@@ -53,17 +54,18 @@
                     <ngx-select-dropdown name="inputNANO" [config]="searchConfig('Category')" [options]="page.data?.categories" [(ngModel)]="category" (change)="getProducts()"></ngx-select-dropdown>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <ngx-select-dropdown name="inputWHNO" [config]="searchConfig('Warehouse')" [options]="page.data?.warehouses" [(ngModel)]="warehouse" (change)="getProducts()"></ngx-select-dropdown>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <ngx-select-dropdown name="inputVFGN" [config]="searchConfig('Style Configurator Template')" [options]="page.data?.stylconfig" [(ngModel)]="stylconfig" (change)="getProducts()"></ngx-select-dropdown>
                 </div>
 
-                <div class="col-md-2">
-                    <button class="btn btn-primary rounded-0 w-50 me-3" type="button" (click)="getProducts()">Go</button>
-                </div>
+                <div class="col-md-3 mb-3">
+                    <button class="btn btn-primary rounded-0 me-5 w-25" type="button" (click)="getProducts()">Go</button>
+                    <button *ngIf="view == 'assign'" class="btn btn-primary rounded-0 w-50" type="button" (click)="getProducts()">Assign Styles</button>
+                </div>          
             </div>
 
             <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
@@ -71,22 +73,23 @@
             <table class="table table-striped w-100">
                 <thead>
                     <tr>
-                        <th align="left" colspan="1" class="ps-2 pe-3 pb-1"><input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked() && page.data?.products.length > 0"></th>
-                        <th align="left" colspan="1" class="ps-3">Actions</th>
-                        <th align="left" colspan="1">Style</th>
-                        <th align="left" class="w-25" colspan="2" >Style Description</th>
-                        <th align="left" colspan="1">Option 1</th>
-                        <th align="left" colspan="1">Category</th>
-                        <th align="left" colspan="1">Customization</th>
-                        <th align="left" colspan="1">DS Allowed?</th>
-                        <th align="left" class="w-50" colspan="2">Fulfillment Location</th>
+                        <th align="left"><input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked() && page.data?.products.length > 0"></th>
+                        <th align="left" class="ps-3">Actions</th>
+                        <th align="left">Style</th>
+                        <th align="left">Style Description</th>
+                        <th align="left">Option 1</th>
+                        <th align="left">Category</th>
+                        <th align="left">Customization</th>
+                        <th align="left">DS Allowed?</th>
+                        <th align="left">Fulfillment Location</th>
+                        <th align="left">Style Configurator Template</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <tr *ngFor="let product of page.data?.products | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
-                        <td align="left" class="ps-2" colspan="1"><input type="checkbox" class="form-check-input" id="ckbx{{ product.nino }}"  value="{{ product }}" (click)="checkProduct(product)" [checked] = "isChecked(product)"></td>
-                        <td class="w-25">
+                        <td align="left" class="ps-2"><input type="checkbox" class="form-check-input" id="ckbx{{ product.nino }}"  value="{{ product }}" (click)="checkProduct(product)" [checked] = "isChecked(product)"></td>
+                        <td>
                             <button class="btn bg-transparent" (click)="loadProduct('edit', product.nino)"><span
                                 class="bi bi-pencil-square" title="Edit Product"></span></button>
                             <button class="btn bg-transparent" (click)="loadProduct('copy', product.nino)"><span
@@ -94,22 +97,23 @@
                             <button class="btn bg-transparent" (click)="deleteProduct(product.nino)"><span
                                 class="bi bi-trash" title="Product Details"></span></button>
                         </td>
-                        <td align="left" colspan="1">{{product.styl}}</td>
-                        <td align="left" colspan="2">{{product.desc}}</td>
-                        <td align="left" class="w-25" colspan="1">{{product.opv1}}</td>
-                        <td align="left" colspan="1">{{product.nadesc}}</td>
-                        <td align="left" colspan="1">{{product.custcount}}</td>
-                        <td align="left" colspan="1" *ngIf="product.dsallowed == 'Y'">Yes</td>
-                        <td align="left" colspan="1" *ngIf="product.dsallowed !== 'Y'">No</td>
-                        <td align="left" colspan="2">{{product.frcfulloc}}</td>
+                        <td align="left">{{product.styl}}</td>
+                        <td align="left">{{product.desc}}</td>
+                        <td align="left">{{product.opv1}}</td>
+                        <td align="left">{{product.nadesc}}</td>
+                        <td align="left">{{product.custcount}}</td>
+                        <td align="left" *ngIf="product.dsallowed == 'Y'">Yes</td>
+                        <td align="left" *ngIf="product.dsallowed !== 'Y'">No</td>
+                        <td align="left">{{product.frcfulloc}}</td>
+                        <td align="left">{{product.vfgdesc}}</td>
                     </tr>
                 </tbody> 
             </table> 
         </div>
     </div>
 
-    <div class="row g-4">
-        <div class="col-8 mx-auto w-50">
+    <div class="row">
+        <div class="col-8 me-auto w-75">
             <label>Items per page:
                 <select [(ngModel)]="itemsPerPage" (change)="onItemChange(itemsPerPage)">
                 <option value="5">5</option>
@@ -120,7 +124,7 @@
             </label>
         </div>
 
-        <div class="col-2 w-25">
+        <div class="col-2 ml-auto">
             <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
         </div>
     </div>

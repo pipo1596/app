@@ -321,18 +321,18 @@ export class ProductComponent {
       upctNic: this.upctNic
     }
 
-    // this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
-    //   this.page.data = response;
-    //   if(this.page.data?.upct) this.upct = this.page.data.upct;
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
+      this.page.data = response;
+      if(this.page.data?.upct) this.upct = this.page.data.upct;
 
-    //   if (page.entrymode && this.page.data.result == 'pass' && this.page.data.nhno){
-    //    localStorage.setItem('UP_AUTH','Y');
-    //    this.router.navigate(['/uniforms/products/' + this.page.data.nhno]);
-    //   }
+      if (this.page.entrymode && this.page.data.result == 'pass' && this.page.data.nhno){
+       localStorage.setItem('UP_AUTH','Y');
+       this.router.navigate(['/uniforms/products/' + this.page.data.nhno]);
+      }
 
-    //   this.page.loading = false;
-    //   hideWait();
-    // });
+      this.page.loading = false;
+      hideWait();
+    });
   }
 
   deleteProduct(){

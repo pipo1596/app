@@ -20,7 +20,7 @@
                 </div>
 
                 <div class="col-2">
-                    <button (click)="loadProduct('new','')" class="btn btn-primary rounded-0 w-50 me-3" type="button">New</button>
+                    <button (click)="loadProduct('new','')" class="btn btn-primary rounded-0 w-50 me-3" type="button" *ngIf="view !== 'assign'">New</button>
                     <button class="btn">
                         <span class="bi bi-question-circle" title="FAQ"></span>
                     </button>
@@ -64,7 +64,14 @@
 
                 <div class="col-md-3 mb-3">
                     <button class="btn btn-primary rounded-0 me-5 w-25" type="button" (click)="getProducts()">Go</button>
-                    <button *ngIf="view == 'assign'" class="btn btn-primary rounded-0 w-50" type="button" (click)="getProducts()">Assign Styles</button>
+                </div>          
+
+                <div class="col-md-2 mb-3">
+                    <button *ngIf="view == 'assign'" class="btn btn-primary rounded-0 w-100" type="button" (click)="assignStyles()">Assign Styles</button>
+                </div>     
+
+                <div class="col-md-2 mb-3">
+                    <button *ngIf="view == 'assign'" class="btn btn-secondary rounded-0 w-50" type="button" (click)="goBack()">Cancel</button>
                 </div>          
             </div>
 
@@ -90,11 +97,11 @@
                     <tr *ngFor="let product of page.data?.products | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
                         <td align="left" class="ps-2"><input type="checkbox" class="form-check-input" id="ckbx{{ product.nino }}"  value="{{ product }}" (click)="checkProduct(product)" [checked] = "isChecked(product)"></td>
                         <td>
-                            <button class="btn bg-transparent" (click)="loadProduct('edit', product.nino)"><span
+                            <button class="btn bg-transparent" (click)="loadProduct('edit', product.styl)"><span
                                 class="bi bi-pencil-square" title="Edit Product"></span></button>
-                            <button class="btn bg-transparent" (click)="loadProduct('copy', product.nino)"><span
+                            <button class="btn bg-transparent" (click)="loadProduct('copy', product.styl)"><span
                                 class="bi bi-clipboard" title="Copy Product"></span></button>
-                            <button class="btn bg-transparent" (click)="deleteProduct(product.nino)"><span
+                            <button class="btn bg-transparent" (click)="deleteProduct(product.styl)"><span
                                 class="bi bi-trash" title="Product Details"></span></button>
                         </td>
                         <td align="left">{{product.styl}}</td>

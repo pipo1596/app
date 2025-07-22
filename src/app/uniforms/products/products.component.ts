@@ -1,29 +1,9 @@
-import { Component, inject} from '@angular/core';
+import { Component } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait, scrollToTopInstant} from '../../shared/utils';
-
-// export const appGuard_products: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-//   const router = inject(Router)
-//   const perfEntries = performance.getEntriesByType('navigation');
-//   const token = localStorage.getItem("UP_AUTH");
-
-//   let nhno = route.paramMap.get('nhno')
-//   let refreshed = (perfEntries.length > 0 && (perfEntries[0] as PerformanceNavigationTiming).type === 'reload') //Detect browser refreshed
-
-//   if(token) {
-//     return true;
-//   } else {
-//     if(nhno){
-//     router.navigate(['uniforms/dashboard/' + route.paramMap.get('nhno')]);
-//     return true;
-//     }
-//     router.navigate(['uniforms/newuniform/']);
-//     return false;
-//   }
-// };
 
 @Component({
   selector: 'app-products',
@@ -70,18 +50,18 @@ export class ProductsComponent {
     this.getProducts()
   }
 
-  loadProduct(mode: any, nino: any){
+  loadProduct(mode: any, styl: any){
     localStorage.setItem('UP_AUTH','Y');
     switch(mode){
       case 'new':
-        this.router.navigate(['/uniforms/product/' + this.page.rfno]);
+        this.router.navigate(['/uniforms/newproduct/' + this.page.rfno]);
         break;
       case 'edit':
-        this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + nino]);
+        this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + styl]);
         break;
       case 'copy':
-        localStorage.setItem('copy',nino)
-        this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + nino]);
+        localStorage.setItem('copy',styl)
+        this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + styl]);
         break;
     }
   }
@@ -183,6 +163,17 @@ export class ProductsComponent {
     localStorage.setItem('partpg','/uniforms/products/' + this.page.rfno + '/')
     localStorage.setItem('menu','/cgi/APOELMIS?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     this.router.navigate(['/uniforms/iframe/APOELMIS'])
+  }
+
+  assignStyles(){
+    localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('assign', JSON.stringify(this.checked))
+    this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
+  }
+
+  goBack() {
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }
 
   onItemChange(event: number){

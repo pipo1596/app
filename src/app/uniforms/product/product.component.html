@@ -3,25 +3,27 @@
     <div class="card mx-auto mb-5 w-75 h-100">
         <div class="card-body">
                 <form (submit)="validate()">
+                    <!-- <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
+                    <h6 class="mb-3" *ngIf="page.data?.result == 'pass'"><strong class="text-primary">Product Updated Successfully</strong></h6> -->
                     <div class="row g-3">
                         <div class="col-md-10">
                             <h6>Uniform Program - {{ page.data?.pgName }}</h6>
                         </div>
                     </div>
 
-                    <div class="row g-3 mb-5">
+                    <div class="row g-3 mb-4">
                         <div class="col-md-9">
-                            <h6><small>Catalog > Products > Add New Product</small></h6>
+                            <h6 *ngIf="!page.editmode"><small>Catalog > Products > Add New Product</small></h6>
+                            <h6 *ngIf="page.editmode"><small>Catalog > Products > Edit Product</small></h6>
                         </div>
                     </div>
 
-                    <h4 class="card-title ms-1 mb-4">Add New Product</h4>
-                    <h6 class="card-title ms-1 mb-3">General Information</h6>
+                    <h5 class="card-title mb-4">General Information</h5>
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-3">
                             <label for="inputItem" class="form-label">Item #</label>
-                            <input type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="styl" [value] = 'styl'>
+                            <input type="text" readonly class="form-control" id="inputItem" name='style' [(ngModel)]="styl" [value] = 'styl'>
                         </div>
 
                         <div class="col-md-1 mt-5">
@@ -30,23 +32,21 @@
                             </button>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-3" *ngIf="styl">
                             <label for="inputDesc" class="form-label">Description</label>
                             <input type="text" class="form-control" name="description" [(ngModel)]="desc">
                         </div>
                     </div>
 
-                    <div class="row g-3 mb-3" *ngIf="page.editmode">
+                    <div class="row g-3 mb-4" *ngIf="styl">
                         <div class="col-md-3">
                             <label for="inputSKU" class="form-label">SKU:</label>
-                            <select class="form-select p-2" id="inputSKU" name="inputSKU" [(ngModel)]="sku">
-                                <option value="">Select</option>
-                            </select>
+                            <ngx-select-dropdown name="skuDrop" [multiple]="true" [config]="searchConfig()" (change)="sku = $event.value" [options]="page.data?.sku" [(ngModel)]="sku"></ngx-select-dropdown>
                         </div>
                     </div>
 
-                    <div class="row g-3">
-                        <h6 *ngIf="page.editmode">-- OR --</h6>
+                    <div class="row g-3" *ngIf="styl">
+                        <h6>-- OR --</h6>
                         <div *ngIf="page.data?.optionH[0]" class="col-md-2">
                             <label for="inputOP1" class="form-label">{{ page.data?.optionH[0]}}</label>
                         </div>
@@ -60,35 +60,29 @@
 
                     <div class="row g-3 mb-5">
                         <div class="col-md-2" *ngIf="page.data?.option1">
-                            <ng-container *ngIf="!page.editmode">
-                                <input type="checkbox"  class="form-check-input mb-3" (click)="selectAll(0, page.data.option1)" [checked]="allSelected(0, page.data.option1)" [disabled]="sku"><span class="ms-2">Select All</span><br>
-                            </ng-container>
+                            <input type="checkbox"  class="form-check-input mb-3" (click)="selectAll(0, page.data.option1)" [checked]="allSelected(0, page.data.option1) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">Select All</span><br>
                             <ng-container *ngFor="let opv1 of page.data.option1; index as i">
-                                <input type="checkbox" class="form-check-input mb-3" (click)="checkOpt(0, page.data.option1, i)" value="{{ opv1 }}" [checked]="opv[0].includes(opv1) && !sku" [disabled]="sku"><span class="ms-2">{{opv1}}</span><br>
+                                <input type="checkbox" class="form-check-input mb-3" (click)="checkOpt(0, page.data.option1, i)" value="{{ opv1 }}" [checked]="page.editmode && opv[0].includes(opv1) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">{{opv1}}</span><br>
                             </ng-container>
                         </div>
                         
                         <div class="col-md-2" *ngIf="page.data?.option2">
-                            <ng-container *ngIf="!page.editmode">
-                                <input type="checkbox" class="form-check-input mb-3" (click)="selectAll(1, page.data.option2)" [checked]="allSelected(1, page.data.option2)" [disabled]="sku"><span class="ms-2">Select All</span><br>
-                            </ng-container>
+                            <input type="checkbox" class="form-check-input mb-3" (click)="selectAll(1, page.data.option2)" [checked]="allSelected(1, page.data.option2) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">Select All</span><br>
                             <ng-container *ngFor="let opv2 of page.data.option2; index as i">
-                                <input type="checkbox" class="form-check-input mb-3" (click)="checkOpt(1, page.data.option2, i)" value="{{ opv2 }}" [checked]="opv[1].includes(opv2) && !sku" [disabled]="sku"><span class="ms-2">{{opv2}}</span><br>
+                                <input type="checkbox" class="form-check-input mb-3" (click)="checkOpt(1, page.data.option2, i)" value="{{ opv2 }}" [checked]="page.editmode && opv[1].includes(opv2) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">{{opv2}}</span><br>
                             </ng-container>
                         </div>
 
                         <div class="col-md-2" *ngIf="page.data?.option3">
-                            <ng-container *ngIf="!page.editmode">
-                                <input type="checkbox" class="form-check-input mb-3" (click)="selectAll(2, page.data.option3)" [checked]="allSelected(2, page.data.option3)" [disabled]="sku"><span class="ms-2">Select All</span><br>
-                            </ng-container>
+                            <input type="checkbox" class="form-check-input mb-3" (click)="selectAll(2, page.data.option3)" [checked]="allSelected(2, page.data.option3) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">Select All</span><br>
                             <ng-container *ngFor="let opv3 of page.data.option3; index as i">
-                                <input type="checkbox" class="form-check-input mb-3" (click)="checkOpt(2, page.data.option3, i)" value="{{ opv3 }}" [checked]="opv[2].includes(opv3) && !sku" [disabled]="sku"><span class="ms-2">{{opv3}}</span><br>
+                                <input type="checkbox" class="form-check-input mb-3" (click)="checkOpt(2, page.data.option3, i)" value="{{ opv3 }}" [checked]="page.editmode && opv[2].includes(opv3) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">{{opv3}}</span><br>
                             </ng-container>
                         </div>
                     </div>
 
                     <!-- Warehouse -->
-                    <div class="row g-3 mb-5">
+                    <div class="row g-3 mb-5" *ngIf="styl">
                         <div class="col-md-3">
                             <label for="inputItem" class="form-label">Warehouse:</label>
                             <ngx-select-dropdown name="whseDrop" [config]="searchConfig()" [options]="page.data?.warehouses" [(ngModel)]="warehouse"></ngx-select-dropdown>
@@ -96,7 +90,7 @@
                     </div>
 
                     <!-- Category -->
-                    <div class="row g-3 mb-5">
+                    <div class="row g-3 mb-5" *ngIf="styl">
                         <div class="col-md-3">
                             <label for="inputItem" class="form-label">Category:</label>
                             <ngx-select-dropdown name="catDrop" [multiple]="true" [disabled]="page.editmode" [config]="searchConfig()" (change)="cats = $event.value;" [options]="page.data?.categories" [(ngModel)]="cats"></ngx-select-dropdown>
@@ -104,7 +98,7 @@
                     </div>
 
                     <!-- Customization -->
-                    <div class="row g-3 mb-5">
+                    <div class="row g-3 mb-5" *ngIf="styl">
                         <div class="col-md-3">
                             <label for="inputItem" class="form-label">Customization:</label>
                             <ngx-select-dropdown name="custDrop" [multiple]="true" [config]="searchConfig()" (change)="custs = $event.value" [options]="page.data?.customizations" [(ngModel)]="custs"></ngx-select-dropdown>
@@ -112,49 +106,52 @@
                     </div>
 
                     <div class="row g-3 mb-5 card w-50" *ngIf="page.editmode">
-                        <div class="col-md-3">
-                            <h6>Product Flags</h6>
+                        <div class="col-md-3 mb-3">
+                            <h5>Product Flags</h5>
                             <input type="checkbox" class="form-check-input mb-2" (click)="dsallow ? dsallow = '' : dsallow = 'Y'" [checked]="dsallow"><span class="ms-2">DS Allowed</span><br>
                             <input type="checkbox" class="form-check-input mb-2" (click)="autotag ? autotag = '' : autotag = 'Y'" [checked]="autotag"><span class="ms-2">Auto Tag</span><br>
                             <input type="checkbox" class="form-check-input mb-2" (click)="contract ? contract = '' : contract = 'Y'" [checked]="contract"><span class="ms-2">Contract Y/N</span><br>
                         </div>
 
                         <div class="col-md-6">
-                            <h6 class="mb-3">Product Information</h6>
+                            <h5 class="mb-4">Product Information</h5>
                             <h6 class="mb-2">Contract Item Number</h6>
                             <input type="text" class="form-control mb-4" name="contractitem" [(ngModel)]="citem" >
                             <h6 class="mb-2">Contract Description</h6>
                             <input type="text" class="form-control mb-4" name="contractdesc" [(ngModel)]="cdesc">
                         </div>
 
-                        <div class="row">
-                            <div class="col-8">
-                                <h4 class="mt-2">Featured Image</h4>
-                            </div>
+                        <ng-container *ngIf="!showUpload">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h4 class="mt-2">Featured Image</h4>
+                                </div>
 
-                            <div class="col-4 text-end" *ngIf="!showUpload && nino">
-                                <a [routerLink]="" (click)="changeImage()" class="hoverp m-2 d-block">Change Image</a>
+                                <div class="col-4 text-end">
+                                    <a [routerLink]="" (click)="changeImage()" class="hoverp m-2 d-block">Change Image</a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-12" *ngIf="!showUpload">
-                            <img style="max-height: 300px;max-width: 100%;" src="{{page.imgprfx}}/{{image.value}}"
-                                class="preview  m-auto d-block" />
-                        </div>
+                            <div class="col-12">
+                                <img style="max-height: 300px;max-width: 100%;" src="{{page.imgprfx}}/{{image.value}}"
+                                    class="preview  m-auto d-block" />
+                            </div>
+                        </ng-container>
+                        
                         <div *ngIf="showUpload">
                             <h5>Upload Image
                                 <span class="text-danger ms-1" id="{{image.htmlid}}"
                                     *ngIf="image.error!==''">{{image.error}}</span>
                             </h5>
-                            <app-image-upload (triggerEvent)="saveAfterImageUpload($event)"></app-image-upload>
+                            <app-image-upload (triggerEvent)="saveAfterImageUpload($event)" [mode]="'U'"></app-image-upload>
                         </div>
 
                     </div>
 
                     <div class="d-flex flex-row">
                         <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary me-3" (click)="page.editmode ? loadProduct('update') : loadProduct('create')">Save</button>
-                            <button *ngIf="page.editmode" type="submit" class="btn btn-primary me-3" (click)="loadProduct('delete')">Delete</button>
-                            <button type="submit" class="btn btn-primary me-3" (click)="goBack()">Cancel</button>
+                            <button type="submit" class="btn btn-primary me-3" *ngIf="styl">Save</button>
+                            <button *ngIf="page.editmode" class="btn btn-primary me-3" (click)="deleteProduct()">Delete</button>
+                            <button class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>
                         </div>
                     </div>
                 </form>

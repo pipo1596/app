@@ -3,8 +3,11 @@ import { Page, TextField } from '../../shared/textField';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataService } from '../../services/data-trigger.service';
 import { hideWait, showWait } from '../../shared/utils';
+import { DataService } from '../../services/data-trigger.service';
+import { FileUploadService } from '../../services/file-upload.service';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product',
@@ -17,21 +20,79 @@ export class ProductComponent {
   page = new Page();
   drop = false; // More Actions
   copy: any;
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: false,
+    height: 'auto',
+    minHeight: '700px',
+    placeholder: 'Enter Text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    toolbarHiddenButtons: [
+      [
+        'backgroundColor',
+        'underline',
+        'strikeThrough',
+        'subscript',
+        'superscript',
+        'justifyLeft',
+        'insertVideo',
+        'insertHorizontalRule',
+        'removeFormat',
+        'unlink'
+      ]
+    ],
+    uploadUrl: environment.imgprfx,
+    upload: (file: File) => {
+      showWait('Uploading Image...');
+      return new Observable((observer) => {
+        // Upload image via your Angular service
+        this.uploadService.uploadWyzywig(file).subscribe(
+          (response) => {
+            // Check the response for the image URL
+            const imageUrl = response?.imageUrl;
+            if (imageUrl) {
+              // Prepend the base URL to the relative image path
+              const fullImageUrl: any = { "body": { "imageUrl": environment.imgprfx + '/' + imageUrl } };
+              // Pass the full image URL to the editor (this triggers the insertion)
+              hideWait();
+              observer.next(fullImageUrl);
+            }
+          },
+          (error) => {
+            observer.error('Upload failed: ' + error.message);
+            observer.complete();
+            hideWait();
+          }
+        );
+      })
+    }
+    ,
+    uploadWithCredentials: true,
+    sanitize: false,
+
+  };
 
   // Parms
   nhno: any;
-  nino: any;
   styl: any;
+  styli: any;
+  item: any;
+  nano: any;
   upct = "0";
   upctNic = "0";
 
   // Input
   desc = "";
-  sku: any = "";
-  warehouse = ""; 
-  cats: any; 
-  custs = [];
+  sku: any = [];
+  warehouse: any; 
+  cats: any = []; 
+  custs: any = [];
   opv: string[][] = [[],[],[],[],[]];
+  options: any = [];
+  categories: any = [];
+  customizations: any = [];
 
   // Product Flags/Information
   dsallow = "";
@@ -42,46 +103,55 @@ export class ProductComponent {
 
   // Image Upload
   showUpload: boolean = false;
-  image = new TextField("image", ["required"]);
+  image = new TextField("image", []);
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private dataService: DataService
+    private dataService: DataService,
+    private uploadService: FileUploadService
   ) { hideWait(); }
 
   ngOnInit(): void {
     this.setMode();
-    this.page.menu = 'Y'
-    hideWait();
+    this.copy = localStorage.getItem('copy')
+    this.getProduct();
+    localStorage.clear();
+  }
 
+  getProduct(){
+    showWait();
     let data = {
       mode: 'getInfo',
       nhno: this.nhno,
-      nino: this.nino,
-      styl: this.styl
+      styl: this.styl,
+      nano: this.nano,
+      nino: this.page.editmode ? '000000000461849' : '', //Remove after
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
       this.page.data = response;
+      if (this.page.data?.menu) this.page.menu = this.page.data?.menu;
 
-      //General Information
-      if (this.page.data?.menu) this.page.menu = this.page.data.menu;
-      if (this.page.data?.info?.styl) this.styl = this.page.data.info.styl
-      if (this.page.data?.info?.warehouse) this.warehouse = this.page.data.info.warehouse
-      if (this.page.data?.info?.customizations) this.custs = this.page.data.info.customizations
-      if(this.page.data?.info?.upct) this.upct = this.page.data.info.upct;
+      if(this.item){
+        this.styl = this.item;
+      } else if (this.page.data?.info?.styl) this.styl = this.page.data?.info.styl
+              
+      if (this.page.data?.info?.warehouse) this.warehouse = this.page.data?.info.warehouse
+      if (this.page.data?.info?.customizations) this.custs = this.page.data?.info.customizations
+      if(this.page.data?.info?.upct) this.upct = this.page.data?.info.upct;
 
-      if (this.copy){
-        this.desc = 'Copy of ' + this.page.data.info.desc;
-      } else { this.desc = this.page.data.info.desc; }
-      
+      if(this.page.data?.info?.desc){
+        if (this.copy){
+          this.desc = 'Copy of ' + this.page.data?.info.desc;
+        } else { this.desc = this.page.data?.info.desc; }
+      }
 
       if (this.page.data?.info?.options){
         for (let i = 0; i < this.page.data?.info?.options.length; i++) {
-          if (this.page.data.info.options[i] !== ''){
-            this.opv[i] = this.page.data.info.options[i]
+          if (this.page.data?.info.options[i] !== ''){
+            this.opv[i].push(this.page.data?.info.options[i])
           } else break }
       }
 
@@ -94,27 +164,25 @@ export class ProductComponent {
         this.cats.push(cat)
       }
 
-      //Product Flags + Product Information
       if (this.page.data?.info?.dsallowed) this.dsallow = this.page.data?.info?.dsallowed
       if (this.page.data?.info?.autotag) this.autotag = this.page.data?.info?.autotag
       if (this.page.data?.info?.contract) this.contract = this.page.data?.info?.contract
       if (this.page.data?.info?.nicitem) this.citem = this.page.data?.info?.nicitem
       if (this.page.data?.info?.nicdesc) this.cdesc = this.page.data?.info?.nicdesc
       if (this.page.data?.info?.nicupct) this.upctNic = this.page.data?.info?.nicupct
-
+      if (this.page.data?.info?.img) this.image.value = this.page.data?.info?.img;
+      this.page.loading = false;
+      hideWait();
     });
-    localStorage.clear();
-    this.page.loading = false;
-    hideWait();
   }
 
   inqStyle() {
     localStorage.clear();
     if(this.page.editmode){
-      localStorage.setItem('p1', this.styl)
-      localStorage.setItem('partpg','/uniforms/product/' + this.nhno + '/' + this.nino + '/')
+      localStorage.setItem('p1', this.styli)
+      localStorage.setItem('partpg','/uniforms/product/' + this.nhno + '/' + this.styli + '/')
     } else {
-      localStorage.setItem('partpg','/uniforms/product/' + this.nhno + '/')
+      localStorage.setItem('partpg','/uniforms/newproduct/' + this.nhno + '/')
     }
     localStorage.setItem('menu','/cgi/APOELMIS?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     localStorage.setItem('UP_AUTH','Y');
@@ -150,38 +218,55 @@ export class ProductComponent {
   }
 
   checkOpt(opt: number, arr: any, i: any) {
-    if(this.page.editmode){
-      this.opv[opt] = []
-      this.opv[opt].push(arr[i])
-    } else {
       if(this.opv[opt].includes(arr[i])) {
         this.opv[opt].splice(this.opv[opt].indexOf(arr[i]),1)
       } else {
         this.opv[opt].push(arr[i]);
         this.opv[opt].sort();
       }    
+  }
+
+  generateOpt(){
+    const arr1 = this.opv[0]
+    const arr2 = this.opv[1]
+    const arr3 = this.opv[2]
+    let combinations = this.getCombinations([arr1,arr2,arr3]);
+    for (let i = 0; i < combinations.length; i++) {
+      this.options.push(combinations[i].toString().replaceAll(',',' '))
     }
-      console.log(this.opv[opt])
+    console.log(this.options)
+  }
+
+  getCombinations(arrays: any){
+    if (!arrays || arrays.length === 0) {
+      return [[]];
+    }
+
+    const firstArray = arrays[0];
+    const remainingArrays = arrays.slice(1);
+
+    const combinationsOfRemaining: any = this.getCombinations(remainingArrays);
+    const result = [];
+
+    for (const item of firstArray) {
+      for (const combo of combinationsOfRemaining) {
+        result.push([item, ...combo]);
+      }
+    }
+    return result;
   }
 
   setMode() {
-    this.copy = localStorage.getItem('copy')
-
+    if (this.router.url.indexOf('/uniforms/newproduct') >= 0) {
+      this.page.entrymode = true;
+    } else this.page.editmode = true;
+      
     this.route.paramMap.subscribe(params => {
       this.nhno = params.get('nhno')
-      this.nino = params.get('nino')
       this.styl = params.get('styl')
+      this.styli = params.get('styl')
+      this.item = params.get('item')
     });
-
-    if (this.nino && !this.copy) {
-      this.page.editmode = true;
-      this.page.entrymode = false;
-    } else { 
-      this.page.entrymode = true;
-      this.page.editmode = false;
-    }
-
-    // if (this.page.entrymode) this.showUpload = true;
     this.showUpload = true;
   }
 
@@ -190,48 +275,84 @@ export class ProductComponent {
     this.router.navigate(['/uniforms/products/' + this.nhno]);
   }
 
-  loadProduct(mode: string){
-    // showWait();
+  loadProduct(){
+    showWait();
+    let mode = (this.page.editmode ? 'update' : 'create')
+
+    this.options = [];
+    if(this.opv){
+      this.generateOpt();
+    } else if(this.sku.length > 0){
+      for (let i = 0; i < this.sku.length; i++) {
+        this.options.push(this.sku[i].value)
+      }
+    }
+
+    if(this.custs){
+      this.customizations = [];
+      for (let i = 0; i < this.custs.length; i++) {
+        this.customizations.push(this.custs[i].npno)
+      }
+    }
+
+    if(this.cats){
+      this.categories = [];
+      for (let i = 0; i < this.cats.length; i++) {
+        this.categories.push(this.cats[i].nano)
+      }
+    }
 
     let data = {
-
-      //General Information
-      mode: mode, 
-      nhno: this.nhno, //Uniform Program 
-      nino: this.nino, //Product 
-      styl: (mode !== 'delete') ? this.styl : '', //Item 
-      options: (mode !== 'delete') ? this.opv : '', //Options
-      whno: (mode !== 'delete') ? this.warehouse : '',  //Warehouse
-      categories: (mode !== 'delete') ? this.cats : '', //Categories
-      customizations: (mode !== 'delete') ? this.custs : '', //Customizations
-
-      //Product Flags
-      dsallowed: (mode !== 'delete') ? this.dsallow : '', //DS Allowed
-      autotag: (mode !== 'delete') ? this.autotag : '', //Auto Tag
-      contract: (mode !== 'delete') ? this.contract : '', //Contract Y/N
-      item: (mode !== 'delete' ? this.citem : ''), //Contract Item #
-      desc: (mode !== 'delete' ? this.cdesc : ''), //Contract Description
-
-      upct: (mode == 'update') ? this.upct : '',
-      upctNic: (mode == 'update') ? this.upctNic : ''
+      mode: mode,
+      nhno: this.nhno,
+      styl: this.styl,
+      sku: this.sku,
+      options: this.options,
+      whno: this.warehouse.whno, 
+      categories: this.categories,
+      customizations: this.customizations,
+      dsallowed: this.dsallow,
+      autotag: this.autotag,
+      contract: this.contract, 
+      item: this.citem, 
+      desc: this.cdesc, 
+      img: this.image.value, 
+      upct: this.upct,
+      upctNic: this.upctNic
     }
 
     // this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
     //   this.page.data = response;
     //   if(this.page.data?.upct) this.upct = this.page.data.upct;
 
-    //   if (mode !== 'update') {
-    //     if (this.page.data.result == 'pass' && this.page.data.nhno){
-    //       localStorage.setItem('UP_AUTH','Y');
-    //       this.router.navigate(['/uniforms/products/' + this.page.data.nhno]);
-    //     }
+    //   if (page.entrymode && this.page.data.result == 'pass' && this.page.data.nhno){
+    //    localStorage.setItem('UP_AUTH','Y');
+    //    this.router.navigate(['/uniforms/products/' + this.page.data.nhno]);
+    //   }
+
+    //   this.page.loading = false;
+    //   hideWait();
+    // });
+  }
+
+  deleteProduct(){
+    let data = {
+      mode: 'delete',
+      nhno: this.nhno,
+      styl: this.styl, 
+    }
+    
+    // this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
+    //   this.page.data = response;
+    //   if (this.page.data?.result == 'pass' && this.page.data?.nhno){
+    //     localStorage.setItem('UP_AUTH','Y');
+    //     this.router.navigate(['/uniforms/products/' + this.page.data?.nhno]);
     //   }
     //   this.page.loading = false;
     //   hideWait();
     // });
   }
 
-  //Image Upload Functions
   changeImage() {
     this.showUpload = true;
   }
@@ -240,35 +361,27 @@ export class ProductComponent {
     this.page.topErrorID = "";
     this.page.valid = true;
 
-    if (this.page.valid) {
-      if (this.showUpload)
-        this.uploadImage();
-      else
-        this.saveAfterImageUpload(this.image.value);
-    } 
+    // if (!this.tags.validate()) this.setTopErrorID(this.tags.htmlid);
+    // focusField(this.page.topErrorID);
+
+    if (this.page.valid){
+      showWait();
+      this.uploadImage();
+    }
   }
 
   uploadImage() {
     this.dataService.triggerChild('');
   }
 
-  setTopErrorID(errorID: string) {
-    if (this.page.topErrorID !== "") return;
-    this.page.topErrorID = errorID;
-    this.page.valid = false;
-  }
-
   saveAfterImageUpload(file: any) {
     this.image.value = file;
-    if (!this.image.validate()) this.setTopErrorID(this.image.htmlid);
 
-    if (!this.page.valid){
+    if (!this.page.valid) {
       hideWait();
       return;
     }
 
-    //Save Payload:
-    let data = {
-    }
+    this.loadProduct();
   }
 }

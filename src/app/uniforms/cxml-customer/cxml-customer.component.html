@@ -1,12 +1,6 @@
 <app-header [title]="page.title" [menu]="page.menu" ></app-header>
 <section class="ftco-section bg-light pb-3 pt-5">
 
-    <div class="d-flex flex-row-reverse mb-3">
-        <div class="col-md-2">
-          <input type="button" value="Cancel" class="btn btn-secondary" (click)="goBack()">
-        </div>
-    </div>
-
     <div class="card mx-auto mb-5 w-75 h-100">
         <div class="card-body">
             <form>
@@ -39,7 +33,7 @@
                 </div>
 
                 <div class="form-group row g-3 mb-3 ms-5">
-                    <label class="col-md-2 col-form-label">Merchandizing Category: </label>
+                    <label class="col-md-2 col-form-label"><span class="text-danger"><strong>* </strong></span>Merchandizing Category: </label>
                     <div class="col-md-3">
                         <select name='selectCCNM' [(ngModel)]="ccnm" class="form-select p-2" (change)="ccnm? showCCNC = true : showCCNC = false" (change)="getCCNM()">
                             <option value="">Select</option>
@@ -69,18 +63,24 @@
                     </div>
                 </div>
 
-                <div class="form-group row g-3 mb-3 ms-5">
-                    <label class="col-md-2 col-form-label">UNSPSC: </label>
+                <div class="form-group row g-3 mb-4 ms-5">
+                    <label class="col-md-2 col-form-label"><span class="text-danger"><strong>* </strong></span>UNSPSC: </label>
                     <div class="col-md-3">
                         <input type="text" class="form-control" name='inputUNSP' [(ngModel)]="unsp">
                     </div>
                 </div>
 
+                <div class="form-group row g-3 mb-5 ms-5">
+                    <div class="col-md-3">
+                        <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span><span class="fst-italic">Denotes required information </span></label>
+                    </div>
+                </div>
+
                 <div class="d-flex flex-row">
                     <div class="col-md-3 ms-5">
-                        <button type="submit" class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>
                         <button type="submit" class="btn btn-primary me-3" (click)="mode == 'update' ? submitConfig('update') : submitConfig('create')">Save</button>
                         <button type="submit" *ngIf="mode == 'update'" class="btn btn-primary me-3" (click)="submitConfig('delete')">Delete</button>
+                        <button type="submit" class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>
                     </div>
                 </div>
             </form>

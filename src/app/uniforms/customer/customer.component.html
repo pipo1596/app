@@ -21,7 +21,7 @@
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-3">
-                            <label for="inputItem" class="form-label">Account #: </label>
+                            <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span>Account #: </label>
                             <input type="text" class="form-control" name="account" [(ngModel)]="acno">
                         </div>
 
@@ -34,15 +34,21 @@
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-3">
-                            <label for="inputItem" class="form-label">Effective Date: </label>
+                            <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span>Effective Date: </label>
                             <input type="date" class="form-control" name="effective" [(ngModel)]="effd">
                         </div>
                     </div>
 
-                    <div class="row g-3 mb-3">
+                    <div class="row g-3 mb-5">
                         <div class="col-md-3">
-                            <label for="inputItem" class="form-label">Expiration Date: </label>
+                            <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span>Expiration Date: </label>
                             <input type="date" class="form-control" name="expiration" [(ngModel)]="expd"> 
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-5">
+                        <div class="col-md-3">
+                            <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span><span class="fst-italic">Denotes required information </span></label>
                         </div>
                     </div>
 

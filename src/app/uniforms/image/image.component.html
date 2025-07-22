@@ -19,12 +19,12 @@
             <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
 
             <div class="form-group row g-3 mb-3">
-                    <label for="uploadFile" class="col-sm-1 col-form-label">File: </label>
+                    <label for="uploadFile" class="col-sm-1 col-form-label"><span class="text-danger"><strong>* </strong></span>File: </label>
                     <div class="col-md-6">
                          <app-file-upload (triggerEvent)="saveAfterFileUpload()" [mode]="'2'" [types]="accept" [iofile]="'FPOENH'" [iofkey]="page.rfno!" [desc]="desc"></app-file-upload>
                     </div>
             </div>
-            <div class="form-group row g-3 mb-4">
+            <div class="form-group row g-3 mb-5">
                     <label for="descInput" class="col-sm-1 col-form-label">Description: </label>
                     <div class="col-md-4">
                         <input type="text" class="form-control" id="descInput" [(ngModel)]="desc">
@@ -34,6 +34,13 @@
             <div class="d-flex flex-row-reverse mb-3">
                 <div class="col-md-8">
                     <button type="submit" class="btn btn-primary me-3" (click)="validate()">Upload File</button>
+                </div>
+            </div>
+
+            
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span><span class="fst-italic">Denotes required information </span></label>
                 </div>
             </div>
 

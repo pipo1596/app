@@ -21,8 +21,14 @@
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-5">
-                            <label for="inputItem" class="form-label"><strong>Note:</strong> </label>
+                            <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Note:</strong> </label>
                             <textarea class="form-control" rows="5" name="note" [(ngModel)]="note"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-5">
+                        <div class="col-md-3">
+                            <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span><span class="fst-italic">Denotes required information </span></label>
                         </div>
                     </div>
 

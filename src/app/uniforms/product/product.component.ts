@@ -125,7 +125,7 @@ export class ProductComponent {
     let data = {
       mode: 'getInfo',
       nhno: this.nhno,
-      styl: this.styl,
+      styl: this.item ? this.item: this.styl,
       nano: this.nano,
       nino: this.page.editmode ? '000000000461849' : '', //Remove after
     }

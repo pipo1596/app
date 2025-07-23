@@ -50,18 +50,18 @@ export class ProductsComponent {
     this.getProducts()
   }
 
-  loadProduct(mode: any, styl: any){
+  loadProduct(mode: any, nino: any){
     localStorage.setItem('UP_AUTH','Y');
     switch(mode){
       case 'new':
         this.router.navigate(['/uniforms/newproduct/' + this.page.rfno]);
         break;
       case 'edit':
-        this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + styl]);
+        this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + nino]);
         break;
       case 'copy':
-        localStorage.setItem('copy',styl)
-        this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + styl]);
+        localStorage.setItem('copy',nino)
+        this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + nino]);
         break;
     }
   }

@@ -47,11 +47,11 @@ const routes: Routes = [
 
   //Products
   { path: 'products/:nhno', component: ProductsComponent, canActivate: [authGuard]  }, //Products LM
-  { path: 'products/:nhno/:styl', component: ProductsComponent, canActivate: [authGuard]  }, //Products LM
-  { path: 'product/:nhno/:styl', component: ProductComponent, canActivate: [authGuard] }, //Editing Product
-  { path: 'product/:nhno/:styl/:item', component: ProductComponent, canActivate: [authGuard]  }, //Editing Product + Selected Item
+  { path: 'products/:nhno/:nino', component: ProductsComponent, canActivate: [authGuard]  }, //Products LM
+  { path: 'product/:nhno/:nino', component: ProductComponent, canActivate: [authGuard] }, //Editing Product
+  { path: 'product/:nhno/:nino/:styl', component: ProductComponent, canActivate: [authGuard]  }, //Editing Product + Selected Item
   { path: 'newproduct/:nhno', component: ProductComponent, canActivate: [authGuard]  }, //Creating Product
-  { path: 'newproduct/:nhno/:item', component: ProductComponent, canActivate: [authGuard]  }, //Creating Product + Selected Item
+  { path: 'newproduct/:nhno/:styl', component: ProductComponent, canActivate: [authGuard]  }, //Creating Product + Selected Item
 
   //Categories
   { path: 'categories/:nhno', component: CategoriesComponent, canActivate: [authGuard]   },   //Categories LM

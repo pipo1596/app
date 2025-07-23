@@ -76,8 +76,8 @@ export class ProductComponent {
 
   // Parms
   nhno: any;
+  nino: any;
   styl: any;
-  styli: any;
   item: any;
   nano: any;
   upct = "0";
@@ -125,10 +125,7 @@ export class ProductComponent {
     let data = {
       mode: 'getInfo',
       nhno: this.nhno,
-      // styl: this.item ? this.item: this.styl,
-      styl: 'AM001',
-      nano: this.nano ? this.nano: '000000000036228',
-      nino: this.page.editmode ? '000000000461846' : '', //Remove after
+      nino: this.nino
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
@@ -149,12 +146,30 @@ export class ProductComponent {
         } else { this.desc = this.page.data?.info.desc; }
       }
 
-      if (this.page.data?.info?.options){
-        for (let i = 0; i < this.page.data?.info?.options.length; i++) {
-          if (this.page.data?.info.options[i] !== ''){
-            this.opv[i].push(this.page.data?.info.options[i])
-          } else break }
+      // if (this.page.data?.info?.options){
+      //   for (let i = 0; i < this.page.data?.info?.options.length; i++) {
+      //     if (this.page.data?.info.options[i] !== ''){
+      //       this.opv[i].push(this.page.data?.info.options[i])
+      //     } else break }
+      // }
+
+      if (this.page.data?.optionChk){
+        for (let i = 0; i < this.page.data?.optionChk.length; i++) {
+          //Option 1
+          if(this.page.data?.optionChk[i].opv1 !== '') {
+            this.opv[0].push(this.page.data?.optionChk[i].opv1)
+          }
+          //Option 2
+          if(this.page.data?.optionChk[i].opv2 !== '') {
+            this.opv[1].push(this.page.data?.optionChk[i].opv2)
+          }
+          //Option 3
+          if(this.page.data?.optionChk[i].opv3 !== '') {
+            this.opv[2].push(this.page.data?.optionChk[i].opv3)
+          }
+        }
       }
+
 
       if (this.page.data?.info?.nano){
         let cat = {
@@ -180,8 +195,8 @@ export class ProductComponent {
   inqStyle() {
     localStorage.clear();
     if(this.page.editmode){
-      localStorage.setItem('p1', this.styli)
-      localStorage.setItem('partpg','/uniforms/product/' + this.nhno + '/' + this.styli + '/')
+      localStorage.setItem('p1', this.item)
+      localStorage.setItem('partpg','/uniforms/product/' + this.nhno + '/' + this.nino + '/')
     } else {
       localStorage.setItem('partpg','/uniforms/newproduct/' + this.nhno + '/')
     }
@@ -264,9 +279,8 @@ export class ProductComponent {
       
     this.route.paramMap.subscribe(params => {
       this.nhno = params.get('nhno')
-      this.styl = params.get('styl')
-      this.styli = params.get('styl')
-      this.item = params.get('item')
+      this.nino = params.get('nino')
+      this.item = params.get('styl')
     });
     this.showUpload = true;
   }
@@ -306,9 +320,7 @@ export class ProductComponent {
     let data = {
       mode: mode,
       nhno: this.nhno,
-      nino: '000000000461846',
-      nano: '000000000036228',
-      styl: 'AM001',
+      styl: this.styl,
       sku: this.sku,
       options: this.options,
       whno: this.warehouse.whno, 
@@ -324,18 +336,18 @@ export class ProductComponent {
       upctNic: this.upctNic
     }
 
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
-      this.page.data = response;
-      if(this.page.data?.upct) this.upct = this.page.data.upct;
+    // this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
+    //   this.page.data = response;
+    //   if(this.page.data?.upct) this.upct = this.page.data.upct;
 
-      if (this.page.entrymode && this.page.data.result == 'pass' && this.page.data.nhno){
-       localStorage.setItem('UP_AUTH','Y');
-       this.router.navigate(['/uniforms/products/' + this.page.data.nhno]);
-      }
+    //   if (page.entrymode && this.page.data.result == 'pass' && this.page.data.nhno){
+    //    localStorage.setItem('UP_AUTH','Y');
+    //    this.router.navigate(['/uniforms/products/' + this.page.data.nhno]);
+    //   }
 
-      this.page.loading = false;
-      hideWait();
-    });
+    //   this.page.loading = false;
+    //   hideWait();
+    // });
   }
 
   deleteProduct(){

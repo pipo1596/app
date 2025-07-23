@@ -2,7 +2,7 @@
 
 <section class="ftco-section bg-light pb-3 pt-5">
 
-    <div class="card mx-auto mb-5 w-100 h-100">
+    <div class="card mx-auto mb-5 w-75 h-100">
         <div class="card-body">
 
             <div class="row g-4">
@@ -58,7 +58,7 @@
                     <ngx-select-dropdown name="inputWHNO" [config]="searchConfig('Warehouse')" [options]="page.data?.warehouses" [(ngModel)]="warehouse" (change)="getProducts()"></ngx-select-dropdown>
                 </div>
 
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <ngx-select-dropdown name="inputVFGN" [config]="searchConfig('Style Configurator Template')" [options]="page.data?.stylconfig" [(ngModel)]="stylconfig" (change)="getProducts()"></ngx-select-dropdown>
                 </div>
 
@@ -84,7 +84,7 @@
                         <th align="left" class="ps-3">Actions</th>
                         <th align="left">Style</th>
                         <th align="left">Style Description</th>
-                        <th align="left">Option 1</th>
+                        <th align="left" style="width: 10%;">Option 1</th>
                         <th align="left">Category</th>
                         <th align="left">Customization</th>
                         <th align="left">DS Allowed?</th>
@@ -96,17 +96,17 @@
                 <tbody>
                     <tr *ngFor="let product of page.data?.products | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
                         <td align="left" class="ps-2"><input type="checkbox" class="form-check-input" id="ckbx{{ product.nino }}"  value="{{ product }}" (click)="checkProduct(product)" [checked] = "isChecked(product)"></td>
-                        <td>
-                            <button class="btn bg-transparent" (click)="loadProduct('edit', product.styl)"><span
+                        <td style="width: 15%">
+                            <button class="btn bg-transparent" (click)="loadProduct('edit', product.nino)"><span
                                 class="bi bi-pencil-square" title="Edit Product"></span></button>
-                            <button class="btn bg-transparent" (click)="loadProduct('copy', product.styl)"><span
+                            <button class="btn bg-transparent" (click)="loadProduct('copy', product.nino)"><span
                                 class="bi bi-clipboard" title="Copy Product"></span></button>
-                            <button class="btn bg-transparent" (click)="deleteProduct(product.styl)"><span
+                            <button class="btn bg-transparent" (click)="deleteProduct(product.nino)"><span
                                 class="bi bi-trash" title="Product Details"></span></button>
                         </td>
                         <td align="left">{{product.styl}}</td>
                         <td align="left">{{product.desc}}</td>
-                        <td align="left">{{product.opv1}}</td>
+                        <td align="left" style="width: 10%">{{product.opv1}}</td>
                         <td align="left">{{product.nadesc}}</td>
                         <td align="left">{{product.custcount}}</td>
                         <td align="left" *ngIf="product.dsallowed == 'Y'">Yes</td>
@@ -119,8 +119,8 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-8 me-auto w-75">
+    <div class="row g-4">
+        <div class="col-8 mx-auto w-50">
             <label>Items per page:
                 <select [(ngModel)]="itemsPerPage" (change)="onItemChange(itemsPerPage)">
                 <option value="5">5</option>
@@ -131,7 +131,7 @@
             </label>
         </div>
 
-        <div class="col-2 ml-auto">
+        <div class="col-2 w-25">
             <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
         </div>
     </div>

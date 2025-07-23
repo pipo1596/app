@@ -295,7 +295,7 @@ export class ProductComponent {
     let mode = (this.page.editmode ? 'update' : 'create')
 
     this.options = [];
-    if(this.opv){
+    if(!this.sku && this.opv){
       this.generateOpt();
     } else if(this.sku.length > 0){
       for (let i = 0; i < this.sku.length; i++) {
@@ -320,52 +320,50 @@ export class ProductComponent {
     let data = {
       mode: mode,
       nhno: this.nhno,
+      nano: this.nano,
       styl: this.styl,
-      sku: this.sku,
-      options: this.options,
       whno: this.warehouse.whno, 
       categories: this.categories,
+      options: this.options,
       customizations: this.customizations,
-      dsallowed: this.dsallow,
-      autotag: this.autotag,
-      contract: this.contract, 
+      DSALLOWED: this.dsallow,
+      AUTOTAG: this.autotag,
+      CONTRACT: this.contract, 
       item: this.citem, 
-      desc: this.cdesc, 
-      img: this.image.value, 
-      upct: this.upct,
-      upctNic: this.upctNic
+      desc: this.cdesc
     }
 
-    // this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
-    //   this.page.data = response;
-    //   if(this.page.data?.upct) this.upct = this.page.data.upct;
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
+      this.page.data = response;
 
-    //   if (page.entrymode && this.page.data.result == 'pass' && this.page.data.nhno){
-    //    localStorage.setItem('UP_AUTH','Y');
-    //    this.router.navigate(['/uniforms/products/' + this.page.data.nhno]);
-    //   }
+      // if (this.page.data.result == 'pass' && this.page.data.nhno){
+      //  localStorage.setItem('UP_AUTH','Y');
+      //  this.router.navigate(['/uniforms/products/' + this.page.data.nhno]);
+      // }
 
-    //   this.page.loading = false;
-    //   hideWait();
-    // });
+      this.page.loading = false;
+      hideWait();
+    });
   }
 
   deleteProduct(){
     let data = {
       mode: 'delete',
       nhno: this.nhno,
-      styl: this.styl, 
+      nano: this.nano,
+      styl: this.styl,
+      options: this.options 
     }
     
-    // this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
-    //   this.page.data = response;
-    //   if (this.page.data?.result == 'pass' && this.page.data?.nhno){
-    //     localStorage.setItem('UP_AUTH','Y');
-    //     this.router.navigate(['/uniforms/products/' + this.page.data?.nhno]);
-    //   }
-    //   this.page.loading = false;
-    //   hideWait();
-    // });
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
+      this.page.data = response;
+      // if (this.page.data?.result == 'pass' && this.page.data?.nhno){
+      //   localStorage.setItem('UP_AUTH','Y');
+      //   this.router.navigate(['/uniforms/products/' + this.page.data?.nhno]);
+      // }
+      this.page.loading = false;
+      hideWait();
+    });
   }
 
   changeImage() {

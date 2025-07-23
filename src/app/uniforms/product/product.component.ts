@@ -127,7 +127,7 @@ export class ProductComponent {
       nhno: this.nhno,
       styl: this.item ? this.item: this.styl,
       nano: this.nano,
-      nino: this.page.editmode ? '000000000461849' : '', //Remove after
+      nino: this.page.editmode ? '000000000461846' : '', //Remove after
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
@@ -305,6 +305,7 @@ export class ProductComponent {
     let data = {
       mode: mode,
       nhno: this.nhno,
+      nino: '000000000461846',
       nano: '000000000036228',
       styl: 'AM001',
       sku: this.sku,

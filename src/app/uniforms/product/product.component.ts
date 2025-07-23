@@ -305,7 +305,8 @@ export class ProductComponent {
     let data = {
       mode: mode,
       nhno: this.nhno,
-      styl: this.styl,
+      nano: '000000000036228',
+      styl: 'AM001',
       sku: this.sku,
       options: this.options,
       whno: this.warehouse.whno, 

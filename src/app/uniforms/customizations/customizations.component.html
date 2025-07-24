@@ -54,7 +54,7 @@
                     <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style')" (change)="getCustomizations()"></ngx-select-dropdown>
                 </div>
                 <div class="col-md-3">
-                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style Configurator Template')" (change)="getCustomizations()"></ngx-select-dropdown>
+                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style Configurator Template')" [options]="page.data?.stylconfig" (change)="getCustomizations()"></ngx-select-dropdown>
                 </div>
                 <div class="col-md-2">
                     <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('VAS Category')" (change)="getCustomizations()"></ngx-select-dropdown>

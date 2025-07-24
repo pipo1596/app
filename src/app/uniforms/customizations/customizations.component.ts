@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment.development';
 import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { hideWait, showWait, scrollToTopInstant} from '../../shared/utils';
+import { hideWait, showWait } from '../../shared/utils';
 
 @Component({
   selector: 'app-customizations',
@@ -15,22 +15,21 @@ import { hideWait, showWait, scrollToTopInstant} from '../../shared/utils';
 export class CustomizationsComponent {
   page = new Page();
   drop = false; // More Actions
-  
-  //Search / Dropdown
-  style: any;
-  customization: any;
-  category: any;
-  warehouse: any;
-  stylconfig: any;
+
+  //Filter
+  desc: any;
+  vitem: any;
+  app: any;
 
   //Checkboxes
   checked: any[] = [];
+  assigned: any[] = [];
 
   //Paging
   p: number = 1;
   itemsPerPage: number = 10;
   total: number = 0;
-  offset = "";
+  offset = "0";
 
   constructor(private http: HttpClient,
     private router: Router,
@@ -40,11 +39,8 @@ export class CustomizationsComponent {
   ngOnInit(): void {
     localStorage.clear();
     hideWait();
-    this.checked = [];
-    this.offset = '0';
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
-      this.style = params.get('styl');
     });
     this.getCustomizations()
   }
@@ -52,6 +48,28 @@ export class CustomizationsComponent {
   loadAction(action: any){
     localStorage.setItem('UP_AUTH','Y')
     this.router.navigate(['/uniforms/mass' + action + '/' + this.page.rfno]);
+  }
+
+  getCustomizations() {
+     let data = {
+      mode: 'getInfo',
+      nhno: this.page.rfno,
+      desc: this.desc,
+      item: this.vitem ? this.vitem.vedp : '',
+      app: this.app ? this.app.n1no: '',
+      itemsPerPage: this.itemsPerPage,
+      currentPage: this.p
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNP', data).subscribe(response => {
+      this.page.data = response;
+      if (this.page.data.title) this.page.title = this.page.data.title;
+      if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
+      if (this.page.data.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data.total) this.total = this.page.data.total
+      this.page.loading = false;
+      hideWait();
+    });
   }
 
   loadCustomization(mode: any, npno: any){
@@ -78,9 +96,8 @@ export class CustomizationsComponent {
       npno: npno
     }
 
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
       this.page.data = response;
-
       if (this.page.data.result != 'pass'){
         this.page.loading = false;
         hideWait();
@@ -90,35 +107,8 @@ export class CustomizationsComponent {
     });
   }
 
-  getCustomizations() {
-     let data = {
-      nhno: this.page.rfno,
-      style: this.style,
-      customization: this?.customization?.npno,
-      category: this?.category?.nano,
-      warehouse: this?.warehouse?.whno,
-      stylconfig: this?.stylconfig?.vfgn,
-      itemsPerPage: this.itemsPerPage,
-      currentPage: this.p,
-      offset: this.offset
-    }
-
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNI', data).subscribe(response => {
-
-      this.page.data = response;
-      if (this.page.data.title) this.page.title = this.page.data.title;
-      if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
-      if (this.page.data.menu) this.page.menu = this.page.data.menu;
-      if (this.page.data.total) this.total = this.page.data.total
-      if (this.page.data.offset) this.offset = this.page.data.offset
-      this.page.loading = false;
-      hideWait();
-      scrollToTopInstant();
-    });
-  }
-
   allChecked(){
-    for (let i = 0; i < this.page.data?.products.length; i++) {
+    for (let i = 0; i < this.page.data?.customizations.length; i++) {
       if(!(this.isChecked(this.page.data.customizations[i]))){
         return false;
       }
@@ -130,24 +120,43 @@ export class CustomizationsComponent {
   }
 
   checkAll() {
+    var all = this.allChecked()
     for (let i = 0; i < this.page.data.customizations.length; i++) {
-      this.checkCustomization(this.page.data.customizations[i])
+      if (!all && !this.isChecked(this.page.data.customizations[i]) ||
+           all && this.isChecked(this.page.data.customizations[i])) {
+        this.checkCustomization(this.page.data.customizations[i])
+      }
     }
+    console.log(this.checked)
   }
 
   checkCustomization(customization: any) {
-    if(this.isChecked(customization)) {
-      let index = this.checked.findIndex(x => x.npno === customization.npno)
+    let np = {
+      npno: customization.npno
+    }
+
+    if(this.isChecked(np)) {
+      let index = this.checked.findIndex(x => x.npno === np.npno)
       this.checked.splice(index,1)
     } else {
-      this.checked.push(customization);
+      this.checked.push(np);
       this.checked.sort();
     }    
+    console.log(this.checked)
   }
 
   assignStyles(){
-    localStorage.setItem('UP_AUTH','Y')
-    this.router.navigate(['/uniforms/customizations/assign/' + this.page.rfno]);
+    showWait()
+    if(this.checked.length == 0){
+      window.alert("Must select a customization to assign styles");
+    } else{
+      localStorage.setItem('UP_AUTH','Y')
+      let customizations = JSON.stringify(this.checked)
+      localStorage.setItem('assign',customizations)
+      this.router.navigate(['/uniforms/products/' + this.page.rfno]);
+    }
+    hideWait()
+    this.page.loading = false;
   }
 
   searchConfig(mode: string){
@@ -164,7 +173,7 @@ export class CustomizationsComponent {
 
   loadVAS(npno: any){
     localStorage.setItem('UP_AUTH','Y')
-    this.router.navigate(['/uniforms/vascustomizations/' + this.page.rfno + '/' + npno]);
+    this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + npno]);
   }
 
   onItemChange(event: number){

@@ -36,32 +36,35 @@
 
             <div class="row g-3 mb-4">
                 <div class="col-md-2">
-                    <input list="matchesSrch" placeholder="Search" [(ngModel)]="style" class="form-control">
+                    <input placeholder="Search" [(ngModel)]="desc" class="form-control">
                 </div>
                 <div class="col-md-3">
-                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('VAS Item')" [options]="page.data?.customizations" [(ngModel)]="customization" (change)="getCustomizations()"></ngx-select-dropdown>
+                    <ngx-select-dropdown name="inputVEDP" [config]="searchConfig('VAS Item')" [options]="page.data?.items" [(ngModel)]="vitem" (change)="getCustomizations()"></ngx-select-dropdown>
                 </div>
                 <div class="col-md-2">
-                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Application')" [options]="page.data?.customizations" [(ngModel)]="customization" (change)="getCustomizations()"></ngx-select-dropdown>
+                    <ngx-select-dropdown name="inputN1NO" [config]="searchConfig('Application')" [options]="page.data?.apps" [(ngModel)]="app" (change)="getCustomizations()"></ngx-select-dropdown>
                 </div>
                 <div class="col-md-2">
-                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Image')" [options]="page.data?.customizations" [(ngModel)]="customization" (change)="getCustomizations()"></ngx-select-dropdown>
+                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Image')" (change)="getCustomizations()"></ngx-select-dropdown>
                 </div>
             </div>
 
             <div class="row g-3 mb-4">
                 <div class="col-md-2">
-                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style')" [options]="page.data?.customizations" [(ngModel)]="customization" (change)="getCustomizations()"></ngx-select-dropdown>
+                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style')" (change)="getCustomizations()"></ngx-select-dropdown>
                 </div>
                 <div class="col-md-3">
-                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style Configurator Template')" [options]="page.data?.customizations" [(ngModel)]="customization" (change)="getCustomizations()"></ngx-select-dropdown>
+                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style Configurator Template')" (change)="getCustomizations()"></ngx-select-dropdown>
                 </div>
                 <div class="col-md-2">
-                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('VAS Category')" [options]="page.data?.customizations" [(ngModel)]="customization" (change)="getCustomizations()"></ngx-select-dropdown>
+                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('VAS Category')" (change)="getCustomizations()"></ngx-select-dropdown>
                 </div>
                 <div class="col-md-2">
-                    <input list="matchesSrch" placeholder="Last Usage Date" [(ngModel)]="style" class="form-control">
+                    <input list="matchesSrch" placeholder="Last Usage Date" class="form-control">
                 </div>
+                <div class="col-md-3 mb-3">
+                    <button class="btn btn-primary rounded-0 me-5 w-25" type="button" (click)="getCustomizations()">Go</button>
+                </div>   
             </div>
 
             <div class="row g-3 mb-4">
@@ -79,8 +82,10 @@
             <table class="table table-striped w-100">
                 <thead>
                     <tr>
-                        <th align="left" class="ps-2 pe-3 pb-1"><input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked()"></th>
-                        <th align="left" class="w-25" class="ps-3">Actions</th>
+                        <th align="left" class="ps-2 pe-3 pb-1">
+                            <input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked() && page.data?.customizations.length > 0">
+                        </th>
+                        <th align="left" class="w-25 ps-3">Actions</th>
                         <th align="left">Customization Name</th>
                         <th align="left">Customization Desc</th>
                         <th align="left">Style Count</th>
@@ -89,44 +94,28 @@
                 </thead>
 
                 <tbody>
-                    <tr>
-                        <td align="left" class="ps-2"><input type="checkbox" class="form-check-input"></td>
+                    <tr *ngFor="let customization of page.data?.customizations | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
+                        <td align="left" class="ps-2" colspan="1"><input type="checkbox" class="form-check-input" (click)="checkCustomization(customization)" [checked]="isChecked(customization)"></td>
                         <td class="w-25">
-                            <button class="btn bg-transparent" (click)="loadCustomization('edit','000000000043825')"><span
+                            <button class="btn bg-transparent" (click)="loadCustomization('edit', customization.npno)"><span
                                 class="bi bi-pencil-square" title="Edit Product"></span></button>
-                            <button class="btn bg-transparent" (click)="loadCustomization('copy','000000000043825')"><span
+                            <button class="btn bg-transparent" (click)="loadCustomization('copy', customization.npno)"><span
                                 class="bi bi-clipboard" title="Copy Product"></span></button>
-                            <button class="btn bg-transparent"><span
+                            <button class="btn bg-transparent" (click)="deleteCustomization(customization.npno)"><span
                                 class="bi bi-trash" title="Product Details"></span></button>
-                            <button class="btn btn-outline-primary btn-sm" (click)="loadVAS('000000000045094')">VAS</button>
+                            <button class="btn btn-outline-primary btn-sm" (click)="loadVAS(customization.npno)">VAS</button>
                         </td>
-                        <td align="left">Polo</td>
-                        <td align="left">EC9173</td>
+                        <td align="left">{{customization.name}}</td>
+                        <td align="left">{{customization.desc}}</td>
                         <td align="left">
-                            <div class="tooltip">0
+                            <!-- <div class="tooltip">0
                                 <span class="tooltiptext">
                                     Style A<br>Style B<br>Style C<br>Style D<br>Style E<br>
                                 </span>
-                            </div>
+                            </div>  -->
                         </td>
-                        <td align="left">2</td>
+                        <td align="left"></td>
                     </tr>
-                    <!-- <tr *ngFor="let product of page.data?.products | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
-                        <td align="left" class="ps-2" colspan="1"><input type="checkbox" class="form-check-input" id="ckbx{{ product.nino }}"  value="{{ product }}" (click)="checkCustomization(product)" [checked] = "isChecked(product)"></td>
-                        <td class="w-25">
-                            <button class="btn bg-transparent" (click)="loadCustomization('edit', product.nino)"><span
-                                class="bi bi-pencil-square" title="Edit Product"></span></button>
-                            <button class="btn bg-transparent" (click)="loadCustomization('copy', product.nino)"><span
-                                class="bi bi-clipboard" title="Copy Product"></span></button>
-                            <button class="btn bg-transparent" (click)="deleteCustomization(product.nino)"><span
-                                class="bi bi-trash" title="Product Details"></span></button>
-                            <button class="btn btn-outline-primary btn-sm" (click)="loadVAS('000000000043825')">VAS</button>
-                        </td>
-                        <td align="left" colspan="1">{{product.styl}}</td>
-                        <td align="left" colspan="2">{{product.desc}}</td>
-                        <td align="left" colspan="1" style="width: 10%;">{{product.opv1}}</td>
-                        <td align="left" colspan="1">{{product.nadesc}}</td>
-                    </tr> -->
                 </tbody> 
             </table> 
         </div>

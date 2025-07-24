@@ -2,9 +2,9 @@
 <section class="ftco-section bg-light pb-3 pt-5">
     <div class="card mx-auto mb-5 w-75 h-100">
         <div class="card-body">
-                <form (submit)="validate()">
-                    <!-- <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
-                    <h6 class="mb-3" *ngIf="page.data?.result == 'pass'"><strong class="text-primary">Product Updated Successfully</strong></h6> -->
+                <form (submit)="page.editmode ? validate() : loadProduct()">
+                    <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
+                    <!-- <h6 class="mb-3" *ngIf="page.data?.result == 'pass'"><strong class="text-primary">Product Updated Successfully</strong></h6> -->
                     <div class="row g-3">
                         <div class="col-md-10">
                             <h6>Uniform Program - {{ page.data?.pgName }}</h6>
@@ -38,24 +38,26 @@
                         </div>
                     </div>
 
-                    <div class="row g-3 mb-4" *ngIf="styl">
+                    <div class="row g-3 mb-4" *ngIf="styl && page.editmode">
                         <div class="col-md-3">
                             <label for="inputSKU" class="form-label">SKU:</label>
                             <ngx-select-dropdown name="skuDrop" [multiple]="true" [config]="searchConfig()" (change)="sku = $event.value" [options]="page.data?.sku" [(ngModel)]="sku"></ngx-select-dropdown>
                         </div>
+                        <h6>-- OR --</h6>
                     </div>
 
                     <div class="row g-3" *ngIf="styl || item">
-                        <h6>-- OR --</h6>
-                        <div *ngIf="page.data?.optionH[0]" class="col-md-2">
-                            <label for="inputOP1" class="form-label">{{ page.data?.optionH[0]}}</label>
-                        </div>
-                        <div *ngIf="page.data?.optionH[1]" class="col-md-2">
-                            <label for="inputOP1" class="form-label">{{ page.data?.optionH[1]}}</label>
-                        </div>
-                        <div *ngIf="page.data?.optionH[2]" class="col-md-2">
-                            <label for="inputOP1" class="form-label">{{ page.data?.optionH[2]}}</label>
-                        </div>
+                        <ng-container *ngIf="page.data?.optionH">
+                            <div *ngIf="page.data?.optionH[0]" class="col-md-2">
+                                <label for="inputOP1" class="form-label">{{ page.data?.optionH[0]}}</label>
+                            </div>
+                            <div *ngIf="page.data?.optionH[1]" class="col-md-2">
+                                <label for="inputOP1" class="form-label">{{ page.data?.optionH[1]}}</label>
+                            </div>
+                            <div *ngIf="page.data?.optionH[2]" class="col-md-2">
+                                <label for="inputOP1" class="form-label">{{ page.data?.optionH[2]}}</label>
+                            </div>
+                        </ng-container>
                     </div>
 
                     <div class="row g-3 mb-5">
@@ -101,7 +103,7 @@
                     <div class="row g-3 mb-5" *ngIf="styl">
                         <div class="col-md-3">
                             <label for="inputItem" class="form-label">Customization:</label>
-                            <ngx-select-dropdown name="custDrop" [multiple]="true" [config]="searchConfig()" (change)="custs = $event.value" [options]="page.data?.customizations" [(ngModel)]="custs"></ngx-select-dropdown>
+                            <ngx-select-dropdown name="custDrop" [multiple]="true" [config]="searchConfig()" (change)="custs = $event.value" [options]="page.data.customizations" [(ngModel)]="custs"></ngx-select-dropdown>
                         </div>
                     </div>
 

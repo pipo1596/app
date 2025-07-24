@@ -39,7 +39,7 @@ export class ProductsComponent {
   ) { }
 
   ngOnInit(): void {
-    this.view = localStorage.getItem('view')
+    this.view = localStorage.getItem('assign') ? 'assign' : ''
     localStorage.clear();
     this.checked = [];
     this.offset = '0';

@@ -125,7 +125,8 @@ export class ProductComponent {
     let data = {
       mode: 'getInfo',
       nhno: this.nhno,
-      nino: this.nino
+      nino: this.nino,
+      styl: this.nino ? '' : this.item
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
@@ -145,13 +146,6 @@ export class ProductComponent {
           this.desc = 'Copy of ' + this.page.data?.info.desc;
         } else { this.desc = this.page.data?.info.desc; }
       }
-
-      // if (this.page.data?.info?.options){
-      //   for (let i = 0; i < this.page.data?.info?.options.length; i++) {
-      //     if (this.page.data?.info.options[i] !== ''){
-      //       this.opv[i].push(this.page.data?.info.options[i])
-      //     } else break }
-      // }
 
       if (this.page.data?.optionChk){
         for (let i = 0; i < this.page.data?.optionChk.length; i++) {
@@ -244,12 +238,21 @@ export class ProductComponent {
   }
 
   generateOpt(){
+    let arrays = []
     const arr1 = this.opv[0]
     const arr2 = this.opv[1]
     const arr3 = this.opv[2]
-    let combinations = this.getCombinations([arr1,arr2,arr3]);
-    for (let i = 0; i < combinations.length; i++) {
+    if(arr1.length > 0) arrays.push(arr1)
+    if(arr2.length > 0) arrays.push(arr2)
+    if(arr3.length > 0) arrays.push(arr3)
+
+    if(arrays.length > 1){
+      let combinations = this.getCombinations(arrays);
+      for (let i = 0; i < combinations.length; i++) {
       this.options.push(combinations[i].toString().replaceAll(',',' '))
+      }
+    } else {
+      this.options = arrays[0];
     }
     console.log(this.options)
   }
@@ -296,7 +299,7 @@ export class ProductComponent {
     let mode = (this.page.editmode ? 'update' : 'create')
 
     this.options = [];
-    if(!this.sku && this.opv){
+    if(this.sku.length == 0 && this.opv){
       this.generateOpt();
     } else if(this.sku.length > 0){
       for (let i = 0; i < this.sku.length; i++) {
@@ -337,10 +340,10 @@ export class ProductComponent {
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
       this.page.data = response;
 
-      // if (this.page.data.result == 'pass' && this.page.data.nhno){
-      //  localStorage.setItem('UP_AUTH','Y');
-      //  this.router.navigate(['/uniforms/products/' + this.page.data.nhno]);
-      // }
+      if (this.page.data.result == 'pass' && this.page.data.nhno){
+       localStorage.setItem('UP_AUTH','Y');
+       this.router.navigate(['/uniforms/products/' + this.page.data.nhno]);
+      }
 
       this.page.loading = false;
       hideWait();

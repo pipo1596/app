@@ -172,6 +172,7 @@ export class ProductComponent {
 
 
       if (this.page.data?.info?.nano){
+        this.nano = this.page.data?.info?.nano
         let cat = {
           nano: this.page.data?.info?.nano,
           desc: this.page.data?.info?.nadesc

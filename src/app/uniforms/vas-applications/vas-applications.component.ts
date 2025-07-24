@@ -6,15 +6,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait, convertToDate, formatDateUS } from '../../shared/utils';
 
 @Component({
-  selector: 'app-vas-customizations',
+  selector: 'app-vas-applications',
   standalone: false,
-  templateUrl: './vas-customizations.component.html',
-  styleUrl: './vas-customizations.component.css'
+  templateUrl: './vas-applications.component.html',
+  styleUrl: './vas-applications.component.css'
 })
 
-export class VasCustomizationsComponent {
+export class VasApplicationsComponent {
   page = new Page();
   drop = false; // More Actions
+  allexpanded: boolean = false;
   expanded: any[] = [];
 
   // Input 
@@ -62,18 +63,37 @@ export class VasCustomizationsComponent {
     });
   }
 
+  expandApplication(application: any){
+    if(this.expanded.includes(application)){
+      this.expanded.splice(this.expanded.indexOf(application),1)
+    } else{
+      this.expanded.push(application)
+    }
+  }
+
+  expandAll(){
+    for (let i = 0; i < this.page.data?.applications.length; i++) {
+      let application = this.page.data?.applications[i]
+      if(this.allexpanded && this.expanded.indexOf(application) == -1){
+        this.expanded.push(application)
+      } else if(!this.allexpanded && this.expanded.indexOf(application) !== -1){
+        this.expanded.splice(this.expanded.indexOf(application),1)
+      }
+    }
+  }
+
   loadCustomization(mode: any, n1no: any){
     localStorage.setItem('UP_AUTH','Y');
     switch(mode){
       case 'new':
-        this.router.navigate(['/uniforms/vascustomization/' + this.page.rfno + '/' + this.npno]);
+        this.router.navigate(['/uniforms/vasapplication/' + this.page.rfno + '/' + this.npno]);
         break;
       case 'edit':
-        this.router.navigate(['/uniforms/vascustomization/' + this.page.rfno + '/' + this.npno + '/' + n1no]);
+        this.router.navigate(['/uniforms/vasapplication/' + this.page.rfno + '/' + this.npno + '/' + n1no]);
         break;
       case 'copy':
         localStorage.setItem('copy', n1no)
-        this.router.navigate(['/uniforms/vascustomization/' + this.page.rfno + '/' + this.npno + '/' + n1no]);
+        this.router.navigate(['/uniforms/vasapplication/' + this.page.rfno + '/' + this.npno + '/' + n1no]);
         break;
     }
   }
@@ -112,14 +132,18 @@ export class VasCustomizationsComponent {
   }
 
   checkAll() {
-    for (let i = 0; i < this.page.data.applications.length; i++) {
-      this.checkCustomization(this.page.data.applications[i])
+    var all = this.allChecked()
+    for (let i = 0; i < this.page.data?.applications.length; i++) {
+      if (!all && !this.isChecked(this.page.data?.applications[i]) ||
+           all && this.isChecked(this.page.data?.applications[i])) {
+        this.checkApplication(this.page.data?.applications[i])
+      }
     }
   }
 
-  checkCustomization(application: any) {
+  checkApplication(application: any) {
     if(this.isChecked(application)) {
-      let index = this.checked.findIndex(x => x.npno === application.n1no)
+      let index = this.checked.findIndex(x => x.n1no === application.n1no)
       this.checked.splice(index,1)
     } else {
       this.checked.push(application);
@@ -140,12 +164,14 @@ export class VasCustomizationsComponent {
     showWait();
     this.itemsPerPage = event
     this.getCustomizations()
+    this.expanded = []
   }
 
   onPageChange(event: number) {
     showWait();
     this.p = event
     this.getCustomizations()
+    this.expanded = []
   }
 
 }

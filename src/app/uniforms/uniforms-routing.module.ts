@@ -30,8 +30,8 @@ import { CxmlCustomerComponent } from './cxml-customer/cxml-customer.component';
 import { CxmlCategoriesComponent } from './cxml-categories/cxml-categories.component';
 import { CustomizationsComponent } from './customizations/customizations.component';
 import { CustomizationComponent } from './customization/customization.component';
-import { VasCustomizationsComponent } from './vas-customizations/vas-customizations.component';
-import { VasCustomizationComponent } from './vas-customization/vas-customization.component';
+import { VasApplicationComponent } from './vas-application/vas-application.component';
+import { VasApplicationsComponent } from './vas-applications/vas-applications.component';
 import { MassAppComponent } from './mass-app/mass-app.component';
 import { MassItemComponent } from './mass-item/mass-item.component';
 import { MassQuestionComponent } from './mass-question/mass-question.component';
@@ -71,9 +71,9 @@ const routes: Routes = [
   { path: 'customizations/:nhno', component: CustomizationsComponent, canActivate: [authGuard]  },
   { path: 'customization/:nhno', component: CustomizationComponent, canActivate: [authGuard]  }, 
   { path: 'customization/:nhno/:npno', component: CustomizationComponent, canActivate: [authGuard]  }, 
-  { path: 'vascustomizations/:nhno/:npno', component: VasCustomizationsComponent, canActivate: [authGuard]  },
-  { path: 'vascustomization/:nhno/:npno', component: VasCustomizationComponent, canActivate: [authGuard]  },
-  { path: 'vascustomization/:nhno/:npno/:n1no', component: VasCustomizationComponent, canActivate: [authGuard]  },
+  { path: 'vasapplications/:nhno/:npno', component: VasApplicationsComponent, canActivate: [authGuard]  },
+  { path: 'vasapplication/:nhno/:npno', component: VasApplicationComponent, canActivate: [authGuard]  },
+  { path: 'vasapplication/:nhno/:npno/:n1no', component: VasApplicationComponent, canActivate: [authGuard]  },
 
   //Mass Updates
   { path: 'massquestion/:nhno', component: MassQuestionComponent, canActivate: [authGuard]  },

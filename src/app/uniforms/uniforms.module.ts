@@ -34,8 +34,8 @@ import { WarehouseComponent } from './warehouse/warehouse.component';
 import { ProductComponent } from './product/product.component';
 import { CustomizationsComponent } from './customizations/customizations.component';
 import { CustomizationComponent } from './customization/customization.component';
-import { VasCustomizationsComponent } from './vas-customizations/vas-customizations.component';
-import { VasCustomizationComponent } from './vas-customization/vas-customization.component';
+import { VasApplicationsComponent } from './vas-applications/vas-applications.component';
+import { VasApplicationComponent } from './vas-application/vas-application.component';
 import { MassAppComponent } from './mass-app/mass-app.component';
 import { MassItemComponent } from './mass-item/mass-item.component';
 import { MassQuestionComponent } from './mass-question/mass-question.component';
@@ -72,8 +72,8 @@ import { MassQuestionComponent } from './mass-question/mass-question.component';
     ProductComponent,
     CustomizationsComponent,
     CustomizationComponent,
-    VasCustomizationsComponent,
-    VasCustomizationComponent,
+    VasApplicationComponent,
+    VasApplicationsComponent,
     MassAppComponent,
     MassItemComponent,
     MassQuestionComponent

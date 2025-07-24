@@ -42,7 +42,7 @@
             <div class="row g-3 mb-4">
                 <div class="col-md-3">
                     <span>Expand All VAS Questions: </span>
-                    <input class="form-check-input ms-1 me-5" type="checkbox" value="">
+                    <input class="form-check-input ms-1 me-5" type="checkbox" [(ngModel)]="allexpanded" (change)="expandAll()">
                 </div>
             </div>
 
@@ -62,24 +62,34 @@
                 </thead>
 
                 <tbody>
-                    <tr *ngFor="let application of page.data?.applications | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
-                        <td align="left" class="ps-2" colspan="1"><input type="checkbox" class="form-check-input" id="ckbx{{ application.n1no }}"  value="{{ application }}" (click)="checkCustomization(application)" [checked] = "isChecked(application)"></td>
-                        <td class="w-25">
-                            <button class="btn bg-transparent" (click)="loadCustomization('edit', application.n1no)"><span
-                                class="bi bi-pencil-square" title="Edit Product"></span></button>
-                            <button class="btn bg-transparent" (click)="loadCustomization('copy', application.n1no)"><span
-                                class="bi bi-clipboard" title="Copy Product"></span></button>
-                            <button class="btn bg-transparent" (click)="deleteCustomization(application.n1no)"><span
-                                class="bi bi-trash" title="Product Details"></span></button>
-                            <button class="btn bg-transparent" *ngIf="application.bttn == 'Y'"><span
-                                [ngClass]="expanded.includes(application) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category"></span></button>
-                        </td>
-                        <td align="left">{{application.v1cd}}</td>
-                        <td align="left">{{application.desc}}</td>
-                        <td align="left">{{(application.actv == 'Y') ? 'Yes' : 'No'}}</td>
-                        <td align="left">{{(application.mand == 'Y') ? 'Yes' : 'No'}}</td>
-                        <td align="left">{{(application.addt) ? dsppbdate(application.addt) : ''}}</td>
-                    </tr>
+                    <ng-container *ngFor="let application of page.data?.applications | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
+                        <tr>
+                            <td align="left" class="ps-2" colspan="1"><input type="checkbox" class="form-check-input" id="ckbx{{ application.n1no }}"  value="{{ application }}" (click)="checkApplication(application)" [checked] = "isChecked(application)"></td>
+                            <td class="w-25">
+                                <button class="btn bg-transparent" (click)="loadCustomization('edit', application.n1no)"><span
+                                    class="bi bi-pencil-square" title="Edit Product"></span></button>
+                                <button class="btn bg-transparent" (click)="loadCustomization('copy', application.n1no)"><span
+                                    class="bi bi-clipboard" title="Copy Product"></span></button>
+                                <button class="btn bg-transparent" (click)="deleteCustomization(application.n1no)"><span
+                                    class="bi bi-trash" title="Product Details"></span></button>
+                                <!-- <button class="btn bg-transparent" (click)="expandApplication(application)"><span
+                                    [ngClass]="expanded.includes(application) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category"></span></button> -->
+                            </td>
+                            <td align="left">{{application.v1cd}}</td>
+                            <td align="left">{{application.desc}}</td>
+                            <td align="left">{{(application.actv == 'Y') ? 'Yes' : 'No'}}</td>
+                            <td align="left">{{(application.mand == 'Y') ? 'Yes' : 'No'}}</td>
+                            <td align="left">{{(application.addt) ? dsppbdate(application.addt) : ''}}</td>
+                        </tr>
+
+                        <!-- <ng-container *ngIf="expanded.includes(application)">
+                            <tr>
+                                <td colspan="7">
+                                    <app-vas-questions [nhno]="page.rfno" [npno]="this.npno" [application]="application" [expanded]="expanded"></app-vas-questions>
+                                </td>
+                            </tr>
+                        </ng-container> -->
+                    </ng-container>
                 </tbody> 
             </table> 
         </div>

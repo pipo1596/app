@@ -7,13 +7,13 @@ import { DataService } from '../../services/data-trigger.service';
 import { hideWait, showWait } from '../../shared/utils';
 
 @Component({
-  selector: 'app-vas-customization',
+  selector: 'app-vas-application',
   standalone: false,
-  templateUrl: './vas-customization.component.html',
-  styleUrl: './vas-customization.component.css'
+  templateUrl: './vas-application.component.html',
+  styleUrl: './vas-application.component.css'
 })
 
-export class VasCustomizationComponent {
+export class VasApplicationComponent {
   page = new Page();
   drop = false; // More Actions
   copy: any;
@@ -44,12 +44,12 @@ export class VasCustomizationComponent {
     hideWait();
     this.setMode();
 
-    // let data = {
-    //   mode: 'getInfo',
-    //   nhno: this.nhno,
-    //   nino: this.nino,
-    //   styl: this.styl
-    // }
+    let data = {
+      mode: 'getInfo',
+      nhno: this.nhno,
+      npno: this.npno,
+      styl: this.styl
+    }
 
     // this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
     //   this.page.data = response;
@@ -112,7 +112,7 @@ export class VasCustomizationComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate(['/uniforms/vascustomizations/' + this.nhno + '/' + this.npno]);
+    this.router.navigate(['/uniforms/vasapplications/' + this.nhno + '/' + this.npno]);
   }
 
   loadProduct(mode: string){

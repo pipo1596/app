@@ -35,46 +35,43 @@
 
 
             <div class="row g-3 mb-4">
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <input placeholder="Search" [(ngModel)]="desc" class="form-control">
                 </div>
                 <div class="col-md-3">
                     <ngx-select-dropdown name="inputVEDP" [config]="searchConfig('VAS Item')" [options]="page.data?.items" [(ngModel)]="vitem" (change)="getCustomizations()"></ngx-select-dropdown>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <ngx-select-dropdown name="inputN1NO" [config]="searchConfig('Application')" [options]="page.data?.apps" [(ngModel)]="app" (change)="getCustomizations()"></ngx-select-dropdown>
                 </div>
                 <div class="col-md-2">
-                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Image')" (change)="getCustomizations()"></ngx-select-dropdown>
+                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Image')" [(ngModel)]="img" (change)="getCustomizations()"></ngx-select-dropdown>
                 </div>
             </div>
 
             <div class="row g-3 mb-4">
-                <div class="col-md-2">
-                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style')" (change)="getCustomizations()"></ngx-select-dropdown>
+                <div class="col-md-3">
+                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style')" [options]="page.data?.stylDrop" [(ngModel)]="styl" (change)="getCustomizations()"></ngx-select-dropdown>
                 </div>
                 <div class="col-md-3">
-                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style Configurator Template')" [options]="page.data?.stylconfig" (change)="getCustomizations()"></ngx-select-dropdown>
+                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style Configurator Template')" [(ngModel)]="vfg" [options]="page.data?.stylconfig" (change)="getCustomizations()"></ngx-select-dropdown>
                 </div>
-                <div class="col-md-2">
-                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('VAS Category')" (change)="getCustomizations()"></ngx-select-dropdown>
-                </div>
-                <div class="col-md-2">
-                    <input list="matchesSrch" placeholder="Last Usage Date" class="form-control">
-                </div>
+                <div class="col-md-3">
+                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('VAS Category')" [(ngModel)]="ctno" [options]="page.data?.catgDrop" (change)="getCustomizations()"></ngx-select-dropdown>
+                </div> 
+            </div>
+
+            <div class="row g-3 mb-4">
                 <div class="col-md-3 mb-3">
-                    <button class="btn btn-primary rounded-0 me-5 w-25" type="button" (click)="getCustomizations()">Go</button>
+                    <label class="col-form-label">Last Usage Date: </label>
+                    <input type="date" class="form-control" name="lsdt" value="Last Usage Date">
                 </div>   
-            </div>
-
-            <div class="row g-3 mb-4">
-                <div class="col-md-3">
-                    <strong>Show Styles: </strong>
-                    <input class="form-check-input ms-1 me-5" type="checkbox" value="">
+                <div class="col-md-1 mt-5">
+                    <button class="btn btn-primary rounded-0 w-75" type="button" (click)="getCustomizations()">Go</button>
                 </div>
-                <div class="col-md-6 d-flex flex-row-reverse justify-content-between">
-                    <input type="button" value="Assign Styles" class="btn btn-primary" id="ASSIGN" (click)="assignStyles()">
-                </div>
+                <div class="col-md-3 mt-5">
+                    <button class="btn btn-primary rounded-0 w-50" type="button" (click)="assignStyles()">Assign Styles</button>
+                </div>  
             </div>
 
             <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
@@ -107,13 +104,14 @@
                         </td>
                         <td align="left">{{customization.name}}</td>
                         <td align="left">{{customization.desc}}</td>
-                        <td align="left">
-                            <!-- <div class="tooltip">0
+                        <td align="left" *ngIf="customization.styles.length > 0">
+                            <div class="tooltip">{{customization.styles.length}}
                                 <span class="tooltiptext">
-                                    Style A<br>Style B<br>Style C<br>Style D<br>Style E<br>
+                                    <p *ngFor="let style of customization.styles; index as i">{{style.styl}}</p>
                                 </span>
-                            </div>  -->
+                            </div> 
                         </td>
+                        <td align="left" *ngIf="customization.styles.length == 0">{{customization.stylCount}}</td>
                         <td align="left"></td>
                     </tr>
                 </tbody> 

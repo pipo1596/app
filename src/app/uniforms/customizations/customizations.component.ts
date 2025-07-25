@@ -20,6 +20,12 @@ export class CustomizationsComponent {
   desc: any;
   vitem: any;
   app: any;
+  img: any;
+  styl: any;
+  vfg: any;
+  ctno: any;
+  lsdt: any;
+  lsdtUsa: any;
 
   //Checkboxes
   checked: any[] = [];
@@ -51,22 +57,33 @@ export class CustomizationsComponent {
   }
 
   getCustomizations() {
+    showWait();
      let data = {
       mode: 'getInfo',
       nhno: this.page.rfno,
       desc: this.desc,
-      item: this.vitem ? this.vitem.vedp : '',
-      app: this.app ? this.app.n1no: '',
+      item: this.vitem?.vedp,
+      app: this.app?.n1no,
+      img: this.img,
+      style: this.styl?.styl,
+      vfg: this.vfg?.vfgn,
+      ctno: this.ctno?.ctno,
+      lsdt: this.lsdtUsa,
       itemsPerPage: this.itemsPerPage,
       currentPage: this.p
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNP', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data.title) this.page.title = this.page.data.title;
-      if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
-      if (this.page.data.menu) this.page.menu = this.page.data.menu;
-      if (this.page.data.total) this.total = this.page.data.total
+      if (this.page.data?.title) this.page.title = this.page.data.title;
+      if (this.page.data?.fullname) this.page.fullname = this.page.data.fullname;
+      if (this.page.data?.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data?.total) this.total = this.page.data.total
+      if (this.page.data?.stylDrop){
+        this.page.data.stylDrop.forEach((styl: any) => {
+          styl.desc = styl.styl + ' - ' + styl.desc
+        });
+      }
       this.page.loading = false;
       hideWait();
     });
@@ -166,7 +183,7 @@ export class CustomizationsComponent {
       placeholder: mode,
       height: '300px',
       noResultsFound: 'No results found',
-      searchOnKey: 'desc'
+      searchOnKey: mode == 'Style' ? 'styl' : 'desc'
     }
     return config
   }

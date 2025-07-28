@@ -1,0 +1,195 @@
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+<section class="ftco-section bg-light pb-3 pt-5">
+
+    <div class="card mx-auto mb-5 w-75 h-100">
+        <div class="card-body">
+            <form [action]="loadQuestion()">
+
+                <div class="row g-4 mb-2">
+                    <div class="col-8">
+                        <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-5">
+                    <div class="col-md-9">
+                        <h6><small>Catalog > Customization > </small></h6>
+                    </div>
+                </div>
+
+                <div class="form-group row g-3 mb-3 ms-5" *ngIf="(errors)">
+                    <div class="col-md-4">
+                        <h6 class="mb-3"><strong class="text-danger">{{errors}}</strong></h6>
+                    </div>
+                </div>
+                
+                <div class="form-group row g-3 mb-3">
+                    <label class="col-md-2 col-form-label" align="right"><strong>Personalization Group:</strong></label>
+                    <div class="col-md-3">
+                        <input type="text" readonly class="form-control-plaintext" [value]="page.data?.info.npname">
+                    </div>
+                </div>
+                <div class="form-group row g-3 mb-3">
+                    <label class="col-md-2 col-form-label" align="right"><strong>VAS Application:</strong></label>
+                    <div class="col-md-3">
+                        <input type="text" readonly class="form-control-plaintext" [value]="page.data?.info.nv1desc">
+                    </div>
+                </div>
+                <div class="form-group row g-3 mb-3">
+                    <label class="col-md-2 col-form-label" align="right"><strong>VAS Question:</strong></label>
+                    <div class="col-md-3">
+                        <input type="text" readonly class="form-control-plaintext" [value]="page.data?.info.cv2desc">
+                    </div>
+                </div>
+                <div class="form-group row g-3 mb-3">
+                    <label class="col-md-2 col-form-label" align="right"><strong>Description:</strong></label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" name="inputDesc" [(ngModel)]="desc" [value] = 'desc'>
+                    </div>
+                </div>
+                <div class="form-group row g-3 mb-3">
+                    <label class="col-md-2 col-form-label" align="right"><strong>Sequence:</strong></label>
+                    <div class="col-md-3">
+                        <select name="" class="form-select">
+                            <option value="">Select</option>
+                            <option *ngFor="let sequence of page.data?.seqDrop" [value]="trim(sequence.value)" [selected]="page.data?.info.seq == seqOpt.value" #seqOpt>{{sequence.desc}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row g-3 mb-3">
+                    <label class="col-md-2 col-form-label" align="right"><strong>Active:</strong></label>
+                    <div class="col-md-3">
+                        <select name="" class="form-select">
+                            <option value="">Select</option>
+                            <option *ngFor="let status of page.data?.ynDrop" [value]="trim(status.value)" [selected]="page.data?.info.actv == statOpt.value" #statOpt>{{status.desc}}</option>
+                        </select>
+                    </div>
+                </div>
+                <ng-container *ngIf="type == 'I' || type == 'P'">
+                    <div class="form-group row g-3 mb-3">
+                        <label class="col-md-2 col-form-label" align="right"><strong>Min Length:</strong></label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" [value]="page.data?.info.mini">
+                        </div>
+                    </div>
+                    <div class="form-group row g-3 mb-3">
+                        <label class="col-md-2 col-form-label" align="right"><strong>Max Length:</strong></label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" [value]="page.data?.info.maxi">
+                        </div>
+                    </div>
+                    <div class="form-group row g-3 mb-3">
+                        <label class="col-md-2 col-form-label" align="right"><strong>Restriction List:</strong></label>
+                        <div class="col-md-3">
+                            <input type="text" readyonly class="form-control-plaintext" [value]="page.data?.info.maxi">
+                        </div>
+                        <div class="col-md-1 mt-5">
+                            <button class="btn btn-light">
+                                <span class="bi bi-search" title="Inquire"></span>
+                            </button>
+                        </div>
+                    </div>
+                </ng-container>
+                <div class="form-group row g-3 mb-3" *ngIf="type == 'D'">
+                    <label class="col-md-2 col-form-label" align="right"><strong><span class="text-danger">*</span>Droplist:</strong></label>
+                        <div class="col-md-3">
+                            <input type="text" readonly class="form-control-plaintext" [value]="page.data?.info.vh2vhdesc">
+                        </div>
+                        <div class="col-md-1 mt-5">
+                            <button class="btn btn-light">
+                                <span class="bi bi-search" title="Inquire"></span>
+                            </button>
+                        </div>
+                </div>
+                <ng-container *ngIf="type == 'R'">
+                    <div class="form-group row g-3 mb-3">
+                        <label class="col-md-2 col-form-label" align="right"><strong>Range Min:</strong></label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" [value]="page.data?.info.minr">
+                        </div>
+                    </div>
+                    <div class="form-group row g-3 mb-3">
+                        <label class="col-md-2 col-form-label" align="right"><strong>Range Max:</strong></label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" [value]="page.data?.info.maxr">
+                        </div>
+                    </div>
+                    <div class="form-group row g-3 mb-3">
+                        <label class="col-md-2 col-form-label" align="right"><strong>Range Dec Precision:</strong></label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" [value]="page.data?.info.decr">
+                        </div>
+                    </div>
+                    <div class="form-group row g-3 mb-3">
+                        <label class="col-md-2 col-form-label" align="right"><strong>Range Increment:</strong></label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" [value]="page.data?.info.incr">
+                        </div>
+                    </div>
+                </ng-container>
+                <div class="form-group row g-3 mb-3" *ngIf="type == 'E'">
+                    <label class="col-md-2 col-form-label" align="right"><strong>Vas Material Type:</strong></label>
+                    <div class="col-md-3">
+                        <select name="" class="form-select">
+                            <option value="">Select</option>
+                            <option *ngFor="let type of page.data?.vsmtDrop" [value]="trim(type.value)" [selected]="page.data?.info.vsmt == typeOpt.value" #typeOpt>{{type.desc}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row g-3 mb-3">
+                    <label class="col-md-2 col-form-label" align="right"><strong>Default Answer:</strong></label>
+                    <div class="col-md-3">
+                        <select name="" class="form-select">
+                            <option value="">Select</option>
+                            <option *ngFor="let answer of page.data?.dfltAnsDrop" [value]="answer.value" [selected]="page.data?.info.dfan == dfanOpt.value" #dfanOpt>{{answer.desc}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row g-3 mb-3">
+                    <label class="col-md-2 col-form-label" align="right"><strong>Default if no Parent found:</strong></label>
+                    <div class="col-md-3">
+                        <select name="" class="form-select">
+                            <option value="">Select</option>
+                            <option *ngFor="let answer of page.data?.dfltAnsPDrop" [value]="answer.value" [selected]="page.data?.info.pdfan == pdfanOpt.value" #pdfanOpt>{{answer.desc}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row g-3 mb-3">
+                    <label class="col-md-2 col-form-label" align="right"><strong>Display Default Locked Answer:</strong></label>
+                    <div class="col-md-3" *ngIf="page.rfno !== '000000000000269'">
+                        <input type="checkbox" class="form-check-input mt-4" [checked]="page.data?.info.dspd" [value]="page.data?.info.dspd">
+                    </div>
+                    <div class="col-md-3" *ngIf="page.rfno == '000000000000269'">
+                        <select name="" class="form-select">
+                            <option value="">Select</option>
+                            <option *ngFor="let default of page.data?.dspdDrop" [value]="default.value" [selected]="page.data?.info.dspd == dspdOpt.value" #dspdOpt>{{default.desc}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row g-3 mb-3">
+                    <label class="col-md-2 col-form-label" align="right"><strong>Force Default:</strong></label>
+                    <div class="col-md-3">
+                        <input type="checkbox" class="form-check-input mt-4" [checked]="page.data?.info.dflk" [value]="page.data?.info.dflk">
+                    </div>
+                </div>
+                <div class="form-group row g-3 mb-3">
+                    <label class="col-md-2 col-form-label" align="right"><strong>Rule:</strong></label>
+                    <div class="col-md-3">
+                        <select name="" class="form-select">
+                            <option value="">Select</option>
+                            <option *ngFor="let rule of page.data?.ruleDrop" [value]="rule.value" [selected]="page.data?.info.rule == ruleOpt.value" #ruleOpt>{{rule.desc}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row">
+                    <div class="col-md-3 ms-5">
+                        <button type="submit" class="btn btn-primary me-3">Save</button>
+                        <button class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <app-footer></app-footer>
+</section>

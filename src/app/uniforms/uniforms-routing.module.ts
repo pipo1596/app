@@ -32,6 +32,7 @@ import { CustomizationsComponent } from './customizations/customizations.compone
 import { CustomizationComponent } from './customization/customization.component';
 import { VasApplicationComponent } from './vas-application/vas-application.component';
 import { VasApplicationsComponent } from './vas-applications/vas-applications.component';
+import { VasQuestionComponent } from './vas-question/vas-question.component';
 import { MassAppComponent } from './mass-app/mass-app.component';
 import { MassItemComponent } from './mass-item/mass-item.component';
 import { MassQuestionComponent } from './mass-question/mass-question.component';
@@ -74,6 +75,7 @@ const routes: Routes = [
   { path: 'vasapplications/:nhno/:npno', component: VasApplicationsComponent, canActivate: [authGuard]  },
   { path: 'vasapplication/:nhno/:npno', component: VasApplicationComponent, canActivate: [authGuard]  },
   { path: 'vasapplication/:nhno/:npno/:n1no', component: VasApplicationComponent, canActivate: [authGuard]  },
+  { path: 'vasquestion/:nhno/:npno', component: VasQuestionComponent, canActivate: [authGuard]  },
 
   //Mass Updates
   { path: 'massquestion/:nhno', component: MassQuestionComponent, canActivate: [authGuard]  },

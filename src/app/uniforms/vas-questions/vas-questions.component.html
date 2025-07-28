@@ -1,0 +1,51 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th align="left"></th>
+            <th align="left">VAS Question</th>
+            <th align="left">Type</th>
+            <th align="left">Force Default</th>
+            <th align="left">Display Forced Answer</th>
+            <th align="left">Default Answer</th>
+            <th align="left"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let question of page.data?.vasq; index as i">
+            <td class="ps-5">
+                <button class="btn bg-transparent" (click)="editQuestion(question)"><span
+                    class="bi bi-pencil-square" title="Edit Category"></span></button>
+            </td>
+            <td align="left">{{question.desc}}</td>
+            <td align="left">{{question.typeDesc}}</td>
+            <td align="left">
+                <input class="form-check-input" type="checkbox" [id]="'dflk' + i" [checked]="question.dflk == 'Y'" >
+            </td>
+            <td align="left">
+                <select class="form-select" name="displayForced" [id]="'dspd' + i">
+                    <option value="">Select</option>
+                    <option *ngFor="let default of question.ynDrop"  [value]="default.value" [selected]="default.value == question.dspd">{{default.desc}}</option>
+                </select>
+            </td>
+            <td align="left">
+                <select class="form-select" name="defaultAnswer" [id]="'dfan' + i">
+                    <option value="">Select</option>
+                    <option *ngFor="let answer of question.dfltAnsDrop" [value]="answer.value" [selected]="answer.value == question.dfan">{{answer.desc}}</option>
+                </select>
+            </td>
+            <td align="left"></td>
+        </tr>
+        <tr>
+            <th align="left"></th>
+            <th align="left"></th>
+            <th align="left"></th>
+            <th align="left"></th>
+            <th align="left"></th>
+            <th align="left"></th>
+            <th align="left">
+                <button class="btn btn-primary rounded-0 w-100" type="button" (click)="saveQuestions()">Save</button>
+            </th>
+        </tr>
+    </tbody>
+</table>

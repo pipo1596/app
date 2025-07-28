@@ -39,6 +39,8 @@ import { VasApplicationComponent } from './vas-application/vas-application.compo
 import { MassAppComponent } from './mass-app/mass-app.component';
 import { MassItemComponent } from './mass-item/mass-item.component';
 import { MassQuestionComponent } from './mass-question/mass-question.component';
+import { VasQuestionsComponent } from './vas-questions/vas-questions.component';
+import { VasQuestionComponent } from './vas-question/vas-question.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +78,9 @@ import { MassQuestionComponent } from './mass-question/mass-question.component';
     VasApplicationsComponent,
     MassAppComponent,
     MassItemComponent,
-    MassQuestionComponent
+    MassQuestionComponent,
+    VasQuestionsComponent,
+    VasQuestionComponent
   ],
   imports: [
     CommonModule,

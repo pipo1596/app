@@ -72,8 +72,8 @@
                                     class="bi bi-clipboard" title="Copy Product"></span></button>
                                 <button class="btn bg-transparent" (click)="deleteCustomization(application.n1no)"><span
                                     class="bi bi-trash" title="Product Details"></span></button>
-                                <!-- <button class="btn bg-transparent" (click)="expandApplication(application)"><span
-                                    [ngClass]="expanded.includes(application) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category"></span></button> -->
+                                <button class="btn bg-transparent" (click)="expandApplication(application)" *ngIf="application.bttn == 'Y'"><span
+                                    [ngClass]="expanded.includes(application) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category"></span></button>
                             </td>
                             <td align="left">{{application.v1cd}}</td>
                             <td align="left">{{application.desc}}</td>
@@ -82,13 +82,13 @@
                             <td align="left">{{(application.addt) ? dsppbdate(application.addt) : ''}}</td>
                         </tr>
 
-                        <!-- <ng-container *ngIf="expanded.includes(application)">
+                        <ng-container *ngIf="expanded.includes(application)">
                             <tr>
                                 <td colspan="7">
                                     <app-vas-questions [nhno]="page.rfno" [npno]="this.npno" [application]="application" [expanded]="expanded"></app-vas-questions>
                                 </td>
                             </tr>
-                        </ng-container> -->
+                        </ng-container>
                     </ng-container>
                 </tbody> 
             </table> 

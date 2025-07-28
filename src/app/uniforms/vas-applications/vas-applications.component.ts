@@ -74,10 +74,12 @@ export class VasApplicationsComponent {
   expandAll(){
     for (let i = 0; i < this.page.data?.applications.length; i++) {
       let application = this.page.data?.applications[i]
-      if(this.allexpanded && this.expanded.indexOf(application) == -1){
-        this.expanded.push(application)
-      } else if(!this.allexpanded && this.expanded.indexOf(application) !== -1){
-        this.expanded.splice(this.expanded.indexOf(application),1)
+      if(application.bttn == 'Y'){
+        if(this.allexpanded && this.expanded.indexOf(application) == -1){
+          this.expanded.push(application)
+        } else if(!this.allexpanded && this.expanded.indexOf(application) !== -1){
+          this.expanded.splice(this.expanded.indexOf(application),1)
+        }
       }
     }
   }

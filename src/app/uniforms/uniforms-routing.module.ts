@@ -47,7 +47,7 @@ const routes: Routes = [
 
   //Products
   { path: 'products/:nhno', component: ProductsComponent, canActivate: [authGuard]  }, //Products LM
-  { path: 'products/:nhno/:nino', component: ProductsComponent, canActivate: [authGuard]  }, //Products LM
+  { path: 'products/:nhno/:styl', component: ProductsComponent, canActivate: [authGuard]  }, //Products LM
   { path: 'product/:nhno/:nino', component: ProductComponent, canActivate: [authGuard] }, //Editing Product
   { path: 'product/:nhno/:nino/:styl', component: ProductComponent, canActivate: [authGuard]  }, //Editing Product + Selected Item
   { path: 'newproduct/:nhno', component: ProductComponent, canActivate: [authGuard]  }, //Creating Product

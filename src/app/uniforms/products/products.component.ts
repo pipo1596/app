@@ -108,6 +108,13 @@ export class ProductsComponent {
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
       if (this.page.data.total) this.total = this.page.data.total
       if (this.page.data.offset) this.offset = this.page.data.offset
+      if (this.page.data?.warehouses){
+        this.page.data.warehouses.forEach((warehouse: any) => {
+          warehouse.desc = warehouse.whno + ' - ' + warehouse.desc
+        });
+      }
+      if (this.page.data?.categories) this.page.data.categories = this.page.data.categories.sort((a: any,b: any) => a.desc.localeCompare(b.desc))
+      if (this.page.data?.customizations) this.page.data.customizations = this.page.data.customizations.sort((a: any,b: any) => a.desc.localeCompare(b.desc))
       this.page.loading = false;
       hideWait();
       scrollToTopInstant();

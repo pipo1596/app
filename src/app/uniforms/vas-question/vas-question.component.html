@@ -90,13 +90,13 @@
                         </div>
                     </div>
                 </ng-container>
-                <div class="form-group row g-3 mb-3" *ngIf="type == 'D'">
+                <div class="form-group row g-3 mb-3" *ngIf="type == 'D' && page.data.info?.tbld">
                     <label class="col-md-2 col-form-label" align="right"><strong><span class="text-danger">*</span>Droplist:</strong></label>
                         <div class="col-md-3">
-                            <input type="text" readonly class="form-control-plaintext" [value]="page.data?.info.vh2vhdesc">
+                            <input type="text" readonly class="form-control-plaintext" [value]="vhno ? vhno : page.data?.info.vh2vhdesc">
                         </div>
-                        <div class="col-md-1 mt-5">
-                            <button class="btn btn-light">
+                        <div class="col-md-1 mt-3">
+                            <button class="btn btn-light" (click)="inqDrop()">
                                 <span class="bi bi-search" title="Inquire"></span>
                             </button>
                         </div>

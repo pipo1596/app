@@ -20,6 +20,7 @@ export class VasQuestionComponent {
   type: any;
 
   //Input
+  vhno: any;
   desc: any;
   dfan: any;
   pdfan: any;
@@ -41,6 +42,7 @@ export class VasQuestionComponent {
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
       this.npno = params.get('npno');
+      this.vhno = params.get('vhno');
     });
     this.getQuestion();
   }
@@ -93,6 +95,15 @@ export class VasQuestionComponent {
 
   trim(value: any){
     return value.replace(/^0+/, '')
+  }
+
+  inqDrop() {
+    let menu = '/cgi/APOELMVH?PAMODE=*INQ&PMV1CD=' + this.application.v1cd + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N'
+    localStorage.clear();
+    localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('partpg','/uniforms/vasquestion/' + this.page.rfno + '/' + this.npno);
+    localStorage.setItem('menu',menu);
+    this.router.navigate(['/uniforms/iframe/APOELMVH']);
   }
 
   goBack(){

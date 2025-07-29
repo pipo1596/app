@@ -15,7 +15,7 @@ import { hideWait, showWait, scrollToTopInstant} from '../../shared/utils';
 export class ProductsComponent {
   page = new Page();
   drop = false; // More Actions
-  view: any = ''
+  assign: any;
   
   //Search / Dropdown
   style: any;
@@ -39,8 +39,9 @@ export class ProductsComponent {
   ) { }
 
   ngOnInit(): void {
-    this.view = localStorage.getItem('assign') ? 'assign' : ''
+    this.assign = localStorage.getItem('assign') ? JSON.parse(localStorage.getItem('assign')!) : '';
     localStorage.clear();
+    // console.log(this.assign)
     this.checked = [];
     this.offset = '0';
     this.route.paramMap.subscribe(params => {
@@ -66,23 +67,20 @@ export class ProductsComponent {
     }
   }
 
-  deleteProduct(nino: string){
+  deleteProduct(product: any){
     showWait();
+
     let data = {
       mode: 'delete',
       nhno: this.page.rfno,
-      nino: nino
+      nano: product.nano,
+      styl: product.styl
     }
-
+    
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
       this.page.data = response;
-
-      if (this.page.data.result != 'pass'){
-        this.page.loading = false;
-        hideWait();
-      } else {
-        this.getProducts();
-      }
+      this.page.loading = false;
+      hideWait();
     });
   }
 
@@ -95,6 +93,8 @@ export class ProductsComponent {
       category: this?.category?.nano,
       warehouse: this?.warehouse?.whno,
       stylconfig: this?.stylconfig?.vfgn,
+      assign: this.assign ? 'Y' : '',
+      aVfg: this.assign ? this.getConfig() : '',
       itemsPerPage: this.itemsPerPage,
       currentPage: this.p,
       offset: this.offset
@@ -151,6 +151,7 @@ export class ProductsComponent {
       this.checked.push(product);
       this.checked.sort();
     }    
+    console.log(this.checked)
   }
 
   searchConfig(mode: string){
@@ -174,8 +175,40 @@ export class ProductsComponent {
 
   assignStyles(){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('assign', JSON.stringify(this.checked))
-    this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
+    let npnos = [];
+    let ninos = [];
+
+    for (let i = 0; i < this.assign.length; i++) {
+      npnos.push(this.assign[i].npno);
+    }
+
+    for (let i = 0; i < this.checked.length; i++) {
+      ninos.push(this.checked[i].nino); //Passing base NI record and applying to all?
+    }
+
+    let data = {
+      nhno: this.page.rfno,
+      npno: npnos,
+      nino: ninos
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPASSIGN', data).subscribe(response => {})
+
+    // localStorage.setItem('assign', JSON.stringify(this.checked))
+    // this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
+  }
+
+  getConfig(){
+    let configs: any = []
+    for (let i = 0; i < this.assign.length; i++) {
+      for (let x = 0; x < this.assign[i].config.length; x++){
+        if(configs.indexOf(this.assign[i].config[x]) == -1 && this.assign[i].config[x] !== ''){
+          configs.push(this.assign[i].config[x])
+        }
+      }
+    }
+    console.log(configs)
+    return configs
   }
 
   goBack() {

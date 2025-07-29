@@ -80,8 +80,7 @@ export class ProductComponent {
   styl: any;
   item: any;
   nano: any;
-  upct = "0";
-  upctNic = "0";
+  upct: any;
 
   // Input
   desc = "";
@@ -126,7 +125,7 @@ export class ProductComponent {
       mode: 'getInfo',
       nhno: this.nhno,
       nino: this.nino,
-      styl: this.nino ? '' : this.item
+      styl: this.item ? this.item : ''
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
@@ -180,8 +179,8 @@ export class ProductComponent {
       if (this.page.data?.info?.contract) this.contract = this.page.data?.info?.contract
       if (this.page.data?.info?.nicitem) this.citem = this.page.data?.info?.nicitem
       if (this.page.data?.info?.nicdesc) this.cdesc = this.page.data?.info?.nicdesc
-      if (this.page.data?.info?.nicupct) this.upctNic = this.page.data?.info?.nicupct
       if (this.page.data?.info?.img) this.image.value = this.page.data?.info?.img;
+      if (this.page.data?.info?.upct) this.upct = this.page.data?.info?.upct;
       this.page.loading = false;
       hideWait();
     });
@@ -324,6 +323,7 @@ export class ProductComponent {
     let data = {
       mode: mode,
       nhno: this.nhno,
+      nino: mode == 'update' ? this.nino : '',
       nano: this.nano,
       styl: this.styl,
       whno: this.warehouse.whno, 
@@ -334,7 +334,8 @@ export class ProductComponent {
       AUTOTAG: this.autotag,
       CONTRACT: this.contract, 
       item: this.citem, 
-      desc: this.cdesc
+      desc: this.cdesc,
+      upct: mode == 'update' ? this.upct : ''
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
@@ -351,6 +352,16 @@ export class ProductComponent {
   }
 
   deleteProduct(){
+    showWait();
+    this.options = [];
+    if(this.sku.length == 0 && this.opv){
+      this.generateOpt();
+    } else if(this.sku.length > 0){
+      for (let i = 0; i < this.sku.length; i++) {
+        this.options.push(this.sku[i].value)
+      }
+    }
+
     let data = {
       mode: 'delete',
       nhno: this.nhno,
@@ -361,10 +372,10 @@ export class ProductComponent {
     
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
       this.page.data = response;
-      // if (this.page.data?.result == 'pass' && this.page.data?.nhno){
-      //   localStorage.setItem('UP_AUTH','Y');
-      //   this.router.navigate(['/uniforms/products/' + this.page.data?.nhno]);
-      // }
+      if (this.page.data?.result == 'pass'){
+        localStorage.setItem('UP_AUTH','Y');
+        this.router.navigate(['/uniforms/products/' + this.page.data?.nhno]);
+      }
       this.page.loading = false;
       hideWait();
     });

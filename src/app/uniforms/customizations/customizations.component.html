@@ -45,7 +45,11 @@
                     <ngx-select-dropdown name="inputN1NO" [config]="searchConfig('Application')" [options]="page.data?.apps" [(ngModel)]="app" (change)="getCustomizations()"></ngx-select-dropdown>
                 </div>
                 <div class="col-md-2">
-                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Image')" [(ngModel)]="img" (change)="getCustomizations()"></ngx-select-dropdown>
+                    <select class="form-select" [(ngModel)]="img" (change)="getCustomizations()">
+                        <option value="">Image</option>
+                        <option [ngValue]="'Y'">Yes</option>
+                        <option [ngValue]="'N'">No</option>
+                    </select>
                 </div>
             </div>
 
@@ -59,17 +63,17 @@
                 <div class="col-md-3">
                     <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('VAS Category')" [(ngModel)]="ctno" [options]="page.data?.catgDrop" (change)="getCustomizations()"></ngx-select-dropdown>
                 </div> 
+                <div class="col-md-1">
+                    <button class="btn btn-primary rounded-0 w-75" type="button" (click)="getCustomizations()">Go</button>
+                </div>
             </div>
 
             <div class="row g-3 mb-4">
-                <div class="col-md-3 mb-3">
+                <!-- <div class="col-md-3 mb-3">
                     <label class="col-form-label">Last Usage Date: </label>
                     <input type="date" class="form-control" name="lsdt" value="Last Usage Date">
-                </div>   
-                <div class="col-md-1 mt-5">
-                    <button class="btn btn-primary rounded-0 w-75" type="button" (click)="getCustomizations()">Go</button>
-                </div>
-                <div class="col-md-3 mt-5">
+                </div>    -->
+                <div class="col-md-3">
                     <button class="btn btn-primary rounded-0 w-50" type="button" (click)="assignStyles()">Assign Styles</button>
                 </div>  
             </div>
@@ -104,6 +108,7 @@
                         </td>
                         <td align="left">{{customization.name}}</td>
                         <td align="left">{{customization.desc}}</td>
+                        <!-- Style Count -->
                         <td align="left" *ngIf="customization.styles.length > 0">
                             <div class="tooltip">{{customization.styles.length}}
                                 <span class="tooltiptext">
@@ -111,8 +116,17 @@
                                 </span>
                             </div> 
                         </td>
-                        <td align="left" *ngIf="customization.styles.length == 0">{{customization.stylCount}}</td>
-                        <td align="left"></td>
+                        <td align="left" *ngIf="customization.styles.length == 0">0</td>
+
+                        <!-- Image Count -->
+                        <td align="left" *ngIf="customization.images.length > 0">
+                            <div class="tooltip">{{customization.images.length}}
+                                <span class="tooltiptext">
+                                    <p *ngFor="let image of customization.images; index as i">{{image.desc}}</p>
+                                </span>
+                            </div> 
+                        </td>
+                        <td align="left" *ngIf="customization.images.length == 0">0</td>
                     </tr>
                 </tbody> 
             </table> 

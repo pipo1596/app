@@ -4,7 +4,7 @@
         <div class="card-body">
                 <form (submit)="page.editmode ? validate() : loadProduct()">
                     <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
-                    <!-- <h6 class="mb-3" *ngIf="page.data?.result == 'pass'"><strong class="text-primary">Product Updated Successfully</strong></h6> -->
+
                     <div class="row g-3">
                         <div class="col-md-10">
                             <h6>Uniform Program - {{ page.data?.pgName }}</h6>
@@ -23,10 +23,10 @@
                     <div class="row g-3 mb-3">
                         <div class="col-md-3">
                             <label for="inputItem" class="form-label">Item #</label>
-                            <input type="text" readonly class="form-control" id="inputItem" name='style' [(ngModel)]="styl" [value] = 'styl'>
+                            <input type="text" readonly class="form-control" id="inputItem" name='style' [(ngModel)]="styl" [value] = 'styl' [disabled]="page.editmode">
                         </div>
 
-                        <div class="col-md-1 mt-5">
+                        <div class="col-md-1 mt-5" *ngIf="page.entrymode">
                             <button class="btn btn-light" (click)="inqStyle()">
                                 <span class="bi bi-search" title="Inquire"></span>
                             </button>
@@ -38,7 +38,7 @@
                         </div>
                     </div>
 
-                    <div class="row g-3 mb-4" *ngIf="styl && page.editmode">
+                    <div class="row g-3 mb-4" *ngIf="styl">
                         <div class="col-md-3">
                             <label for="inputSKU" class="form-label">SKU:</label>
                             <ngx-select-dropdown name="skuDrop" [multiple]="true" [config]="searchConfig()" (change)="sku = $event.value" [options]="page.data?.sku" [(ngModel)]="sku"></ngx-select-dropdown>

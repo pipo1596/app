@@ -20,7 +20,7 @@ export class CustomizationsComponent {
   desc: any;
   vitem: any;
   app: any;
-  img: any;
+  img: any = "";
   styl: any;
   vfg: any;
   ctno: any;
@@ -63,7 +63,7 @@ export class CustomizationsComponent {
       nhno: this.page.rfno,
       desc: this.desc,
       item: this.vitem?.vedp,
-      app: this.app?.n1no,
+      app: this.app?.v1cd,
       img: this.img,
       style: this.styl?.styl,
       vfg: this.vfg?.vfgn,
@@ -148,8 +148,14 @@ export class CustomizationsComponent {
   }
 
   checkCustomization(customization: any) {
+    let configurators = []
+    for (let i = 0; i < customization.styles.length; i++){
+      configurators.push(customization.styles[i].vfgn)
+    }
+
     let np = {
-      npno: customization.npno
+      npno: customization.npno,
+      config: configurators
     }
 
     if(this.isChecked(np)) {

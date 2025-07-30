@@ -69,13 +69,14 @@ const routes: Routes = [
   { path: 'editcustomer/:nhno/:acno', component: CustomerComponent, canActivate: [authGuard]   },
 
   //Customizations
-  { path: 'customizations/:nhno', component: CustomizationsComponent, canActivate: [authGuard]  },
+  { path: 'customizations/:nhno', component: CustomizationsComponent, canActivate: [authGuard]  }, 
   { path: 'customization/:nhno', component: CustomizationComponent, canActivate: [authGuard]  }, 
   { path: 'customization/:nhno/:npno', component: CustomizationComponent, canActivate: [authGuard]  }, 
   { path: 'vasapplications/:nhno/:npno', component: VasApplicationsComponent, canActivate: [authGuard]  },
-  { path: 'vasapplication/:nhno/:npno', component: VasApplicationComponent, canActivate: [authGuard]  },
+  { path: 'newvasapplication/:nhno/:npno', component: VasApplicationComponent, canActivate: [authGuard]  },
+  { path: 'newvasapplication/:nhno/:npno/:vedp', component: VasApplicationComponent, canActivate: [authGuard]  },
   { path: 'vasapplication/:nhno/:npno/:n1no', component: VasApplicationComponent, canActivate: [authGuard]  },
-  { path: 'vasquestion/:nhno/:npno', component: VasQuestionComponent, canActivate: [authGuard]  },
+  { path: 'vasapplication/:nhno/:npno/:n1no/:vedp', component: VasApplicationComponent, canActivate: [authGuard]  },
 
   //Mass Updates
   { path: 'massquestion/:nhno', component: MassQuestionComponent, canActivate: [authGuard]  },

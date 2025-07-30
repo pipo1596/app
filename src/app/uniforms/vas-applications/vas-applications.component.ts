@@ -88,7 +88,7 @@ export class VasApplicationsComponent {
     localStorage.setItem('UP_AUTH','Y');
     switch(mode){
       case 'new':
-        this.router.navigate(['/uniforms/vasapplication/' + this.page.rfno + '/' + this.npno]);
+        this.router.navigate(['/uniforms/newvasapplication/' + this.page.rfno + '/' + this.npno]);
         break;
       case 'edit':
         this.router.navigate(['/uniforms/vasapplication/' + this.page.rfno + '/' + this.npno + '/' + n1no]);

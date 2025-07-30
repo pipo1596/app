@@ -3,6 +3,7 @@
     <div class="card mx-auto mb-5 w-75 h-100">
         <div class="card-body">
                 <form>
+                    <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
                     <div class="row g-3">
                         <div class="col-md-9">
                             <h6>Uniform Program - {{ page.data?.pgName }}</h6>
@@ -27,45 +28,67 @@
 
                     <h6 class="card-title mb-5">Add New Information</h6>
 
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-4">
-                            <label for="inputItem" class="form-label">Select a Location or Select "Non Location Application" </label>
-                            <input type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="styl" [value] = 'styl'>
-                        </div>
+                    <div class="form-group row g-3 mb-3" *ngIf="page.entrymode">
+                            <label class="col-md-1 col-form-label"><strong>Location:</strong> </label>
+                            <div class="col-md-3" *ngIf="page.entrymode">
+                                <select name="vdInput" [(ngModel)]="vdno" class="form-select" (change)="getApplication()">
+                                    <option value="">Non Location</option>
+                                    <option *ngFor="let location of page.data?.vdno" [ngValue]="location.valu">{{location.desc}}</option>
+                                </select>
+                            </div>
                     </div>
 
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-4">
-                            <label for="inputDesc" class="form-label">Select an Application from the list below </label>
-                            <input type="text" class="form-control" id="inputDesc" name='description' [(ngModel)]="desc" [value] = 'desc'>
-                        </div>
+                    <div class="form-group row g-3 mb-3">
+                            <label class="col-md-1 col-form-label"><strong>Application:</strong> </label>
+                            <div class="col-md-3" *ngIf="page.entrymode">
+                                <select name="v1Input" [(ngModel)]="v1cd" class="form-select">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let app of page.data?.v1cd" [ngValue]="app.valu">{{app.desc}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3" *ngIf="page.editmode">
+                                <input type="text" readonly disabled class="form-control" [value]="page.data?.v1cd">
+                            </div>
                     </div>
 
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-4">
-                            <label for="inputDesc" class="form-label">Description </label>
-                            <input type="text" class="form-control" id="inputDesc" name='description' [(ngModel)]="desc" [value] = 'desc'>
-                        </div>
+                    <div class="form-group row g-3 mb-3">
+                            <label class="col-md-1 col-form-label"><strong>Description:</strong> </label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" id="inputDesc" name='description' [(ngModel)]="desc" [value] = 'desc'>
+                            </div>
                     </div>
 
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-2">
-                            <label for="inputSeq" class="form-label me-2">Mandatory:</label>
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        </div>
+                    <div class="form-group row g-3 mb-3" *ngIf="v1cd">
+                            <label class="col-md-1 col-form-label"><strong>VAS Item:</strong> </label>
+                            <div class="col-md-2 me-5">
+                                <input type="text" readonly disabled class="form-control-plaintext" [value]="vedp">
+                                
+                            </div>
+                            <div class="col-md-1">
+                                <button class="btn" (click)="inqStyle()">
+                                    <span class="bi bi-search" title="Inquire"></span>
+                                </button>
+                            </div>
                     </div>
 
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-2">
-                            <label for="inputSeq" class="form-label me-2">Active:</label>
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        </div>
+                    <div class="form-group row g-3 mb-3">
+                            <label class="col-md-1 col-form-label"><strong>Mandatory:</strong> </label>
+                            <div class="col-md-3 mt-4">
+                                <input class="form-check-input" type="checkbox" [checked]="mand" (click)="mand = !mand">
+                            </div>
+                    </div>
+
+                    <div class="form-group row g-3 mb-4">
+                            <label class="col-md-1 col-form-label"><strong>Active:</strong> </label>
+                            <div class="col-md-3 mt-4">
+                                <input class="form-check-input" type="checkbox" [checked]="actv" (click)="actv = !actv">
+                            </div>
                     </div>
 
                     <div class="d-flex flex-row">
                         <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary me-3" (click)="page.editmode ? loadProduct('update') : loadProduct('create')">Build Application</button>
-                            <button *ngIf="page.editmode" type="submit" class="btn btn-primary me-3" (click)="loadProduct('delete')">Delete</button>
+                            <button type="submit" class="btn btn-primary me-3" (click)="page.editmode ? loadApp('update') : loadApp('create')">Build Application</button>
+                            <button *ngIf="page.editmode" type="submit" class="btn btn-primary me-3" (click)="deleteApp()">Delete</button>
                             <button type="submit" class="btn btn-primary me-3" (click)="goBack()">Cancel</button>
                         </div>
                     </div>

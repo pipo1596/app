@@ -47,7 +47,7 @@
                                 </select>
                             </div>
                             <div class="col-md-3" *ngIf="page.editmode">
-                                <input type="text" readonly disabled class="form-control" [value]="page.data?.v1cd">
+                                <input type="text" readonly disabled class="form-control" [value]="v1cdDesc">
                             </div>
                     </div>
 
@@ -60,8 +60,8 @@
 
                     <div class="form-group row g-3 mb-3" *ngIf="v1cd">
                             <label class="col-md-1 col-form-label"><strong>VAS Item:</strong> </label>
-                            <div class="col-md-2 me-5">
-                                <input type="text" readonly disabled class="form-control-plaintext" [value]="vedp">
+                            <div class="col-md-3 me-5">
+                                <input type="text" readonly disabled class="form-control-plaintext" [value]="vedpDesc">
                                 
                             </div>
                             <div class="col-md-1">

@@ -25,8 +25,10 @@ export class VasApplicationComponent {
 
   // Input
   v1cd: any = "";
+  v1cdDesc: any;
   vdno: any = "";
   vedp: any;
+  vedpDesc: any;
   desc: any;
   mand: any = false;
   actv: any = false;
@@ -65,8 +67,10 @@ export class VasApplicationComponent {
       if (this.page.data?.mand == 'Y') this.mand = true;
       if (this.page.data?.actv == 'Y') this.actv = true;
       if (this.page.data?.vedp && !this.vedp) this.vedp = this.page.data.vedp;
+      if (this.page.data?.vedp_desc) this.vedpDesc = this.page.data.vedp_desc;
       if (this.page.data?.acno) this.acno = this.page.data.vedp;
       if (this.page.data?.v1cd && this.page.editmode) this.v1cd = this.page.data.v1cd
+      if (this.page.data?.v1cd_desc) this.v1cdDesc = this.page.data.v1cd_desc
       hideWait();
       this.page.loading = false;
     });

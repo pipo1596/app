@@ -20,12 +20,27 @@ export class VasQuestionComponent {
   type: any;
 
   //Input
-  vhno: any;
-  desc: any;
-  dfan: any;
-  pdfan: any;
-  dflk: any;
-  force: any;
+  desc: any; // Description
+  seq: any; // Sequence
+  actv: any; // Active
+  mini: any; // Min Length
+  maxi: any; // Max Length
+  rsli: any; // Restriction List
+  minr: any; // Range Min
+  maxr: any; // Range Max
+  decr: any; // Range Dec Precision
+  incr: any; // Range Increment
+  vhno: any; // Droplist
+  vsmt: any; // VAS Material Type
+  dfan: any; // Default Answer
+  pdfan: any; // Default if no Parent found
+  dspd: any; // Display Defaulted Locked Answer
+  qty: any; // Inventory Qty
+  lkqt: any; // Lock Inventory Qty
+  dflk: any; // Force Default
+  rule: any; // Rule
+  afmt: any; // VAS Answer FOrmat
+  upct: any; 
 
   constructor(private http: HttpClient,
     private router: Router,
@@ -37,8 +52,6 @@ export class VasQuestionComponent {
       this.application = JSON.parse(localStorage.getItem('vasApp')!);
     }
     localStorage.clear();
-    console.log(this.application);
-    showWait();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
       this.npno = params.get('npno');
@@ -48,6 +61,7 @@ export class VasQuestionComponent {
   }
 
   getQuestion(){
+    showWait();
     let data = {
       mode: 'getInfo',
       nhno: this.page.rfno,
@@ -60,13 +74,43 @@ export class VasQuestionComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2', data).subscribe(response => {
       this.page.data = response;
+
+      //Input
       if (this.page.data?.title) this.page.title = this.page.data.title;
       if (this.page.data?.menu) this.page.menu = this.page.data.menu;
       if (this.page.data?.info.nv2type) this.type = this.page.data.info.nv2type;
       if (this.page.data?.info.desc) this.desc = this.page.data.info.desc
+      if (this.page.data?.info.seq) this.seq = this.page.data.info.seq
+      if (this.page.data?.info.actv) this.actv = this.page.data.info.actv
+      if (this.page.data?.info.mini) this.mini = this.page.data.info.mini
+      if (this.page.data?.info.maxi) this.maxi = this.page.data.info.maxi
+      if (this.vhno) this.rsli = this.vhno
+      if (this.page.data?.info.rsli && !this.rsli) this.rsli = this.page.data.info.rsli
+      if (this.page.data?.info.minr) this.minr = this.page.data.info.minr
+      if (this.page.data?.info.maxr) this.maxr = this.page.data.info.maxr
+      if (this.page.data?.info.decr) this.decr = this.page.data.info.decr
+      if (this.page.data?.info.incr) this.incr = this.page.data.info.incr
+      if (this.page.data?.info.tbld && !this.vhno) this.vhno = this.page.data.info.tbld
+      if (this.page.data?.info.vsmt) this.vsmt = this.page.data.info.vsmt
+      if (this.page.data?.info.dfan) this.dfan = this.page.data.info.dfan
+      if (this.page.data?.info.pdfan) this.pdfan = this.page.data.info.pdfan
+      if (this.page.data?.info.dspd) this.dspd = this.page.data.info.dspd
+      if (this.page.data?.info.qty) this.qty = this.page.data.info.qty
+      if (this.page.data?.info.lkqt) this.lkqt = this.page.data.info.lkqt
+      if (this.page.data?.info.dflk) this.dflk = this.page.data.info.dflk
+      if (this.page.data?.info.rule) this.rule = this.page.data.info.rule
+      if (this.page.data?.info.afmt) this.afmt = this.page.data.info.afmt
+      if (this.page.data?.upct) this.upct = this.page.data.upct;
+
+      //Dropdowns
       if (this.page.data?.seqDrop){
         this.page.data.seqDrop = this.page.data.seqDrop.sort((a: any, b: any) => a.value.localeCompare(b.value));
       }
+
+      if (this.page.data?.vsmtDrop){
+        this.page.data.vsmtDrop = this.page.data.vsmtDrop.sort((a: any, b: any) => a.value.localeCompare(b.value));
+      }
+
       hideWait();
       this.page.loading = false;
     });
@@ -76,21 +120,46 @@ export class VasQuestionComponent {
     let data = {
       mode: 'update',
       nhno: this.page.rfno,
-      n2no: this.n2no,
-      desc: '',
-      dfan: '',
-      dfanParent: '',
-      dfanLocked: '',
-      force: ''
+      npno: this.npno,
+      n1no: this.application.n1no, 
+      n2no: this.application.n2no,
+      v1cd: this.application.v1cd,
+      v2no: this.application.v2no,
+      type: this.type, 
+      desc: this.desc, // Description
+      seq:  this.seq, // Sequence
+      actv: this.actv, // Active
+      mini: this.mini, // Min Length
+      maxi: this.maxi, // Max Length
+      rsli: this.rsli, // Restriction List
+      minr: this.minr, // Range Min
+      maxr: this.maxr, // Range Max
+      decr: this.decr, // Range Dec Precision
+      incr: this.incr, // Range Increment
+      tbld: this.vhno, // Droplist
+      vsmt: this.vsmt, // Vas Material Type
+      dfan: this.dfan, // Default Answer
+      pdfan:this.pdfan, // Default if no Parent found
+      dspd: this.dspd, // Display Defaulted Locked Answer
+      qty:  this.qty, // Inventory Qty
+      lkqt: this.lkqt, // Lock Inventory Qty
+      dflk: this.dflk, // Force Default
+      rule: this.rule, // Rule
+      afmt: this.afmt, // Vas Answer Format
+      upct: this.upct
     }
 
-    // this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2', data).subscribe(response => {
-    //   this.page.data = response;
-    //   if (this.page.data.title) this.page.title = this.page.data.title;
-    //   if (this.page.data.menu) this.page.menu = this.page.data.menu;
-      // hideWait();
-    //   this.page.loading = false;
-    // });
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2', data).subscribe(response => {
+      this.page.data = response;
+      if(this.page.data?.upct) this.upct = this.page.data.upct;
+
+      if (this.page.data.result == 'pass'){
+        this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + this.npno]);
+      }
+
+      hideWait();
+      this.page.loading = false;
+    });
   }
 
   trim(value: any){
@@ -99,6 +168,15 @@ export class VasQuestionComponent {
 
   inqDrop() {
     let menu = '/cgi/APOELMVH?PAMODE=*INQ&PMV1CD=' + this.application.v1cd + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N'
+    localStorage.clear();
+    localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('partpg','/uniforms/vasquestion/' + this.page.rfno + '/' + this.npno);
+    localStorage.setItem('menu',menu);
+    this.router.navigate(['/uniforms/iframe/APOELMVH']);
+  }
+
+  inqDfan() {
+    let menu = '/cgi/APOELMIS4?PAMODE=*INQ&PMV1CD=' + this.application.v1cd + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N'
     localStorage.clear();
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('partpg','/uniforms/vasquestion/' + this.page.rfno + '/' + this.npno);

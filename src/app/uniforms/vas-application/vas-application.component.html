@@ -4,6 +4,28 @@
         <div class="card-body">
                 <form>
                     <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
+                    <div class="row g-3">
+                        <div class="col-md-9">
+                            <h6>Uniform Program - {{ page.data?.pgName }}</h6>
+                        </div>
+                        <div class="col-md-2">
+                            <button (click)="drop = !drop" class="btn btn-primary rounded-0 w-100" type="button"> 
+                                More Actions 
+                            </button>
+                            <div (mouseleave)="drop = false" id="myDropdown" class="actions-content me-5 bg-light position-absolute shadow"
+                                 [ngClass]="{'d-block': (drop), 'd-none': !(drop)}">
+                                <a class="p-2 text-dark d-block text-decoration-none" href="#">Add Customization</a>
+                                <a class="p-2 text-dark d-block text-decoration-none" href="#">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-9">
+                            <h6><small>Catalog > Customization > Create New Customization</small></h6>
+                        </div>
+                    </div>
+
                     <h6 class="card-title mb-5">Add New Information</h6>
 
                     <div class="form-group row g-3 mb-3" *ngIf="page.entrymode">

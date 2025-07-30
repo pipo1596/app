@@ -3,7 +3,7 @@
 
     <div class="card mx-auto mb-5 w-75 h-100">
         <div class="card-body">
-            <form [action]="loadQuestion()">
+            <form>
 
                 <div class="row g-4 mb-2">
                     <div class="col-8">
@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="form-group row g-3 mb-3">
-                    <label class="col-md-2 col-form-label" align="right"><strong>Description:</strong></label>
+                    <label class="col-md-2 col-form-label" align="right"><span class="text-danger"><strong>* </strong></span><strong>Description:</strong></label>
                     <div class="col-md-3">
                         <input type="text" class="form-control" name="inputDesc" [(ngModel)]="desc" [value] = 'desc'>
                     </div>
@@ -79,18 +79,18 @@
                         </div>
                     </div>
                     <div class="form-group row g-3 mb-3">
-                        <label class="col-md-2 col-form-label" align="right"><strong>Restriction List:</strong></label>
+                        <label class="col-md-2 col-form-label" align="right"><span class="text-danger" *ngIf="type == 'P'"><strong>* </strong></span><strong>Restriction List:</strong></label>
                         <div class="col-md-3">
                             <input type="text" readyonly class="form-control-plaintext" [value]="page.data?.info.maxi">
                         </div>
-                        <div class="col-md-1 mt-5">
-                            <button class="btn btn-light">
+                        <div class="col-md-1 mt-3">
+                            <button class="btn btn-light" (click)="inqDrop()">
                                 <span class="bi bi-search" title="Inquire"></span>
                             </button>
                         </div>
                     </div>
                 </ng-container>
-                <div class="form-group row g-3 mb-3" *ngIf="type == 'D' && page.data.info?.tbld">
+                <div class="form-group row g-3 mb-3" *ngIf="type == 'D'">
                     <label class="col-md-2 col-form-label" align="right"><strong><span class="text-danger">*</span>Droplist:</strong></label>
                         <div class="col-md-3">
                             <input type="text" readonly class="form-control-plaintext" [value]="vhno ? vhno : page.data?.info.vh2vhdesc">
@@ -136,24 +136,61 @@
                         </select>
                     </div>
                 </div>
+
+                <!-- Default Answer -->
                 <div class="form-group row g-3 mb-3">
                     <label class="col-md-2 col-form-label" align="right"><strong>Default Answer:</strong></label>
                     <div class="col-md-3">
-                        <select name="" class="form-select">
+
+                        <!-- Displaying Dropdown-->
+                        <select name="" class="form-select" *ngIf="!page.data?.dfltNoDrop">
                             <option value="">Select</option>
                             <option *ngFor="let answer of page.data?.dfltAnsDrop" [value]="answer.value" [selected]="page.data?.info.dfan == dfanOpt.value" #dfanOpt>{{answer.desc}}</option>
                         </select>
+
+                        <!-- Showing Inquiry -->
+                        <input type="text" readonly class="form-control-plaintext" *ngIf="page.data?.dfltNoDrop == 'inq'" [value]="page.data?.info.dfan">
+
+
+                        <!-- Showing Input -->
+                        <input type="text" class="form-control" *ngIf="page.data.dfltNoDrop == 'input'" [value]="page.data?.info.dfan">
+
+                    </div>
+                    <div class="col-md-1 mt-5" *ngIf="page.data?.dfltNoDrop == 'inq'"> <!-- Dfan Inquiry -->
+                        <button class="btn btn-light" (click)="inqDfan()">
+                            <span class="bi bi-search" title="Inquire"></span>
+                        </button>
                     </div>
                 </div>
+                <!---->
+
+                <!-- Default if no Parent found -->
                 <div class="form-group row g-3 mb-3">
                     <label class="col-md-2 col-form-label" align="right"><strong>Default if no Parent found:</strong></label>
                     <div class="col-md-3">
-                        <select name="" class="form-select">
+
+                        <!-- Displaying Dropdown-->
+                        <select name="" class="form-select" *ngIf="!page.data?.dfltPNoDrop">
                             <option value="">Select</option>
                             <option *ngFor="let answer of page.data?.dfltAnsPDrop" [value]="answer.value" [selected]="page.data?.info.pdfan == pdfanOpt.value" #pdfanOpt>{{answer.desc}}</option>
                         </select>
+
+                        <!-- Showing Inquiry -->
+                        <input type="text" readonly class="form-control-plaintext" *ngIf="page.data?.dfltPNoDrop == 'inq'" [value]="page.data?.info.pdfan">
+
+
+                        <!-- Showing Input -->
+                        <input type="text" class="form-control" *ngIf="page.data.dfltPNoDrop == 'input'" [value]="page.data?.info.pdfan">
+
+                    </div>
+                    <div class="col-md-1 mt-3" *ngIf="page.data?.dfltPNoDrop == 'inq'"> <!-- PDfan Inquiry -->
+                        <button class="btn btn-light" (click)="inqDfan()">
+                            <span class="bi bi-search" title="Inquire"></span>
+                        </button>
                     </div>
                 </div>
+                <!---->
+
                 <div class="form-group row g-3 mb-3">
                     <label class="col-md-2 col-form-label" align="right"><strong>Display Default Locked Answer:</strong></label>
                     <div class="col-md-3" *ngIf="page.rfno !== '000000000000269'">
@@ -164,6 +201,18 @@
                             <option value="">Select</option>
                             <option *ngFor="let default of page.data?.dspdDrop" [value]="default.value" [selected]="page.data?.info.dspd == dspdOpt.value" #dspdOpt>{{default.desc}}</option>
                         </select>
+                    </div>
+                </div>
+                <div class="form-group row g-3 mb-3">
+                    <label class="col-md-2 col-form-label" align="right"><span class="text-danger"><strong>* </strong></span><strong>Inventory Qty:</strong></label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" name="inputQty" [(ngModel)]="qty" [value] = 'qty'>
+                    </div>
+                </div>
+                <div class="form-group row g-3 mb-3">
+                    <label class="col-md-2 col-form-label" align="right"><strong>Lock Inventory Qty:</strong></label>
+                    <div class="col-md-3">
+                        <input type="checkbox" class="form-check-input mt-4" [checked]="page.data?.info.lkqt" [value]="page.data?.info.lkqt">
                     </div>
                 </div>
                 <div class="form-group row g-3 mb-3">
@@ -182,9 +231,19 @@
                     </div>
                 </div>
 
+                <div class="form-group row g-3 mb-3">
+                    <label class="col-md-2 col-form-label" align="right"><strong>VAS Answer Format:</strong></label>
+                    <div class="col-md-3">
+                        <select name="" class="form-select">
+                            <option value="">Select</option>
+                            <option *ngFor="let format of page.data?.fmtDrop" [value]="trim(format.value)" [selected]="page.data?.info.afmt == frmtOpt.value" #frmtOpt>{{format.desc}}</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="d-flex flex-row">
                     <div class="col-md-3 ms-5">
-                        <button type="submit" class="btn btn-primary me-3">Save</button>
+                        <button type="submit" class="btn btn-primary me-3" (click)="loadQuestion()">Save</button>
                         <button class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>
                     </div>
                 </div>

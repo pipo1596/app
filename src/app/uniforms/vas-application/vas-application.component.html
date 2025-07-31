@@ -61,8 +61,7 @@
                     <div class="form-group row g-3 mb-3" *ngIf="v1cd">
                             <label class="col-md-1 col-form-label"><strong>VAS Item:</strong> </label>
                             <div class="col-md-3 me-5">
-                                <input type="text" readonly disabled class="form-control-plaintext" [value]="vedpDesc">
-                                
+                                <input type="text" readonly disabled class="form-control-plaintext" [value]="vedpDesc ? vedpDesc : ''">
                             </div>
                             <div class="col-md-1">
                                 <button class="btn" (click)="inqStyle()">
@@ -87,7 +86,8 @@
 
                     <div class="d-flex flex-row">
                         <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary me-3" (click)="page.editmode ? loadApp('update') : loadApp('create')">Build Application</button>
+                            <button *ngIf="page.editmode" type="submit" class="btn btn-primary me-3" (click)="loadApp('update')">Save</button>
+                            <button *ngIf="page.entrymode" type="submit" class="btn btn-primary me-3" (click)="loadApp('create')">Build Application</button>
                             <button *ngIf="page.editmode" type="submit" class="btn btn-primary me-3" (click)="deleteApp()">Delete</button>
                             <button type="submit" class="btn btn-primary me-3" (click)="goBack()">Cancel</button>
                         </div>

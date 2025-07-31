@@ -119,6 +119,7 @@ export class VasApplicationComponent {
       nhno: this.nhno,
       n1no: (mode == 'update') ? this.n1no : '',
       npno: this.npno,
+      v1cd: this.v1cd,
       vdno: this.vdno,
       vedp: this.vedp,
       desc: this.desc,

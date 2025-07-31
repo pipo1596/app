@@ -1,3 +1,5 @@
+<h6 class="mb-3" *ngIf="errors"><strong class="text-danger">{{errors}}</strong></h6>
+<h6 class="mb-3" *ngIf="msg"><strong class="text-primary">{{msg}}</strong></h6>
 <table class="table">
     <thead>
         <tr>
@@ -28,11 +30,20 @@
                     <option *ngFor="let default of question.ynDrop"  [value]="default.value" [selected]="default.value == question.dspd">{{default.desc}}</option>
                 </select>
             </td>
+            <!-- Default Answer -->
             <td align="left">
-                <select class="form-select" name="defaultAnswer" [id]="'dfan' + i">
+                <!-- Displaying Dropdown-->
+                <select name="" class="form-select" *ngIf="!question.dfltNoDrop" [id]="'dfan' + i">
                     <option value="">Select</option>
                     <option *ngFor="let answer of question.dfltAnsDrop" [value]="answer.value" [selected]="answer.value == question.dfan">{{answer.desc}}</option>
                 </select>
+
+                <!-- Showing Inquiry -->
+                <input type="text" readonly class="form-control-plaintext" *ngIf="question.dfltNoDrop == 'inq'" [id]="'dfan' + i" [value]="question.dfan">
+
+
+                <!-- Showing Input -->
+                <input type="text" class="form-control" *ngIf="question.dfltNoDrop == 'input'" [id]="'dfan' + i" [value]="question.dfan">
             </td>
             <td align="left"></td>
         </tr>

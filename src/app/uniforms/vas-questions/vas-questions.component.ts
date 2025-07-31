@@ -18,6 +18,8 @@ export class VasQuestionsComponent {
   @Input() expanded : any = [];
 
   page = new Page();
+  errors = ""
+  msg = ""
   
   constructor(
     private http: HttpClient, 
@@ -25,6 +27,10 @@ export class VasQuestionsComponent {
   ){}
 
   ngOnInit(): void {
+    this.getQuestions()
+  }
+
+  getQuestions(){
     showWait();
     let data = {
       mode: 'getInfo',
@@ -56,7 +62,10 @@ export class VasQuestionsComponent {
 
   saveQuestions(){
     showWait();
+    this.errors = ""
+    this.msg = ""
     for (let i = 0; i < this.page.data?.vasq.length; i++) {
+      
       let data = {
         mode: 'update',
         nhno: this.nhno,
@@ -69,12 +78,25 @@ export class VasQuestionsComponent {
         dfan: (<HTMLInputElement>document.getElementById('dfan' + i)).value,
         dspd: (<HTMLInputElement>document.getElementById('dspd' + i)).value == 'Y' ? 'Y' : 'N',
         dflk: (<HTMLInputElement>document.getElementById('dflk' + i)).checked ? 'Y' : 'N',
-        upct: this.page.data.vasq[i].upct
+        upct: this.page.data.vasq[i].upct,
+        app: 'Y'
       }
 
-      this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNV2', data).subscribe(response => {
+      this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2', data).subscribe(response => {
+        let temp = new Page();
+        temp.data = response;
+        if (temp.data.result !== 'pass'){
+          if(this.errors == ""){
+            this.errors = temp.data.errors
+          } else this.errors = this.errors + ',' + temp.data.errors
+        } else this.msg = "Questions updated successfully"
       });
     } 
+
+    if(this.errors == ""){
+      showWait()
+      this.getQuestions();
+    }
     hideWait();
     this.page.loading = false;
   }

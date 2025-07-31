@@ -66,10 +66,10 @@ export class VasQuestionComponent {
       mode: 'getInfo',
       nhno: this.page.rfno,
       npno: this.npno,
-      n1no: this.application.n1no, 
-      n2no: this.application.n2no,
-      v1cd: this.application.v1cd,
-      v2no: this.application.v2no 
+      n1no: this.application?.n1no, 
+      n2no: this.application?.n2no,
+      v1cd: this.application?.v1cd,
+      v2no: this.application?.v2no 
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2', data).subscribe(response => {
@@ -100,7 +100,7 @@ export class VasQuestionComponent {
       if (this.page.data?.info.dflk) this.dflk = this.page.data.info.dflk
       if (this.page.data?.info.rule) this.rule = this.page.data.info.rule
       if (this.page.data?.info.afmt) this.afmt = this.page.data.info.afmt
-      if (this.page.data?.upct) this.upct = this.page.data.upct;
+      if (this.page.data?.info.upct) this.upct = this.page.data.info.upct;
 
       //Dropdowns
       if (this.page.data?.seqDrop){
@@ -121,10 +121,10 @@ export class VasQuestionComponent {
       mode: 'update',
       nhno: this.page.rfno,
       npno: this.npno,
-      n1no: this.application.n1no, 
-      n2no: this.application.n2no,
-      v1cd: this.application.v1cd,
-      v2no: this.application.v2no,
+      n1no: this.application?.n1no, 
+      n2no: this.application?.n2no,
+      v1cd: this.application?.v1cd,
+      v2no: this.application?.v2no,
       type: this.type, 
       desc: this.desc, // Description
       seq:  this.seq, // Sequence

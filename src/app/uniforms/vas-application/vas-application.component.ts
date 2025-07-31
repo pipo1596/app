@@ -63,12 +63,13 @@ export class VasApplicationComponent {
       if (this.page.data?.menu) this.page.menu = this.page.data.menu;
       if (this.copy){
         this.desc = 'Copy of ' + this.page.data?.info?.desc;
-      } else { this.desc = this.page.data?.info?.desc; }
+      } else { this.desc = this.page.data?.desc; }
       if (this.page.data?.mand == 'Y') this.mand = true;
       if (this.page.data?.actv == 'Y') this.actv = true;
       if (this.page.data?.vedp && !this.vedp) this.vedp = this.page.data.vedp;
       if (this.page.data?.vedp_desc) this.vedpDesc = this.page.data.vedp_desc;
-      if (this.page.data?.acno) this.acno = this.page.data.vedp;
+      if (this.page.data?.acno) this.acno = this.page.data.acno;
+      if (this.page.data?.upct) this.upct = this.page.data.upct;
       if (this.page.data?.v1cd && this.page.editmode) this.v1cd = this.page.data.v1cd
       if (this.page.data?.v1cd_desc) this.v1cdDesc = this.page.data.v1cd_desc
       hideWait();

@@ -72,3 +72,7 @@
 .collapsed .sidebar-link i {
     width: 0;
 }
+
+.logo {
+    overflow: hidden;
+}

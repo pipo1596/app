@@ -118,7 +118,7 @@ export class OEUL22Component {
   }
 
   goBack(){
-    localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('UP_AUTH','Y')
     this.router.navigate(['/uniforms/import/' + this.page.rfno]);
   }
 

@@ -124,9 +124,9 @@
                 <div class="form-group row g-3 mb-3" *ngIf="type == 'E'">
                     <label class="col-md-2 col-form-label" align="right"><strong>Vas Material Type:</strong></label>
                     <div class="col-md-3">
-                        <select name="" class="form-select">
+                        <select name="" class="form-select" name="matActv" [(ngModel)]="vsmt">
                             <option value="">Select</option>
-                            <option *ngFor="let type of page.data?.vsmtDrop" [value]="trim(type.value)" [selected]="page.data?.info?.vsmt == typeOpt.value" #typeOpt>{{type.desc}}</option>
+                            <option *ngFor="let type of page.data?.vsmtDrop" [value]="trim(type.value)" [selected]="page.data?.info?.vsmt == type.value">{{type.desc}}</option>
                         </select>
                     </div>
                 </div>
@@ -137,9 +137,9 @@
                     <div class="col-md-3">
 
                         <!-- Displaying Dropdown-->
-                        <select name="" class="form-select" *ngIf="!page.data?.dfltNoDrop">
+                        <select name="" class="form-select" *ngIf="!page.data?.dfltNoDrop" [(ngModel)]="dfan">
                             <option value="">Select</option>
-                            <option *ngFor="let answer of page.data?.dfltAnsDrop" [value]="answer.value" [selected]="page.data?.info?.dfan == dfanOpt.value" #dfanOpt>{{answer.desc}}</option>
+                            <option *ngFor="let answer of page.data?.dfltAnsDrop" [ngValue]="answer.value" [selected]="page.data?.info?.dfan == answer.value">{{answer.desc}}</option>
                         </select>
 
                         <!-- Showing Inquiry -->
@@ -164,9 +164,9 @@
                     <div class="col-md-3">
 
                         <!-- Displaying Dropdown-->
-                        <select name="" class="form-select" *ngIf="!page.data?.dfltPNoDrop">
+                        <select name="" class="form-select" *ngIf="!page.data?.dfltPNoDrop" [(ngModel)]="pdfan">
                             <option value="">Select</option>
-                            <option *ngFor="let answer of page.data?.dfltAnsPDrop" [value]="answer.value" [selected]="page.data?.info?.pdfan == pdfanOpt.value" #pdfanOpt>{{answer.desc}}</option>
+                            <option *ngFor="let answer of page.data?.dfltAnsPDrop" [ngValue]="answer.value" [selected]="page.data?.info?.pdfan == answer.value">{{answer.desc}}</option>
                         </select>
 
                         <!-- Showing Inquiry -->
@@ -191,9 +191,9 @@
                         <input type="checkbox" class="form-check-input mt-4" (click)="dspd == 'Y' ? dspd = 'N' : dspd = 'Y'" [checked]="dspd == 'Y'">
                     </div>
                     <div class="col-md-3" *ngIf="page.rfno == '000000000000269'">
-                        <select name="" class="form-select">
+                        <select name="" class="form-select" [(ngModel)]="dspd">
                             <option value="">Select</option>
-                            <option *ngFor="let default of page.data?.dspdDrop" [value]="default.value" [selected]="page.data?.info?.dspd == dspdOpt.value" #dspdOpt>{{default.desc}}</option>
+                            <option *ngFor="let default of page.data?.dspdDrop" [ngValue]="default.value" [selected]="page.data?.info?.dspd == default.value">{{default.desc}}</option>
                         </select>
                     </div>
                 </div>
@@ -218,9 +218,9 @@
                 <div class="form-group row g-3 mb-3">
                     <label class="col-md-2 col-form-label" align="right"><strong>Rule:</strong></label>
                     <div class="col-md-3">
-                        <select name="" class="form-select">
+                        <select name="" class="form-select" [(ngModel)]="rule">
                             <option value="">Select</option>
-                            <option *ngFor="let rule of page.data?.ruleDrop" [value]="rule.value" [selected]="page.data?.info?.rule == ruleOpt.value" #ruleOpt>{{rule.desc}}</option>
+                            <option *ngFor="let rule of page.data?.ruleDrop" [ngValue]="rule.value" [selected]="page.data?.info?.rule == rule.value">{{rule.desc}}</option>
                         </select>
                     </div>
                 </div>
@@ -228,9 +228,9 @@
                 <div class="form-group row g-3 mb-3">
                     <label class="col-md-2 col-form-label" align="right"><strong>VAS Answer Format:</strong></label>
                     <div class="col-md-3">
-                        <select name="" class="form-select">
+                        <select name="" class="form-select" [(ngModel)]="afmt">
                             <option value="">Select</option>
-                            <option *ngFor="let format of page.data?.fmtDrop" [value]="trim(format.value)" [selected]="page.data?.info?.afmt == frmtOpt.value" #frmtOpt>{{format.desc}}</option>
+                            <option *ngFor="let format of page.data?.fmtDrop" [ngValue]="trim(format.value)" [selected]="page.data?.info?.afmt == format.value">{{format.desc}}</option>
                         </select>
                     </div>
                 </div>

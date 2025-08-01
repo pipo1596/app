@@ -22,7 +22,7 @@
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-3">
-                            <label for="inputItem" class="form-label">Item #</label>
+                            <label for="inputItem" class="form-label"><span class="text-danger"><strong>*</strong></span>Item #</label>
                             <input type="text" readonly class="form-control" id="inputItem" name='style' [(ngModel)]="styl" [value] = 'styl' [disabled]="page.editmode">
                         </div>
 
@@ -94,7 +94,7 @@
                     <!-- Category -->
                     <div class="row g-3 mb-5" *ngIf="styl">
                         <div class="col-md-3">
-                            <label for="inputItem" class="form-label">Category:</label>
+                            <label for="inputItem" class="form-label"><span class="text-danger"><strong>*</strong></span>Category:</label>
                             <ngx-select-dropdown name="catDrop" [multiple]="true" [disabled]="page.editmode" [config]="searchConfig()" (change)="cats = $event.value;" [options]="page.data?.categories" [(ngModel)]="cats"></ngx-select-dropdown>
                         </div> 
                     </div>

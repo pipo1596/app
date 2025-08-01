@@ -8,16 +8,6 @@
                         <div class="col-md-9">
                             <h6>Uniform Program - {{ page.data?.pgName }}</h6>
                         </div>
-                        <div class="col-md-2">
-                            <button (click)="drop = !drop" class="btn btn-primary rounded-0 w-100" type="button"> 
-                                More Actions 
-                            </button>
-                            <div (mouseleave)="drop = false" id="myDropdown" class="actions-content me-5 bg-light position-absolute shadow"
-                                 [ngClass]="{'d-block': (drop), 'd-none': !(drop)}">
-                                <a class="p-2 text-dark d-block text-decoration-none" href="#">Add Customization</a>
-                                <a class="p-2 text-dark d-block text-decoration-none" href="#">Delete</a>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="row g-3 mb-4">

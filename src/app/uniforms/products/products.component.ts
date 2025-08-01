@@ -79,8 +79,12 @@ export class ProductsComponent {
     
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
       this.page.data = response;
-      this.page.loading = false;
-      hideWait();
+      if (this.page.data.result !== 'pass'){
+        this.page.loading = false;
+        hideWait();
+      } else {
+        this.getProducts();
+      }
     });
   }
 

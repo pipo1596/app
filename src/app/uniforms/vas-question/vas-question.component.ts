@@ -31,13 +31,14 @@ export class VasQuestionComponent {
   decr: any; // Range Dec Precision
   incr: any; // Range Increment
   vhno: any; // Droplist
+  vhdesc: any; // Droplist Desc
   vsmt: any; // VAS Material Type
   dfan: any; // Default Answer
   pdfan: any; // Default if no Parent found
-  dspd: any; // Display Defaulted Locked Answer
+  dspd: any = ""; // Display Defaulted Locked Answer
   qty: any; // Inventory Qty
-  lkqt: any; // Lock Inventory Qty
-  dflk: any; // Force Default
+  lkqt: any = ""; // Lock Inventory Qty
+  dflk: any = ""; // Force Default
   rule: any; // Rule
   afmt: any; // VAS Answer FOrmat
   upct: any; 
@@ -64,6 +65,7 @@ export class VasQuestionComponent {
 
   getQuestion(){
     showWait();
+    if(this.vhno) this.getVHNO()
     let data = {
       mode: 'getInfo',
       nhno: this.page.rfno,
@@ -81,30 +83,30 @@ export class VasQuestionComponent {
       if (this.page.data?.title) this.page.title = this.page.data.title;
       if (this.page.data?.menu) this.page.menu = this.page.data.menu;
       if (this.page.data?.info.nv2type) this.type = this.page.data.info.nv2type;
-      if (this.page.data?.info.desc) this.desc = this.page.data.info.desc
-      if (this.page.data?.info.seq) this.seq = this.page.data.info.seq
-      if (this.page.data?.info.actv) this.actv = this.page.data.info.actv
-      if (this.page.data?.info.mini) this.mini = this.page.data.info.mini
-      if (this.page.data?.info.maxi) this.maxi = this.page.data.info.maxi
+      if (this.page.data?.info.desc) this.desc = this.page.data.info.desc;
+      if (this.page.data?.info.seq) this.seq = this.page.data.info.seq;
+      if (this.page.data?.info.actv) this.actv = this.page.data.info.actv;
+      if (this.page.data?.info.mini) this.mini = this.page.data.info.mini;
+      if (this.page.data?.info.maxi) this.maxi = this.page.data.info.maxi;
 
-      if (this.vhno && this.type == 'P') this.rsli = this.vhno
-      if (this.page.data?.info.rsli && !this.rsli) this.rsli = this.page.data.info.rsli
+      if (this.vhno && this.type == 'P') this.rsli = this.vhno;
+      if (this.page.data?.info.rsli && !this.rsli) this.rsli = this.page.data.info.rsli;
+      if (this.page.data?.info?.vh2vhdesc && !this.vhdesc) this.vhdesc = this.page.data?.info?.vh2vhdesc;
+      if (this.page.data?.info.minr) this.minr = this.page.data.info.minr;
+      if (this.page.data?.info.maxr) this.maxr = this.page.data.info.maxr;
+      if (this.page.data?.info.decr) this.decr = this.page.data.info.decr;
+      if (this.page.data?.info.incr) this.incr = this.page.data.info.incr;
+      if (this.page.data?.info.tbld && !this.vhno) this.vhno = this.page.data.info.tbld;
 
-      if (this.page.data?.info.minr) this.minr = this.page.data.info.minr
-      if (this.page.data?.info.maxr) this.maxr = this.page.data.info.maxr
-      if (this.page.data?.info.decr) this.decr = this.page.data.info.decr
-      if (this.page.data?.info.incr) this.incr = this.page.data.info.incr
-      if (this.page.data?.info.tbld && !this.vhno) this.vhno = this.page.data.info.tbld
-
-      if (this.page.data?.info.vsmt) this.vsmt = this.page.data.info.vsmt
-      if (this.page.data?.info.dfan) this.dfan = this.page.data.info.dfan
-      if (this.page.data?.info.pdfan) this.pdfan = this.page.data.info.pdfan
-      if (this.page.data?.info.dspd) this.dspd = this.page.data.info.dspd
-      if (this.page.data?.info.qty) this.qty = this.page.data.info.qty
-      if (this.page.data?.info.lkqt) this.lkqt = this.page.data.info.lkqt
-      if (this.page.data?.info.dflk) this.dflk = this.page.data.info.dflk
-      if (this.page.data?.info.rule) this.rule = this.page.data.info.rule
-      if (this.page.data?.info.afmt) this.afmt = this.page.data.info.afmt
+      if (this.page.data?.info.vsmt) this.vsmt = this.page.data.info.vsmt;
+      if (this.page.data?.info.dfan !== "") this.dfan = this.page.data.info.dfan;
+      if (this.page.data?.info.pdfan !== "") this.pdfan = this.page.data.info.pdfan;
+      if (this.page.data?.info.qty) this.qty = this.page.data.info.qty;
+      if (this.page.data?.info.rule) this.rule = this.page.data.info.rule;
+      if (this.page.data?.info.afmt) this.afmt = this.page.data.info.afmt;
+      if (this.page.data?.info.dspd) this.dspd = this.page.data.info.dspd;
+      if (this.page.data?.info.lkqt) this.lkqt = this.page.data.info.lkqt;
+      if (this.page.data?.info.dflk) this.dflk = this.page.data.info.dflk;
       if (this.page.data?.info.upct) this.upct = this.page.data.info.upct;
 
       //Dropdowns
@@ -121,7 +123,20 @@ export class VasQuestionComponent {
     });
   }
 
+  getVHNO(){
+    let data = {
+      mode: 'getVhno',
+      vhno: this.vhno
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2', data).subscribe(response => {
+      this.page.data = response;
+      if (this.page.data.vh_desc) this.vhdesc = this.page.data.vh_desc
+    });
+  }
+
   loadQuestion(){
+    this.errors = "";
     let data = {
       mode: 'update',
       nhno: this.page.rfno,
@@ -161,10 +176,10 @@ export class VasQuestionComponent {
       if (this.page.data.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
         this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + this.npno]);
+      } else {
+        this.errors = this.page.data.errors
+        this.getQuestion();
       }
-
-      hideWait();
-      this.page.loading = false;
     });
   }
 

@@ -37,6 +37,7 @@ export class VasApplicationsComponent {
   ngOnInit(): void {
     localStorage.clear();
     this.checked = [];
+    this.expanded = [];
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
       this.npno = params.get('npno');

@@ -4,7 +4,7 @@
     <div class="card mx-auto mb-5 w-75 h-100">
         <div class="card-body">
             <form>
-
+                <h6 class="mb-3" *ngIf="errors"><strong class="text-danger">{{errors}}</strong></h6>
                 <div class="row g-4 mb-2">
                     <div class="col-8">
                         <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
@@ -16,29 +16,23 @@
                         <h6><small>Catalog > Customization > </small></h6>
                     </div>
                 </div>
-
-                <div class="form-group row g-3 mb-3 ms-5" *ngIf="(errors)">
-                    <div class="col-md-4">
-                        <h6 class="mb-3"><strong class="text-danger">{{errors}}</strong></h6>
-                    </div>
-                </div>
                 
                 <div class="form-group row g-3 mb-3">
                     <label class="col-md-2 col-form-label" align="right"><strong>Personalization Group:</strong></label>
                     <div class="col-md-3">
-                        <input type="text" readonly class="form-control-plaintext" [value]="page.data?.info.npname">
+                        <input type="text" readonly class="form-control-plaintext" [value]="page.data?.info?.npname">
                     </div>
                 </div>
                 <div class="form-group row g-3 mb-3">
                     <label class="col-md-2 col-form-label" align="right"><strong>VAS Application:</strong></label>
                     <div class="col-md-3">
-                        <input type="text" readonly class="form-control-plaintext" [value]="page.data?.info.nv1desc">
+                        <input type="text" readonly class="form-control-plaintext" [value]="page.data?.info?.nv1desc">
                     </div>
                 </div>
                 <div class="form-group row g-3 mb-3">
                     <label class="col-md-2 col-form-label" align="right"><strong>VAS Question:</strong></label>
                     <div class="col-md-3">
-                        <input type="text" readonly class="form-control-plaintext" [value]="page.data?.info.cv2desc">
+                        <input type="text" readonly class="form-control-plaintext" [value]="page.data?.info?.cv2desc">
                     </div>
                 </div>
                 <div class="form-group row g-3 mb-3">
@@ -52,7 +46,7 @@
                     <div class="col-md-3">
                         <select name="" class="form-select">
                             <option value="">Select</option>
-                            <option *ngFor="let sequence of page.data?.seqDrop" [value]="trim(sequence.value)" [selected]="page.data?.info.seq == seqOpt.value" #seqOpt>{{sequence.desc}}</option>
+                            <option *ngFor="let sequence of page.data?.seqDrop" [value]="trim(sequence.value)" [selected]="page.data?.info?.seq == seqOpt.value" #seqOpt>{{sequence.desc}}</option>
                         </select>
                     </div>
                 </div>
@@ -61,7 +55,7 @@
                     <div class="col-md-3">
                         <select name="" class="form-select">
                             <option value="">Select</option>
-                            <option *ngFor="let status of page.data?.ynDrop" [value]="trim(status.value)" [selected]="page.data?.info.actv == statOpt.value" #statOpt>{{status.desc}}</option>
+                            <option *ngFor="let status of page.data?.ynDrop" [value]="trim(status.value)" [selected]="page.data?.info?.actv == statOpt.value" #statOpt>{{status.desc}}</option>
                         </select>
                     </div>
                 </div>
@@ -69,19 +63,19 @@
                     <div class="form-group row g-3 mb-3">
                         <label class="col-md-2 col-form-label" align="right"><strong>Min Length:</strong></label>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" [(ngModel)]="mini" [value]="mini">
+                            <input type="text" class="form-control" name="inputMini" [(ngModel)]="mini" [value]="mini">
                         </div>
                     </div>
                     <div class="form-group row g-3 mb-3">
                         <label class="col-md-2 col-form-label" align="right"><strong>Max Length:</strong></label>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" [(ngModel)]="maxi" [value]="maxi">
+                            <input type="text" class="form-control" name="inputMaxi" [(ngModel)]="maxi" [value]="maxi">
                         </div>
                     </div>
                     <div class="form-group row g-3 mb-3" *ngIf="type == 'P' || type == 'I'">
                         <label class="col-md-2 col-form-label" align="right"><span class="text-danger" *ngIf="type == 'P'"><strong>* </strong></span><strong>Restriction List:</strong></label>
                         <div class="col-md-3">
-                            <input type="text" readonly class="form-control-plaintext" [value]="vhno ? vhno : page.data?.info.rsli">
+                            <input type="text" readonly class="form-control-plaintext" [value]="vhno ? vhno : page.data?.info?.rsli">
                         </div>
                         <div class="col-md-1 mt-3">
                             <button class="btn btn-light" (click)="inqDrop()">
@@ -93,7 +87,7 @@
                 <div class="form-group row g-3 mb-3" *ngIf="type == 'D'">
                     <label class="col-md-2 col-form-label" align="right"><strong><span class="text-danger">*</span>Droplist:</strong></label>
                         <div class="col-md-3">
-                            <input type="text" readonly class="form-control-plaintext" [value]="vhno ? vhno : page.data?.info.vh2vhdesc">
+                            <input type="text" readonly class="form-control-plaintext" [value]="vhdesc ? vhdesc : ''">
                         </div>
                         <div class="col-md-1 mt-3">
                             <button class="btn btn-light" (click)="inqDrop()">
@@ -105,25 +99,25 @@
                     <div class="form-group row g-3 mb-3">
                         <label class="col-md-2 col-form-label" align="right"><strong>Range Min:</strong></label>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" [(ngModel)]="minr" [value]="minr">
+                            <input type="text" class="form-control" name="inputMinr" [(ngModel)]="minr" [value]="minr">
                         </div>
                     </div>
                     <div class="form-group row g-3 mb-3">
                         <label class="col-md-2 col-form-label" align="right"><strong>Range Max:</strong></label>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" [(ngModel)]="maxr" [value]="maxr">
+                            <input type="text" class="form-control" name="inputMaxr" [(ngModel)]="maxr" [value]="maxr">
                         </div>
                     </div>
                     <div class="form-group row g-3 mb-3">
                         <label class="col-md-2 col-form-label" align="right"><strong>Range Dec Precision:</strong></label>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" [(ngModel)]="decr" [value]="decr">
+                            <input type="text" class="form-control" name="inputDecr" [(ngModel)]="decr" [value]="decr">
                         </div>
                     </div>
                     <div class="form-group row g-3 mb-3">
                         <label class="col-md-2 col-form-label" align="right"><strong>Range Increment:</strong></label>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" [(ngModel)]="incr" [value]="incr">
+                            <input type="text" class="form-control" name="inputIncr" [(ngModel)]="incr" [value]="incr">
                         </div>
                     </div>
                 </ng-container>
@@ -132,7 +126,7 @@
                     <div class="col-md-3">
                         <select name="" class="form-select">
                             <option value="">Select</option>
-                            <option *ngFor="let type of page.data?.vsmtDrop" [value]="trim(type.value)" [selected]="page.data?.info.vsmt == typeOpt.value" #typeOpt>{{type.desc}}</option>
+                            <option *ngFor="let type of page.data?.vsmtDrop" [value]="trim(type.value)" [selected]="page.data?.info?.vsmt == typeOpt.value" #typeOpt>{{type.desc}}</option>
                         </select>
                     </div>
                 </div>
@@ -145,15 +139,15 @@
                         <!-- Displaying Dropdown-->
                         <select name="" class="form-select" *ngIf="!page.data?.dfltNoDrop">
                             <option value="">Select</option>
-                            <option *ngFor="let answer of page.data?.dfltAnsDrop" [value]="answer.value" [selected]="page.data?.info.dfan == dfanOpt.value" #dfanOpt>{{answer.desc}}</option>
+                            <option *ngFor="let answer of page.data?.dfltAnsDrop" [value]="answer.value" [selected]="page.data?.info?.dfan == dfanOpt.value" #dfanOpt>{{answer.desc}}</option>
                         </select>
 
                         <!-- Showing Inquiry -->
-                        <input type="text" readonly class="form-control-plaintext" *ngIf="page.data?.dfltNoDrop == 'inq'" [value]="dfan">
+                        <input type="text" readonly class="form-control-plaintext" *ngIf="page.data?.dfltNoDrop == 'inq'" [value]="dfan? dfan : ''">
 
 
                         <!-- Showing Input -->
-                        <input type="text" class="form-control" *ngIf="page.data?.dfltNoDrop == 'input'" [value]="dfan">
+                        <input type="text" class="form-control" *ngIf="page.data?.dfltNoDrop == 'input'" [value]="dfan? dfan : ''">
 
                     </div>
                     <div class="col-md-1 mt-5" *ngIf="page.data?.dfltNoDrop == 'inq'"> <!-- Dfan Inquiry -->
@@ -172,15 +166,15 @@
                         <!-- Displaying Dropdown-->
                         <select name="" class="form-select" *ngIf="!page.data?.dfltPNoDrop">
                             <option value="">Select</option>
-                            <option *ngFor="let answer of page.data?.dfltAnsPDrop" [value]="answer.value" [selected]="page.data?.info.pdfan == pdfanOpt.value" #pdfanOpt>{{answer.desc}}</option>
+                            <option *ngFor="let answer of page.data?.dfltAnsPDrop" [value]="answer.value" [selected]="page.data?.info?.pdfan == pdfanOpt.value" #pdfanOpt>{{answer.desc}}</option>
                         </select>
 
                         <!-- Showing Inquiry -->
-                        <input type="text" readonly class="form-control-plaintext" *ngIf="page.data?.dfltPNoDrop == 'inq'" [value]="pdfan">
+                        <input type="text" readonly class="form-control-plaintext" *ngIf="page.data?.dfltPNoDrop == 'inq'" [value]="pdfan? pdfan : ''">
 
 
                         <!-- Showing Input -->
-                        <input type="text" class="form-control" *ngIf="page.data?.dfltPNoDrop == 'input'" [value]="pdfan">
+                        <input type="text" class="form-control" *ngIf="page.data?.dfltPNoDrop == 'input'" [value]="pdfan? pdfan : ''">
 
                     </div>
                     <div class="col-md-1 mt-3" *ngIf="page.data?.dfltPNoDrop == 'inq'"> <!-- PDfan Inquiry -->
@@ -194,12 +188,12 @@
                 <div class="form-group row g-3 mb-3">
                     <label class="col-md-2 col-form-label" align="right"><strong>Display Default Locked Answer:</strong></label>
                     <div class="col-md-3" *ngIf="page.rfno !== '000000000000269'">
-                        <input type="checkbox" class="form-check-input mt-4" [checked]="dspd" [value]="dspd">
+                        <input type="checkbox" class="form-check-input mt-4" (click)="dspd == 'Y' ? dspd = 'N' : dspd = 'Y'" [checked]="dspd == 'Y'">
                     </div>
                     <div class="col-md-3" *ngIf="page.rfno == '000000000000269'">
                         <select name="" class="form-select">
                             <option value="">Select</option>
-                            <option *ngFor="let default of page.data?.dspdDrop" [value]="default.value" [selected]="page.data?.info.dspd == dspdOpt.value" #dspdOpt>{{default.desc}}</option>
+                            <option *ngFor="let default of page.data?.dspdDrop" [value]="default.value" [selected]="page.data?.info?.dspd == dspdOpt.value" #dspdOpt>{{default.desc}}</option>
                         </select>
                     </div>
                 </div>
@@ -212,13 +206,13 @@
                 <div class="form-group row g-3 mb-3">
                     <label class="col-md-2 col-form-label" align="right"><strong>Lock Inventory Qty:</strong></label>
                     <div class="col-md-3">
-                        <input type="checkbox" class="form-check-input mt-2" [checked]="lkqt" [value]="lkqt">
+                        <input type="checkbox" class="form-check-input mt-2" (click)="lkqt == 'Y' ? lkqt = 'N' : lkqt = 'Y'" [checked]="lkqt == 'Y'">
                     </div>
                 </div>
                 <div class="form-group row g-3 mb-3">
                     <label class="col-md-2 col-form-label" align="right"><strong>Force Default:</strong></label>
                     <div class="col-md-3">
-                        <input type="checkbox" class="form-check-input mt-2" [checked]="dflk" [value]="dflk">
+                        <input type="checkbox" class="form-check-input mt-2" (click)="dflk == 'Y' ? dflk = 'N' : dflk = 'Y'" [checked]="dflk == 'Y'">
                     </div>
                 </div>
                 <div class="form-group row g-3 mb-3">
@@ -226,7 +220,7 @@
                     <div class="col-md-3">
                         <select name="" class="form-select">
                             <option value="">Select</option>
-                            <option *ngFor="let rule of page.data?.ruleDrop" [value]="rule.value" [selected]="page.data?.info.rule == ruleOpt.value" #ruleOpt>{{rule.desc}}</option>
+                            <option *ngFor="let rule of page.data?.ruleDrop" [value]="rule.value" [selected]="page.data?.info?.rule == ruleOpt.value" #ruleOpt>{{rule.desc}}</option>
                         </select>
                     </div>
                 </div>
@@ -236,7 +230,7 @@
                     <div class="col-md-3">
                         <select name="" class="form-select">
                             <option value="">Select</option>
-                            <option *ngFor="let format of page.data?.fmtDrop" [value]="trim(format.value)" [selected]="page.data?.info.afmt == frmtOpt.value" #frmtOpt>{{format.desc}}</option>
+                            <option *ngFor="let format of page.data?.fmtDrop" [value]="trim(format.value)" [selected]="page.data?.info?.afmt == frmtOpt.value" #frmtOpt>{{format.desc}}</option>
                         </select>
                     </div>
                 </div>

@@ -48,6 +48,7 @@ export class NaChildComponent {
   }  
 
   loadCategory(mode: any, nano: any){
+    localStorage.setItem('UP_AUTH','Y')
     switch(mode){
       case 'new':
         this.router.navigate(['/uniforms/category/' + this.nhno]);

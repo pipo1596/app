@@ -175,7 +175,7 @@
     <div class="container-fluid d-flex flex-wrap bg-dark w-100">
       <ul class="nav me-auto">
         <li class="nav-item nav-link link-body-emphasis px-2">
-            <img src="{{imgprfx}}/logo.png" style="max-width: 120px;">
+            <img *ngIf="!showSidebar" src="{{imgprfx}}/logo.png" style="max-width: 120px;">
         </li>
       </ul>
       <ul class="nav">

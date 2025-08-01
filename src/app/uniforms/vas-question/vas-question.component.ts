@@ -159,6 +159,7 @@ export class VasQuestionComponent {
       if(this.page.data?.upct) this.upct = this.page.data.upct;
 
       if (this.page.data.result == 'pass'){
+        localStorage.setItem('UP_AUTH','Y');
         this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + this.npno]);
       }
 

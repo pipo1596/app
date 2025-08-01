@@ -1,22 +1,29 @@
 <title>{{title}}</title>
 
 <div class="d-flex position-fixed" style="z-index: 999;" *ngIf="this.menu != ''">
-    <button class="toggle-btn" (click)="showSidebar = !showSidebar" (click)="(!showSidebar) ? expanded = '' : expanded = expanded"
-            [ngStyle]="{'right': (this.showSidebar) ? '-300px' : '-40px'}">
-    <i [ngClass]="{'bi bi-chevron-right': (!this.showSidebar), 'bi bi-chevron-left': (this.showSidebar)}" ></i>
+
+    <button class="toggle-btn" (click)="showSidebar = !showSidebar" *ngIf="!showSidebar">
+        <i class="bi bi-arrows-collapse-vertical text-dark" ></i>
     </button>
 
   <nav class="sidebar d-flex flex-column flex-shrink-0 position-fixed" *ngIf="this.showSidebar">
       <div class="p-4">
-          <h4 class="logo-text fw-bold mb-4">
-              <a><li class="nav-item nav-link link-body-emphasis px-2">
-                  <img src="{{imgprfx}}/logo.png" style="max-width: 130px;">
-                  </li>
-              </a>
-          </h4>
+        <h4 class="logo-text fw-bold mb-4">
+            <a><li class="nav-item nav-link link-body-emphasis px-2">
+                <img src="{{imgprfx}}/logo.png" style="max-width: 130px;">
+                </li>
+            </a>
+        </h4>
       </div>
 
       <div class="nav flex-column">
+
+        <div class="col-md-12 mb-3 justify-content-end">
+            <a class="p-4" (click)="this.showSidebar = !this.showSidebar" (click)="expanded = ''">
+                <i class="bi bi-arrows-collapse-vertical text-light" style="font-size: 25px; cursor: pointer;"></i>
+            </a>
+        </div>
+
         <div class="col-md-12">
           <a class="sidebar-link text-decoration-none p-3 user-select-none" (click)="goMenu('dashboard')">
               <span>Dashboard</span>
@@ -158,12 +165,13 @@
                 </a>
             </div>
           </div>
+
       </div>
   </nav>
 </div>
 
 <nav class="border-bottom">
-    <div class="container-fluid d-flex flex-wrap bg-dark mw-2000">
+    <div class="container-fluid d-flex flex-wrap bg-dark w-100">
       <ul class="nav me-auto">
         <li class="nav-item nav-link link-body-emphasis px-2">
             <img src="{{imgprfx}}/logo.png" style="max-width: 120px;">

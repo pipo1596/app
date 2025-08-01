@@ -15,7 +15,7 @@ export class HeaderComponent {
   @Input() menu : string = "";
   fullname : string = "";
   imgprfx = environment.logoprfx;
-  showSidebar = false;
+  showSidebar = true;
   expanded: String = "";
 
     constructor(private http: HttpClient,

@@ -224,7 +224,6 @@ export class ProductComponent {
         this.opv[opt].push(arr[i])
       }
     }
-    console.log(this.opv[opt])
   }
 
   checkOpt(opt: number, arr: any, i: any) {
@@ -253,7 +252,6 @@ export class ProductComponent {
     } else {
       this.options = arrays[0];
     }
-    console.log(this.options)
   }
 
   getCombinations(arrays: any){

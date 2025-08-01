@@ -102,7 +102,6 @@ export class MassItemComponent {
     } else {
       this.grpChecked.push(group)
     }
-    console.log(this.grpChecked)
   }
 
   allChecked(){

@@ -88,7 +88,6 @@ export class NaChildComponent {
     } else{
       this.expanded.push(category)
     }
-    console.log(this.expanded)
   }
 
   getCategories() {

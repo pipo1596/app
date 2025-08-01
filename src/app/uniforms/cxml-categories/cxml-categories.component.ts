@@ -48,7 +48,6 @@ export class CxmlCategoriesComponent {
       if (this.page.data?.menu) this.page.menu = this.page.data.menu;
       if (this.page.data?.unspc) this.page.data.unspc = this.page.data.unspc.sort((a: any, b: any) => a.valu.localeCompare(b.valu, 'en', { numeric: true }))
       if (this.page.data?.categories) this.buildUNSP()
-      console.log(this.unsp)
       hideWait();
       this.page.loading = false;
     });
@@ -76,7 +75,6 @@ export class CxmlCategoriesComponent {
         this.unsp[i] = value.nano + value.unsp
       }
     }   
-    console.log(this.unsp)
   }
 
   loadConfigs(){
@@ -86,7 +84,6 @@ export class CxmlCategoriesComponent {
       nhno: this.page.rfno,
       unsp: this.unsp.toString()
     }
-    console.log(data);
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNAX', data).subscribe(response => {
       this.page.data = response;

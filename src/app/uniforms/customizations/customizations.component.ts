@@ -144,7 +144,6 @@ export class CustomizationsComponent {
         this.checkCustomization(this.page.data.customizations[i])
       }
     }
-    console.log(this.checked)
   }
 
   checkCustomization(customization: any) {
@@ -165,7 +164,6 @@ export class CustomizationsComponent {
       this.checked.push(np);
       this.checked.sort();
     }    
-    console.log(this.checked)
   }
 
   assignStyles(){

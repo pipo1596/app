@@ -96,7 +96,6 @@ export class CategoryComponent {
 
   loadCategory(mode: string){
       showWait();
-      console.log(this.pnan);
   
       let data = {
         mode: mode,

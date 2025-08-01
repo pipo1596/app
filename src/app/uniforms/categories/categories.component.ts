@@ -93,7 +93,6 @@ export class CategoriesComponent {
       if(isParent){ this.expanded = [] }
       this.expanded.push(category)
     }
-    console.log(this.expanded)
   }
 
   loadCategory(mode: any, nano: any){

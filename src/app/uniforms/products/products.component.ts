@@ -41,7 +41,6 @@ export class ProductsComponent {
   ngOnInit(): void {
     this.assign = localStorage.getItem('assign') ? JSON.parse(localStorage.getItem('assign')!) : '';
     localStorage.clear();
-    // console.log(this.assign)
     this.checked = [];
     this.offset = '0';
     this.route.paramMap.subscribe(params => {
@@ -155,7 +154,6 @@ export class ProductsComponent {
       this.checked.push(product);
       this.checked.sort();
     }    
-    console.log(this.checked)
   }
 
   searchConfig(mode: string){
@@ -211,7 +209,6 @@ export class ProductsComponent {
         }
       }
     }
-    console.log(configs)
     return configs
   }
 

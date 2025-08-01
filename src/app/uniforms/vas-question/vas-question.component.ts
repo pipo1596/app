@@ -21,8 +21,8 @@ export class VasQuestionComponent {
 
   //Input
   desc: any; // Description
-  seq: any; // Sequence
-  actv: any; // Active
+  seq: any = ""; // Sequence
+  actv: any = ""; // Active
   mini: any; // Min Length
   maxi: any; // Max Length
   rsli: any; // Restriction List
@@ -33,14 +33,14 @@ export class VasQuestionComponent {
   vhno: any; // Droplist
   vhdesc: any; // Droplist Desc
   vsmt: any; // VAS Material Type
-  dfan: any; // Default Answer
-  pdfan: any; // Default if no Parent found
+  dfan: any = ""; // Default Answer
+  pdfan: any = ""; // Default if no Parent found
   dspd: any = ""; // Display Defaulted Locked Answer
   qty: any; // Inventory Qty
   lkqt: any = ""; // Lock Inventory Qty
   dflk: any = ""; // Force Default
-  rule: any; // Rule
-  afmt: any; // VAS Answer FOrmat
+  rule: any = ""; // Rule
+  afmt: any = ""; // VAS Answer FOrmat
   upct: any; 
 
   constructor(private http: HttpClient,

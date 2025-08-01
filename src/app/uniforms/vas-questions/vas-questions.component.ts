@@ -89,7 +89,10 @@ export class VasQuestionsComponent {
           if(this.errors == ""){
             this.errors = temp.data.errors
           } else this.errors = this.errors + ',' + temp.data.errors
-        } else this.msg = "Questions updated successfully"
+        } else{
+          this.msg = "Questions updated successfully"
+          location.reload();
+        }
       });
     } 
 

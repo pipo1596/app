@@ -43,7 +43,8 @@ export class IframeComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    if(this.p1){
+    localStorage.setItem('p1',this.p1);
+    if(this.p1 && this.menu.indexOf('APOELMAC') !== -1){
       this.router.navigate([ this.partpg + this.p1 ]);
     } else {
       this.router.navigate([this.partpg]);

@@ -29,7 +29,6 @@ export class UniformComponent {
     this.route.paramMap.subscribe(params => {
       this.acno = params.get('acno');
     });
-    localStorage.clear();
   }
 
   newUniform() {

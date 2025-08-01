@@ -113,8 +113,8 @@ export class ProductComponent {
   ) { hideWait(); }
 
   ngOnInit(): void {
-    this.setMode();
     this.copy = localStorage.getItem('copy')
+    this.setMode();
     this.getProduct();
     localStorage.clear();
   }
@@ -149,15 +149,15 @@ export class ProductComponent {
       if (this.page.data?.optionChk){
         for (let i = 0; i < this.page.data?.optionChk.length; i++) {
           //Option 1
-          if(this.page.data?.optionChk[i].opv1 !== '') {
+          if(this.page.data?.optionChk[i].opv1 !== '' && !this.opv[0].includes(this.page.data?.optionChk[i].opv1)) {
             this.opv[0].push(this.page.data?.optionChk[i].opv1)
           }
           //Option 2
-          if(this.page.data?.optionChk[i].opv2 !== '') {
+          if(this.page.data?.optionChk[i].opv2 !== '' && !this.opv[1].includes(this.page.data?.optionChk[i].opv2)) {
             this.opv[1].push(this.page.data?.optionChk[i].opv2)
           }
           //Option 3
-          if(this.page.data?.optionChk[i].opv3 !== '') {
+          if(this.page.data?.optionChk[i].opv3 !== '' && !this.opv[2].includes(this.page.data?.optionChk[i].opv3)) {
             this.opv[2].push(this.page.data?.optionChk[i].opv3)
           }
         }
@@ -276,7 +276,7 @@ export class ProductComponent {
   }
 
   setMode() {
-    if (this.router.url.indexOf('/uniforms/newproduct') >= 0) {
+    if (this.router.url.indexOf('/uniforms/newproduct') >= 0 || this.copy) {
       this.page.entrymode = true;
     } else this.page.editmode = true;
       

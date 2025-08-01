@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Page } from '../../shared/textField';
+import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait } from '../../shared/utils';
 
@@ -12,19 +13,19 @@ import { hideWait } from '../../shared/utils';
 export class ImportComponent {
   page = new Page();
 
-  constructor(
+  constructor(private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     localStorage.clear();
+    hideWait();
+    this.page.loading = false;
     this.page.menu = 'Y'
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
     });
-    hideWait();
-    this.page.loading = false;
   }
 
   loadUpload(ulid: any){

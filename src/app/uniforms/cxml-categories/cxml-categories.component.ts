@@ -96,6 +96,9 @@ export class CxmlCategoriesComponent {
 
   assignAll(){
     showWait();
+    if(!this.assign){
+      window.alert("Assigning all with no value selected will remove all current values. Do you want to proceed?");
+    }
     let data = {
       mode: 'updateAll',
       nhno: this.page.rfno,

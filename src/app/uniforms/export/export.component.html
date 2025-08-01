@@ -43,9 +43,10 @@
                                                 <td align="left">{{report.stcd}}</td>
                                                 <td align="left">{{dsppbdate(report.addt)}}</td>
                                                 <td align="left">{{dsppbdate(report.endt)}}</td>
-                                                <td><button class="btn bg-transparent" (click)="loadReport(report.rpno, 'update', report.keep)">
+                                                <td *ngIf="report.endt !== '0'"><button class="btn bg-transparent" (click)="loadReport(report.rpno, 'update', report.keep)">
                                                     <span [ngClass]="report.keep == 'RED' ? 'bi bi-flag-fill text-danger' : 'bi bi-flag'" title="Keep Report"></span>
                                                 </button></td>
+                                                <td *ngIf="report.endt == '0'"></td>
                                             </tr>  
                                         </tbody>
                                     </table> 

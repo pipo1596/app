@@ -22,6 +22,7 @@ export class IframeComponent {
 
   @HostListener('window:message', ['$event']) onMessage(event: MessageEvent) {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('p1',this.p1);
     this.router.navigate([this.partpg + event.data.data]);
   }
 
@@ -33,7 +34,7 @@ export class IframeComponent {
     this.menu = localStorage.getItem('menu');
     this.p1 = localStorage.getItem('p1');
     this.partpg = localStorage.getItem('partpg');
-    localStorage.clear()
+    // localStorage.clear()
   }
 
   getSafeUrl(url: string): SafeResourceUrl {

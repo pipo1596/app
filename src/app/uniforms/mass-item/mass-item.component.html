@@ -23,12 +23,12 @@
 
                 <div class="form-group row g-3 mb-3">
                     <label class="col-md-2 col-form-label"><span class="text-danger"><strong>*</strong></span> Vas Item: </label>
-                        <div class="col-md-2">
-                            <input type="text" class="form-control" name="vedpoInput" [(ngModel)]="vedpo">
-                        </div>
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary me-3" (click)="getInfo(vedpo)">Go</button>
-                        </div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control" name="vedpoInput" [(ngModel)]="vedpo">
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary me-3" (click)="getInfo(vedpo)">Go</button>
+                    </div>
                 </div>
 
                 <ng-container *ngIf="page.data?.result == 'pass'">

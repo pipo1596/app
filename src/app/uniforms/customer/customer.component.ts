@@ -19,9 +19,9 @@ export class CustomerComponent {
   nhno:any
   acno:any
   effd = "";
-  effdUsa: any;
+  // effdUsa: any;
   expd = "";
-  expdUsa: any;
+  // expdUsa: any;
   upct = "";
 
   constructor(
@@ -47,11 +47,11 @@ export class CustomerComponent {
       if(this.page.data?.info?.acno) this.acno = this.page.data.info.acno;
       if(this.page.data?.info?.effd){
         this.effd = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
-        this.effdUsa = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
+        // this.effdUsa = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
       }
       if(this.page.data?.info?.expd){
         this.expd = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
-        this.expdUsa = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
+        // this.expdUsa = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
       }
       if(this.page.data?.info?.upct) this.upct = this.page.data.info.upct;
       hideWait();
@@ -94,8 +94,8 @@ export class CustomerComponent {
       mode: mode,
       nhno: this.nhno,
       acno: this.acno,
-      effd: (mode !== 'delete') ? this.effdUsa : '',
-      expd: (mode !== 'delete') ? this.expdUsa : '',
+      effd: (mode !== 'delete') ? this.effd.replaceAll('-','') : '',
+      expd: (mode !== 'delete') ? this.expd.replaceAll('-','') : '',
       upct: (mode == 'update') ? this.upct : ''
     }
 

@@ -50,6 +50,8 @@ export class VasQuestionComponent {
   ngOnInit(): void {
     if(localStorage.getItem('vasApp')){
       this.application = JSON.parse(localStorage.getItem('vasApp')!);
+    } else if(localStorage.getItem('p1')){
+      this.application = JSON.parse(localStorage.getItem('p1')!);
     }
     localStorage.clear();
     this.route.paramMap.subscribe(params => {
@@ -84,13 +86,16 @@ export class VasQuestionComponent {
       if (this.page.data?.info.actv) this.actv = this.page.data.info.actv
       if (this.page.data?.info.mini) this.mini = this.page.data.info.mini
       if (this.page.data?.info.maxi) this.maxi = this.page.data.info.maxi
-      if (this.vhno) this.rsli = this.vhno
+
+      if (this.vhno && this.type == 'P') this.rsli = this.vhno
       if (this.page.data?.info.rsli && !this.rsli) this.rsli = this.page.data.info.rsli
+
       if (this.page.data?.info.minr) this.minr = this.page.data.info.minr
       if (this.page.data?.info.maxr) this.maxr = this.page.data.info.maxr
       if (this.page.data?.info.decr) this.decr = this.page.data.info.decr
       if (this.page.data?.info.incr) this.incr = this.page.data.info.incr
       if (this.page.data?.info.tbld && !this.vhno) this.vhno = this.page.data.info.tbld
+
       if (this.page.data?.info.vsmt) this.vsmt = this.page.data.info.vsmt
       if (this.page.data?.info.dfan) this.dfan = this.page.data.info.dfan
       if (this.page.data?.info.pdfan) this.pdfan = this.page.data.info.pdfan
@@ -167,19 +172,21 @@ export class VasQuestionComponent {
   }
 
   inqDrop() {
-    let menu = '/cgi/APOELMVH?PAMODE=*INQ&PMV1CD=' + this.application.v1cd + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N'
     localStorage.clear();
+    localStorage.setItem('p1',JSON.stringify(this.application));
+    let menu = '/cgi/APOELMVH?PAMODE=*INQ&PMV1CD=' + this.application.v1cd + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N'
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('partpg','/uniforms/vasquestion/' + this.page.rfno + '/' + this.npno);
+    localStorage.setItem('partpg','/uniforms/vasquestion/' + this.page.rfno + '/' + this.npno + '/');
     localStorage.setItem('menu',menu);
     this.router.navigate(['/uniforms/iframe/APOELMVH']);
   }
 
   inqDfan() {
-    let menu = '/cgi/APOELMIS4?PAMODE=*INQ&PMV1CD=' + this.application.v1cd + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N'
     localStorage.clear();
+    localStorage.setItem('p1',JSON.stringify(this.application));
+    let menu = '/cgi/APOELMIS4?PAMODE=*INQ&PMV1CD=' + this.application.v1cd + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N'
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('partpg','/uniforms/vasquestion/' + this.page.rfno + '/' + this.npno);
+    localStorage.setItem('partpg','/uniforms/vasquestion/' + this.page.rfno + '/' + this.npno + '/');
     localStorage.setItem('menu',menu);
     this.router.navigate(['/uniforms/iframe/APOELMVH']);
   }

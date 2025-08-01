@@ -47,10 +47,11 @@ export class CxmlConfigsComponent {
   }
 
   selectConfig(level: any){
-    localStorage.setItem('UP_AUTH','Y');
     if(level == 'CUSTOMER'){
+      localStorage.setItem('UP_AUTH','Y');
       this.router.navigate(['/uniforms/cxmlcustomers/' + this.page.rfno]);
     } else if (level == 'CATEGORY') {
+      localStorage.setItem('UP_AUTH','Y');
       this.router.navigate(['/uniforms/cxmlcategories/' + this.page.rfno]);
     }
   }

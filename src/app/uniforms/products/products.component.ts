@@ -192,10 +192,10 @@ export class ProductsComponent {
       nino: ninos
     }
 
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPASSIGN', data).subscribe(response => {})
-
-    // localStorage.setItem('assign', JSON.stringify(this.checked))
-    // this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPASSIGN', data).subscribe(response => {
+      localStorage.setItem('UP_AUTH','Y');
+      this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
+    })
   }
 
   getConfig(){

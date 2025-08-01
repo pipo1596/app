@@ -24,14 +24,14 @@
                 <div class="row g-3 mb-4">
                     <div class="col-md-3">
                         <label for="v2noInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span> Application: </label>
-                        <select class="form-select p-2" name="inputV1CD" [(ngModel)]="v1cd" (ngModelChange)="getInfo()" (change)="errors = ''">
+                        <select class="form-select p-2" name="inputV1CD" [(ngModel)]="v1cd" (ngModelChange)="getInfo()" (change)="errors = ''" (change)="v2no = ''">
                             <option value="">Select</option>
                             <option *ngFor="let app of applications" [ngValue]="app.v1cd" [selected]="app.v1cd == v1cd">{{app.v1desc}}</option>
                         </select>
                     </div>
                 </div>
 
-                <ng-container *ngIf="v1cd">
+                <ng-container *ngIf="v1cd && questions.length !== 0">
                     <div class="row g-3 mb-3">
                         <div class="col-md-3">
                             <label for="v2noInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span> Question: </label>
@@ -50,7 +50,7 @@
                     </div>
                 </ng-container>
 
-                <div class="row g-3 mb-3">
+                <div class="row g-3 mb-3" *ngIf="v1cd && questions.length > 0">
                     <div class="col-md-3">
                         <button type="submit" class="btn btn-primary me-3" (click)="loadUpdate()" *ngIf="v1cd">Update Answer</button>
                     </div>
@@ -62,13 +62,13 @@
                     </div>
                 </div>
     
-                <div class="row g-3 mb-4" *ngIf="v1cd">
+                <div class="row g-3 mb-4">
                     <div class="col-md-10">
                         <label for="v2noInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span> Denotes required information </label>
                     </div>
                 </div>
 
-                <ng-container *ngIf="v2no">
+                <ng-container *ngIf="v1cd && v2no">
                     <div class="d-flex justify-content-between w-50">
                         <h6><small>Personalization Groups</small></h6>
                         <a href="javascript:void(0)" (click)="checkAll()"><h6><small>Check/Uncheck All</small></h6></a>

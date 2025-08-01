@@ -31,9 +31,9 @@ export class CustomizationComponent {
   ctno: any = "";
   ctdesc: any = "";
   effd: any = "";
-  effdUsa: any;
+  // effdUsa: any;
   expd: any = "";
-  expdUsa: any;
+  // expdUsa: any;
   seq: any = "";
   actv: any;
 
@@ -68,16 +68,17 @@ export class CustomizationComponent {
       if (this.page.data?.info.ctdesc) this.ctdesc = this.page.data.info.ctdesc
       if (this.page.data?.info.effd){
         this.effd = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
-        this.effdUsa = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
+        // this.effdUsa = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
       }
       if (this.page.data?.info.expd){
         this.expd = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
-        this.expdUsa = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
+        // this.expdUsa = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
       }
       if (this.page.data?.info.seq) this.seq = this.page.data.info.seq
       if (this.page.data?.info.stat == 'Y'){
         this.actv = true;
       } else this.actv = false;
+      if (this.page.data?.info.upct) this.upct = this.page.data.info.upct
     });
 
     this.page.loading = false;
@@ -125,8 +126,8 @@ export class CustomizationComponent {
         desc: this.desc,
         ctno: this.ctno,
         vfgn: this.vfgn,
-        effd: this.effdUsa,
-        expd: this.expdUsa,
+        effd: this.effd.replaceAll('-',''),
+        expd: this.expd.replaceAll('-',''),
         seq: this.seq,
         stat: (this.actv) ? 'Y' : '',
         upct: (mode == 'update') ? this.upct : ''
@@ -137,12 +138,11 @@ export class CustomizationComponent {
       this.page.data = response;
       if(this.page.data?.upct) this.upct = this.page.data.upct;
 
-      if (mode !== 'update') {
-        if (this.page.data.result == 'pass' && this.page.data.nhno){
-          localStorage.setItem('UP_AUTH','Y');
-          this.router.navigate(['/uniforms/customizations/' + this.page.data.nhno]);
-        }
+      if (this.page.data.result == 'pass' && this.page.data.nhno){
+        localStorage.setItem('UP_AUTH','Y');
+        this.router.navigate(['/uniforms/customizations/' + this.page.data.nhno]);
       }
+
       this.page.loading = false;
       hideWait();
     });

@@ -16,6 +16,7 @@ export class VasApplicationComponent {
   page = new Page();
   drop = false; // More Actions
   copy: any;
+  errors: any;
 
   // Parms
   nhno: any;
@@ -42,6 +43,11 @@ export class VasApplicationComponent {
 
   ngOnInit(): void {
     this.copy = localStorage.getItem('copy')
+    if(localStorage.getItem('p1')){
+      let p1 = JSON.parse(localStorage.getItem('p1')!)
+      this.vdno = p1.vdno;
+      this.v1cd = p1.v1cd;
+    }
     this.setMode();
     localStorage.clear();
     this.getApplication();
@@ -49,12 +55,13 @@ export class VasApplicationComponent {
 
   getApplication(){
     showWait();
+    if(this.vedp) this.getVEDP()
     let data = {
       mode: 'getInfo',
       nhno: this.nhno,
       npno: this.npno,
       n1no: this.n1no,
-      vdno: this.vdno
+      vdno: this.vdno 
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV1', data).subscribe(response => {
@@ -67,7 +74,7 @@ export class VasApplicationComponent {
       if (this.page.data?.mand == 'Y') this.mand = true;
       if (this.page.data?.actv == 'Y') this.actv = true;
       if (this.page.data?.vedp && !this.vedp) this.vedp = this.page.data.vedp;
-      if (this.page.data?.vedp_desc) this.vedpDesc = this.page.data.vedp_desc;
+      if (this.page.data?.vedp_desc && !this.vedpDesc) this.vedpDesc = this.page.data.vedp_desc;
       if (this.page.data?.acno) this.acno = this.page.data.acno;
       if (this.page.data?.upct) this.upct = this.page.data.upct;
       if (this.page.data?.v1cd && this.page.editmode) this.v1cd = this.page.data.v1cd
@@ -79,6 +86,11 @@ export class VasApplicationComponent {
 
   inqStyle() {
     localStorage.clear();
+    let p1 = {
+      vdno: this.vdno,
+      v1cd: this.v1cd
+    }
+    localStorage.setItem('p1', JSON.stringify(p1));
     if(this.page.editmode){
       localStorage.setItem('partpg','/uniforms/vasapplication/' + this.nhno + '/' + this.npno + '/' + this.n1no + '/')
     } else {
@@ -88,6 +100,19 @@ export class VasApplicationComponent {
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/iframe/APOELMIS2'])
+  }
+
+  getVEDP(){
+    let data = {
+      mode: 'getvedp',
+      vedp: this.vedp
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV1', data).subscribe(response => {
+      this.page.data = response;
+      if (this.page.data.vedp_desc) this.vedpDesc = this.page.data.vedp_desc
+    });
+
   }
 
   setMode() {
@@ -105,6 +130,7 @@ export class VasApplicationComponent {
       this.page.entrymode = true;
       this.page.editmode = false;
     }
+
   }
 
   goBack() {
@@ -113,12 +139,13 @@ export class VasApplicationComponent {
   }
 
   loadApp(mode: string){
+    this.errors = ""
     showWait();
 
     let data = {
       mode: mode,
       nhno: this.nhno,
-      n1no: (mode == 'update') ? this.n1no : '',
+      n1no: (mode == 'update' || this.copy) ? this.n1no : '',
       npno: this.npno,
       v1cd: this.v1cd,
       vdno: this.vdno,
@@ -134,10 +161,11 @@ export class VasApplicationComponent {
       if(this.page.data?.upct) this.upct = this.page.data.upct;
 
       if (this.page.data.result == 'pass'){
-        this.router.navigate(['/uniforms/vasapplications/' + this.page.data.nhno + '/' + this.npno]);
+        this.router.navigate(['/uniforms/vasapplications/' + this.nhno + '/' + this.npno]);
+      } else {
+        this.errors = this.page.data.errors
+        this.getApplication();
       }
-      this.page.loading = false;
-      hideWait();
     });
   }
 
@@ -154,7 +182,7 @@ export class VasApplicationComponent {
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV1', data).subscribe(response => {
       this.page.data = response;
       if (this.page.data.result == 'pass'){
-        this.router.navigate(['/uniforms/vasapplications/' + this.page.data.nhno + '/' + this.npno]);
+        this.router.navigate(['/uniforms/vasapplications/' + this.nhno + '/' + this.npno]);
       }
       this.page.loading = false;
       hideWait();

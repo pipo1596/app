@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="col-2">
-                    <button (click)="loadCustomization('new','')" class="btn btn-primary rounded-0 w-50 me-3" type="button">New</button>
+                    <button (click)="loadApplication('new','')" class="btn btn-primary rounded-0 w-50 me-3" type="button">New</button>
                     <button class="btn">
                         <span class="bi bi-question-circle" title="FAQ"></span>
                     </button>
@@ -66,11 +66,11 @@
                         <tr>
                             <td align="left" class="ps-2" colspan="1"><input type="checkbox" class="form-check-input" id="ckbx{{ application.n1no }}"  value="{{ application }}" (click)="checkApplication(application)" [checked] = "isChecked(application)"></td>
                             <td class="w-25">
-                                <button class="btn bg-transparent" (click)="loadCustomization('edit', application.n1no)"><span
+                                <button class="btn bg-transparent" (click)="loadApplication('edit', application.n1no)"><span
                                     class="bi bi-pencil-square" title="Edit Product"></span></button>
-                                <button class="btn bg-transparent" (click)="loadCustomization('copy', application.n1no)"><span
+                                <button class="btn bg-transparent" (click)="loadApplication('copy', application.n1no)"><span
                                     class="bi bi-clipboard" title="Copy Product"></span></button>
-                                <button class="btn bg-transparent" (click)="deleteCustomization(application.n1no)"><span
+                                <button class="btn bg-transparent" (click)="deleteApplication(application.n1no)"><span
                                     class="bi bi-trash" title="Product Details"></span></button>
                                 <button class="btn bg-transparent" (click)="expandApplication(application)" *ngIf="application.bttn == 'Y'"><span
                                     [ngClass]="expanded.includes(application) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category"></span></button>

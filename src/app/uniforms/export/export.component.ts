@@ -53,7 +53,7 @@ export class ExportComponent {
   }
 
   openReport(rpno: any){
-    localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('UP_AUTH','Y')
     this.router.navigate(['/uniforms/' + rpno + '/' + this.page.rfno]); 
   }
 

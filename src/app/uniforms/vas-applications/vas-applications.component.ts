@@ -64,10 +64,10 @@ export class VasApplicationsComponent {
   }
 
   expandApplication(application: any){
-    this.expanded = [];
     if(this.expanded.includes(application)){
       this.expanded.splice(this.expanded.indexOf(application),1)
     } else{
+      this.expanded = [];
       this.expanded.push(application)
     }
   }
@@ -85,7 +85,7 @@ export class VasApplicationsComponent {
     }
   }
 
-  loadCustomization(mode: any, n1no: any){
+  loadApplication(mode: any, n1no: any){
     localStorage.setItem('UP_AUTH','Y');
     switch(mode){
       case 'new':
@@ -95,13 +95,28 @@ export class VasApplicationsComponent {
         this.router.navigate(['/uniforms/vasapplication/' + this.page.rfno + '/' + this.npno + '/' + n1no]);
         break;
       case 'copy':
-        localStorage.setItem('copy', n1no)
-        this.router.navigate(['/uniforms/vasapplication/' + this.page.rfno + '/' + this.npno + '/' + n1no]);
+        showWait();
+        let data = {
+          mode: 'copy',
+          nhno: this.page.rfno,
+          npno: this.npno,
+          n1no: n1no
+        }
+        this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV1', data).subscribe(response => {
+          this.page.data = response;
+
+          if (this.page.data.result != 'pass'){
+            this.page.loading = false;
+            hideWait();
+          } else {
+            this.getCustomizations();
+          }
+        });
         break;
     }
   }
 
-  deleteCustomization(n1no: string){
+  deleteApplication(n1no: string){
     showWait();
     let data = {
       mode: 'delete',
@@ -110,16 +125,16 @@ export class VasApplicationsComponent {
       n1no: n1no
     }
 
-    // this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
-    //   this.page.data = response;
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV1', data).subscribe(response => {
+      this.page.data = response;
 
-    //   if (this.page.data.result != 'pass'){
-    //     this.page.loading = false;
-    //     hideWait();
-    //   } else {
-    //     this.getCustomizations();
-    //   }
-    // });
+      if (this.page.data.result != 'pass'){
+        this.page.loading = false;
+        hideWait();
+      } else {
+        this.getCustomizations();
+      }
+    });
   }
 
   allChecked(){

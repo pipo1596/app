@@ -4,6 +4,7 @@
     <div class="card mx-auto mb-5 w-75 h-100">
         <div class="card-body">
             <form>
+                <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
                     <div class="row g-3">
                         <div class="col-md-10">
                             <h6>Uniform Program - {{ page.data?.pgName }}</h6>

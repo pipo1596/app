@@ -33,7 +33,6 @@ export class CxmlCustomerComponent {
   ) { }
 
   ngOnInit(): void {
-    localStorage.clear();
     this.showCCNC = false;
     this.showCCNS = false;
     this.route.paramMap.subscribe(params => {
@@ -167,8 +166,8 @@ export class CxmlCustomerComponent {
       if (this.page.data?.menu) this.page.menu = this.page.data.menu;
       if (this.page.data.result == 'pass'){
         this.goBack();
-      } else{
-        localStorage.setItem('error', 'Record not found')
+      } else {
+        localStorage.setItem('error', 'Record not found');
         localStorage.setItem('UP_AUTH','Y');
         this.router.navigate(['/uniforms/cxmlcustomer/' + this.page.rfno]);
       }

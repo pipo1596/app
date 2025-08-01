@@ -34,7 +34,7 @@ export class CategoriesComponent {
 
   ngOnInit(): void {
     localStorage.clear();
-      hideWait();
+      showWait();
       this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
     });
@@ -54,6 +54,7 @@ export class CategoriesComponent {
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
       if (this.page.data.total) this.total = this.page.data.total
+      hideWait();
       this.page.loading = false;
       scrollToTopInstant();
     });
@@ -92,6 +93,7 @@ export class CategoriesComponent {
       if(isParent){ this.expanded = [] }
       this.expanded.push(category)
     }
+    console.log(this.expanded)
   }
 
   loadCategory(mode: any, nano: any){

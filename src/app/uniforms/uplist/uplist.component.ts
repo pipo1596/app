@@ -26,7 +26,7 @@ export class UplistComponent {
   ) { }
 
   ngOnInit(): void {
-    localStorage.clear();
+    localStorage.clear()
     showWait();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -39,7 +39,7 @@ export class UplistComponent {
     localStorage.clear();
     localStorage.setItem('partpg','/uniforms/uplist/' + this.page.rfno + '/')
     localStorage.setItem('menu','/cgi/APOELMPL?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
-    localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('UP_AUTH','Y')
     this.router.navigate(['/uniforms/iframe/APOELMPL'])
   }
 

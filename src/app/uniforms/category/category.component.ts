@@ -23,7 +23,7 @@ export class CategoryComponent {
   //Input
   name = "";
   pnan: any; 
-  upct = "";
+  upct: any;
 
   constructor(
     private http: HttpClient,
@@ -44,6 +44,7 @@ export class CategoryComponent {
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNA', data).subscribe(response => {
       this.page.data = response;
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data?.info?.upct) this.upct = this.page.data?.info?.upct
 
       if (this.copy){
         this.name = 'Copy of ' + this.page.data?.info?.desc;
@@ -110,12 +111,11 @@ export class CategoryComponent {
         this.page.data = response;
         if(this.page.data?.upct) this.upct = this.page.data.upct;
   
-        if (mode !== 'update') {
-          if (this.page.data.result == 'pass' && this.page.data.nhno){
-            localStorage.setItem('UP_AUTH','Y');
-            this.router.navigate(['/uniforms/categories/' + this.page.data.nhno]);
-          }
+        if (this.page.data.result == 'pass' && this.page.data.nhno){
+          localStorage.setItem('UP_AUTH','Y');
+          this.router.navigate(['/uniforms/categories/' + this.page.data.nhno]);
         }
+        
         this.page.loading = false;
         hideWait();
       });

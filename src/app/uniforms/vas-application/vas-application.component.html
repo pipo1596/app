@@ -3,7 +3,7 @@
     <div class="card mx-auto mb-5 w-75 h-100">
         <div class="card-body">
                 <form>
-                    <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
+                    <h6 class="mb-3" *ngIf="errors"><strong class="text-danger">{{errors}}</strong></h6>
                     <div class="row g-3">
                         <div class="col-md-9">
                             <h6>Uniform Program - {{ page.data?.pgName }}</h6>
@@ -87,7 +87,7 @@
                     <div class="d-flex flex-row">
                         <div class="col-md-3">
                             <button *ngIf="page.editmode" type="submit" class="btn btn-primary me-3" (click)="loadApp('update')">Save</button>
-                            <button *ngIf="page.entrymode" type="submit" class="btn btn-primary me-3" (click)="loadApp('create')">Build Application</button>
+                            <button *ngIf="page.entrymode" type="submit" class="btn btn-primary me-3" (click)="copy ? loadApp('copy') : loadApp('create')">Build Application</button>
                             <button *ngIf="page.editmode" type="submit" class="btn btn-primary me-3" (click)="deleteApp()">Delete</button>
                             <button type="submit" class="btn btn-primary me-3" (click)="goBack()">Cancel</button>
                         </div>

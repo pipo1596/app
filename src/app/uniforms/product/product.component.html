@@ -43,10 +43,10 @@
                             <label for="inputSKU" class="form-label">SKU:</label>
                             <ngx-select-dropdown name="skuDrop" [multiple]="true" [config]="searchConfig()" (change)="sku = $event.value" [options]="page.data?.sku" [(ngModel)]="sku"></ngx-select-dropdown>
                         </div>
-                        <h6>-- OR --</h6>
                     </div>
 
                     <div class="row g-3" *ngIf="styl || item">
+                        <h6 *ngIf="page.data?.optionH[0]">-- OR --</h6>
                         <ng-container *ngIf="page.data?.optionH">
                             <div *ngIf="page.data?.optionH[0]" class="col-md-2">
                                 <label for="inputOP1" class="form-label">{{ page.data?.optionH[0]}}</label>
@@ -64,21 +64,21 @@
                         <div class="col-md-2" *ngIf="page.data?.option1">
                             <input type="checkbox"  class="form-check-input mb-3" (click)="selectAll(0, page.data.option1)" [checked]="allSelected(0, page.data.option1) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">Select All</span><br>
                             <ng-container *ngFor="let opv1 of page.data.option1; index as i">
-                                <input type="checkbox" class="form-check-input mb-3" (click)="checkOpt(0, page.data.option1, i)" value="{{ opv1 }}" [checked]="page.editmode && opv[0].includes(opv1) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">{{opv1}}</span><br>
+                                <input type="checkbox" class="form-check-input mb-3" (click)="checkOpt(0, page.data.option1, i)" value="{{ opv1 }}" [checked]="opv[0].includes(opv1) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">{{opv1}}</span><br>
                             </ng-container>
                         </div>
                         
                         <div class="col-md-2" *ngIf="page.data?.option2">
                             <input type="checkbox" class="form-check-input mb-3" (click)="selectAll(1, page.data.option2)" [checked]="allSelected(1, page.data.option2) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">Select All</span><br>
                             <ng-container *ngFor="let opv2 of page.data.option2; index as i">
-                                <input type="checkbox" class="form-check-input mb-3" (click)="checkOpt(1, page.data.option2, i)" value="{{ opv2 }}" [checked]="page.editmode && opv[1].includes(opv2) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">{{opv2}}</span><br>
+                                <input type="checkbox" class="form-check-input mb-3" (click)="checkOpt(1, page.data.option2, i)" value="{{ opv2 }}" [checked]="opv[1].includes(opv2) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">{{opv2}}</span><br>
                             </ng-container>
                         </div>
 
                         <div class="col-md-2" *ngIf="page.data?.option3">
                             <input type="checkbox" class="form-check-input mb-3" (click)="selectAll(2, page.data.option3)" [checked]="allSelected(2, page.data.option3) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">Select All</span><br>
                             <ng-container *ngFor="let opv3 of page.data.option3; index as i">
-                                <input type="checkbox" class="form-check-input mb-3" (click)="checkOpt(2, page.data.option3, i)" value="{{ opv3 }}" [checked]="page.editmode && opv[2].includes(opv3) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">{{opv3}}</span><br>
+                                <input type="checkbox" class="form-check-input mb-3" (click)="checkOpt(2, page.data.option3, i)" value="{{ opv3 }}" [checked]="opv[2].includes(opv3) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">{{opv3}}</span><br>
                             </ng-container>
                         </div>
                     </div>

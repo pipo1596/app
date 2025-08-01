@@ -53,7 +53,7 @@
                         </tr>
                     </thead>
 
-                    <tbody *ngIf="page.data.configs">
+                    <tbody *ngIf="page.data?.configs">
                         <tr *ngFor="let config of page.data?.configs | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
                             <td>
                                 <button class="btn bg-transparent" (click)="editConfig(config.guno)"><span

@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+
 @media (min-width: 992px) {
     ::-webkit-scrollbar {
         -webkit-appearance: none;
@@ -179,6 +180,10 @@ ul.categories li {
     background-color: rgb(233, 232, 232);
 }
 
+.bi {
+    background-color: #ffffff00 !important;
+}
+
 .display-text {
     display: contents !important;
 }
@@ -208,7 +213,7 @@ ul.categories li {
 /* Tooltip text */
 .tooltip .tooltiptext {
   visibility: hidden;
-  width: 140px;
+  width: 160px;
   background-color: black;
   color: #fff;
   text-align: center;
@@ -225,3 +230,5 @@ ul.categories li {
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+

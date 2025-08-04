@@ -161,6 +161,7 @@ export class VasApplicationComponent {
       if(this.page.data?.upct) this.upct = this.page.data.upct;
 
       if (this.page.data.result == 'pass'){
+        localStorage.setItem('UP_AUTH','Y');
         this.router.navigate(['/uniforms/vasapplications/' + this.nhno + '/' + this.npno]);
       } else {
         this.errors = this.page.data.errors
@@ -182,6 +183,7 @@ export class VasApplicationComponent {
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV1', data).subscribe(response => {
       this.page.data = response;
       if (this.page.data.result == 'pass'){
+        localStorage.setItem('UP_AUTH','Y');
         this.router.navigate(['/uniforms/vasapplications/' + this.nhno + '/' + this.npno]);
       }
       this.page.loading = false;

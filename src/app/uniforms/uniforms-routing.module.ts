@@ -70,8 +70,10 @@ const routes: Routes = [
 
   //Customizations
   { path: 'customizations/:nhno', component: CustomizationsComponent, canActivate: [authGuard]  }, 
-  { path: 'customization/:nhno', component: CustomizationComponent, canActivate: [authGuard]  }, 
+  { path: 'newcustomization/:nhno', component: CustomizationComponent, canActivate: [authGuard]  }, 
+  { path: 'newcustomization/:nhno/:ctno', component: CustomizationComponent, canActivate: [authGuard]  }, 
   { path: 'customization/:nhno/:npno', component: CustomizationComponent, canActivate: [authGuard]  }, 
+  { path: 'customization/:nhno/:npno/:ctno', component: CustomizationComponent, canActivate: [authGuard]  }, 
   { path: 'vasapplications/:nhno/:npno', component: VasApplicationsComponent, canActivate: [authGuard]  },
   { path: 'newvasapplication/:nhno/:npno', component: VasApplicationComponent, canActivate: [authGuard]  },
   { path: 'newvasapplication/:nhno/:npno/:vedp', component: VasApplicationComponent, canActivate: [authGuard]  },

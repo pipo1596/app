@@ -16,61 +16,72 @@
                         </div>
                     </div>
 
-                    <h6 class="card-title ms-1 mb-4">Basic Customization Information</h6>
+                    <h6 class="card-title ms-1 mb-4"><strong>Basic Customization Information</strong></h6>
 
                     <div class="row g-3 mb-4">
                         <div class="col-md-3">
-                            <label for="inputItem" class="form-label">Name: </label>
+                            <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Name:</strong> </label>
                             <input type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="name">
                         </div>
                     </div>
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-3">
-                            <label for="inputDesc" class="form-label">Description: </label>
+                            <label for="inputDesc" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Description:</strong> </label>
                             <input type="text" class="form-control" id="inputDesc" name='description' [(ngModel)]="desc">
                         </div>
                     </div>
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-3">
-                            <label class="form-label">VAS Category: </label>
-                            <label class="form-label">{{ctdesc}} </label>
+                            <label for="inputCTNO" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>VAS Category:</strong> </label>
+                            <input type="text" readonly class="form-control" [value]="ctdesc ? ctdesc : ''">
+                        </div>
+                        <div class="col-md-1 mt-5">
+                            <button class="btn" (click)="inqCat()"><span class="bi bi-search" title="Inquire"></span></button>
                         </div>
                     </div>
 
+                    <!--
                     <div class="row g-3 mb-3">
                         <div class="col-md-3">
                             <label for="inputCnfg" class="form-label">Style Configurator Template: </label>
                             <label class="form-label">{{vfgdesc}} </label>
                         </div>
                     </div>
+                    -->
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-3">
-                            <label for="inputEffd" class="form-label">Effective Date: </label>
+                            <label for="inputEffd" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Effective Date:</strong> </label>
                             <input type="date" class="form-control" name="effective" [(ngModel)]="effd">
                         </div>
                     </div>
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-3">
-                            <label for="inputExpd" class="form-label">Expiration Date: </label>
+                            <label for="inputExpd" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Expiration Date:</strong> </label>
                             <input type="date" class="form-control" name="expiration" [(ngModel)]="expd"> 
                         </div>
                     </div>
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-1">
-                            <label for="inputSeq" class="form-label">Sequence: </label>
+                            <label for="inputSeq" class="form-label"><strong>Sequence:</strong> </label>
                             <input type="text" class="form-control" name='sequence' [(ngModel)]="seq">
                         </div>
                     </div>
 
                     <div class="row g-3 mb-5">
                         <div class="col-md-2">
-                            <label for="inputSeq" class="form-label me-2">Active:</label>
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" [checked]="actv" (change)="actv = !actv">
+                            <label for="inputSeq" class="form-label me-2"><strong>Active:</strong></label>
+                            <input type="checkbox" class="form-check-input"  (click)="actv == 'Y' ? actv = 'N' : actv = 'Y'" [checked]="actv == 'Y'">
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-5">
+                        <div class="col-md-3">
+                            <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span><span class="fst-italic">Denotes required information </span></label>
                         </div>
                     </div>
 

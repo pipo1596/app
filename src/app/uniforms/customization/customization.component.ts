@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Page, TextField } from '../../shared/textField';
+import { Page } from '../../shared/textField';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -64,8 +64,8 @@ export class CustomizationComponent {
       } else { this.desc = this.page.data?.info?.desc; }
       if (this.page.data?.info.vfgn) this.vfgn = this.page.data.info.vfgn
       if (this.page.data?.info.vfgdesc) this.vfgdesc = this.page.data.info.vfgdesc
-      if (this.page.data?.info.ctno) this.ctno = this.page.data.info.ctno
-      if (this.page.data?.info.ctdesc) this.ctdesc = this.page.data.info.ctdesc
+      if (this.page.data?.info.ctno && !this.ctno ) this.ctno = this.page.data.info.ctno
+      if (this.page.data?.info.ctdesc && !this.ctdesc ) this.ctdesc = this.page.data.info.ctdesc
       if (this.page.data?.info.effd){
         this.effd = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
         // this.effdUsa = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
@@ -91,7 +91,10 @@ export class CustomizationComponent {
     this.route.paramMap.subscribe(params => {
       this.nhno = params.get('nhno')
       this.npno = params.get('npno')
+      this.ctno = params.get('ctno')
     });
+
+    if (this.ctno !== "") this.getCTNO()
 
     if (this.npno && !this.copy) {
       this.page.editmode = true;
@@ -100,6 +103,32 @@ export class CustomizationComponent {
       this.page.entrymode = true;
       this.page.editmode = false;
     }
+  }
+
+  getCTNO(){
+    let data = {
+      nhno: this.nhno,
+      mode: 'getCtno',
+      ctno: this.ctno
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
+      this.page.data = response;
+      if (this.page.data.ct_desc) this.ctdesc = this.page.data.ct_desc
+    });
+  }
+
+  inqCat() {
+    localStorage.clear();
+    if(this.page.editmode){
+      localStorage.setItem('partpg','/uniforms/customization/' + this.nhno + '/' + this.npno + '/')
+    } else {
+      localStorage.setItem('partpg','/uniforms/newcustomization/' + this.nhno + '/')
+    }
+    let menu = '/cgi/APOELMCT?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
+    localStorage.setItem('menu', menu)
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate(['/uniforms/iframe/APOELMCT'])
   }
 
   goBack() {

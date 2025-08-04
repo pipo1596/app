@@ -78,6 +78,7 @@ export class CustomizationsComponent {
       if (this.page.data?.title) this.page.title = this.page.data.title;
       if (this.page.data?.fullname) this.page.fullname = this.page.data.fullname;
       if (this.page.data?.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data?.customizations) this.page.data.customizations = this.page.data.customizations.sort((a: any,b: any) => a.npno.localeCompare(b.npno))
       if (this.page.data?.total) this.total = this.page.data.total
       if (this.page.data?.stylDrop){
         this.page.data.stylDrop.forEach((styl: any) => {
@@ -93,7 +94,7 @@ export class CustomizationsComponent {
     localStorage.setItem('UP_AUTH','Y')
     switch(mode){
       case 'new':
-        this.router.navigate(['/uniforms/customization/' + this.page.rfno]);
+        this.router.navigate(['/uniforms/newcustomization/' + this.page.rfno]);
         break;
       case 'edit':
         this.router.navigate(['/uniforms/customization/' + this.page.rfno + '/' + npno]);
@@ -144,6 +145,7 @@ export class CustomizationsComponent {
         this.checkCustomization(this.page.data.customizations[i])
       }
     }
+    console.log(this.checked)
   }
 
   checkCustomization(customization: any) {
@@ -164,6 +166,7 @@ export class CustomizationsComponent {
       this.checked.push(np);
       this.checked.sort();
     }    
+    console.log(this.checked)
   }
 
   assignStyles(){

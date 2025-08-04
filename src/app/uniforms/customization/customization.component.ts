@@ -75,9 +75,7 @@ export class CustomizationComponent {
         // this.expdUsa = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
       }
       if (this.page.data?.info.seq) this.seq = this.page.data.info.seq
-      if (this.page.data?.info.stat == 'Y'){
-        this.actv = true;
-      } else this.actv = false;
+      if (this.page.data?.info.stat) this.actv = this.page.data.info.stat
       if (this.page.data?.info.upct) this.upct = this.page.data.info.upct
       this.page.loading = false;
       hideWait();
@@ -160,7 +158,7 @@ export class CustomizationComponent {
         effd: this.effd.replaceAll('-',''),
         expd: this.expd.replaceAll('-',''),
         seq: this.seq,
-        stat: (this.actv) ? 'Y' : '',
+        stat: (this.actv == 'Y') ? this.actv : '',
         upct: (mode == 'update') ? this.upct : ''
       }
     }

@@ -43,10 +43,10 @@ export class CustomizationComponent {
     private router: Router,
     private route: ActivatedRoute,
     private dataService: DataService
-  ) { hideWait(); }
+  ) { }
 
   ngOnInit(): void {
-    hideWait();
+    showWait();
     this.setMode();
 
     let data = {
@@ -79,6 +79,8 @@ export class CustomizationComponent {
         this.actv = true;
       } else this.actv = false;
       if (this.page.data?.info.upct) this.upct = this.page.data.info.upct
+      this.page.loading = false;
+      hideWait();
     });
 
     this.page.loading = false;

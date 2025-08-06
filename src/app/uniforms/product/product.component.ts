@@ -146,6 +146,8 @@ export class ProductComponent {
         } else { this.desc = this.page.data?.info.desc; }
       }
 
+      if(!this.desc && this.page.data?.stylDesc) this.desc = this.page.data.stylDesc
+
       if (this.page.data?.optionChk){
         for (let i = 0; i < this.page.data?.optionChk.length; i++) {
           //Option 1
@@ -224,6 +226,7 @@ export class ProductComponent {
         this.opv[opt].push(arr[i])
       }
     }
+    console.log(this.opv[opt])
   }
 
   checkOpt(opt: number, arr: any, i: any) {
@@ -252,6 +255,7 @@ export class ProductComponent {
     } else {
       this.options = arrays[0];
     }
+    console.log(this.options)
   }
 
   getCombinations(arrays: any){

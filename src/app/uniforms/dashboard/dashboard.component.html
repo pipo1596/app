@@ -1,6 +1,6 @@
-<div>
+<div id="container">
     <app-header [title]="page.title" [menu]="page.menu" ></app-header>
-    <section class="ftco-section bg-light pb-3 pt-5">
+    <section class="ftco-section bg-light pb-3 pt-5 content">
         <div class="card mx-auto mb-5 w-75 h-100">
             <div class="card-body">
 
@@ -35,13 +35,37 @@
                 <div class="row g-3 mb-3">
                     <h3 class="card-title ms-1">Dashboard</h3>
                 </div>
-        
+
+                <!-- Warehouse -->
+                <div class="row g-3 mb-3">
+                    <div class="col-md-2">
+                        <div class="card-body step">
+                            <h6>Step 1: Add Warehouse</h6>
+                        </div>
+                    </div>    
+
+                    <div class="col-md-3">
+                        <div class="card-body step">
+                            <img class="dash-img" src="{{imgprfx}}/dash_box.png">
+                        </div>
+                    </div>    
+                    
+                    <div class="col-md-6">
+                        <div class="card-body w-75">
+                            <h6>Add Fulfillment Warehouse</h6>
+                            <div class="d-flex main">
+                                <a href="javascript:void(0)" class="link-underline link-underline-opacity-0" (click)="loadWarehouse();"><li class="me-5">Add Fulfillment Warehouse for Catalog</li></a>
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+
                 <!-- Product -->
                 <div class="row g-3 mb-3">
 
                     <div class="col-md-2">
                         <div class="card-body step">
-                            <h6>Step 1: Add Product</h6>
+                            <h6>Step 2: Add Product</h6>
                         </div>
                     </div>     
 
@@ -64,30 +88,6 @@
                             </div>
                             <div class="d-flex">
                                 <a href="javascript:void(0)" class="link-underline link-underline-opacity-0" (click)="loadProduct('');"><li class="me-4">Build Customizations</li></a>
-                            </div>
-                        </div>    
-                    </div>
-                </div>
-
-                <!-- Warehouse -->
-                <div class="row g-3 mb-3">
-                    <div class="col-md-2">
-                        <div class="card-body step">
-                            <h6>Step 2: Add Warehouse</h6>
-                        </div>
-                    </div>    
-
-                    <div class="col-md-3">
-                        <div class="card-body step">
-                            <img class="dash-img" src="{{imgprfx}}/dash_box.png">
-                        </div>
-                    </div>    
-                    
-                    <div class="col-md-6">
-                        <div class="card-body w-75">
-                            <h6>Add Fulfillment Warehouse</h6>
-                            <div class="d-flex main">
-                                <a href="javascript:void(0)" class="link-underline link-underline-opacity-0" (click)="loadWarehouse();"><li class="me-5">Add Fulfillment Warehouse for Catalog</li></a>
                             </div>
                         </div>    
                     </div>

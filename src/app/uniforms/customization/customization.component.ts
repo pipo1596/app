@@ -62,8 +62,8 @@ export class CustomizationComponent {
       if (this.copy){
         this.desc = 'Copy of ' + this.page.data?.info?.desc;
       } else { this.desc = this.page.data?.info?.desc; }
-      if (this.page.data?.info.vfgn) this.vfgn = this.page.data.info.vfgn
-      if (this.page.data?.info.vfgdesc) this.vfgdesc = this.page.data.info.vfgdesc
+      if (this.page.data?.info.vfgn && !this.vfgn) this.vfgn = this.page.data.info.vfgn
+      if (this.page.data?.info.vfgdesc && !this.vfgdesc) this.vfgdesc = this.page.data.info.vfgdesc
       if (this.page.data?.info.ctno && !this.ctno ) this.ctno = this.page.data.info.ctno
       if (this.page.data?.info.ctdesc && !this.ctdesc ) this.ctdesc = this.page.data.info.ctdesc
       if (this.page.data?.info.effd){
@@ -91,10 +91,10 @@ export class CustomizationComponent {
     this.route.paramMap.subscribe(params => {
       this.nhno = params.get('nhno')
       this.npno = params.get('npno')
-      this.ctno = params.get('ctno')
+      this.vfgn = params.get('vfgn')
     });
 
-    if (this.ctno !== "") this.getCTNO()
+    if (this.vfgn !== "") this.getVFGN()
 
     if (this.npno && !this.copy) {
       this.page.editmode = true;
@@ -105,30 +105,32 @@ export class CustomizationComponent {
     }
   }
 
-  getCTNO(){
+  getVFGN(){
     let data = {
       nhno: this.nhno,
-      mode: 'getCtno',
-      ctno: this.ctno
+      mode: 'getVfgn',
+      vfgn: this.vfgn
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
       this.page.data = response;
+      if (this.page.data.vfg_desc) this.vfgdesc = this.page.data.vfg_desc
+      if (this.page.data.ctno) this.ctno = this.page.data.ctno
       if (this.page.data.ct_desc) this.ctdesc = this.page.data.ct_desc
     });
   }
 
-  inqCat() {
+  inqVfg() {
     localStorage.clear();
     if(this.page.editmode){
       localStorage.setItem('partpg','/uniforms/customization/' + this.nhno + '/' + this.npno + '/')
     } else {
       localStorage.setItem('partpg','/uniforms/newcustomization/' + this.nhno + '/')
     }
-    let menu = '/cgi/APOELMCT?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
+    let menu = '/cgi/APOELMVFG?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate(['/uniforms/iframe/APOELMCT'])
+    this.router.navigate(['/uniforms/iframe/APOELMVFG'])
   }
 
   goBack() {

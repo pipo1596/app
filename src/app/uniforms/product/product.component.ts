@@ -165,6 +165,8 @@ export class ProductComponent {
         }
       }
 
+      if (this.page.data?.sku) this.page.data.sku = this.page.data.sku.sort((a:any,b: any) => a.desc.localeCompare(b.desc))
+      if (this.page.data?.customizations) this.page.data.customizations = this.page.data.customizations.sort((a: any,b: any) => a.npno.localeCompare(b.npno))
 
       if (this.page.data?.info?.nano){
         this.nano = this.page.data?.info?.nano

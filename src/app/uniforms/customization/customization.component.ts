@@ -58,24 +58,24 @@ export class CustomizationComponent {
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
       this.page.data = response;
       if (this.page.data?.menu) this.page.menu = this.page.data.menu;
-      if (this.page.data?.info.name) this.name = this.page.data.info.name
-      if (this.copy){
+      if (this.page.data?.info.name && !this.name) this.name = this.page.data.info.name
+
+      if (this.copy && !this.desc){
         this.desc = 'Copy of ' + this.page.data?.info?.desc;
-      } else { this.desc = this.page.data?.info?.desc; }
-      if (this.page.data?.info.vfgn && !this.vfgn) this.vfgn = this.page.data.info.vfgn
-      if (this.page.data?.info.vfgdesc && !this.vfgdesc) this.vfgdesc = this.page.data.info.vfgdesc
-      if (this.page.data?.info.ctno && !this.ctno ) this.ctno = this.page.data.info.ctno
-      if (this.page.data?.info.ctdesc && !this.ctdesc ) this.ctdesc = this.page.data.info.ctdesc
-      if (this.page.data?.info.effd){
-        this.effd = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
-        // this.effdUsa = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
+      } else if (this.page.data?.info?.desc && !this.desc) { this.desc = this.page.data.info.desc; }
+
+      if (this.page.data?.info.vfgn && !this.vfgn){
+        this.vfgn = this.page.data?.info?.vfgn
+        this.getVFGN()
       }
-      if (this.page.data?.info.expd){
+      if (this.page.data?.info.effd && !this.effd){
+        this.effd = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
+      }
+      if (this.page.data?.info.expd && !this.expd){
         this.expd = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
-        // this.expdUsa = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
       }
       if (this.page.data?.info.seq) this.seq = this.page.data.info.seq
-      if (this.page.data?.info.stat) this.actv = this.page.data.info.stat
+      if (this.page.data?.info.stat && !this.actv) this.actv = this.page.data.info.stat
       if (this.page.data?.info.upct) this.upct = this.page.data.info.upct
       this.page.loading = false;
       hideWait();
@@ -87,6 +87,14 @@ export class CustomizationComponent {
 
   setMode() {
     this.copy = localStorage.getItem('copy')
+    if(localStorage.getItem('p1')){
+      let p1 = JSON.parse(localStorage.getItem('p1')!)
+      this.name = p1.name;
+      this.desc = p1.desc;
+      this.effd = p1.effd;
+      this.expd = p1.expd;
+      this.actv = p1.expd;
+    }
   
     this.route.paramMap.subscribe(params => {
       this.nhno = params.get('nhno')
@@ -94,7 +102,7 @@ export class CustomizationComponent {
       this.vfgn = params.get('vfgn')
     });
 
-    if (this.vfgn !== "") this.getVFGN()
+    if (this.vfgn !== null && this.vfgn !== "") this.getVFGN()
 
     if (this.npno && !this.copy) {
       this.page.editmode = true;
@@ -106,6 +114,7 @@ export class CustomizationComponent {
   }
 
   getVFGN(){
+    let temp = new Page();
     let data = {
       nhno: this.nhno,
       mode: 'getVfgn',
@@ -113,15 +122,23 @@ export class CustomizationComponent {
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
-      this.page.data = response;
-      if (this.page.data.vfg_desc) this.vfgdesc = this.page.data.vfg_desc
-      if (this.page.data.ctno) this.ctno = this.page.data.ctno
-      if (this.page.data.ct_desc) this.ctdesc = this.page.data.ct_desc
+      temp.data = response;
+      if (temp.data?.vfg_desc) this.vfgdesc = temp.data.vfg_desc
+      if (temp.data?.ctno) this.ctno = temp.data.ctno
+      if (temp.data?.ct_desc) this.ctdesc = temp.data.ct_desc
     });
   }
 
   inqVfg() {
     localStorage.clear();
+    let p1 = {
+      name: this.name,
+      desc: this.desc,
+      effd: this.effd,
+      expd: this.expd,
+      actv: this.actv
+    }
+    localStorage.setItem('p1', JSON.stringify(p1));
     if(this.page.editmode){
       localStorage.setItem('partpg','/uniforms/customization/' + this.nhno + '/' + this.npno + '/')
     } else {

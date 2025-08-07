@@ -58,6 +58,11 @@ export class CategoryComponent {
         this.pnan = parent
       }
 
+      if(this.page.data?.categories){
+        this.page.data.categories = this.page.data.categories.sort((a: any,b: any) => a.nano.localeCompare(b.nano))
+        // this.page.data.categories = this.page.data.categories.sort((a: any,b: any) => a.seq.localeCompare(b.seq))
+      }
+
       localStorage.clear();
       hideWait();
       this.page.loading = false;
@@ -83,7 +88,13 @@ export class CategoryComponent {
 
   searchConfig(){
     var config ={
-      displayFn:(item: any) => { return item.desc; },
+      displayFn:(item: any) => { 
+        let cat = ""
+        if(item.desc3) cat = item.desc3 + ' > '
+        if(item.desc2) cat = cat + item.desc2 + ' > '
+        if(item.desc) cat = cat + item.desc
+        return cat
+      },
       displayKey: 'desc',
       search: true,
       placeholder: 'Select',

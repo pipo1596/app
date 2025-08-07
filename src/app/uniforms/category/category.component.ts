@@ -22,14 +22,14 @@ export class CategoryComponent {
 
   //Input
   name = "";
-  pnan: any; 
+  pnan: any = ""; 
   upct: any;
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute
-  ) { hideWait(); }
+  ) {}
 
   ngOnInit(): void {
     this.setMode();
@@ -51,16 +51,15 @@ export class CategoryComponent {
       } else { this.name = this.page.data?.info?.desc; }
 
       if(this.page.data?.info?.pnan){
-        let parent = {
+        let naparent = {
           nano: this.page.data.info.pnan,
           desc: this.page.data.info.pdesc
         }
-        this.pnan = parent
+        this.pnan = naparent
       }
 
       if(this.page.data?.categories){
         this.page.data.categories = this.page.data.categories.sort((a: any,b: any) => a.nano.localeCompare(b.nano))
-        // this.page.data.categories = this.page.data.categories.sort((a: any,b: any) => a.seq.localeCompare(b.seq))
       }
 
       localStorage.clear();

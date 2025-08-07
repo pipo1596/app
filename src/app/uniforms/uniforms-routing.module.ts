@@ -39,8 +39,8 @@ import { authGuard } from './auth.guard';
 
 const routes: Routes = [
   //Uniform
-  { path: 'newuniform', component: UniformComponent, canActivate: [authGuard]  },
-  { path: 'newuniform/:acno', component: UniformComponent, canActivate: [authGuard]  },
+  { path: 'newuniform', component: UniformComponent},
+  { path: 'newuniform/:acno', component: UniformComponent},
 
   //Dashboard
   { path: 'dashboard/:nhno', component: DashboardComponent},

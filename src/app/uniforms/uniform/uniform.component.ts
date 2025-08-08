@@ -15,7 +15,7 @@ export class UniformComponent {
   @Output() triggerEvent = new EventEmitter<string>();
   page = new Page();
   error = "";
-  programName = ""
+  programName: any = "";
   acno: any
 
   constructor(private http: HttpClient,
@@ -24,6 +24,7 @@ export class UniformComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('p1')) this.programName = localStorage.getItem('p1');
     localStorage.clear();
     hideWait();
     this.route.paramMap.subscribe(params => {
@@ -54,6 +55,7 @@ export class UniformComponent {
 
   inqAccount() {
     localStorage.clear();
+    localStorage.setItem('p1', this.programName);
     localStorage.setItem('partpg','/uniforms/newuniform/')
     localStorage.setItem('menu','/cgi/APOELMAC?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     localStorage.setItem('UP_AUTH','Y');

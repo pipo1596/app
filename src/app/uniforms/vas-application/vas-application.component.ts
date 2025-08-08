@@ -48,6 +48,8 @@ export class VasApplicationComponent {
       this.vdno = p1.vdno;
       this.v1cd = p1.v1cd;
       this.desc = p1.desc;
+      this.mand = p1.mand;
+      this.actv = p1.actv;
     }
     this.setMode();
     localStorage.clear();
@@ -72,8 +74,8 @@ export class VasApplicationComponent {
       if (this.copy && !this.desc){
         this.desc = 'Copy of ' + this.page.data?.info?.desc;
       } else if ( this.page.data?.desc && !this.desc) { this.desc = this.page.data.desc; }
-      if (this.page.data?.mand == 'Y') this.mand = true;
-      if (this.page.data?.actv == 'Y') this.actv = true;
+      if (this.page.data?.mand == 'Y' && !this.mand) this.mand = true;
+      if (this.page.data?.actv == 'Y' && !this.actv) this.actv = true;
       if (this.page.data?.vedp && !this.vedp) this.vedp = this.page.data.vedp;
       if (this.page.data?.vedp_desc && !this.vedpDesc) this.vedpDesc = this.page.data.vedp_desc;
       if (this.page.data?.acno) this.acno = this.page.data.acno;
@@ -90,7 +92,9 @@ export class VasApplicationComponent {
     let p1 = {
       vdno: this.vdno,
       v1cd: this.v1cd,
-      desc: this.desc
+      desc: this.desc,
+      mand: this.mand,
+      actv: this.actv
     }
     localStorage.setItem('p1', JSON.stringify(p1));
     if(this.page.editmode){

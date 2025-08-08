@@ -47,6 +47,7 @@ export class VasApplicationComponent {
       let p1 = JSON.parse(localStorage.getItem('p1')!)
       this.vdno = p1.vdno;
       this.v1cd = p1.v1cd;
+      this.desc = p1.desc;
     }
     this.setMode();
     localStorage.clear();
@@ -88,7 +89,8 @@ export class VasApplicationComponent {
     localStorage.clear();
     let p1 = {
       vdno: this.vdno,
-      v1cd: this.v1cd
+      v1cd: this.v1cd,
+      desc: this.desc
     }
     localStorage.setItem('p1', JSON.stringify(p1));
     if(this.page.editmode){

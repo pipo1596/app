@@ -8,11 +8,15 @@
                         <div class="col-md-9">
                             <h6>Uniform Program - {{ page.data?.pgName }}</h6>
                         </div>
-                    </div>
-
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-9">
-                            <h6><small>Catalog > Customization > Create New Customization</small></h6>
+                        <div class="col-md-2">
+                            <button (click)="drop = !drop" class="btn btn-primary rounded-0 w-100" type="button"> 
+                                More Actions 
+                            </button>
+                            <div (mouseleave)="drop = false" id="myDropdown" class="actions-content me-5 bg-light position-absolute shadow"
+                                 [ngClass]="{'d-block': (drop), 'd-none': !(drop)}">
+                                <a class="p-2 text-dark d-block text-decoration-none" href="#">Add Customization</a>
+                                <a class="p-2 text-dark d-block text-decoration-none" href="#">Delete</a>
+                            </div>
                         </div>
                     </div>
 
@@ -51,7 +55,7 @@
                     <div class="form-group row g-3 mb-3" *ngIf="v1cd">
                             <label class="col-md-1 col-form-label"><strong>VAS Item:</strong> </label>
                             <div class="col-md-3 me-5">
-                                <input type="text" readonly disabled class="form-control-plaintext" [value]="vedpDesc ? vedpDesc : ''">
+                                <input type="text" readonly disabled class="form-control-plaintext" [value]="vedpDesc ? vedp + ' - ' + vedpDesc : ''">
                             </div>
                             <div class="col-md-1">
                                 <button class="btn" (click)="inqStyle()">

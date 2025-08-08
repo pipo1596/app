@@ -69,9 +69,9 @@ export class VasApplicationComponent {
       this.page.data = response;
       if (this.page.data?.title) this.page.title = this.page.data.title;
       if (this.page.data?.menu) this.page.menu = this.page.data.menu;
-      if (this.copy){
+      if (this.copy && !this.desc){
         this.desc = 'Copy of ' + this.page.data?.info?.desc;
-      } else { this.desc = this.page.data?.desc; }
+      } else if ( this.page.data?.desc && !this.desc) { this.desc = this.page.data.desc; }
       if (this.page.data?.mand == 'Y') this.mand = true;
       if (this.page.data?.actv == 'Y') this.actv = true;
       if (this.page.data?.vedp && !this.vedp) this.vedp = this.page.data.vedp;

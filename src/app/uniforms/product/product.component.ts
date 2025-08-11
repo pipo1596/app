@@ -167,12 +167,15 @@ export class ProductComponent {
 
       if (this.page.data?.sku) this.page.data.sku = this.page.data.sku.sort((a:any,b: any) => a.desc.localeCompare(b.desc))
       if (this.page.data?.customizations) this.page.data.customizations = this.page.data.customizations.sort((a: any,b: any) => a.npno.localeCompare(b.npno))
+      if(this.page.data?.categories){
+        this.page.data.categories = this.page.data.categories.sort((a: any,b: any) => a.nano.localeCompare(b.nano))
+      }
 
       if (this.page.data?.info?.nano){
         this.nano = this.page.data?.info?.nano
         let cat = {
           nano: this.page.data?.info?.nano,
-          desc: this.page.data?.info?.nadesc
+          desc: this.page.data?.info?.pdesc
         }
         this.cats = []
         this.cats.push(cat)
@@ -201,6 +204,25 @@ export class ProductComponent {
     localStorage.setItem('menu','/cgi/APOELMIS?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/iframe/APOELMIS'])
+  }
+
+  catConfig(){
+    var config ={
+      displayFn:(item: any) => { 
+        let cat = ""
+        if(item.desc3) cat = item.desc3 + ' > '
+        if(item.desc2) cat = cat + item.desc2 + ' > '
+        if(item.desc) cat = cat + item.desc
+        return cat
+      },
+      displayKey: 'desc',
+      search: true,
+      placeholder: 'Select',
+      height: '300px',
+      noResultsFound: 'No results found',
+      searchOnKey: 'desc'
+    }
+    return config
   }
 
   searchConfig(){

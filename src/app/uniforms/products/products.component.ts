@@ -154,6 +154,7 @@ export class ProductsComponent {
       this.checked.push(product);
       this.checked.sort();
     }    
+    console.log(this.checked)
   }
 
   searchConfig(mode: string){
@@ -209,6 +210,7 @@ export class ProductsComponent {
         }
       }
     }
+    console.log(configs)
     return configs
   }
 

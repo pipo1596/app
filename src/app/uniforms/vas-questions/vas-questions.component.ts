@@ -75,9 +75,9 @@ export class VasQuestionsComponent {
         v1cd: this.application?.v1cd,
         v2no: this.page.data.vasq[i].v2no,
         type: this.page.data.vasq[i].type,
-        dfan: (<HTMLInputElement>document.getElementById('dfan' + i)).value,
-        dspd: (<HTMLInputElement>document.getElementById('dspd' + i)).value == 'Y' ? 'Y' : 'N',
-        dflk: (<HTMLInputElement>document.getElementById('dflk' + i)).checked ? 'Y' : 'N',
+        dfan: (<HTMLInputElement>document.getElementById('dfan' + i + this.page.data.vasq[i].n2no)).value,
+        dspd: (<HTMLInputElement>document.getElementById('dspd' + i + this.page.data.vasq[i].n2no)).value == 'Y' ? 'Y' : 'N',
+        dflk: (<HTMLInputElement>document.getElementById('dflk' + i + this.page.data.vasq[i].n2no)).checked ? 'Y' : 'N',
         upct: this.page.data.vasq[i].upct,
         app: 'Y'
       }

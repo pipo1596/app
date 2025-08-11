@@ -22,10 +22,10 @@
             <td align="left">{{question.desc}}</td>
             <td align="left">{{question.typeDesc}}</td>
             <td align="left">
-                <input class="form-check-input" type="checkbox" [id]="'dflk' + i" [checked]="question.dflk == 'Y'" >
+                <input class="form-check-input" type="checkbox" [id]="'dflk' + i + question.n2no" [checked]="question.dflk == 'Y'" >
             </td>
             <td align="left">
-                <select class="form-select" name="displayForced" [id]="'dspd' + i">
+                <select class="form-select" name="displayForced" [id]="'dspd' + i + question.n2no">
                     <option value="">Select</option>
                     <option *ngFor="let default of question.ynDrop"  [value]="default.value" [selected]="default.value == question.dspd">{{default.desc}}</option>
                 </select>
@@ -33,17 +33,17 @@
             <!-- Default Answer -->
             <td align="left">
                 <!-- Displaying Dropdown-->
-                <select name="" class="form-select" *ngIf="!question.dfltNoDrop" [id]="'dfan' + i">
+                <select name="" class="form-select" *ngIf="!question.dfltNoDrop" [id]="'dfan' + i + question.n2no">
                     <option value="">Select</option>
                     <option *ngFor="let answer of question.dfltAnsDrop" [value]="answer.value" [selected]="answer.value == question.dfan">{{answer.desc}}</option>
                 </select>
 
                 <!-- Showing Inquiry -->
-                <input type="text" readonly class="form-control-plaintext" *ngIf="question.dfltNoDrop == 'inq'" [id]="'dfan' + i" [value]="question.dfan">
+                <input type="text" readonly class="form-control-plaintext" *ngIf="question.dfltNoDrop == 'inq'" [id]="'dfan' + i + question.n2no" [value]="question.dfan">
 
 
                 <!-- Showing Input -->
-                <input type="text" class="form-control" *ngIf="question.dfltNoDrop == 'input'" [id]="'dfan' + i" [value]="question.dfan">
+                <input type="text" class="form-control" *ngIf="question.dfltNoDrop == 'input'" [id]="'dfan' + i + question.n2no" [value]="question.dfan">
             </td>
             <td align="left"></td>
         </tr>

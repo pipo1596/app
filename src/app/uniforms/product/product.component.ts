@@ -170,6 +170,11 @@ export class ProductComponent {
       if(this.page.data?.categories){
         this.page.data.categories = this.page.data.categories.sort((a: any,b: any) => a.nano.localeCompare(b.nano))
       }
+      if (this.page.data?.warehouses){
+        this.page.data.warehouses.forEach((warehouse: any) => {
+          warehouse.desc = warehouse.whno + ' - ' + warehouse.desc
+        });
+      }
 
       if (this.page.data?.info?.nano){
         this.nano = this.page.data?.info?.nano

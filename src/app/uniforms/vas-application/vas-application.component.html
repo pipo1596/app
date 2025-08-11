@@ -8,16 +8,6 @@
                         <div class="col-md-9">
                             <h6>Uniform Program - {{ page.data?.pgName }}</h6>
                         </div>
-                        <div class="col-md-2">
-                            <button (click)="drop = !drop" class="btn btn-primary rounded-0 w-100" type="button"> 
-                                More Actions 
-                            </button>
-                            <div (mouseleave)="drop = false" id="myDropdown" class="actions-content me-5 bg-light position-absolute shadow"
-                                 [ngClass]="{'d-block': (drop), 'd-none': !(drop)}">
-                                <a class="p-2 text-dark d-block text-decoration-none" href="#">Add Customization</a>
-                                <a class="p-2 text-dark d-block text-decoration-none" href="#">Delete</a>
-                            </div>
-                        </div>
                     </div>
 
                     <h6 class="card-title mb-5">Add New Information</h6>
@@ -55,7 +45,7 @@
                     <div class="form-group row g-3 mb-3" *ngIf="v1cd">
                             <label class="col-md-1 col-form-label"><strong>VAS Item:</strong> </label>
                             <div class="col-md-3 me-5">
-                                <input type="text" readonly disabled class="form-control-plaintext" [value]="vedpDesc ? vedp + ' - ' + vedpDesc : ''">
+                                <input type="text" readonly disabled class="form-control-plaintext" [value]="vedpSku ? vedpSku + ' - ' + vedpDesc : ''">
                             </div>
                             <div class="col-md-1">
                                 <button class="btn" (click)="inqStyle()">
@@ -67,14 +57,14 @@
                     <div class="form-group row g-3 mb-3">
                             <label class="col-md-1 col-form-label"><strong>Mandatory:</strong> </label>
                             <div class="col-md-3 mt-4">
-                                <input class="form-check-input" type="checkbox" [checked]="mand" (click)="mand = !mand">
+                                <input class="form-check-input" type="checkbox" [checked]="mand == 'Y'" (click)="mand == 'Y' ? mand = 'N' : mand = 'Y'">
                             </div>
                     </div>
 
                     <div class="form-group row g-3 mb-4">
                             <label class="col-md-1 col-form-label"><strong>Active:</strong> </label>
                             <div class="col-md-3 mt-4">
-                                <input class="form-check-input" type="checkbox" [checked]="actv" (click)="actv = !actv">
+                                <input class="form-check-input" type="checkbox" [checked]="actv == 'Y'" (click)="actv == 'Y' ? actv = 'N' : actv = 'Y'">
                             </div>
                     </div>
 

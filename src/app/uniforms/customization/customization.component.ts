@@ -58,25 +58,25 @@ export class CustomizationComponent {
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
       this.page.data = response;
       if (this.page.data?.menu) this.page.menu = this.page.data.menu;
-      if (this.page.data?.info.name && !this.name) this.name = this.page.data.info.name
+      if (this.page.data?.info?.name && !this.name) this.name = this.page.data.info.name
 
       if (this.copy && !this.desc){
         this.desc = 'Copy of ' + this.page.data?.info?.desc;
       } else if (this.page.data?.info?.desc && !this.desc) { this.desc = this.page.data.info.desc; }
 
-      if (this.page.data?.info.vfgn && !this.vfgn){
+      if (this.page.data?.info?.vfgn && !this.vfgn){
         this.vfgn = this.page.data?.info?.vfgn
         this.getVFGN()
       }
-      if (this.page.data?.info.effd && !this.effd){
+      if (this.page.data?.info?.effd && !this.effd){
         this.effd = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
       }
-      if (this.page.data?.info.expd && !this.expd){
+      if (this.page.data?.info?.expd && !this.expd){
         this.expd = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
       }
-      if (this.page.data?.info.seq) this.seq = this.page.data.info.seq
-      if (this.page.data?.info.stat && !this.actv) this.actv = this.page.data.info.stat
-      if (this.page.data?.info.upct) this.upct = this.page.data.info.upct
+      if (this.page.data?.info?.seq) this.seq = this.page.data.info.seq
+      if (this.page.data?.info?.stat && !this.actv) this.actv = this.page.data.info.stat
+      if (this.page.data?.info?.upct) this.upct = this.page.data.info.upct
       this.page.loading = false;
       hideWait();
     });
@@ -93,7 +93,7 @@ export class CustomizationComponent {
       this.desc = p1.desc;
       this.effd = p1.effd;
       this.expd = p1.expd;
-      this.actv = p1.expd;
+      this.actv = p1.actv;
     }
   
     this.route.paramMap.subscribe(params => {

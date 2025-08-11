@@ -58,6 +58,7 @@ export class DashboardComponent {
         this.router.navigate(['/uniforms/cxmlconfigs/' + this.page.rfno]);
         break;
       case 'bldCustomization':
+        this.router.navigate(['/uniforms/newcustomization/' + this.page.rfno]);
         break;
     }
   }

@@ -53,8 +53,8 @@
                     <tr>
                         <th align="left"><input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked()"></th>
                         <th align="left">Actions</th>
+                        <th align="left">VAS Description</th>
                         <th align="left">VAS Code</th>
-                        <th align="left">VAS Desc</th>
                         <th align="left">Active</th>
                         <th align="left">Mandatory</th>
                         <th align="left">Last Purchase Date</th>
@@ -75,8 +75,8 @@
                                 <button class="btn bg-transparent" (click)="expandApplication(application)" *ngIf="application.bttn == 'Y'"><span
                                     [ngClass]="expanded.includes(application) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category"></span></button>
                             </td>
-                            <td align="left">{{application.v1cd}}</td>
                             <td align="left">{{application.desc}}</td>
+                            <td align="left">{{application.v1cd}}</td>
                             <td align="left">{{(application.actv == 'Y') ? 'Yes' : 'No'}}</td>
                             <td align="left">{{(application.mand == 'Y') ? 'Yes' : 'No'}}</td>
                             <td align="left">{{(application.addt) ? dsppbdate(application.addt) : ''}}</td>

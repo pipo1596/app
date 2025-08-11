@@ -30,9 +30,10 @@ export class VasApplicationComponent {
   vdno: any = "";
   vedp: any;
   vedpDesc: any;
+  vedpSku: any;
   desc: any;
-  mand: any = false;
-  actv: any = false;
+  mand: any;
+  actv: any;
   acno: any;
 
   constructor(
@@ -74,14 +75,20 @@ export class VasApplicationComponent {
       if (this.copy && !this.desc){
         this.desc = 'Copy of ' + this.page.data?.info?.desc;
       } else if ( this.page.data?.desc && !this.desc) { this.desc = this.page.data.desc; }
-      if (this.page.data?.mand == 'Y' && !this.mand) this.mand = true;
-      if (this.page.data?.actv == 'Y' && !this.actv) this.actv = true;
+      if (this.page.data?.mand == 'Y' && !this.mand) this.mand = 'Y';
+      if (this.page.data?.actv == 'Y' && !this.actv) this.actv = 'Y';
       if (this.page.data?.vedp && !this.vedp) this.vedp = this.page.data.vedp;
       if (this.page.data?.vedp_desc && !this.vedpDesc) this.vedpDesc = this.page.data.vedp_desc;
+      if (this.page.data?.vedp_sku && !this.vedpSku) this.vedpSku = this.page.data.vedp_sku;
       if (this.page.data?.acno) this.acno = this.page.data.acno;
       if (this.page.data?.upct) this.upct = this.page.data.upct;
       if (this.page.data?.v1cd && this.page.editmode) this.v1cd = this.page.data.v1cd
       if (this.page.data?.v1cd_desc) this.v1cdDesc = this.page.data.v1cd_desc
+      if (this.page.data?.v1cd && this.page.entrymode){
+        this.page.data.v1cd.forEach((app: any) => {
+          app.desc = app.desc + ' - ' + app.valu
+        });
+      }
       hideWait();
       this.page.loading = false;
     });
@@ -117,6 +124,7 @@ export class VasApplicationComponent {
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV1', data).subscribe(response => {
       this.page.data = response;
       if (this.page.data.vedp_desc) this.vedpDesc = this.page.data.vedp_desc
+      if (this.page.data.vedp_sku) this.vedpSku = this.page.data.vedp_sku
     });
 
   }
@@ -157,8 +165,8 @@ export class VasApplicationComponent {
       vdno: this.vdno,
       vedp: this.vedp,
       desc: this.desc,
-      actv: this.actv ? 'Y' : '',
-      mand: this.mand ? 'Y' : '',
+      actv: this.actv == 'Y' ? 'Y' : '',
+      mand: this.mand == 'Y' ? 'Y' : '',
       upct: (mode == 'update') ? this.upct : ''
     }
 

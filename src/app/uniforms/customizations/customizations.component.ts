@@ -73,7 +73,7 @@ export class CustomizationsComponent {
       currentPage: this.p
     }
 
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNP', data).subscribe(response => {
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNP2', data).subscribe(response => {
       this.page.data = response;
       if (this.page.data?.title) this.page.title = this.page.data.title;
       if (this.page.data?.fullname) this.page.fullname = this.page.data.fullname;

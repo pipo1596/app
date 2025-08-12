@@ -43,7 +43,7 @@
 
 
                 <!-- Showing Input -->
-                <input type="text" class="form-control" *ngIf="question.dfltNoDrop == 'input'" [id]="'dfan' + i + question.n2no" [value]="question.dfan">
+                <input type="text" class="form-control" *ngIf="question.dfltNoDrop == 'input' || question.dfltNoDrop == 'inputU'" [id]="'dfan' + i + question.n2no" [attr.maxlength]="question.maxi" [value]=" question.dfltNoDrop == 'inputU' ? question.dfan.toUpperCase() : question.dfan">
             </td>
             <td align="left"></td>
         </tr>

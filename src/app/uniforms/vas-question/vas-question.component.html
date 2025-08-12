@@ -147,7 +147,7 @@
 
 
                         <!-- Showing Input -->
-                        <input type="text" class="form-control" *ngIf="page.data?.dfltNoDrop == 'input'" name="inputDfan" [(ngModel)]="dfan" [value]="dfan? dfan : ''">
+                        <input type="text" class="form-control" *ngIf="page.data?.dfltNoDrop == 'input' || page.data?.dfltNoDrop == 'inputU'" name="inputDfan" [attr.maxlength]="page.data.maxi" [(ngModel)]="dfan" [value]="page.data?.dfltNoDrop == 'inputU' ? dfan.toUpperCase() : dfan">
 
                     </div>
                     <div class="col-md-1 mt-5" *ngIf="page.data?.dfltNoDrop == 'inq'"> <!-- Dfan Inquiry -->

@@ -80,11 +80,32 @@ export class CustomizationsComponent {
       if (this.page.data?.menu) this.page.menu = this.page.data.menu;
       if (this.page.data?.customizations) this.page.data.customizations = this.page.data.customizations.sort((a: any,b: any) => a.npno.localeCompare(b.npno))
       if (this.page.data?.total) this.total = this.page.data.total
+
       if (this.page.data?.stylDrop){
+        this.page.data.stylDrop = this.page.data.stylDrop.sort((a: any,b: any) => a.styl.localeCompare(b.styl))
         this.page.data.stylDrop.forEach((styl: any) => {
           styl.desc = styl.styl + ' - ' + styl.desc
         });
       }
+
+      if (this.page.data?.apps){
+        this.page.data.apps.forEach((app: any) => {
+          app.desc = app.v1cd + ' - ' + app.desc
+        });
+      }
+
+      if (this.page.data?.items){
+        this.page.data.items.forEach((item: any) => {
+          item.desc = item.desc !== '' ? item.sku + ' - ' + item.desc : item.sku
+        });
+      }
+
+      if (this.page.data?.stylconfig){
+        this.page.data.stylconfig.forEach((config: any) => {
+          config.desc = config.vfgn + ' - ' + config.desc
+        });
+      }
+
       this.page.loading = false;
       hideWait();
     });

@@ -18,6 +18,9 @@ export class CustomizationComponent {
   drop = false; // More Actions
   copy: any;
 
+  //Product Parms
+  nino: any;
+
   // Parms
   nhno: any;
   npno: any;
@@ -87,6 +90,16 @@ export class CustomizationComponent {
 
   setMode() {
     this.copy = localStorage.getItem('copy')
+    this.nino = localStorage.getItem('nino')
+
+    this.route.paramMap.subscribe(params => {
+      this.nhno = params.get('nhno')
+      this.npno = params.get('npno')
+      this.vfgn = params.get('vfgn')
+    });
+
+    if(localStorage.getItem('vfgn') && !this.vfgn) this.vfgn = localStorage.getItem('vfgn');
+
     if(localStorage.getItem('p1')){
       let p1 = JSON.parse(localStorage.getItem('p1')!)
       this.name = p1.name;
@@ -94,13 +107,9 @@ export class CustomizationComponent {
       this.effd = p1.effd;
       this.expd = p1.expd;
       this.actv = p1.actv;
+      if(!this.vfgn) this.vfgn = p1.vfgn ? p1.vfgn : '';
+      this.nino = p1.nino ? p1.nino : this.nino;
     }
-  
-    this.route.paramMap.subscribe(params => {
-      this.nhno = params.get('nhno')
-      this.npno = params.get('npno')
-      this.vfgn = params.get('vfgn')
-    });
 
     if (this.vfgn !== null && this.vfgn !== "") this.getVFGN()
 
@@ -136,8 +145,11 @@ export class CustomizationComponent {
       desc: this.desc,
       effd: this.effd,
       expd: this.expd,
-      actv: this.actv
+      actv: this.actv,
+      vfgn: this.vfgn, 
+      nino: this.nino
     }
+
     localStorage.setItem('p1', JSON.stringify(p1));
     if(this.page.editmode){
       localStorage.setItem('partpg','/uniforms/customization/' + this.nhno + '/' + this.npno + '/')
@@ -178,6 +190,7 @@ export class CustomizationComponent {
         expd: this.expd.replaceAll('-',''),
         seq: this.seq,
         stat: (this.actv == 'Y') ? this.actv : '',
+        nino: (this.nino) ? this.nino : '',
         upct: (mode == 'update') ? this.upct : ''
       }
     }

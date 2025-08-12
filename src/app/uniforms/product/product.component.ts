@@ -410,6 +410,22 @@ export class ProductComponent {
     });
   }
 
+  newCategory() {
+    let partpg = this.page.editmode ? '/uniforms/product/' + this.nhno + '/' + this.nino :  '/uniforms/newproduct/' + this.nhno
+    localStorage.setItem('partpg', partpg)
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate(['/uniforms/category/' + this.nhno]);
+  }
+
+  newCustomization() {
+    let partpg = '/uniforms/product/' + this.nhno + '/' + this.nino
+    localStorage.setItem('partpg', partpg)
+    localStorage.setItem('vfgn', this.page.data?.info?.vfgn)
+    localStorage.setItem('nino', this.page.data?.info?.nino)
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate(['/uniforms/newcustomization/' + this.nhno]);
+  }
+
   changeImage() {
     this.showUpload = true;
   }

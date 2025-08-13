@@ -17,6 +17,7 @@ export class CustomizationComponent {
   page = new Page();
   drop = false; // More Actions
   copy: any;
+  partpg: any;
 
   //Product Parms
   nino: any;
@@ -91,6 +92,7 @@ export class CustomizationComponent {
   setMode() {
     this.copy = localStorage.getItem('copy')
     this.nino = localStorage.getItem('nino')
+    this.partpg = localStorage.getItem('partpg');
 
     this.route.paramMap.subscribe(params => {
       this.nhno = params.get('nhno')
@@ -164,7 +166,10 @@ export class CustomizationComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate(['/uniforms/customizations/' + this.nhno]);
+    if(this.partpg){
+      this.router.navigate([this.partpg]);
+    } else this.router.navigate(['/uniforms/customizations/' + this.nhno]);
+    
   }
 
   loadProduct(mode: string){

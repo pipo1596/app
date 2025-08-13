@@ -16,6 +16,7 @@ export class CategoryComponent {
   drop = false; // More Actions
   copy: any;
   partpg: any;
+  styl: any;
 
   // Parms
   nhno:any
@@ -72,6 +73,7 @@ export class CategoryComponent {
   setMode() {
     this.copy = localStorage.getItem('copy');
     this.partpg = localStorage.getItem('partpg');
+    this.styl = localStorage.getItem('styl');
 
     this.route.paramMap.subscribe(params => {
       this.nhno = params.get('nhno')
@@ -124,6 +126,7 @@ export class CategoryComponent {
   
         if (this.page.data.result == 'pass' && this.page.data.nhno){
           localStorage.setItem('UP_AUTH','Y');
+          localStorage.setItem('styl',this.styl);
 
           if(this.partpg) {
             this.router.navigate([this.partpg]);
@@ -139,6 +142,7 @@ export class CategoryComponent {
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
     if(this.partpg) {
+      localStorage.setItem('styl',this.styl);
       this.router.navigate([this.partpg]);
     } else this.router.navigate(['/uniforms/categories/' + this.nhno]);
   }

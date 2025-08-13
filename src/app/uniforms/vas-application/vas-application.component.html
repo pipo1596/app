@@ -15,9 +15,9 @@
                     <div class="form-group row g-3 mb-3" *ngIf="page.entrymode">
                             <label class="col-md-1 col-form-label"><strong>Location:</strong> </label>
                             <div class="col-md-3" *ngIf="page.entrymode">
-                                <select name="vdInput" [(ngModel)]="vdno" class="form-select" (change)="getApplication()">
+                                <select name="vdInput" [(ngModel)]="dscx" class="form-select" (change)="getApplication()">
                                     <option value="">Non Location</option>
-                                    <option *ngFor="let location of page.data?.vdno" [ngValue]="location.valu">{{location.desc}}</option>
+                                    <option *ngFor="let location of page.data?.vdno" [ngValue]="location.valu">{{location.valu}}</option>
                                 </select>
                             </div>
                     </div>

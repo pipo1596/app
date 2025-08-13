@@ -314,6 +314,10 @@ export class ProductComponent {
       this.nino = params.get('nino')
       this.item = params.get('styl')
     });
+
+    if(!this.item && localStorage.getItem('styl')){
+      this.item = localStorage.getItem('styl')
+    }
     this.showUpload = true;
   }
 
@@ -413,6 +417,7 @@ export class ProductComponent {
   newCategory() {
     let partpg = this.page.editmode ? '/uniforms/product/' + this.nhno + '/' + this.nino :  '/uniforms/newproduct/' + this.nhno
     localStorage.setItem('partpg', partpg)
+    localStorage.setItem('styl', this.styl)
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/category/' + this.nhno]);
   }

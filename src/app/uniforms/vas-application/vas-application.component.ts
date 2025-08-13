@@ -27,7 +27,7 @@ export class VasApplicationComponent {
   // Input
   v1cd: any = "";
   v1cdDesc: any;
-  vdno: any = "";
+  dscx: any = "";
   vedp: any;
   vedpDesc: any;
   vedpSku: any;
@@ -46,7 +46,7 @@ export class VasApplicationComponent {
     this.copy = localStorage.getItem('copy')
     if(localStorage.getItem('p1')){
       let p1 = JSON.parse(localStorage.getItem('p1')!)
-      this.vdno = p1.vdno;
+      this.dscx = p1.dscx;
       this.v1cd = p1.v1cd;
       this.desc = p1.desc;
       this.mand = p1.mand;
@@ -65,7 +65,7 @@ export class VasApplicationComponent {
       nhno: this.nhno,
       npno: this.npno,
       n1no: this.n1no,
-      vdno: this.vdno 
+      dscx: this.dscx 
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV1', data).subscribe(response => {
@@ -89,6 +89,9 @@ export class VasApplicationComponent {
           app.desc = app.desc + ' - ' + app.valu
         });
       }
+      if(this.page.data?.vdno){
+        this.page.data.vdno = this.page.data.vdno.sort((a: any,b: any) => a.valu.localeCompare(b.valu))
+      }
       hideWait();
       this.page.loading = false;
     });
@@ -97,7 +100,7 @@ export class VasApplicationComponent {
   inqStyle() {
     localStorage.clear();
     let p1 = {
-      vdno: this.vdno,
+      dscx: this.dscx,
       v1cd: this.v1cd,
       desc: this.desc,
       mand: this.mand,
@@ -163,7 +166,7 @@ export class VasApplicationComponent {
       n1no: (mode == 'update' || this.copy) ? this.n1no : '',
       npno: this.npno,
       v1cd: this.v1cd,
-      vdno: this.vdno,
+      dscx: this.dscx,
       vedp: this.vedp,
       desc: this.desc,
       actv: this.actv == 'Y' ? 'Y' : '',

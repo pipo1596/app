@@ -90,7 +90,7 @@ export class CustomizationsComponent {
 
       if (this.page.data?.apps){
         this.page.data.apps.forEach((app: any) => {
-          app.desc = app.v1cd + ' - ' + app.desc
+          app.desc = app.desc + ' - ' + app.v1cd
         });
       }
 
@@ -102,7 +102,7 @@ export class CustomizationsComponent {
 
       if (this.page.data?.stylconfig){
         this.page.data.stylconfig.forEach((config: any) => {
-          config.desc = config.vfgn + ' - ' + config.desc
+          config.desc = config.desc + ' - ' + config.vfgn
         });
       }
 

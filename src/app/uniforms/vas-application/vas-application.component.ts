@@ -117,14 +117,15 @@ export class VasApplicationComponent {
 
   getVEDP(){
     let data = {
+      nhno: this.nhno,
       mode: 'getvedp',
       vedp: this.vedp
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV1', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data.vedp_desc) this.vedpDesc = this.page.data.vedp_desc
-      if (this.page.data.vedp_sku) this.vedpSku = this.page.data.vedp_sku
+      if (this.page.data?.vedp_desc) this.vedpDesc = this.page.data.vedp_desc
+      if (this.page.data?.vedp_sku) this.vedpSku = this.page.data.vedp_sku
     });
 
   }

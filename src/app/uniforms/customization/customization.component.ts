@@ -206,7 +206,9 @@ export class CustomizationComponent {
 
       if (this.page.data.result == 'pass' && this.page.data.nhno){
         localStorage.setItem('UP_AUTH','Y');
-        this.router.navigate(['/uniforms/customizations/' + this.page.data.nhno]);
+        if(mode == 'create' && this.page.data.npno){
+          this.router.navigate(['/uniforms/vasapplications/' + this.page.data.nhno + '/' + this.page.data.npno]);
+        } else this.router.navigate(['/uniforms/customizations/' + this.page.data.nhno]);
       }
 
       this.page.loading = false;

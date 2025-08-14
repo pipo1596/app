@@ -65,6 +65,7 @@ export class CategoriesComponent {
   }  
 
   getCategories() {
+    showWait();
     let data = {
       mode: 'SEARCH',
       nhno: this.page.rfno,

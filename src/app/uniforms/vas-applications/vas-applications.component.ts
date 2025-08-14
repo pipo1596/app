@@ -35,14 +35,17 @@ export class VasApplicationsComponent {
   ) { }
 
   ngOnInit(): void {
-    localStorage.clear();
-    this.checked = [];
     this.expanded = [];
+    this.checked = [];
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
       this.npno = params.get('npno');
     });
+    if(localStorage.getItem('allexpand')){
+      this.allexpanded = localStorage.getItem('allexpand') ? true : false;
+    }
     this.getCustomizations()
+    localStorage.clear();
   }
 
   getCustomizations() {
@@ -59,6 +62,7 @@ export class VasApplicationsComponent {
       if (this.page.data.title) this.page.title = this.page.data.title;
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
+      if (this.allexpanded) this.expandAll();
       this.page.loading = false;
       hideWait();
     });

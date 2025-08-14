@@ -24,7 +24,7 @@
     
                 <div class="row g-3">
                     <div class="col-md-3">
-                         <input list="matchesSrch" placeholder="Search" [(ngModel)]="srch" class="form-control">
+                         <input list="matchesSrch" placeholder="Search" [(ngModel)]="srch" class="form-control" (keyup.enter)="getCategories()">
                     </div>
                     <div class="col-md-2">
                         <button class="btn btn-primary rounded-0 w-50 me-3" type="button" (click)="getCategories()">Go</button>

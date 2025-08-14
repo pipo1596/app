@@ -85,7 +85,7 @@
                         <ng-container *ngIf="expanded.includes(application)">
                             <tr>
                                 <td colspan="7">
-                                    <app-vas-questions [nhno]="page.rfno" [npno]="this.npno" [application]="application" [expanded]="expanded"></app-vas-questions>
+                                    <app-vas-questions [nhno]="page.rfno" [npno]="this.npno" [application]="application" [expanded]="expanded" [all]="allexpanded ? true : false"></app-vas-questions>
                                 </td>
                             </tr>
                         </ng-container>

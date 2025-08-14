@@ -15,6 +15,7 @@ export class IframeComponent {
   page = new Page();
   menu: any;
   p1: any;
+  p2: any;
   partpg: any;
   error = ""
 
@@ -23,6 +24,7 @@ export class IframeComponent {
   @HostListener('window:message', ['$event']) onMessage(event: MessageEvent) {
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('p1',this.p1);
+    localStorage.setItem('p2',this.p2);
     this.router.navigate([this.partpg + event.data.data]);
   }
 
@@ -33,6 +35,7 @@ export class IframeComponent {
     });
     this.menu = localStorage.getItem('menu');
     this.p1 = localStorage.getItem('p1');
+    this.p2 = localStorage.getItem('p2');
     this.partpg = localStorage.getItem('partpg');
     // localStorage.clear()
   }
@@ -44,6 +47,7 @@ export class IframeComponent {
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('p1',this.p1);
+    localStorage.setItem('p2',this.p2);
     if(this.p1 && this.menu.indexOf('editcustomer') !== -1){
       this.router.navigate([ this.partpg + this.p1 ]);
     } else {

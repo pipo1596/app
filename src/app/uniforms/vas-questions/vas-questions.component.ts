@@ -16,6 +16,7 @@ export class VasQuestionsComponent {
   @Input() npno : any = "";
   @Input() application : any = "";
   @Input() expanded : any = [];
+  @Input() all : any;
 
   page = new Page();
   errors = ""
@@ -57,6 +58,7 @@ export class VasQuestionsComponent {
     }
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('vasApp',JSON.stringify(application));
+    localStorage.setItem('allexpand',this.all ? 'Y' : '');
     this.router.navigate(['/uniforms/vasquestion/' + this.nhno + '/' + this.npno]);
   }
 
@@ -76,7 +78,7 @@ export class VasQuestionsComponent {
         v2no: this.page.data.vasq[i].v2no,
         type: this.page.data.vasq[i].type,
         dfan: (<HTMLInputElement>document.getElementById('dfan' + i + this.page.data.vasq[i].n2no)).value,
-        dspd: (<HTMLInputElement>document.getElementById('dspd' + i + this.page.data.vasq[i].n2no)).value == 'Y' ? 'Y' : 'N',
+        dspd: (<HTMLInputElement>document.getElementById('dspd' + i + this.page.data.vasq[i].n2no)).checked ? 'Y' : 'N',
         dflk: (<HTMLInputElement>document.getElementById('dflk' + i + this.page.data.vasq[i].n2no)).checked ? 'Y' : 'N',
         upct: this.page.data.vasq[i].upct,
         app: 'Y'
@@ -91,6 +93,7 @@ export class VasQuestionsComponent {
           } else this.errors = this.errors + ',' + temp.data.errors
         } else{
           this.msg = "Questions updated successfully"
+          localStorage.setItem('allexpand',this.all ? 'Y' : '');
           location.reload();
         }
       });

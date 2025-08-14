@@ -36,7 +36,7 @@
 
             <div class="row g-3 mb-4">
                 <div class="col-md-3">
-                    <input placeholder="Search" [(ngModel)]="desc" class="form-control">
+                    <input placeholder="Search" [(ngModel)]="desc" class="form-control" (keyup.enter)="getCustomizations()">
                 </div>
                 <div class="col-md-3">
                     <ngx-select-dropdown name="inputVEDP" [config]="searchConfig('VAS Item')" [options]="page.data?.items" [(ngModel)]="vitem" (change)="getCustomizations()"></ngx-select-dropdown>

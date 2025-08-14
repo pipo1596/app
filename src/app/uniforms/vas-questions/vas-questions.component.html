@@ -25,10 +25,12 @@
                 <input class="form-check-input" type="checkbox" [id]="'dflk' + i + question.n2no" [checked]="question.dflk == 'Y'" >
             </td>
             <td align="left">
-                <select class="form-select" name="displayForced" [id]="'dspd' + i + question.n2no">
+                <select class="form-select" name="displayForced" [id]="'dspd' + i + question.n2no" *ngIf="question.dspdDrop == 'Y'">
                     <option value="">Select</option>
                     <option *ngFor="let default of question.ynDrop"  [value]="default.value" [selected]="default.value == question.dspd">{{default.desc}}</option>
                 </select>
+
+                <input class="form-check-input" type="checkbox" [id]="'dspd' + i + question.n2no" [checked]="question.dspd == 'Y'" *ngIf="!question.dspdDrop || question.dspdDrop !== 'Y'">
             </td>
             <!-- Default Answer -->
             <td align="left">

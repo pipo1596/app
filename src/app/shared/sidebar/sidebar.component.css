@@ -10,14 +10,6 @@
     }
 }
 
-
-@media screen and (max-height: 1000px){
-    .logo {
-        display: none;
-    }
-
-}
-
 .sidebar {
     width: 25vh;
     height: 100vh;

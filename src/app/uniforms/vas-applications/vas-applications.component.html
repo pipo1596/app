@@ -1,117 +1,122 @@
 <app-header [title]="page.title" [menu]="page.menu" ></app-header>
 
-<section class="ftco-section bg-light pb-3 pt-5">
+<div id="container">
 
-    <div class="card mx-auto mb-5 w-75 h-100">
-        <div class="card-body"
-        >
-            <div class="row g-4 mb-5">
-                <div class="col-2">
-                    <button (click)="goBack()" class="btn btn-secondary rounded-0 w-50 me-3" type="button">Cancel</button>
-                </div>
-            </div>
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
 
-            <div class="row g-4">
-                <div class="col-8">
-                    <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
-                </div>
+    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
 
-                <div class="col-2">
-                    <button (click)="drop = !drop" class="btn btn-primary rounded-0 w-100" type="button">More Actions</button>
-                    <div (mouseleave)="drop = false" id="myDropdown" class="actions-content me-5 bg-light position-absolute shadow"
-                         [ngClass]="{'d-block': (drop), 'd-none': !(drop)}">
-                        <a class="p-2 text-dark d-block text-decoration-none" href="#">Add Customization</a>
-                        <a class="p-2 text-dark d-block text-decoration-none" href="#">Delete</a>
+        <div class="card mx-auto mb-5 mt-5 w-75 h-75">
+            <div class="card-body"
+            >
+                <div class="row g-4 mb-5">
+                    <div class="col-2">
+                        <button (click)="goBack()" class="btn btn-secondary rounded-0 w-50 me-3" type="button">Cancel</button>
                     </div>
                 </div>
 
-                <div class="col-2">
-                    <button (click)="loadApplication('new','')" class="btn btn-primary rounded-0 w-50 me-3" type="button">New</button>
-                    <button class="btn">
-                        <span class="bi bi-question-circle" title="FAQ"></span>
-                    </button>
+                <div class="row g-4">
+                    <div class="col-8">
+                        <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
+                    </div>
+
+                    <div class="col-2">
+                        <button (click)="drop = !drop" class="btn btn-primary rounded-0 w-100" type="button">More Actions</button>
+                        <div (mouseleave)="drop = false" id="myDropdown" class="actions-content me-5 bg-light position-absolute shadow"
+                            [ngClass]="{'d-block': (drop), 'd-none': !(drop)}">
+                            <a class="p-2 text-dark d-block text-decoration-none" href="#">Add Customization</a>
+                            <a class="p-2 text-dark d-block text-decoration-none" href="#">Delete</a>
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <button (click)="loadApplication('new','')" class="btn btn-primary rounded-0 w-50 me-3" type="button">New</button>
+                        <button class="btn">
+                            <span class="bi bi-question-circle" title="FAQ"></span>
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row g-3 mb-3">
-                <div class="col-md-9">
-                    <h6><small>Catalog > Customization > </small></h6>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-9">
+                        <h6><small>Catalog > Customization > </small></h6>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row g-3 mb-4">
-                <div class="col-md-3">
-                    <span>Expand All VAS Questions: </span>
-                    <input class="form-check-input ms-1 me-5" type="checkbox" [(ngModel)]="allexpanded" (change)="expandAll()">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <span>Expand All VAS Questions: </span>
+                        <input class="form-check-input ms-1 me-5" type="checkbox" [(ngModel)]="allexpanded" (change)="expandAll()">
+                    </div>
                 </div>
-            </div>
 
-            <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
+                <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
 
-            <table class="table table-striped w-100">
-                <thead>
-                    <tr>
-                        <th align="left"><input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked()"></th>
-                        <th align="left">Actions</th>
-                        <th align="left">VAS Description</th>
-                        <th align="left">VAS Code</th>
-                        <th align="left">Active</th>
-                        <th align="left">Mandatory</th>
-                        <th align="left">Last Purchase Date</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <ng-container *ngFor="let application of page.data?.applications | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
+                <table class="table table-striped w-100">
+                    <thead>
                         <tr>
-                            <td align="left" class="ps-2" colspan="1"><input type="checkbox" class="form-check-input" id="ckbx{{ application.n1no }}"  value="{{ application }}" (click)="checkApplication(application)" [checked] = "isChecked(application)"></td>
-                            <td class="w-25">
-                                <button class="btn bg-transparent" (click)="loadApplication('edit', application.n1no)"><span
-                                    class="bi bi-pencil-square" title="Edit Product"></span></button>
-                                <button class="btn bg-transparent" (click)="loadApplication('copy', application.n1no)"><span
-                                    class="bi bi-clipboard" title="Copy Product"></span></button>
-                                <button class="btn bg-transparent" (click)="deleteApplication(application.n1no)"><span
-                                    class="bi bi-trash" title="Product Details"></span></button>
-                                <button class="btn bg-transparent" (click)="expandApplication(application)" *ngIf="application.bttn == 'Y'"><span
-                                    [ngClass]="expanded.includes(application) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category"></span></button>
-                            </td>
-                            <td align="left">{{application.desc}}</td>
-                            <td align="left">{{application.v1cd}}</td>
-                            <td align="left">{{(application.actv == 'Y') ? 'Yes' : 'No'}}</td>
-                            <td align="left">{{(application.mand == 'Y') ? 'Yes' : 'No'}}</td>
-                            <td align="left">{{(application.addt) ? dsppbdate(application.addt) : ''}}</td>
+                            <th align="left"><input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked()"></th>
+                            <th align="left">Actions</th>
+                            <th align="left">VAS Description</th>
+                            <th align="left">VAS Code</th>
+                            <th align="left">Active</th>
+                            <th align="left">Mandatory</th>
+                            <th align="left">Last Purchase Date</th>
                         </tr>
+                    </thead>
 
-                        <ng-container *ngIf="expanded.includes(application)">
+                    <tbody>
+                        <ng-container *ngFor="let application of page.data?.applications | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
                             <tr>
-                                <td colspan="7">
-                                    <app-vas-questions [nhno]="page.rfno" [npno]="this.npno" [application]="application" [expanded]="expanded" [all]="allexpanded ? true : false"></app-vas-questions>
+                                <td align="left" class="ps-2" colspan="1"><input type="checkbox" class="form-check-input" id="ckbx{{ application.n1no }}"  value="{{ application }}" (click)="checkApplication(application)" [checked] = "isChecked(application)"></td>
+                                <td class="w-25">
+                                    <button class="btn bg-transparent" (click)="loadApplication('edit', application.n1no)"><span
+                                        class="bi bi-pencil-square" title="Edit Product"></span></button>
+                                    <button class="btn bg-transparent" (click)="loadApplication('copy', application.n1no)"><span
+                                        class="bi bi-clipboard" title="Copy Product"></span></button>
+                                    <button class="btn bg-transparent" (click)="deleteApplication(application.n1no)"><span
+                                        class="bi bi-trash" title="Product Details"></span></button>
+                                    <button class="btn bg-transparent" (click)="expandApplication(application)" *ngIf="application.bttn == 'Y'"><span
+                                        [ngClass]="expanded.includes(application) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category"></span></button>
                                 </td>
+                                <td align="left">{{application.desc}}</td>
+                                <td align="left">{{application.v1cd}}</td>
+                                <td align="left">{{(application.actv == 'Y') ? 'Yes' : 'No'}}</td>
+                                <td align="left">{{(application.mand == 'Y') ? 'Yes' : 'No'}}</td>
+                                <td align="left">{{(application.addt) ? dsppbdate(application.addt) : ''}}</td>
                             </tr>
+
+                            <ng-container *ngIf="expanded.includes(application)">
+                                <tr>
+                                    <td colspan="7">
+                                        <app-vas-questions [nhno]="page.rfno" [npno]="this.npno" [application]="application" [expanded]="expanded" [all]="allexpanded ? true : false"></app-vas-questions>
+                                    </td>
+                                </tr>
+                            </ng-container>
                         </ng-container>
-                    </ng-container>
-                </tbody> 
-            </table> 
-        </div>
-    </div>
-
-    <div class="row g-4">
-        <div class="col-8 mx-auto w-50">
-            <label>Items per page:
-                <select [(ngModel)]="itemsPerPage" (change)="onItemChange(itemsPerPage)">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-                </select>
-            </label>
+                    </tbody> 
+                </table> 
+            </div>
         </div>
 
-        <div class="col-2 w-25">
-            <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
-        </div>
-    </div>
+        <div class="row g-4">
+            <div class="col-8 mx-auto w-50">
+                <label>Items per page:
+                    <select [(ngModel)]="itemsPerPage" (change)="onItemChange(itemsPerPage)">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    </select>
+                </label>
+            </div>
 
-    <app-footer></app-footer>
-</section>
+            <div class="col-2 w-25">
+                <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
+            </div>
+        </div>
+
+        <app-footer></app-footer>
+    </section>
+</div>
 

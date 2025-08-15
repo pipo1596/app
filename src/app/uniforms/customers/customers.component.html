@@ -1,86 +1,91 @@
 <app-header [title]="page.title" [menu]="page.menu" ></app-header>
 
-<section class="ftco-section bg-light pb-3 pt-5">
-    <div class="card mx-auto mb-5 w-75 h-100">
-        <div class="card-body">
-            <form (submit)="getCustomers(acct.value)">
-                <h6><strong class="text-danger">{{page.data?.errors}}</strong></h6>
-                            <div class="row g-4">
-                    <div class="col-10">
-                        <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
+<div id="container">
+
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
+
+    <section class="ftco-section bg-light pb-3 pt-5 w-100">
+        <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
+            <div class="card-body">
+                <form (submit)="getCustomers(acct.value)">
+                    <h6><strong class="text-danger">{{page.data?.errors}}</strong></h6>
+                                <div class="row g-4">
+                        <div class="col-10">
+                            <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
+                        </div>
+
+                        <div class="col-2">
+                            <button (click)="newCustomer()" class="btn btn-primary rounded-0 w-50 me-3" type="button">New</button>
+                            <button class="btn">
+                                <span class="bi bi-question-circle" title="FAQ"></span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="col-2">
-                        <button (click)="newCustomer()" class="btn btn-primary rounded-0 w-50 me-3" type="button">New</button>
-                        <button class="btn">
-                            <span class="bi bi-question-circle" title="FAQ"></span>
-                        </button>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-9">
+                            <h6><small>Manage Customers</small></h6>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row g-3 mb-3">
-                    <div class="col-md-9">
-                        <h6><small>Manage Customers</small></h6>
+                    <div class="row g-3">
+                        <div class="col-md-2">
+                            <input class="form-control" placeholder="Account Number" #acct>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary me-3" (click)="getCustomers(acct.value)">Go</button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row g-3">
-                    <div class="col-md-2">
-                        <input class="form-control" placeholder="Account Number" #acct>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary me-3" (click)="getCustomers(acct.value)">Go</button>
-                    </div>
-                </div>
+                    <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
 
-                <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
+                    <table class="table table-striped w-100">
+                        <thead>
+                            <tr>
+                                <th align="left">Actions</th>
+                                <th align="left">Account #</th>
+                                <th align="left">Account Name</th>
+                                <th align="left">Effective Date</th>
+                                <th align="left">Expiration Date</th>
+                            </tr>
+                        </thead>
 
-                <table class="table table-striped w-100">
-                    <thead>
-                        <tr>
-                            <th align="left">Actions</th>
-                            <th align="left">Account #</th>
-                            <th align="left">Account Name</th>
-                            <th align="left">Effective Date</th>
-                            <th align="left">Expiration Date</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr *ngFor="let customer of page.data?.customers | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
-                            <td>
-                                <button class="btn bg-transparent" (click)="editCustomer(customer.acno)"><span
-                                    class="bi bi-pencil-square" title="Edit Customer"></span></button>
-                                <button class="btn bg-transparent" (click)="deleteCustomer(customer.acno)"><span
-                                    class="bi bi-trash" title="Delete Customer"></span></button>
-                            </td>
-                            <td align="left">{{trim(customer.acno)}}</td>
-                            <td align="left">{{customer.name}}</td>
-                            <td align="left">{{dsppbdate(customer.effd)}}</td>
-                            <td align="left">{{dsppbdate(customer.expd)}}</td>
-                        </tr>  
-                    </tbody>
-                </table> 
-            </form>
-        </div>
-    </div>
-
-    <div class="row g-4">
-        <div class="col-8 mx-auto w-50">
-            <label>Items per page:
-                <select [(ngModel)]="itemsPerPage" (change)="onItemChange(itemsPerPage)">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-                </select>
-            </label>
+                        <tbody>
+                            <tr *ngFor="let customer of page.data?.customers | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
+                                <td>
+                                    <button class="btn bg-transparent" (click)="editCustomer(customer.acno)"><span
+                                        class="bi bi-pencil-square" title="Edit Customer"></span></button>
+                                    <button class="btn bg-transparent" (click)="deleteCustomer(customer.acno)"><span
+                                        class="bi bi-trash" title="Delete Customer"></span></button>
+                                </td>
+                                <td align="left">{{trim(customer.acno)}}</td>
+                                <td align="left">{{customer.name}}</td>
+                                <td align="left">{{dsppbdate(customer.effd)}}</td>
+                                <td align="left">{{dsppbdate(customer.expd)}}</td>
+                            </tr>  
+                        </tbody>
+                    </table> 
+                </form>
+            </div>
         </div>
 
-        <div class="col-2 w-25">
-            <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
+        <div class="row g-4">
+            <div class="col-8 mx-auto w-50">
+                <label>Items per page:
+                    <select [(ngModel)]="itemsPerPage" (change)="onItemChange(itemsPerPage)">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="col-2 w-25">
+                <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
+            </div>
         </div>
-    </div>
-    <app-footer></app-footer>
-</section>
+        <app-footer></app-footer>
+    </section>
+</div>
 

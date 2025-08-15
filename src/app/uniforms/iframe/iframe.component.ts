@@ -48,7 +48,7 @@ export class IframeComponent {
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('p1',this.p1);
     localStorage.setItem('p2',this.p2);
-    if(this.p1 && this.menu.indexOf('editcustomer') !== -1){
+    if(this.p1 && this.partpg.indexOf('editcustomer') !== -1){
       this.router.navigate([ this.partpg + this.p1 ]);
     } else {
       this.router.navigate([this.partpg]);

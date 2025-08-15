@@ -11,6 +11,7 @@ import { convertToDate, formatDateUS, hideWait } from '../../shared/utils';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
+
 export class DashboardComponent {
   page = new Page();
   imgprfx = environment.logoprfx;

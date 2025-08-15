@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { ImageUploadComponent } from './imageupload/imageupload.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FileUploadComponent } from './fileupload/fileupload.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 
 @NgModule({
@@ -19,9 +20,11 @@ import { FileUploadComponent } from './fileupload/fileupload.component';
     ToastComponent,
     ImageUploadComponent,
     FileUploadComponent,
+    SidebarComponent,
   ],
   exports:[
     HeaderComponent,
+    SidebarComponent,
     FooterComponent,
     ConfirmComponent,
     ToastComponent,

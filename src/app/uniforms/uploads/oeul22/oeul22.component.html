@@ -1,65 +1,71 @@
 <app-header [title]="page.title" [menu]="page.menu" ></app-header>
-<section class="ftco-section bg-light pb-3 pt-5">
 
-    <div class="d-flex flex-row-reverse mb-3">
-        <div class="col-md-2">
-          <input type="button" value="Cancel" class="btn btn-secondary" (click)="goBack()">
+<div id="container">
+
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
+
+    <section class="ftco-section bg-light pb-3 pt-5 mt-5 content w-100">
+
+        <div class="d-flex flex-row-reverse mb-3">
+            <div class="col-md-2">
+            <input type="button" value="Cancel" class="btn btn-secondary" (click)="goBack()">
+            </div>
         </div>
-    </div>
 
-    <div class="card mx-auto mb-5 w-75 h-100">
-        <div class="card-body">
+        <div class="card mx-auto mb-5 w-75 mh-100">
+            <div class="card-body">
 
-            <div class="row g-3 mb-3">
-                <div class="col-md-12">
-                    <h6 class="">Data Import > Customer Contract Item Upload</h6>
-                </div>         
-            </div>
-
-            <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
-            <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
-            <h6 class="mb-3" *ngIf="page.data?.result == 'pass'"><strong class="text-primary">Your request is being processed. You will receive an email of failed records (only if any exist).</strong></h6>
-
-            <div class="row g-3 mb-3">
-                <h3 class="card-title ms-1">Directions</h3>
-                <ul class="ms-4">
-                    <li>XLS file must be saved as a tab delimited file prior to upload (.txt extension).</li>
-                    <li>Insert headings at the top of the file exactly like sample.</li>      
-                    <li>You will receive an email when the process completes.</li>
-                    <li>If the error message is blank then the record uploaded successfully.</li>
-                    <li>Click <a href="#">here</a> for a sample.</li>
-                </ul>
-            </div>
-
-            <div class="row g-3 mb-3">
-                <div class="col-md-5">
-                   <app-file-upload (triggerEvent)="saveAfterFileUpload()" [mode]="'OEUL'" [types]="accept" [iono]="iono"></app-file-upload>
-                </div>      
-                <div class="d-flex flex-row" *ngIf="!iono">
-                    <div class="col-md-3">
-                        <button type="submit" class="btn btn-primary me-3" (click)="validate()">Select File</button>
-                    </div>
-                </div> 
-            </div>
-
-            <ng-container *ngIf="iono"> 
                 <div class="row g-3 mb-3">
-                    <div class="col-md-4">
-                        <label for="acnoInput" class="col-md-4 col-form-label"><strong><span class="text-danger">*&nbsp;</span></strong>Email Result To: </label>
-                        <input class="form-control" type="text" name=inputEmail [(ngModel)]="email">
-                    </div>
+                    <div class="col-md-12">
+                        <h6 class="">Data Import > Customer Contract Item Upload</h6>
+                    </div>         
+                </div>
+
+                <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
+                <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
+                <h6 class="mb-3" *ngIf="page.data?.result == 'pass'"><strong class="text-primary">Your request is being processed. You will receive an email of failed records (only if any exist).</strong></h6>
+
+                <div class="row g-3 mb-3">
+                    <h3 class="card-title ms-1">Directions</h3>
+                    <ul class="ms-4">
+                        <li>XLS file must be saved as a tab delimited file prior to upload (.txt extension).</li>
+                        <li>Insert headings at the top of the file exactly like sample.</li>      
+                        <li>You will receive an email when the process completes.</li>
+                        <li>If the error message is blank then the record uploaded successfully.</li>
+                        <li>Click <a href="#">here</a> for a sample.</li>
+                    </ul>
                 </div>
 
                 <div class="row g-3 mb-3">
-                    <div class="col-md-3">
-                        <button type="submit" class="btn btn-primary me-3" (click)="processFile()">Process File</button>
-                        <button type="submit" class="btn btn-secondary me-3" (click)="discardFile()">Discard File</button>
-                    </div>
+                    <div class="col-md-5">
+                    <app-file-upload (triggerEvent)="saveAfterFileUpload()" [mode]="'OEUL'" [types]="accept" [iono]="iono"></app-file-upload>
+                    </div>      
+                    <div class="d-flex flex-row" *ngIf="!iono">
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary me-3" (click)="validate()">Select File</button>
+                        </div>
+                    </div> 
                 </div>
-            </ng-container>
+
+                <ng-container *ngIf="iono"> 
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-4">
+                            <label for="acnoInput" class="col-md-4 col-form-label"><strong><span class="text-danger">*&nbsp;</span></strong>Email Result To: </label>
+                            <input class="form-control" type="text" name=inputEmail [(ngModel)]="email">
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary me-3" (click)="processFile()">Process File</button>
+                            <button type="submit" class="btn btn-secondary me-3" (click)="discardFile()">Discard File</button>
+                        </div>
+                    </div>
+                </ng-container>
 
 
+            </div>
         </div>
-    </div>
-    <app-footer></app-footer>
-</section>
+        <app-footer></app-footer>
+    </section>
+</div>

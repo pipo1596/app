@@ -1,140 +1,146 @@
 <app-header [title]="page.title" [menu]="page.menu" ></app-header>
 
-<section class="ftco-section bg-light pb-3 pt-5">
+<div id="container">
 
-    <div class="card mx-auto mb-5 w-75 h-100">
-        <div class="card-body">
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
 
-            <div class="row g-4">
-                <div class="col-8">
-                    <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
-                </div>
+    <section class="ftco-section bg-light pb-3 pt-5 w-100">
+        
+    <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
+            <div class="card-body">
 
-                <div class="col-2">
-                    <button (click)="drop = !drop" class="btn btn-primary rounded-0 w-100" type="button">More Actions</button>
-                    <div (mouseleave)="drop = false" id="myDropdown" class="actions-content me-5 bg-light position-absolute shadow"
-                         [ngClass]="{'d-block': (drop), 'd-none': !(drop)}">
-                        <a class="p-2 text-dark d-block text-decoration-none" href="#">Add Customization</a>
-                        <a class="p-2 text-dark d-block text-decoration-none" href="#">Delete</a>
+                <div class="row g-4">
+                    <div class="col-8">
+                        <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
+                    </div>
+
+                    <div class="col-2">
+                        <button (click)="drop = !drop" class="btn btn-primary rounded-0 w-100" type="button">More Actions</button>
+                        <div (mouseleave)="drop = false" id="myDropdown" class="actions-content me-5 bg-light position-absolute shadow"
+                            [ngClass]="{'d-block': (drop), 'd-none': !(drop)}">
+                            <a class="p-2 text-dark d-block text-decoration-none" href="#">Add Customization</a>
+                            <a class="p-2 text-dark d-block text-decoration-none" href="#">Delete</a>
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <button (click)="loadProduct('new','')" class="btn btn-primary rounded-0 w-50 me-3" type="button" *ngIf="!assign">New</button>
+                        <button class="btn">
+                            <span class="bi bi-question-circle" title="FAQ"></span>
+                        </button>
                     </div>
                 </div>
 
-                <div class="col-2">
-                    <button (click)="loadProduct('new','')" class="btn btn-primary rounded-0 w-50 me-3" type="button" *ngIf="!assign">New</button>
-                    <button class="btn">
-                        <span class="bi bi-question-circle" title="FAQ"></span>
-                    </button>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-9">
+                        <h6><small>Catalog > Products</small></h6>
+                    </div>
                 </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-2">
+                        <input list="matchesSrch" placeholder="Search" [(ngModel)]="style" class="form-control" (keyup.enter)="getProducts()">
+                    </div>
+
+                    <div class="col-md-1">
+                        <button class="btn" (click)="inqStyle()">
+                            <span class="bi bi-search" title="Inquire"></span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="row g-3">    
+                    <div class="col-md-2">
+                        <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Customization')" [options]="page.data?.customizations" [(ngModel)]="customization" (change)="getProducts()"></ngx-select-dropdown>
+                    </div>
+
+                    <div class="col-md-2">
+                        <ngx-select-dropdown name="inputNANO" [config]="searchConfig('Category')" [options]="page.data?.categories" [(ngModel)]="category" (change)="getProducts()"></ngx-select-dropdown>
+                    </div>
+
+                    <div class="col-md-2">
+                        <ngx-select-dropdown name="inputWHNO" [config]="searchConfig('Warehouse')" [options]="page.data?.warehouses" [(ngModel)]="warehouse" (change)="getProducts()"></ngx-select-dropdown>
+                    </div>
+
+                    <div class="col-md-3">
+                        <ngx-select-dropdown name="inputVFGN" [config]="searchConfig('Style Configurator Template')" [options]="page.data?.stylconfig" [(ngModel)]="stylconfig" (change)="getProducts()"></ngx-select-dropdown>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <button class="btn btn-primary rounded-0 me-5 w-25" type="button" (click)="getProducts()">Go</button>
+                    </div>          
+
+                    <div class="col-md-2 mb-3">
+                        <button *ngIf="assign" class="btn btn-primary rounded-0 w-100" type="button" (click)="assignStyles()">Assign Styles</button>
+                    </div>     
+
+                    <div class="col-md-2 mb-3">
+                        <button *ngIf="assign" class="btn btn-secondary rounded-0 w-50" type="button" (click)="goBack()">Cancel</button>
+                    </div>          
+                </div>
+
+                <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
+
+                <table class="table table-striped w-100">
+                    <thead>
+                        <tr>
+                            <th align="left"><input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked() && page.data?.products.length > 0"></th>
+                            <th align="left" class="ps-3">Actions</th>
+                            <th align="left">Style</th>
+                            <th align="left">Style Description</th>
+                            <th align="left" style="width: 10%;">Option 1</th>
+                            <th align="left" style="width: 15%">Category</th>
+                            <th align="left">Customization</th>
+                            <th align="left">DS Allowed?</th>
+                            <th align="left">Fulfillment Override</th>
+                            <th align="left">Style Configurator Template</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let product of page.data?.products | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
+                            <td align="left" class="ps-2"><input type="checkbox" class="form-check-input" id="ckbx{{ product.nino }}"  value="{{ product }}" (click)="checkProduct(product)" [checked] = "isChecked(product)"></td>
+                            <td style="width: 15%">
+                                <button class="btn bg-transparent" (click)="loadProduct('edit', product.nino)"><span
+                                    class="bi bi-pencil-square" title="Edit Product"></span></button>
+                                <button class="btn bg-transparent" (click)="loadProduct('copy', product.nino)"><span
+                                    class="bi bi-clipboard" title="Copy Product"></span></button>
+                                <button class="btn bg-transparent" (click)="deleteProduct(product)"><span
+                                    class="bi bi-trash" title="Product Details"></span></button>
+                            </td>
+                            <td align="left">{{product.styl}}</td>
+                            <td align="left">{{product.desc}}</td>
+                            <td align="left" style="width: 10%">{{product.opv1}}</td>
+                            <td align="left" style="width: 15%">{{product.pdesc}}</td>
+                            <td align="left">{{product.custcount}}</td>
+                            <td align="left" *ngIf="product.dsallowed == 'Y'">Yes</td>
+                            <td align="left" *ngIf="product.dsallowed !== 'Y'">No</td>
+                            <td align="left">{{product.frcfulloc}}</td>
+                            <td align="left">{{product.vfgdesc}}</td>
+                        </tr>
+                    </tbody> 
+                </table> 
             </div>
-
-            <div class="row g-3 mb-3">
-                <div class="col-md-9">
-                    <h6><small>Catalog > Products</small></h6>
-                </div>
-            </div>
-
-            <div class="row g-3 mb-4">
-                <div class="col-md-2">
-                    <input list="matchesSrch" placeholder="Search" [(ngModel)]="style" class="form-control" (keyup.enter)="getProducts()">
-                </div>
-
-                <div class="col-md-1">
-                    <button class="btn" (click)="inqStyle()">
-                        <span class="bi bi-search" title="Inquire"></span>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="row g-3">    
-                <div class="col-md-2">
-                    <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Customization')" [options]="page.data?.customizations" [(ngModel)]="customization" (change)="getProducts()"></ngx-select-dropdown>
-                </div>
-
-                <div class="col-md-2">
-                    <ngx-select-dropdown name="inputNANO" [config]="searchConfig('Category')" [options]="page.data?.categories" [(ngModel)]="category" (change)="getProducts()"></ngx-select-dropdown>
-                </div>
-
-                <div class="col-md-2">
-                    <ngx-select-dropdown name="inputWHNO" [config]="searchConfig('Warehouse')" [options]="page.data?.warehouses" [(ngModel)]="warehouse" (change)="getProducts()"></ngx-select-dropdown>
-                </div>
-
-                <div class="col-md-3">
-                    <ngx-select-dropdown name="inputVFGN" [config]="searchConfig('Style Configurator Template')" [options]="page.data?.stylconfig" [(ngModel)]="stylconfig" (change)="getProducts()"></ngx-select-dropdown>
-                </div>
-
-                <div class="col-md-3 mb-3">
-                    <button class="btn btn-primary rounded-0 me-5 w-25" type="button" (click)="getProducts()">Go</button>
-                </div>          
-
-                <div class="col-md-2 mb-3">
-                    <button *ngIf="assign" class="btn btn-primary rounded-0 w-100" type="button" (click)="assignStyles()">Assign Styles</button>
-                </div>     
-
-                <div class="col-md-2 mb-3">
-                    <button *ngIf="assign" class="btn btn-secondary rounded-0 w-50" type="button" (click)="goBack()">Cancel</button>
-                </div>          
-            </div>
-
-            <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
-
-            <table class="table table-striped w-100">
-                <thead>
-                    <tr>
-                        <th align="left"><input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked() && page.data?.products.length > 0"></th>
-                        <th align="left" class="ps-3">Actions</th>
-                        <th align="left">Style</th>
-                        <th align="left">Style Description</th>
-                        <th align="left" style="width: 10%;">Option 1</th>
-                        <th align="left" style="width: 15%">Category</th>
-                        <th align="left">Customization</th>
-                        <th align="left">DS Allowed?</th>
-                        <th align="left">Fulfillment Override</th>
-                        <th align="left">Style Configurator Template</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr *ngFor="let product of page.data?.products | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
-                        <td align="left" class="ps-2"><input type="checkbox" class="form-check-input" id="ckbx{{ product.nino }}"  value="{{ product }}" (click)="checkProduct(product)" [checked] = "isChecked(product)"></td>
-                        <td style="width: 15%">
-                            <button class="btn bg-transparent" (click)="loadProduct('edit', product.nino)"><span
-                                class="bi bi-pencil-square" title="Edit Product"></span></button>
-                            <button class="btn bg-transparent" (click)="loadProduct('copy', product.nino)"><span
-                                class="bi bi-clipboard" title="Copy Product"></span></button>
-                            <button class="btn bg-transparent" (click)="deleteProduct(product)"><span
-                                class="bi bi-trash" title="Product Details"></span></button>
-                        </td>
-                        <td align="left">{{product.styl}}</td>
-                        <td align="left">{{product.desc}}</td>
-                        <td align="left" style="width: 10%">{{product.opv1}}</td>
-                        <td align="left" style="width: 15%">{{product.pdesc}}</td>
-                        <td align="left">{{product.custcount}}</td>
-                        <td align="left" *ngIf="product.dsallowed == 'Y'">Yes</td>
-                        <td align="left" *ngIf="product.dsallowed !== 'Y'">No</td>
-                        <td align="left">{{product.frcfulloc}}</td>
-                        <td align="left">{{product.vfgdesc}}</td>
-                    </tr>
-                </tbody> 
-            </table> 
-        </div>
-    </div>
-
-    <div class="row g-4">
-        <div class="col-8 mx-auto w-50">
-            <label>Items per page:
-                <select [(ngModel)]="itemsPerPage" (change)="onItemChange(itemsPerPage)">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-                </select>
-            </label>
         </div>
 
-        <div class="col-2 w-25">
-            <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
+        <div class="row g-4">
+            <div class="col-8 mx-auto w-50">
+                <label>Items per page:
+                    <select [(ngModel)]="itemsPerPage" (change)="onItemChange(itemsPerPage)">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="col-2 w-25">
+                <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
+            </div>
         </div>
-    </div>
-    <app-footer></app-footer>
-</section>
+        <app-footer></app-footer>
+    </section>
+
+</div>
 

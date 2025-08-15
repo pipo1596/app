@@ -202,6 +202,11 @@ export class CustomizationsComponent {
     this.page.loading = false;
   }
 
+  goImages(npno: any){
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate(['/uniforms/images/' + this.page.rfno + '/' + npno]);
+  }
+
   searchConfig(mode: string){
     var config ={
       displayKey: "desc",

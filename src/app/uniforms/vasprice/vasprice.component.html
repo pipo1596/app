@@ -1,40 +1,44 @@
 <app-header [title]="page.title" [menu]="page.menu" ></app-header>
 
-<section class="ftco-section bg-light pb-3 pt-5">
-    <div class="card mx-auto mb-5 w-75 h-100">
-        <div class="card-body">
-            <form>
-                <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
-                <h6 class="mb-3" *ngIf="page.data?.result == 'pass' && page.data.price"><strong class="text-primary">VAS Pricing Updated Successfully</strong></h6> 
-                <div class="row g-4">
-                    <div class="col-10 mb-5">
-                        <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
+<div id="container">
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
+
+    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+        <div class="card mx-auto mb-5 mt-5 w-75 h-25">
+            <div class="card-body">
+                <form>
+                    <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
+                    <h6 class="mb-3" *ngIf="page.data?.result == 'pass' && page.data.price"><strong class="text-primary">VAS Pricing Updated Successfully</strong></h6> 
+                    <div class="row g-4">
+                        <div class="col-10 mb-5">
+                            <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
+                        </div>
+
+                        <div class="col-2">
+                            <button class="btn btn-primary rounded-0 w-50 me-3" type="submit" (click)="loadVAS('update')">Save</button>
+                        </div>
                     </div>
 
-                    <div class="col-2">
-                        <button class="btn btn-primary rounded-0 w-50 me-3" type="submit" (click)="loadVAS('update')">Save</button>
+                    <div class="row g-3">
+                        <div class="col-md-9">
+                            <h6><small>UP VAS Pricing</small></h6>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row g-3">
-                    <div class="col-md-9">
-                        <h6><small>UP VAS Pricing</small></h6>
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <select class="form-select p-2" name="inputPrice" [(ngModel)]="price">
+                                <option value="">Select</option>
+                                <option *ngFor="let pricing of pricings" [ngValue]="pricing.price" [selected]="page.data?.info?.price == pricing.price">{{pricing.desc}}</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row g-3">
-                    <div class="col-md-3">
-                        <select class="form-select p-2" name="inputPrice" [(ngModel)]="price">
-                            <option value="">Select</option>
-                            <option *ngFor="let pricing of pricings" [ngValue]="pricing.price" [selected]="page.data?.info?.price == pricing.price">{{pricing.desc}}</option>
-                        </select>
-                    </div>
-                </div>
-
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <app-footer></app-footer>
-</section>
+        <app-footer></app-footer>
+    </section>
+</div>
 

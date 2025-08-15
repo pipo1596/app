@@ -1,67 +1,73 @@
 <app-header [title]="page.title" [menu]="page.menu" ></app-header>
-<section class="ftco-section bg-light pb-3 pt-5">
-    <div class="card uniform mx-auto mb-5 w-5">
-        <div class="card-body">
-            
-            <form>
-                <h6><strong class="text-danger">{{error}}</strong></h6>
-                <h4 class="card-title ms-1">Create your Uniform Program</h4>
 
-                <!-- Requirements -->
-                <div class="row g-3 ps-3 mb-4">
-                    <div class="col-md-12">
-                        <h6 class="card-text">
-                            <span [ngClass]="{'text-danger': (!programName), 'text-success': (programName)}">{{ (programName) ? '&#x2713;' : '1.' }}</span> Name the Program 
-                        </h6>
-                        <h6 class="card-text">
-                            <span [ngClass]="{'text-danger': (!acno), 'text-success': (acno)}">{{ (acno) ? '&#x2713;' : '2.' }}</span> Assign the Customer
-                        </h6>
+<div id="container">
+
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
+
+    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+        <div class="card uniform mx-auto mt-5 mb-5 w-5">
+            <div class="card-body">
+                
+                <form>
+                    <h6><strong class="text-danger">{{error}}</strong></h6>
+                    <h4 class="card-title ms-1">Create your Uniform Program</h4>
+
+                    <!-- Requirements -->
+                    <div class="row g-3 ps-3 mb-4">
+                        <div class="col-md-12">
+                            <h6 class="card-text">
+                                <span [ngClass]="{'text-danger': (!programName), 'text-success': (programName)}">{{ (programName) ? '&#x2713;' : '1.' }}</span> Name the Program 
+                            </h6>
+                            <h6 class="card-text">
+                                <span [ngClass]="{'text-danger': (!acno), 'text-success': (acno)}">{{ (acno) ? '&#x2713;' : '2.' }}</span> Assign the Customer
+                            </h6>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Program Name Input -->
-                <div class="row g-3">
-                    <div class="col-md-11 mb-3">
-                        <h6 class="form-label"><span class="text-danger">*</span> Program Name</h6>
-                        <input class="form-control" [(ngModel)]='programName' [value] = 'programName' type="text" name="program" placeholder="Program Name">
+                    <!-- Program Name Input -->
+                    <div class="row g-3">
+                        <div class="col-md-11 mb-3">
+                            <h6 class="form-label"><span class="text-danger">*</span> Program Name</h6>
+                            <input class="form-control" [(ngModel)]='programName' [value] = 'programName' type="text" name="program" placeholder="Program Name">
+                        </div>
                     </div>
-                </div>
 
-                <!-- Customer Account Input -->
-                <div class="row g-3">
-                    <div class="col-11">
-                        <h6 class="form-label">Customer Account</h6>
-                    </div>     
-                </div>
+                    <!-- Customer Account Input -->
+                    <div class="row g-3">
+                        <div class="col-11">
+                            <h6 class="form-label">Customer Account</h6>
+                        </div>     
+                    </div>
 
-                <div class="row g-3 mb-2">
-                    <div class="col-11">
-                        <input class="form-control" [(ngModel)]='acno' [value] = 'acno' type="text" name="customer" placeholder="Customer Account">
-                    </div>     
-                    <div class="col-1">
-                        <button class="btn btn-light btn-outline-primary" (click)="inqAccount()">
-                            <span class="bi bi-search" title="Inquire"></span>
-                        </button>
-                    </div>  
-                </div>
+                    <div class="row g-3 mb-2">
+                        <div class="col-11">
+                            <input class="form-control" [(ngModel)]='acno' [value] = 'acno' type="text" name="customer" placeholder="Customer Account">
+                        </div>     
+                        <div class="col-1">
+                            <button class="btn btn-light btn-outline-primary" (click)="inqAccount()">
+                                <span class="bi bi-search" title="Inquire"></span>
+                            </button>
+                        </div>  
+                    </div>
 
-                <div class="row g-3">
-                    <div class="col-12">
-                        <small class="text-primary">Don't know customer #? You can add the account later</small>
-                    </div>     
-                </div>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <small class="text-primary">Don't know customer #? You can add the account later</small>
+                        </div>     
+                    </div>
 
-                <div class="row g-3">
-                    <div class="col-md-12 mb-3">
-                        <button class="btn btn-primary rounded-0 mt-4 mb-1 ms-3" type="button" (click)="newUniform()"> 
-                            Build My Uniform Program 
-                        </button>
-                    </div>             
-                </div>
-            </form>
+                    <div class="row g-3">
+                        <div class="col-md-12 mb-3">
+                            <button class="btn btn-primary rounded-0 mt-4 mb-1 ms-3" type="button" (click)="newUniform()"> 
+                                Build My Uniform Program 
+                            </button>
+                        </div>             
+                    </div>
+                </form>
 
+            </div>
         </div>
-    </div>
-    <app-footer></app-footer>
-</section>
+        <app-footer></app-footer>
+    </section>
+</div>
 

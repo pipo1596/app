@@ -17,6 +17,7 @@ export class ImagesComponent {
 
   //Input
   img = "";
+  npno: any;
 
   //Paging
   p: number = 1;
@@ -27,21 +28,23 @@ export class ImagesComponent {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     localStorage.clear();
-    showWait();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
+      this.npno = params.get('npno');
     });
     this.getImages(this.img);
   }
 
   getImages(srch: string){
+    showWait();
     let data = {
       mode: 'getInfo',
       nhno: this.page.rfno,
+      npno: this.npno,
       img: this.img,
       itemsPerPage: this.itemsPerPage,
       currentPage: this.p
@@ -54,16 +57,48 @@ export class ImagesComponent {
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
       if (this.page.data.total) this.total = this.page.data.total;
       if (this.page.data?.images) this.page.data.images = this.page.data.images.sort((a: any,b: any) => a.iono.localeCompare(b.iono))
+      if (this.page.data?.seqDrop) this.page.data.seqDrop = this.page.data.seqDrop.sort((a: any,b: any) => a.seq.localeCompare(b.seq))
+      if (this.npno) this.formatTips()
       this.page.loading = false;
       hideWait();
     });
   }
 
+  formatTips(){
+    for (let i = 0; i < this.page.data?.images.length; i++) {
+      if(this.page.data.images[i].addt){
+        this.page.data.images[i].addt = this.page.data.images[i].addt.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
+      }
+      if(this.page.data.images[i].adtm){
+        this.page.data.images[i].adtm = this.page.data.images[i].adtm.replace(/(\d{2})(\d{2})(\d{2})/, "$1:$2:$3");
+      }
+    }
+  }
+
   newImage(){
     localStorage.clear();
-    localStorage.setItem('partpg','/uniforms/images/' + this.page.rfno + '/')
     localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate(['/uniforms/image/' + this.page.rfno]);
+    if(this.npno){
+      this.router.navigate(['/uniforms/image/' + this.page.rfno + '/' + this.npno]);
+    } else this.router.navigate(['/uniforms/image/' + this.page.rfno]);
+
+  }
+
+  saveSeq(){
+    for (let i = 0; i < this.page.data?.images.length; i++) {
+      let image = this.page.data?.images[i]
+      let data = {
+        mode: 'saveSeq',
+        nhno: this.page.rfno,
+        iono: image.iono,
+        seq: (<HTMLInputElement>document.getElementById('seq' + image.iono)).value
+      }
+
+      this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRIMG', data).subscribe(response => {
+        this.page.data = response;
+        this.getImages('');
+      });
+    }
   }
 
   viewImage(iono: any){

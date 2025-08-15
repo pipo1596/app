@@ -1,64 +1,70 @@
 <app-header [title]="page.title" [menu]="page.menu" ></app-header>
-<section class="ftco-section bg-light pb-3 pt-5">
-    <div class="card mx-auto mb-5 w-75 h-100">
-        <div class="card-body">
 
-            <div class="row g-3 mb-3">
-                <div class="col-md-12">
-                    <h6 class="">Data Export</h6>
-                </div>         
-            </div>
+<div id="container">
 
-            <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
 
-                <div class="row g-3 mb-5">       
-                    <div class="col-md-3 me-3">
-                        <button type="submit" class="btn btn-primary btn w-75 mb-4" (click)="openReport('OERP52')">Customization Report</button>
-                        <button type="submit" class="btn btn-primary btn w-75 mb-4" (click)="openReport('OERP53')">Category Report</button>
-                        <button type="submit" class="btn btn-primary btn w-75 mb-4" (click)="openReport('OERP302')">Audit Log Report</button>
-                    </div>
+    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+        <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
+            <div class="card-body">
 
-                    <div class="col-md-8 card-body">
-                        <div class="row g-3 mb-2">
-                            <div class="col-md-11">
-                                <h4 class="">Report Dashboard</h4>
-                                    <table class="table table-striped w-100">
-                                        <thead>
-                                            <tr>
-                                                <th align="left">Delete</th>
-                                                <th align="left">Report Name</th>
-                                                <th align="left">Status</th>
-                                                <th align="left">Start Date</th>
-                                                <th align="left">End Date</th>
-                                                <th align="left">Keep</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-                                            <tr *ngFor="let report of page.data?.reports | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
-                                                <td><button class="btn bg-transparent" (click)="loadReport(report.rpno, 'delete', '')"><span class="bi bi-x-lg text-danger" title="Delete Report"></span></button></td>
-                                                <td align="left">
-                                                    <a [id]="'rpLink' + report.rpno" [href]="downloadReport(report.rpno)" target="_blank">{{report.desc}}</a>
-                                                </td>
-                                                <td align="left">{{report.stcd}}</td>
-                                                <td align="left">{{dsppbdate(report.addt)}}</td>
-                                                <td align="left">{{dsppbdate(report.endt)}}</td>
-                                                <td *ngIf="report.endt !== '0'"><button class="btn bg-transparent" (click)="loadReport(report.rpno, 'update', report.keep)">
-                                                    <span [ngClass]="report.keep == 'RED' ? 'bi bi-flag-fill text-danger' : 'bi bi-flag'" title="Keep Report"></span>
-                                                </button></td>
-                                                <td *ngIf="report.endt == '0'"></td>
-                                            </tr>  
-                                        </tbody>
-                                    </table> 
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row-reverse col-md-11">
-                            <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
-                        </div>
-                    </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-12">
+                        <h6 class="">Data Export</h6>
+                    </div>         
                 </div>
 
+                <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
+
+                    <div class="row g-3 mb-5">       
+                        <div class="col-md-3 me-3">
+                            <button type="submit" class="btn btn-primary btn w-75 mb-4" (click)="openReport('OERP52')">Customization Report</button>
+                            <button type="submit" class="btn btn-primary btn w-75 mb-4" (click)="openReport('OERP53')">Category Report</button>
+                            <button type="submit" class="btn btn-primary btn w-75 mb-4" (click)="openReport('OERP302')">Audit Log Report</button>
+                        </div>
+
+                        <div class="col-md-8 card-body">
+                            <div class="row g-3 mb-2">
+                                <div class="col-md-11">
+                                    <h4 class="">Report Dashboard</h4>
+                                        <table class="table table-striped w-100">
+                                            <thead>
+                                                <tr>
+                                                    <th align="left">Delete</th>
+                                                    <th align="left">Report Name</th>
+                                                    <th align="left">Status</th>
+                                                    <th align="left">Start Date</th>
+                                                    <th align="left">End Date</th>
+                                                    <th align="left">Keep</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr *ngFor="let report of page.data?.reports | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
+                                                    <td><button class="btn bg-transparent" (click)="loadReport(report.rpno, 'delete', '')"><span class="bi bi-x-lg text-danger" title="Delete Report"></span></button></td>
+                                                    <td align="left">
+                                                        <a [id]="'rpLink' + report.rpno" [href]="downloadReport(report.rpno)" target="_blank">{{report.desc}}</a>
+                                                    </td>
+                                                    <td align="left">{{report.stcd}}</td>
+                                                    <td align="left">{{dsppbdate(report.addt)}}</td>
+                                                    <td align="left">{{dsppbdate(report.endt)}}</td>
+                                                    <td *ngIf="report.endt !== '0'"><button class="btn bg-transparent" (click)="loadReport(report.rpno, 'update', report.keep)">
+                                                        <span [ngClass]="report.keep == 'RED' ? 'bi bi-flag-fill text-danger' : 'bi bi-flag'" title="Keep Report"></span>
+                                                    </button></td>
+                                                    <td *ngIf="report.endt == '0'"></td>
+                                                </tr>  
+                                            </tbody>
+                                        </table> 
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row-reverse col-md-11">
+                                <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
         </div>
-    </div>
-    <app-footer></app-footer>
-</section>
+        <app-footer></app-footer>
+    </section>
+</div>

@@ -1,177 +1,184 @@
 <app-header [title]="page.title" [menu]="page.menu" ></app-header>
-<section class="ftco-section bg-light pb-3 pt-5">
-    <div class="card mx-auto mb-5 w-75 h-100">
-        <div class="card-body">
-                <form (submit)="page.editmode ? validate() : loadProduct()">
-                    <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data?.errors}}</strong></h6>
 
-                    <div class="row g-3">
-                        <div class="col-md-10">
-                            <h6>Uniform Program - {{ page.data?.pgName }}</h6>
-                        </div>
-                    </div>
+<div id="container">
 
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-9">
-                            <h6 *ngIf="!page.editmode"><small>Catalog > Products > Add New Product</small></h6>
-                            <h6 *ngIf="page.editmode"><small>Catalog > Products > Edit Product</small></h6>
-                        </div>
-                    </div>
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
 
-                    <h5 class="card-title mb-4">General Information</h5>
+    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+        <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
+            <div class="card-body">
+                    <form (submit)="page.editmode ? validate() : loadProduct()">
+                        <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data?.errors}}</strong></h6>
 
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-3">
-                            <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span>Item #</label>
-                            <input *ngIf="!page.data?.style && !page.data?.info" type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="styl" [value] = 'styl'>
-                            <input *ngIf="page.data?.style || page.data?.info" type="text" readonly class="form-control" id="inputItem" name='style' [(ngModel)]="styl" [value] = 'styl' [disabled]="page.editmode">
-                        </div>
-
-                        <div class="col-md-1 mt-5" *ngIf="page.entrymode">
-                            <button class="btn btn-light" (click)="inqStyle()">
-                                <span class="bi bi-search" title="Inquire"></span>
-                            </button>
-                        </div>
-
-                        <div class="col-md-4" *ngIf="page.data?.style || page.data?.info">
-                            <label for="inputDesc" class="form-label">Description</label>
-                            <input type="text" class="form-control" name="description" [(ngModel)]="desc" disabled>
-                        </div>
-                    </div>
-
-                    <div class="row g-3 mb-4" *ngIf="page.data?.style || page.data?.info">
-                        <div class="col-md-3" *ngIf="page.data?.optionH[0]">
-                            <label for="inputSKU" class="form-label">SKU:</label>
-                            <ngx-select-dropdown name="skuDrop" [multiple]="true" [config]="searchConfig()" (change)="sku = $event.value" [options]="page.data?.sku" [(ngModel)]="sku"></ngx-select-dropdown>
-                        </div>
-                    </div>
-
-                    <div class="row g-3" *ngIf="page.data?.style || item">
-                        <h6 *ngIf="page.data?.optionH[0]">-- OR --</h6>
-                        <ng-container *ngIf="page.data?.optionH">
-                            <div *ngIf="page.data?.optionH[0]" class="col-md-2">
-                                <label for="inputOP1" class="form-label">{{ page.data?.optionH[0]}}</label>
+                        <div class="row g-3">
+                            <div class="col-md-10">
+                                <h6>Uniform Program - {{ page.data?.pgName }}</h6>
                             </div>
-                            <div *ngIf="page.data?.optionH[1]" class="col-md-2">
-                                <label for="inputOP1" class="form-label">{{ page.data?.optionH[1]}}</label>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-9">
+                                <h6 *ngIf="!page.editmode"><small>Catalog > Products > Add New Product</small></h6>
+                                <h6 *ngIf="page.editmode"><small>Catalog > Products > Edit Product</small></h6>
                             </div>
-                            <div *ngIf="page.data?.optionH[2]" class="col-md-2">
-                                <label for="inputOP1" class="form-label">{{ page.data?.optionH[2]}}</label>
+                        </div>
+
+                        <h5 class="card-title mb-4">General Information</h5>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3">
+                                <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span>Item #</label>
+                                <input *ngIf="!page.data?.style && !page.data?.info" type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="styl" [value] = 'styl'>
+                                <input *ngIf="page.data?.style || page.data?.info" type="text" readonly class="form-control" id="inputItem" name='style' [(ngModel)]="styl" [value] = 'styl' [disabled]="page.editmode">
                             </div>
-                        </ng-container>
-                    </div>
 
-                    <div class="row g-3 mb-5">
-                        <div class="col-md-2" *ngIf="page.data?.option1">
-                            <input type="checkbox"  class="form-check-input mb-3" (click)="selectAll(0, page.data?.option1)" [checked]="allSelected(0, page.data?.option1) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">Select All</span><br>
-                            <ng-container *ngFor="let opv1 of page.data.option1; index as i">
-                                <input type="checkbox" class="form-check-input mb-3" (click)="checkOpt(0, page.data.option1, i)" value="{{ opv1 }}" [checked]="opv[0].includes(opv1) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">{{opv1}}</span><br>
-                            </ng-container>
-                        </div>
-                        
-                        <div class="col-md-2" *ngIf="page.data?.option2">
-                            <input type="checkbox" class="form-check-input mb-3" (click)="selectAll(1, page.data?.option2)" [checked]="allSelected(1, page.data?.option2) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">Select All</span><br>
-                            <ng-container *ngFor="let opv2 of page.data?.option2; index as i">
-                                <input type="checkbox" class="form-check-input mb-3" (click)="checkOpt(1, page.data?.option2, i)" value="{{ opv2 }}" [checked]="opv[1].includes(opv2) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">{{opv2}}</span><br>
-                            </ng-container>
+                            <div class="col-md-1 mt-5" *ngIf="page.entrymode">
+                                <button class="btn btn-light" (click)="inqStyle()">
+                                    <span class="bi bi-search" title="Inquire"></span>
+                                </button>
+                            </div>
+
+                            <div class="col-md-4" *ngIf="page.data?.style || page.data?.info">
+                                <label for="inputDesc" class="form-label">Description</label>
+                                <input type="text" class="form-control" name="description" [(ngModel)]="desc" disabled>
+                            </div>
                         </div>
 
-                        <div class="col-md-2" *ngIf="page.data?.option3">
-                            <input type="checkbox" class="form-check-input mb-3" (click)="selectAll(2, page.data?.option3)" [checked]="allSelected(2, page.data?.option3) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">Select All</span><br>
-                            <ng-container *ngFor="let opv3 of page.data?.option3; index as i">
-                                <input type="checkbox" class="form-check-input mb-3" (click)="checkOpt(2, page.data?.option3, i)" value="{{ opv3 }}" [checked]="opv[2].includes(opv3) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">{{opv3}}</span><br>
-                            </ng-container>
-                        </div>
-                    </div>
-
-                    <!-- Category -->
-                    <div class="row g-3 mb-5" *ngIf="page.data?.style || page.data?.info">
-                        <div class="col-md-5">
-                            <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span>Category:</label>
-                            <ngx-select-dropdown name="catDrop" [multiple]="true" [disabled]="page.editmode" [config]="catConfig()" (change)="cats = $event.value;" [options]="page.data?.categories" [(ngModel)]="cats"></ngx-select-dropdown>
-                        </div> 
-                        <div class="col-md-2 mt-5">
-                            <button class="btn btn-primary me-3" (click)="newCategory()">New</button>
-                        </div> 
-                    </div>
-
-                    <!-- Customization -->
-                    <div class="row g-3 mb-5" *ngIf="page.data?.style || page.data?.info">
-                        <div class="col-md-3">
-                            <label for="inputItem" class="form-label">Customization:</label>
-                            <ngx-select-dropdown name="custDrop" [multiple]="true" [config]="searchConfig()" (change)="custs = $event.value" [options]="page.data?.customizations" [(ngModel)]="custs"></ngx-select-dropdown>
-                        </div>
-                        <div class="col-md-2 mt-5">
-                            <button class="btn btn-primary me-3" *ngIf="page.editmode" (click)="newCustomization()">New</button>
-                        </div> 
-                    </div>
-
-                    <div class="row g-3 mb-3 card w-50" *ngIf="page.editmode">
-                        <div class="col-md-3 mb-3">
-                            <h5>Product Flags</h5>
-                            <input type="checkbox" class="form-check-input mb-2" (click)="dsallow ? dsallow = '' : dsallow = 'Y'" [checked]="dsallow"><span class="ms-2">DS Allowed</span><br>
-                            <input type="checkbox" class="form-check-input mb-2" (click)="autotag ? autotag = '' : autotag = 'Y'" [checked]="autotag"><span class="ms-2">Auto Tag</span><br>
-                            <input type="checkbox" class="form-check-input mb-2" (click)="contract ? contract = '' : contract = 'Y'" [checked]="contract"><span class="ms-2">Contract Y/N</span><br>
+                        <div class="row g-3 mb-4" *ngIf="page.data?.style || page.data?.info">
+                            <div class="col-md-3" *ngIf="page.data?.optionH[0]">
+                                <label for="inputSKU" class="form-label">SKU:</label>
+                                <ngx-select-dropdown name="skuDrop" [multiple]="true" [config]="searchConfig()" (change)="sku = $event.value" [options]="page.data?.sku" [(ngModel)]="sku"></ngx-select-dropdown>
+                            </div>
                         </div>
 
-                        <!-- Warehouse -->
-                        <div class="col-md-6 mb-3" *ngIf="page.data?.style || page.data?.info">
-                            <h6>Fulfullment Override:</h6>
-                            <ngx-select-dropdown name="whseDrop" [config]="searchConfig()" [options]="page.data?.warehouses" [(ngModel)]="warehouse"></ngx-select-dropdown>
-                        </div>
-
-                        <div class="col-md-6">
-                            <h5 class="mb-4">Product Information</h5>
-                            <h6 class="mb-2">Contract Item Number:</h6>
-                            <input type="text" class="form-control mb-4" name="contractitem" [(ngModel)]="citem" >
-                            <h6 class="mb-2">Contract Description:</h6>
-                            <input type="text" class="form-control mb-4" name="contractdesc" [(ngModel)]="cdesc">
-                        </div>
-
-                        <ng-container *ngIf="!showUpload">
-                            <div class="row">
-                                <div class="col-8">
-                                    <h4 class="mt-2">Featured Image</h4>
+                        <div class="row g-3" *ngIf="page.data?.style || item">
+                            <h6 *ngIf="page.data?.optionH[0]">-- OR --</h6>
+                            <ng-container *ngIf="page.data?.optionH">
+                                <div *ngIf="page.data?.optionH[0]" class="col-md-2">
+                                    <label for="inputOP1" class="form-label">{{ page.data?.optionH[0]}}</label>
                                 </div>
-
-                                <div class="col-4 text-end">
-                                    <a [routerLink]="" (click)="changeImage()" class="hoverp m-2 d-block">Change Image</a>
+                                <div *ngIf="page.data?.optionH[1]" class="col-md-2">
+                                    <label for="inputOP1" class="form-label">{{ page.data?.optionH[1]}}</label>
                                 </div>
+                                <div *ngIf="page.data?.optionH[2]" class="col-md-2">
+                                    <label for="inputOP1" class="form-label">{{ page.data?.optionH[2]}}</label>
+                                </div>
+                            </ng-container>
+                        </div>
+
+                        <div class="row g-3 mb-5">
+                            <div class="col-md-2" *ngIf="page.data?.option1">
+                                <input type="checkbox"  class="form-check-input mb-3" (click)="selectAll(0, page.data?.option1)" [checked]="allSelected(0, page.data?.option1) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">Select All</span><br>
+                                <ng-container *ngFor="let opv1 of page.data.option1; index as i">
+                                    <input type="checkbox" class="form-check-input mb-3" (click)="checkOpt(0, page.data.option1, i)" value="{{ opv1 }}" [checked]="opv[0].includes(opv1) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">{{opv1}}</span><br>
+                                </ng-container>
                             </div>
-                            <div class="col-12">
-                                <img style="max-height: 300px;max-width: 100%;" src="{{page.imgprfx}}/{{image.value}}"
-                                    class="preview  m-auto d-block" />
+                            
+                            <div class="col-md-2" *ngIf="page.data?.option2">
+                                <input type="checkbox" class="form-check-input mb-3" (click)="selectAll(1, page.data?.option2)" [checked]="allSelected(1, page.data?.option2) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">Select All</span><br>
+                                <ng-container *ngFor="let opv2 of page.data?.option2; index as i">
+                                    <input type="checkbox" class="form-check-input mb-3" (click)="checkOpt(1, page.data?.option2, i)" value="{{ opv2 }}" [checked]="opv[1].includes(opv2) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">{{opv2}}</span><br>
+                                </ng-container>
                             </div>
-                        </ng-container>
-                        
-                        <div *ngIf="showUpload">
-                            <h5>Upload Image
-                                <span class="text-danger ms-1" id="{{image.htmlid}}"
-                                    *ngIf="image.error!==''">{{image.error}}</span>
-                            </h5>
-                            <app-image-upload (triggerEvent)="saveAfterImageUpload($event)" [mode]="'U'"></app-image-upload>
+
+                            <div class="col-md-2" *ngIf="page.data?.option3">
+                                <input type="checkbox" class="form-check-input mb-3" (click)="selectAll(2, page.data?.option3)" [checked]="allSelected(2, page.data?.option3) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">Select All</span><br>
+                                <ng-container *ngFor="let opv3 of page.data?.option3; index as i">
+                                    <input type="checkbox" class="form-check-input mb-3" (click)="checkOpt(2, page.data?.option3, i)" value="{{ opv3 }}" [checked]="opv[2].includes(opv3) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">{{opv3}}</span><br>
+                                </ng-container>
+                            </div>
                         </div>
 
-                    </div>
-
-                    <div class="d-flex flex-row mb-5">
-                        <div class="col-md-3">
-                            <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span><span class="fst-italic">Denotes required information </span></label>
+                        <!-- Category -->
+                        <div class="row g-3 mb-5" *ngIf="page.data?.style || page.data?.info">
+                            <div class="col-md-5">
+                                <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span>Category:</label>
+                                <ngx-select-dropdown name="catDrop" [multiple]="true" [disabled]="page.editmode" [config]="catConfig()" (change)="cats = $event.value;" [options]="page.data?.categories" [(ngModel)]="cats"></ngx-select-dropdown>
+                            </div> 
+                            <div class="col-md-2 mt-5">
+                                <button class="btn btn-primary me-3" (click)="newCategory()">New</button>
+                            </div> 
                         </div>
-                    </div>
 
-                    <div class="d-flex flex-row">
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary me-3" *ngIf="page.data?.style || page.data?.info">Save</button>
-                            <button type="submit" class="btn btn-primary me-3" *ngIf="page.entrymode && !page.data?.style" (click)="styl = styl.toUpperCase()" (click)="item = styl" (click)="getProduct()">Go</button>
-                            <button *ngIf="page.editmode" class="btn btn-primary me-3" (click)="deleteProduct()">Delete</button>
-                            <button class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>
+                        <!-- Customization -->
+                        <div class="row g-3 mb-5" *ngIf="page.data?.style || page.data?.info">
+                            <div class="col-md-3">
+                                <label for="inputItem" class="form-label">Customization:</label>
+                                <ngx-select-dropdown name="custDrop" [multiple]="true" [config]="searchConfig()" (change)="custs = $event.value" [options]="page.data?.customizations" [(ngModel)]="custs"></ngx-select-dropdown>
+                            </div>
+                            <div class="col-md-2 mt-5">
+                                <button class="btn btn-primary me-3" *ngIf="page.editmode" (click)="newCustomization()">New</button>
+                            </div> 
                         </div>
-                    </div>
-                </form>
+
+                        <div class="row g-3 mb-3 card w-50" *ngIf="page.editmode">
+                            <div class="col-md-3 mb-3">
+                                <h5>Product Flags</h5>
+                                <input type="checkbox" class="form-check-input mb-2" (click)="dsallow ? dsallow = '' : dsallow = 'Y'" [checked]="dsallow"><span class="ms-2">DS Allowed</span><br>
+                                <input type="checkbox" class="form-check-input mb-2" (click)="autotag ? autotag = '' : autotag = 'Y'" [checked]="autotag"><span class="ms-2">Auto Tag</span><br>
+                                <input type="checkbox" class="form-check-input mb-2" (click)="contract ? contract = '' : contract = 'Y'" [checked]="contract"><span class="ms-2">Contract Y/N</span><br>
+                            </div>
+
+                            <!-- Warehouse -->
+                            <div class="col-md-7 mb-3" *ngIf="page.data?.style || page.data?.info">
+                                <h6>Fulfillment Override:</h6>
+                                <ngx-select-dropdown name="whseDrop" [config]="searchConfig()" [options]="page.data?.warehouses" [(ngModel)]="warehouse"></ngx-select-dropdown>
+                            </div>
+
+                            <div class="col-md-6">
+                                <h5 class="mb-4">Product Information</h5>
+                                <h6 class="mb-2">Contract Item Number:</h6>
+                                <input type="text" class="form-control mb-4" name="contractitem" [(ngModel)]="citem" >
+                                <h6 class="mb-2">Contract Description:</h6>
+                                <input type="text" class="form-control mb-4" name="contractdesc" [(ngModel)]="cdesc">
+                            </div>
+
+                            <ng-container *ngIf="!showUpload">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <h4 class="mt-2">Featured Image</h4>
+                                    </div>
+
+                                    <div class="col-4 text-end">
+                                        <a [routerLink]="" (click)="changeImage()" class="hoverp m-2 d-block">Change Image</a>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <img style="max-height: 300px;max-width: 100%;" src="{{page.imgprfx}}/{{image.value}}"
+                                        class="preview  m-auto d-block" />
+                                </div>
+                            </ng-container>
+                            
+                            <div *ngIf="showUpload">
+                                <h5>Upload Image
+                                    <span class="text-danger ms-1" id="{{image.htmlid}}"
+                                        *ngIf="image.error!==''">{{image.error}}</span>
+                                </h5>
+                                <app-image-upload (triggerEvent)="saveAfterImageUpload($event)" [mode]="'U'"></app-image-upload>
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex flex-row mb-5">
+                            <div class="col-md-3">
+                                <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span><span class="fst-italic">Denotes required information </span></label>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-row">
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary me-3" *ngIf="page.data?.style || page.data?.info">Save</button>
+                                <button type="submit" class="btn btn-primary me-3" *ngIf="page.entrymode && !page.data?.style" (click)="styl = styl.toUpperCase()" (click)="item = styl" (click)="getProduct()">Go</button>
+                                <button *ngIf="page.editmode" class="btn btn-primary me-3" (click)="deleteProduct()">Delete</button>
+                                <button class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+            </div>
         </div>
-    </div>
-    
-    <app-footer></app-footer>
+        
+        <app-footer></app-footer>
 
-</section>
+    </section>
+
+</div>

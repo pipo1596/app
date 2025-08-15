@@ -1,95 +1,100 @@
 <app-header [title]="page.title" [menu]="page.menu" ></app-header>
 
-<section class="ftco-section bg-light pb-3 pt-5">
-    <div class="card mx-auto mb-5 w-75 h-100">
-        <div class="card-body">
-            <form>
-                <h6 class="mb-3" *ngIf="errors"><strong class="text-danger">{{errors}}</strong></h6>
+<div id="container">
 
-                <div class="row g-5">
-                    <div class="col-10 mb-5">
-                        <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
+
+    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+        <div class="card mx-auto mb-5 mt-5 w-75 h-75">
+            <div class="card-body">
+                <form>
+                    <h6 class="mb-3" *ngIf="errors"><strong class="text-danger">{{errors}}</strong></h6>
+
+                    <div class="row g-5">
+                        <div class="col-10 mb-5">
+                            <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>
+                        </div>
                     </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>
-                    </div>
-                </div>
 
-                <div class="row g-3">
-                    <div class="col-md-9">
-                        <h6><small>Mass Application Update</small></h6>
-                    </div>
-                </div>
-
-                <div class="row g-3 mb-3">
-                    <div class="col-md-3">
-                        <label for="v2noInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span> Application: </label>
-                        <select class="form-select p-2" name="inputV1CD" [(ngModel)]="v1cd" (ngModelChange)="getInfo()" (change)="errors = ''">
-                            <option value="">Select</option>
-                            <option *ngFor="let app of applications" [ngValue]="app.v1cd" [selected]="app.v1cd == v1cd">{{app.v1desc}}</option>
-                        </select>
-                    </div>
-                </div>
-
-                <ng-container *ngIf="applications.length > 0">
-
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-4">
-                            <label for="v2noInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span> New Description: </label>
-                            <input type="text" class="form-control" name="inputDesc" [(ngModel)]="desc">
+                    <div class="row g-3">
+                        <div class="col-md-9">
+                            <h6><small>Mass Application Update</small></h6>
                         </div>
                     </div>
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary me-3" (click)="loadUpdate()" *ngIf="v1cd">Update Description</button>
-                        </div>
-                    </div>
-                </ng-container>
-
-                <div class="row g-3" *ngIf="v1cd && groups.length == 0 ">
-                    <div class="col-md-3">
-                        <span class="text-primary"><strong>No Personalization Groups Found</strong></span>
-                    </div>
-                </div>
-
-                <ng-container *ngIf="v1cd">
-
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-10">
-                            <label for="v2noInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span> Denotes required information </label>
+                            <label for="v2noInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span> Application: </label>
+                            <select class="form-select p-2" name="inputV1CD" [(ngModel)]="v1cd" (ngModelChange)="getInfo()" (change)="errors = ''">
+                                <option value="">Select</option>
+                                <option *ngFor="let app of applications" [ngValue]="app.v1cd" [selected]="app.v1cd == v1cd">{{app.v1desc}}</option>
+                            </select>
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-between w-50">
-                        <h6><small>Personalization Groups</small></h6>
-                        <a href="javascript:void(0)" (click)="checkAll()"><h6><small>Check/Uncheck All</small></h6></a>
+                    <ng-container *ngIf="applications.length > 0">
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                <label for="v2noInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span> New Description: </label>
+                                <input type="text" class="form-control" name="inputDesc" [(ngModel)]="desc">
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary me-3" (click)="loadUpdate()" *ngIf="v1cd">Update Description</button>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <div class="row g-3" *ngIf="v1cd && groups.length == 0 ">
+                        <div class="col-md-3">
+                            <span class="text-primary"><strong>No Personalization Groups Found</strong></span>
+                        </div>
                     </div>
 
-                    <table class="table table-striped table-bordered w-50">
-                        <tbody>
-                            <ng-container *ngFor="let group of groups; index as i">
-                                <tr class="mb-2" *ngIf="isRow(group.npDesc, i)">
-                                    <td>
-                                        <div class="d-flex border-bottom border-dark" style="--bs-border-opacity: .5;">
-                                            <label for="npDesc" class="p-2"><strong>Personalization Group: </strong></label>
-                                            <span class="p-2" name="npDesc">{{group.npDesc}}</span>                                      
-                                        </div>
-                                        <div class="d-flex border-bottom border-dark" style="--bs-border-opacity: .5;" *ngFor="let app of buildApps(group.npDesc)">
-                                            <label for="v1Desc" class="p-2 ms-5"><strong>Application: </strong></label>
-                                            <span class="p-2" name="v1Desc">{{app.nv1Desc}}</span>          
-                                            <input type="checkbox" class="ms-auto me-5 p-2 form-check-input mt-2" id="N1NO{{app.n1no}}" value="{{app.n1no}}" [checked]="isChecked(app.n1no)" (click)="checkGroup(app.n1no)">         
-                                        </div>
-                                    </td>
-                                </tr>
-                            </ng-container>
-                        </tbody>
-                    </table> 
-                </ng-container>
-            </form>
+                    <ng-container *ngIf="v1cd">
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-10">
+                                <label for="v2noInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span> Denotes required information </label>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between w-50">
+                            <h6><small>Personalization Groups</small></h6>
+                            <a href="javascript:void(0)" (click)="checkAll()"><h6><small>Check/Uncheck All</small></h6></a>
+                        </div>
+
+                        <table class="table table-striped table-bordered w-50">
+                            <tbody>
+                                <ng-container *ngFor="let group of groups; index as i">
+                                    <tr class="mb-2" *ngIf="isRow(group.npDesc, i)">
+                                        <td>
+                                            <div class="d-flex border-bottom border-dark" style="--bs-border-opacity: .5;">
+                                                <label for="npDesc" class="p-2"><strong>Personalization Group: </strong></label>
+                                                <span class="p-2" name="npDesc">{{group.npDesc}}</span>                                      
+                                            </div>
+                                            <div class="d-flex border-bottom border-dark" style="--bs-border-opacity: .5;" *ngFor="let app of buildApps(group.npDesc)">
+                                                <label for="v1Desc" class="p-2 ms-5"><strong>Application: </strong></label>
+                                                <span class="p-2" name="v1Desc">{{app.nv1Desc}}</span>          
+                                                <input type="checkbox" class="ms-auto me-5 p-2 form-check-input mt-2" id="N1NO{{app.n1no}}" value="{{app.n1no}}" [checked]="isChecked(app.n1no)" (click)="checkGroup(app.n1no)">         
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table> 
+                    </ng-container>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <app-footer></app-footer>
-</section>
+        <app-footer></app-footer>
+    </section>
+</div>
 

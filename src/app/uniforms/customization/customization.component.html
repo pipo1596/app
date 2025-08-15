@@ -1,99 +1,104 @@
 <app-header [title]="page.title" [menu]="page.menu" ></app-header>
-<section class="ftco-section bg-light pb-3 pt-5">
-    <div class="card mx-auto mb-5 w-75 h-100">
-        <div class="card-body">
-                <form>
-                    <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
-                    <div class="row g-3">
-                        <div class="col-md-9">
-                            <h6>Uniform Program - {{ page.data?.pgName }}</h6>
-                        </div>
-                    </div>
 
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-9">
-                            <h6><small>Catalog > Customization > Create New Customization</small></h6>
-                        </div>
-                    </div>
+<div id="container">
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
 
-                    <h6 class="card-title ms-1 mb-4"><strong>Basic Customization Information</strong></h6>
+    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+        <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
+            <div class="card-body">
+                    <form>
+                        <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
+                        <div class="row g-3">
+                            <div class="col-md-9">
+                                <h6>Uniform Program - {{ page.data?.pgName }}</h6>
+                            </div>
+                        </div>
 
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-3">
-                            <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Name:</strong> </label>
-                            <input type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="name">
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-9">
+                                <h6><small>Catalog > Customization > Create New Customization</small></h6>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-3">
-                            <label for="inputDesc" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>eQuip Description:</strong> </label>
-                            <input type="text" class="form-control" id="inputDesc" name='description' [(ngModel)]="desc">
-                        </div>
-                    </div>
-                    
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-3">
-                            <label for="inputCnfg" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Style Configurator Template:</strong> </label>
-                            <input type="text" readonly class="form-control" [value]="vfgdesc ? vfgdesc : ''">
-                        </div>
-                        <div class="col-md-1 mt-5">
-                            <button class="btn" (click)="inqVfg()"><span class="bi bi-search" title="Inquire"></span></button>
-                        </div>
-                    </div>                   
+                        <h6 class="card-title ms-1 mb-4"><strong>Basic Customization Information</strong></h6>
 
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-3">
-                            <label for="inputCTNO" class="form-label"><strong>VAS Category:</strong> </label>
-                            <input type="text" readonly class="form-control-plaintext" [value]="ctdesc ? ctdesc : ''">
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-3">
+                                <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Name:</strong> </label>
+                                <input type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="name">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-3">
-                            <label for="inputEffd" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Effective Date:</strong> </label>
-                            <input type="date" class="form-control" name="effective" [(ngModel)]="effd">
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3">
+                                <label for="inputDesc" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>eQuip Description:</strong> </label>
+                                <input type="text" class="form-control" id="inputDesc" name='description' [(ngModel)]="desc">
+                            </div>
                         </div>
-                    </div>
+                        
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3">
+                                <label for="inputCnfg" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Style Configurator Template:</strong> </label>
+                                <input type="text" readonly class="form-control" [value]="vfgdesc ? vfgdesc : ''">
+                            </div>
+                            <div class="col-md-1 mt-5">
+                                <button class="btn" (click)="inqVfg()"><span class="bi bi-search" title="Inquire"></span></button>
+                            </div>
+                        </div>                   
 
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-3">
-                            <label for="inputExpd" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Expiration Date:</strong> </label>
-                            <input type="date" class="form-control" name="expiration" [(ngModel)]="expd"> 
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3">
+                                <label for="inputCTNO" class="form-label"><strong>VAS Category:</strong> </label>
+                                <input type="text" readonly class="form-control-plaintext" [value]="ctdesc ? ctdesc : ''">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-1">
-                            <label for="inputSeq" class="form-label"><strong>Sequence:</strong> </label>
-                            <input type="text" class="form-control" name='sequence' [(ngModel)]="seq">
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3">
+                                <label for="inputEffd" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Effective Date:</strong> </label>
+                                <input type="date" class="form-control" name="effective" [(ngModel)]="effd">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row g-3 mb-5">
-                        <div class="col-md-2">
-                            <label for="inputSeq" class="form-label me-2"><strong>Active:</strong></label>
-                            <input type="checkbox" class="form-check-input" (click)="actv == 'Y' ? actv = 'N' : actv = 'Y'" [checked]="actv == 'Y'">
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3">
+                                <label for="inputExpd" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Expiration Date:</strong> </label>
+                                <input type="date" class="form-control" name="expiration" [(ngModel)]="expd"> 
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row g-3 mb-5">
-                        <div class="col-md-3">
-                            <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span><span class="fst-italic">Denotes required information </span></label>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-1">
+                                <label for="inputSeq" class="form-label"><strong>Sequence:</strong> </label>
+                                <input type="text" class="form-control" name='sequence' [(ngModel)]="seq">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="d-flex flex-row">
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary me-3" (click)="page.editmode ? loadProduct('update') : loadProduct('create')">Save</button>
-                            <button *ngIf="page.editmode" type="submit" class="btn btn-primary me-3" (click)="loadProduct('delete')">Delete</button>
-                            <button type="submit" class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>
+                        <div class="row g-3 mb-5">
+                            <div class="col-md-2">
+                                <label for="inputSeq" class="form-label me-2"><strong>Active:</strong></label>
+                                <input type="checkbox" class="form-check-input" (click)="actv == 'Y' ? actv = 'N' : actv = 'Y'" [checked]="actv == 'Y'">
+                            </div>
                         </div>
-                    </div>
-                </form>
+
+                        <div class="row g-3 mb-5">
+                            <div class="col-md-3">
+                                <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span><span class="fst-italic">Denotes required information </span></label>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-row">
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary me-3" (click)="page.editmode ? loadProduct('update') : loadProduct('create')">Save</button>
+                                <button *ngIf="page.editmode" type="submit" class="btn btn-primary me-3" (click)="loadProduct('delete')">Delete</button>
+                                <button type="submit" class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+            </div>
         </div>
-    </div>
-    
-    <app-footer></app-footer>
+        
+        <app-footer></app-footer>
 
-</section>
+    </section>
+</div>

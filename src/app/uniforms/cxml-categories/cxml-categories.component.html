@@ -1,69 +1,75 @@
 <app-header [title]="page.title" [menu]="page.menu" ></app-header>
-<section class="ftco-section bg-light pb-3 pt-5">
-    <div class="card mx-auto mb-5 w-75 h-100">
-        <div class="card-body">
 
-            <div class="row g-3 mb-2">
-                <div class="col-md-11">
-                    <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
+<div id="container">
+
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
+
+    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+        <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
+            <div class="card-body">
+
+                <div class="row g-3 mb-2">
+                    <div class="col-md-11">
+                        <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row g-3 mb-3">
-                <div class="col-md-12">
-                    <h6 class="">CXML Configuration</h6>
-                </div>         
-            </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-12">
+                        <h6 class="">CXML Configuration</h6>
+                    </div>         
+                </div>
 
-            <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
+                <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
 
-            <div class="d-flex flex-row">
-                <div class="col-md-10 mr-auto p-2">
-                    <h6 class=""><u>Category CXML Configuration</u></h6>
-                </div>           
-            </div>
-
-            <div class="row g-3 mb-3">
                 <div class="d-flex flex-row">
-                    <div class="col-md-3 me-3">
-                        <select class="form-select p-2" [(ngModel)]="assign">
-                                <option value="" selected>Select</option>
-                                <option *ngFor="let unsp of page.data?.unspc" [value]="unsp.valu">{{unsp.valu}} - {{unsp.desc}}</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="submit" class="btn btn-primary" (click)="assignAll()">Assign UNSPSC Code to all Categories</button>
+                    <div class="col-md-10 mr-auto p-2">
+                        <h6 class=""><u>Category CXML Configuration</u></h6>
+                    </div>           
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="d-flex flex-row">
+                        <div class="col-md-3 me-3">
+                            <select class="form-select p-2" [(ngModel)]="assign">
+                                    <option value="" selected>Select</option>
+                                    <option *ngFor="let unsp of page.data?.unspc" [value]="unsp.valu">{{unsp.valu}} - {{unsp.desc}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary" (click)="assignAll()">Assign UNSPSC Code to all Categories</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <table class="table table-striped w-100 mb-5">
-                <thead>
-                    <tr>
-                        <th align="left" class="w-75">Category</th>
-                        <th align="left" class="w-25">UNSPSC Code</th>
-                    </tr>
-                </thead>
+                <table class="table table-striped w-100 mb-5">
+                    <thead>
+                        <tr>
+                            <th align="left" class="w-75">Category</th>
+                            <th align="left" class="w-25">UNSPSC Code</th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    <tr *ngFor="let category of page.data?.categories; index as i ">
-                        <td align="left">{{category.desc}}</td>
-                        <td>
-                            <select class="form-select" (change)="selectUNSP(category.nano, $event)" [id]="'unsp' + category.nano">
-                                <option value="">Select</option>
-                                <option *ngFor="let unsp of page.data?.unspc" [value]="unsp.valu" [selected]="category.unsp && category.unsp == unsp.valu">{{unsp.valu}} - {{unsp.desc}}</option>
-                            </select>
-                        </td>
-                    </tr>  
-                </tbody>
-            </table> 
+                    <tbody>
+                        <tr *ngFor="let category of page.data?.categories; index as i ">
+                            <td align="left">{{category.desc}}</td>
+                            <td>
+                                <select class="form-select" (change)="selectUNSP(category.nano, $event)" [id]="'unsp' + category.nano">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let unsp of page.data?.unspc" [value]="unsp.valu" [selected]="category.unsp && category.unsp == unsp.valu">{{unsp.valu}} - {{unsp.desc}}</option>
+                                </select>
+                            </td>
+                        </tr>  
+                    </tbody>
+                </table> 
 
-            <div class="d-flex flex-row-reverse">
-                <div class="col-md-1 mt-5">
-                    <button type="submit" class="btn btn-primary" (click)="loadConfigs()">Save</button>
+                <div class="d-flex flex-row-reverse">
+                    <div class="col-md-1 mt-5">
+                        <button type="submit" class="btn btn-primary" (click)="loadConfigs()">Save</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <app-footer></app-footer>
-</section>
+        <app-footer></app-footer>
+    </section>
+</div>

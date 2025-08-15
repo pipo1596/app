@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
+
+
 @media (min-width: 992px) {
     ::-webkit-scrollbar {
         -webkit-appearance: none;
@@ -206,7 +208,6 @@ ul.categories li {
 .tooltip {
   position: relative;
   display: inline-block;
-  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
   opacity: 100;
 }
 
@@ -230,5 +231,22 @@ ul.categories li {
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+#container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.section {
+    position: absolute !important;
+}
+
+.sidebar {
+    background: rgb(33, 37, 41);
+}
+
+
+
+
 
 

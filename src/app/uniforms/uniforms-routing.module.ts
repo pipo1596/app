@@ -88,7 +88,9 @@ const routes: Routes = [
 
   //Images
   { path: 'images/:nhno', component: ImagesComponent, canActivate: [authGuard]  },
+  { path: 'images/:nhno/:npno', component: ImagesComponent, canActivate: [authGuard]  },
   { path: 'image/:nhno', component: ImageComponent, canActivate: [authGuard]  },
+  { path: 'image/:nhno/:npno', component: ImageComponent, canActivate: [authGuard]  },
 
   //Notes
   { path: 'notes/:nhno', component: NotesComponent, canActivate: [authGuard]  },

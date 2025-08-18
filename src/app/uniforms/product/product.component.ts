@@ -140,12 +140,7 @@ export class ProductComponent {
       if (this.page.data?.info?.customizations) this.custs = this.page.data?.info.customizations
       if(this.page.data?.info?.upct) this.upct = this.page.data?.info.upct;
 
-      if(this.page.data?.info?.desc){
-        if (this.copy){
-          this.desc = 'Copy of ' + this.page.data?.info.desc;
-        } else { this.desc = this.page.data?.info.desc; }
-      }
-
+      if(this.page.data?.info?.desc) this.desc = this.page.data?.info.desc;
       if(!this.desc && this.page.data?.stylDesc) this.desc = this.page.data.stylDesc
 
       if (this.page.data?.optionChk){

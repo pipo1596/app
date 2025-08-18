@@ -73,14 +73,14 @@ export class VasQuestionsComponent {
         nhno: this.nhno,
         npno: this.npno,
         n1no: this.application?.n1no,
-        n2no: this.page.data.vasq[i].n2no, 
+        n2no: this.page.data?.vasq[i]!.n2no, 
         v1cd: this.application?.v1cd,
-        v2no: this.page.data.vasq[i].v2no,
-        type: this.page.data.vasq[i].type,
-        dfan: (<HTMLInputElement>document.getElementById('dfan' + i + this.page.data.vasq[i].n2no)).value,
-        dspd: (<HTMLInputElement>document.getElementById('dspd' + i + this.page.data.vasq[i].n2no)).checked ? 'Y' : 'N',
-        dflk: (<HTMLInputElement>document.getElementById('dflk' + i + this.page.data.vasq[i].n2no)).checked ? 'Y' : 'N',
-        upct: this.page.data.vasq[i].upct,
+        v2no: this.page.data?.vasq[i]!.v2no,
+        type: this.page.data?.vasq[i]!.type,
+        dfan: (<HTMLInputElement>document.getElementById('dfan' + i + this.page.data?.vasq[i]!.n2no)).value,
+        dspd: (<HTMLInputElement>document.getElementById('dspd' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : 'N',
+        dflk: (<HTMLInputElement>document.getElementById('dflk' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : 'N',
+        upct: this.page.data?.vasq[i].upct,
         app: 'Y'
       }
 

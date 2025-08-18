@@ -10,6 +10,12 @@
     }
 }
 
+@media screen and (max-width: 650px){
+    .logo {
+        display: none;
+    }
+}
+
 .sidebar {
     width: 25vh;
     height: 100vh;

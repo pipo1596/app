@@ -19,10 +19,9 @@ export class CustomerComponent {
   nhno:any
   acno:any
   effd = "";
-  // effdUsa: any;
   expd = "";
-  // expdUsa: any;
   upct = "";
+  errors = "";
 
   constructor(
     private http: HttpClient,
@@ -34,7 +33,10 @@ export class CustomerComponent {
     localStorage.clear();
     showWait();
     this.setMode();
+    this.getCustomer();
+  }
 
+  getCustomer(){
     let data = {
       mode: 'getInfo',
       nhno: this.nhno,
@@ -47,11 +49,9 @@ export class CustomerComponent {
       if(this.page.data?.info?.acno) this.acno = this.page.data.info.acno;
       if(this.page.data?.info?.effd){
         this.effd = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
-        // this.effdUsa = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
       }
       if(this.page.data?.info?.expd){
         this.expd = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
-        // this.expdUsa = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$2/$3/$1");
       }
       if(this.page.data?.info?.upct) this.upct = this.page.data.info.upct;
       hideWait();
@@ -88,6 +88,7 @@ export class CustomerComponent {
   }
 
   loadCustomer(mode: string){
+    this.errors = "";
     showWait();
 
     let data = {
@@ -103,11 +104,16 @@ export class CustomerComponent {
       this.page.data = response;
       if(this.page.data?.upct) this.upct = this.page.data.upct;
 
-      if (mode !== 'update') {
-        if (this.page.data.result == 'pass' && this.page.data.nhno){
-          localStorage.setItem('UP_AUTH','Y');
-          this.router.navigate(['/uniforms/customers/' + this.page.data.nhno]);
-        }
+      if (mode !== 'update' && this.page.data?.result == 'pass' && this.page.data?.nhno){
+        localStorage.setItem('UP_AUTH','Y');
+        this.router.navigate(['/uniforms/customers/' + this.page.data?.nhno]);
+      } else if (mode == 'update' && this.page.data?.result == 'pass'){
+        localStorage.setItem('UP_AUTH','Y');
+        this.router.navigate(['/uniforms/customers/' + this.page.data?.nhno]);
+      } else if (this.page.data?.result !== 'pass'){
+        this.errors = this.page.data?.errors
+        this.setMode();
+        this.getCustomer();
       }
       this.page.loading = false;
       hideWait();

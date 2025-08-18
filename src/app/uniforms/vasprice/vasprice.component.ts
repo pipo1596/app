@@ -14,7 +14,7 @@ import { environment } from '../../../environments/environment.development';
 export class VaspriceComponent {
   page = new Page();
   drop = false;
-  price: any;
+  price: any = "";
   pricings: any = [];
 
   constructor(

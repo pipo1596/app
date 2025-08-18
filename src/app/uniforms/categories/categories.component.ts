@@ -34,30 +34,11 @@ export class CategoriesComponent {
 
   ngOnInit(): void {
     localStorage.clear();
-      showWait();
-      this.route.paramMap.subscribe(params => {
+    showWait();
+    this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
     });
-
-    let data = {
-      mode: 'SEARCH',
-      nhno: this.page.rfno,
-      srch: this.srch,
-      itemsPerPage: this.itemsPerPage,
-      currentPage: this.p
-    }
-
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNA', data).subscribe(response => {
-
-      this.page.data = response;
-      if (this.page.data.title) this.page.title = this.page.data.title;
-      if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
-      if (this.page.data.menu) this.page.menu = this.page.data.menu;
-      if (this.page.data.total) this.total = this.page.data.total
-      hideWait();
-      this.page.loading = false;
-      scrollToTopInstant();
-    });
+    this.getCategories();
   }
 
   ngAfterContentChecked(): void {
@@ -77,10 +58,10 @@ export class CategoriesComponent {
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNA', data).subscribe(response => {
 
       this.page.data = response;
-      if (this.page.data.title) this.page.title = this.page.data.title;
-      if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
-      if (this.page.data.menu) this.page.menu = this.page.data.menu;
-      if (this.page.data.total) this.total = this.page.data.total
+      if (this.page.data?.title) this.page.title = this.page.data.title;
+      if (this.page.data?.fullname) this.page.fullname = this.page.data.fullname;
+      if (this.page.data?.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data?.total) this.total = this.page.data.total
       hideWait();
       this.page.loading = false;
       scrollToTopInstant();
@@ -124,11 +105,12 @@ export class CategoriesComponent {
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNA', data).subscribe(response => {
       this.page.data = response;
 
-      if (this.page.data.result != 'pass'){
+      if (this.page.data?.result != 'pass'){
         hideWait();
         this.page.loading = false;
       } else {
-        this.getCategories();
+        location.reload();
+        // this.getCategories();
       }
     });
   }

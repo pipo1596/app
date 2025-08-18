@@ -64,6 +64,7 @@ export class NaChildComponent {
   }
 
   deleteCategory(nano: string){
+    showWait();
     
     let data = {
       mode: 'delete',
@@ -78,7 +79,8 @@ export class NaChildComponent {
         this.page.loading = false;
         hideWait();
       } else {
-        this.getCategories();
+        location.reload();
+        // this.getCategories();
       }
     });
   }

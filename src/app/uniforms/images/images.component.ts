@@ -127,4 +127,9 @@ export class ImagesComponent {
   onPageChange(event: number) {
     this.p = event
   }
+
+  goBackNP() {
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
+  }
 }

@@ -88,6 +88,7 @@ export class ProductsComponent {
   }
 
   getProducts() {
+    showWait();
      let data = {
       mode: 'getInfo',
       nhno: this.page.rfno,

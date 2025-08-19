@@ -45,6 +45,7 @@ export class VasApplicationsComponent {
       this.allexpanded = localStorage.getItem('allexpand') ? true : false;
     }
     this.getCustomizations()
+    
     localStorage.clear();
   }
 
@@ -66,6 +67,12 @@ export class VasApplicationsComponent {
       this.page.loading = false;
       hideWait();
     });
+  }
+
+  hasQuestions(): boolean {
+    for (let i = 0; i < this.page.data?.applications?.length; i++) {
+      if (this.page.data?.applications[i].bttn == 'Y') return true;
+    } return false;
   }
 
   expandApplication(application: any){

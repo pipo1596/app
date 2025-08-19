@@ -7,8 +7,7 @@
     <section class="ftco-section bg-light pb-3 pt-5 content w-100">
 
         <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
-            <div class="card-body"
-            >
+            <div class="card-body">
                 <div class="row g-4 mb-5">
                     <div class="col-2">
                         <button (click)="goBack()" class="btn btn-secondary rounded-0 w-50 me-3" type="button">Cancel</button>
@@ -43,7 +42,7 @@
                     </div>
                 </div>
 
-                <div class="row g-3 mb-4">
+                <div class="row g-3 mb-4" *ngIf="hasQuestions()">
                     <div class="col-md-3">
                         <span>Expand All VAS Questions: </span>
                         <input class="form-check-input ms-1 me-5" type="checkbox" [(ngModel)]="allexpanded" (change)="expandAll()">

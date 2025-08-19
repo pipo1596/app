@@ -20,7 +20,7 @@
                     </div>
 
                     <div class="dropdown col-2">
-                        <button (click)="drop = !drop" class="btn btn-primary rounded-0 dropdown-toggle w-100" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More Actions</button>
+                        <button (click)="drop = !drop" class="btn btn-primary rounded-0 dropdown-toggle overflow-hidden w-100" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More Actions</button>
                         <div class="dropdown-menu rounded-0" aria-labelledby="dropdownMenuButton" [ngClass]="{'d-block': (drop), 'd-none': !(drop)}" (mouseleave)="drop = false">
                             <a class="dropdown-item" href="#">Add Customization</a>
                             <a class="dropdown-item" href="#">Delete</a>

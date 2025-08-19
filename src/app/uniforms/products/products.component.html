@@ -14,17 +14,16 @@
                         <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
                     </div>
 
-                    <div class="col-2">
-                        <button (click)="drop = !drop" class="btn btn-primary rounded-0 w-100" type="button">More Actions</button>
-                        <div (mouseleave)="drop = false" id="myDropdown" class="actions-content me-5 bg-light position-absolute shadow"
-                            [ngClass]="{'d-block': (drop), 'd-none': !(drop)}">
-                            <a class="p-2 text-dark d-block text-decoration-none" href="#">Add Customization</a>
-                            <a class="p-2 text-dark d-block text-decoration-none" href="#">Delete</a>
+                    <div class="dropdown col-2">
+                        <button (click)="drop = !drop" class="btn btn-primary rounded-0 dropdown-toggle w-100" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More Actions</button>
+                        <div class="dropdown-menu rounded-0" aria-labelledby="dropdownMenuButton" [ngClass]="{'d-block': (drop), 'd-none': !(drop)}" (mouseleave)="drop = false">
+                            <a class="dropdown-item" href="#">Add Customization</a>
+                            <a class="dropdown-item" href="#">Delete</a>
                         </div>
                     </div>
 
                     <div class="col-2">
-                        <button (click)="loadProduct('new','')" class="btn btn-primary rounded-0 w-50 me-3" type="button" *ngIf="!assign">New</button>
+                        <button (click)="loadProduct('new','')" class="btn btn-primary rounded-0 mw-50 me-3" type="button" *ngIf="!assign">New</button>
                         <button class="btn">
                             <span class="bi bi-question-circle" title="FAQ"></span>
                         </button>
@@ -67,7 +66,7 @@
                     </div>
 
                     <div class="col-md-3 mb-3">
-                        <button class="btn btn-primary rounded-0 me-5 w-25" type="button" (click)="getProducts()">Go</button>
+                        <button class="btn btn-primary rounded-0 me-5 mw-25" type="button" (click)="getProducts()">Go</button>
                     </div>          
 
                     <div class="col-md-2 mb-3">

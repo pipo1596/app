@@ -190,20 +190,6 @@ ul.categories li {
     display: contents !important;
 }
 
-/* More Actions Dropdown*/
-.actions-content {
-  width: 208px;
-  z-index: 999;
-}
-
-.actions-content a:hover {
-    background-color: #ddd;
-}
-
-.ngx-dropdown-list-container {
-    top: 0px !important;
-}
-
 /* Tooltip container */
 .tooltip {
   position: static;

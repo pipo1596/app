@@ -78,9 +78,16 @@ export class VasApplicationsComponent {
   expandApplication(application: any){
     if(this.expanded.includes(application)){
       this.expanded.splice(this.expanded.indexOf(application),1)
+      this.allexpanded = false;
     } else{
-      // this.expanded = [];
       this.expanded.push(application)
+      this.allexpanded = true;
+
+      for(let i = 0; i < this.page.data?.applications.length; i++){
+        if (!this.expanded.includes(this.page.data?.applications[i])) {
+          this.allexpanded = false
+        }
+      }
     }
   }
 

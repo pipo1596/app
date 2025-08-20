@@ -214,7 +214,11 @@ export class CustomizationsComponent {
       placeholder: mode,
       height: '300px',
       noResultsFound: 'No results found',
-      searchOnKey: mode == 'Style' ? 'styl' : 'desc'
+      searchOnKey: mode == 'Style' ? 'styl' : 'desc',
+      customComparator: (i1: any,i2: any) => {
+        let ret = i1[config.displayKey] < i2[config.displayKey];
+        return ret? -1: 1;
+      }
     }
     return config
   }

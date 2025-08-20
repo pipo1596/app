@@ -103,7 +103,11 @@ export class CategoryComponent {
       placeholder: 'Select',
       height: '300px',
       noResultsFound: 'No results found',
-      searchOnKey: 'desc'
+      searchOnKey: 'desc',
+      customComparator: (i1: any,i2: any) => {
+        let ret = i1[config.displayKey] < i2[config.displayKey];
+        return ret? -1: 1;
+      }
     }
     return config
   }

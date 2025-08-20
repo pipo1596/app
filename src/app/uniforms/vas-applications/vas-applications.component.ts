@@ -84,7 +84,7 @@ export class VasApplicationsComponent {
       this.allexpanded = true;
 
       for(let i = 0; i < this.page.data?.applications.length; i++){
-        if (!this.expanded.includes(this.page.data?.applications[i])) {
+        if(this.page.data?.applications[i].bttn == 'Y' && !this.expanded.includes(this.page.data?.applications[i])) {
           this.allexpanded = false
         }
       }

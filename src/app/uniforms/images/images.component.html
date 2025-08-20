@@ -21,7 +21,7 @@
                     </div>
 
                     <div class="col-2">
-                        <button class="btn btn-primary rounded-0 w-100" type="button" (click)="saveSeq()">Save Sequence</button>
+                        <button *ngIf="npno" class="btn btn-primary rounded-0 w-100" type="button" (click)="saveSeq()">Save Sequence</button>
                     </div>
 
                     <div class="col-2">

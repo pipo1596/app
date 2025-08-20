@@ -10,7 +10,7 @@
     }
 }
 
-@media screen and (max-width: 650px){
+@media screen and (max-height: 650px){
     .logo {
         display: none;
     }

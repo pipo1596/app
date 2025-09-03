@@ -16,6 +16,7 @@ export class ProductsComponent {
   page = new Page();
   drop = false; // More Actions
   assign: any;
+  inNano: any;
   
   //Search / Dropdown
   style: any;
@@ -40,6 +41,8 @@ export class ProductsComponent {
 
   ngOnInit(): void {
     this.assign = localStorage.getItem('assign') ? JSON.parse(localStorage.getItem('assign')!) : '';
+    this.inNano = localStorage.getItem('nano') ? JSON.parse(localStorage.getItem('nano')!) : '';
+    if(this.inNano) this.category = this.inNano;
     localStorage.clear();
     this.checked = [];
     this.offset = '0';
@@ -110,8 +113,8 @@ export class ProductsComponent {
       if (this.page.data.title) this.page.title = this.page.data.title;
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
-      if (this.page.data.total) this.total = this.page.data.total
-      if (this.page.data.offset) this.offset = this.page.data.offset
+      if (this.page.data.total) this.total = this.page.data.total;
+      if (this.page.data.offset) this.offset = this.page.data.offset;
       if (this.page.data?.warehouses){
         this.page.data.warehouses.forEach((warehouse: any) => {
           warehouse.desc = warehouse.whno + ' - ' + warehouse.desc
@@ -220,6 +223,11 @@ export class ProductsComponent {
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
+  }
+
+  goBackNA() {
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate(['/uniforms/categories/' + this.page.rfno]);
   }
 
   onItemChange(event: number){

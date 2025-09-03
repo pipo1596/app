@@ -115,6 +115,16 @@ export class CategoriesComponent {
     });
   }
 
+  goProducts(category: any){
+    let cat = {
+      nano: category.nano,
+      desc: category.desc
+    }
+    localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('nano',JSON.stringify(cat));
+    this.router.navigate(['/uniforms/products/' + this.page.rfno]);
+  }
+
   onItemChange(event: number){
     this.itemsPerPage = event
     this.getCategories()

@@ -15,6 +15,7 @@ import { convertToDate, formatDateUS, hideWait } from '../../shared/utils';
 export class DashboardComponent {
   page = new Page();
   imgprfx = environment.logoprfx;
+  upNum: any = "";
 
   constructor(private http: HttpClient,
     private router: Router,
@@ -26,6 +27,7 @@ export class DashboardComponent {
     hideWait();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
+      this.upNum = this.page.rfno?.replace(/^0+/, '');
     });
 
     let data = {

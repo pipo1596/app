@@ -7,7 +7,7 @@
     <section class="ftco-section bg-light pb-3 pt-5 content w-100">
         <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
             <div class="card-body">
-                    <form (submit)="page.editmode ? validate() : loadProduct()">
+                    <form (submit)="page.editmode ? validate() : ''">
                         <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data?.errors}}</strong></h6>
 
                         <div class="row g-3">
@@ -28,12 +28,12 @@
                         <div class="row g-3 mb-3">
                             <div class="col-md-3">
                                 <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span>Item #</label>
-                                <input *ngIf="!page.data?.style && !page.data?.info" type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="styl" [value] = 'styl'>
+                                <input *ngIf="!page.data?.style && !page.data?.info" type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="styl" [value] = 'styl' (keyup.enter)="styl = styl.toUpperCase()" (keyup.enter)="item = styl" (keyup.enter)="getProduct()">
                                 <input *ngIf="page.data?.style || page.data?.info" type="text" readonly class="form-control" id="inputItem" name='style' [(ngModel)]="styl" [value] = 'styl' [disabled]="page.editmode">
                             </div>
 
                             <div class="col-md-1 mt-5" *ngIf="page.entrymode">
-                                <button class="btn btn-light" (click)="inqStyle()">
+                                <button type="button" class="btn btn-light" (click)="inqStyle()">
                                     <span class="bi bi-search" title="Inquire"></span>
                                 </button>
                             </div>
@@ -96,7 +96,7 @@
                                 <ngx-select-dropdown name="catDrop" [multiple]="true" [disabled]="page.editmode" [config]="catConfig()" (change)="cats = $event.value;" [options]="page.data?.categories" [(ngModel)]="cats"></ngx-select-dropdown>
                             </div> 
                             <div class="col-md-2 mt-5">
-                                <button class="btn btn-primary me-3" (click)="newCategory()">New</button>
+                                <button type="button" class="btn btn-primary me-3" (click)="newCategory()">New</button>
                             </div> 
                         </div>
 
@@ -107,7 +107,7 @@
                                 <ngx-select-dropdown name="custDrop" [multiple]="true" [config]="searchConfig()" (change)="custs = $event.value" [options]="page.data?.customizations" [(ngModel)]="custs"></ngx-select-dropdown>
                             </div>
                             <div class="col-md-2 mt-5">
-                                <button class="btn btn-primary me-3" *ngIf="page.editmode" (click)="newCustomization()">New</button>
+                                <button type="button" class="btn btn-primary me-3" *ngIf="page.editmode" (click)="newCustomization()">New</button>
                             </div> 
                         </div>
 
@@ -174,10 +174,10 @@
 
                         <div class="d-flex flex-row">
                             <div class="col-md-3">
-                                <button type="submit" class="btn btn-primary me-3" *ngIf="page.data?.style || page.data?.info">Save</button>
-                                <button class="btn btn-primary me-3" *ngIf="page.entrymode && !page.data?.style" (click)="styl = styl.toUpperCase()" (click)="item = styl" (click)="getProduct()">Go</button>
-                                <button *ngIf="page.editmode" class="btn btn-primary me-3" (click)="deleteProduct()">Delete</button>
-                                <button class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>
+                                <button type="button" class="btn btn-primary me-3" *ngIf="page.data?.style || page.data?.info" (click)="loadProduct()">Save</button>
+                                <button class="btn btn-primary me-3" type="button" *ngIf="page.entrymode && !page.data?.style" (click)="styl = styl.toUpperCase()" (click)="item = styl" (click)="getProduct()">Go</button>
+                                <button *ngIf="page.editmode" type="button" class="btn btn-primary me-3" (click)="deleteProduct()">Delete</button>
+                                <button type="button" class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>
                             </div>
                         </div>
                     </form>

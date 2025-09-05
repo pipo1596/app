@@ -42,7 +42,7 @@ export class ProductsComponent {
   ngOnInit(): void {
     this.assign = localStorage.getItem('assign') ? JSON.parse(localStorage.getItem('assign')!) : '';
     this.inNano = localStorage.getItem('nano') ? JSON.parse(localStorage.getItem('nano')!) : '';
-    if(this.inNano) this.category = this.inNano;
+    // if(this.inNano) this.category = this.inNano;
     localStorage.clear();
     this.checked = [];
     this.offset = '0';
@@ -97,7 +97,7 @@ export class ProductsComponent {
       nhno: this.page.rfno,
       style: this.style,
       customization: this?.customization?.npno,
-      category: this?.category?.nano,
+      category: this?.inNano?.nano ? this.inNano.nano : this?.category?.nano,
       warehouse: this?.warehouse?.whno,
       stylconfig: this?.stylconfig?.vfgn,
       assign: this.assign ? 'Y' : '',
@@ -120,7 +120,19 @@ export class ProductsComponent {
           warehouse.desc = warehouse.whno + ' - ' + warehouse.desc
         });
       }
-      if (this.page.data?.categories) this.page.data.categories = this.page.data.categories.sort((a: any,b: any) => a.desc.localeCompare(b.desc))
+      if (this.page.data?.categories){
+        this.page.data.categories = this.page.data.categories.sort((a: any,b: any) => a.desc.localeCompare(b.desc))
+        if(this.inNano){
+          for (let x = 0; x < this.page.data?.categories.length; x++) {
+            if(this.page.data.categories[x].nano == this.inNano.nano){
+              this.inNano.desc = this.page.data.categories[x].desc
+              this.category = this.inNano;
+              this.inNano = ''
+            }
+          }
+        }
+      }
+
       if (this.page.data?.customizations) this.page.data.customizations = this.page.data.customizations.sort((a: any,b: any) => a.desc.localeCompare(b.desc))
       this.page.loading = false;
       hideWait();

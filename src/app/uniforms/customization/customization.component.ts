@@ -101,6 +101,7 @@ export class CustomizationComponent {
     });
 
     if(localStorage.getItem('vfgn') && !this.vfgn) this.vfgn = localStorage.getItem('vfgn');
+    if(localStorage.getItem('ctno') && !this.vfgn) this.ctno = localStorage.getItem('ctno');
 
     if(localStorage.getItem('p1')){
       let p1 = JSON.parse(localStorage.getItem('p1')!)
@@ -114,6 +115,7 @@ export class CustomizationComponent {
     }
 
     if (this.vfgn !== null && this.vfgn !== "") this.getVFGN()
+    if (this.vfgn !== null && this.vfgn !== "") this.getCTNO()
 
     if (this.npno && !this.copy) {
       this.page.editmode = true;
@@ -136,6 +138,20 @@ export class CustomizationComponent {
       temp.data = response;
       if (temp.data?.vfg_desc) this.vfgdesc = temp.data.vfg_desc
       if (temp.data?.ctno) this.ctno = temp.data.ctno
+      if (temp.data?.ct_desc) this.ctdesc = temp.data.ct_desc
+    });
+  }
+
+  getCTNO(){
+    let temp = new Page();
+    let data = {
+      nhno: this.nhno,
+      mode: 'getCtno',
+      ctno: this.ctno
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
+      temp.data = response;
       if (temp.data?.ct_desc) this.ctdesc = temp.data.ct_desc
     });
   }

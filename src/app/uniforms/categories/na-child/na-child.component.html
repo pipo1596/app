@@ -26,7 +26,11 @@
                             <td align="left">{{category.desc}}</td>
                             <td align="left">{{category.seq}}</td>
                             <td align="left">{{category.sub}}</td>
-                            <td align="left">{{category.prod}}</td>
+
+
+
+                            <td align="left" *ngIf="category.prod !==  '0'"><a href="javascript:void" (click)="goProducts(category)">{{category.prod}}</a></td>
+                            <td align="left" *ngIf="category.prod == 0"><a href="javascript:void" (click)="goProducts(category)">0</a></td>
                         </tr>
                         <ng-container *ngIf="expanded.includes(category)">
                             <tr>

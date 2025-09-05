@@ -107,7 +107,7 @@
                                 <ngx-select-dropdown name="custDrop" [multiple]="true" [config]="searchConfig()" (change)="custs = $event.value" [options]="page.data?.customizations" [(ngModel)]="custs"></ngx-select-dropdown>
                             </div>
                             <div class="col-md-2 mt-5">
-                                <button type="button" class="btn btn-primary me-3" *ngIf="page.editmode" (click)="newCustomization()">New</button>
+                                <button type="button" class="btn btn-primary me-3" *ngIf="page.data?.dropship == 'Y' || page.data?.info.dropship == 'Y'" (click)="newCustomization()">New</button>
                             </div> 
                         </div>
 
@@ -119,24 +119,36 @@
                         </div>
 
                         <div class="row g-3 mb-3 card w-50" *ngIf="page.editmode">
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-3">
                                 <h5>Product Flags</h5>
-                                <input type="checkbox" class="form-check-input mb-2" (click)="dsallow ? dsallow = '' : dsallow = 'Y'" [checked]="dsallow"><span class="ms-2">DS Allowed</span><br>
+                            </div>
+
+                            <div class="col-md-3">
                                 <input type="checkbox" class="form-check-input mb-2" (click)="autotag ? autotag = '' : autotag = 'Y'" [checked]="autotag"><span class="ms-2">Auto Tag</span><br>
                                 <input type="checkbox" class="form-check-input mb-2" (click)="contract ? contract = '' : contract = 'Y'" [checked]="contract"><span class="ms-2">Contract Y/N</span><br>
                             </div>
 
+                            <div class="col-md-4">
+                                <label class="col-form-label">DS Allow: </label>
+                                <div>
+                                    <select name="dsInput" [(ngModel)]="dsallow" class="form-select">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let value of page.data?.dsAllow" [ngValue]="value.valu">{{value.valu}} - {{value.desc}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <!-- Warehouse -->
                             <div class="col-md-7 mb-3" *ngIf="page.data?.style || page.data?.info">
-                                <h6>Fulfillment Override:</h6>
+                                <label class="col-form-label">Fulfillment Override: </label>
                                 <ngx-select-dropdown name="whseDrop" [config]="searchConfig()" [options]="page.data?.warehouses" [(ngModel)]="warehouse"></ngx-select-dropdown>
                             </div>
 
                             <div class="col-md-6">
-                                <h5 class="mb-4">Product Information</h5>
-                                <h6 class="mb-2">Contract Item Number:</h6>
+                                <h5 class="mb-3">Product Information</h5>
+                                <label class="col-form-label">Contract Item Number: </label>
                                 <input type="text" class="form-control mb-4" name="contractitem" [(ngModel)]="citem" >
-                                <h6 class="mb-2">Contract Description:</h6>
+                                <label class="col-form-label">Contract Description: </label>
                                 <input type="text" class="form-control mb-4" name="contractdesc" [(ngModel)]="cdesc">
                             </div>
 

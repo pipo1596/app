@@ -429,6 +429,7 @@ export class ProductComponent {
     let partpg = '/uniforms/product/' + this.nhno + '/' + this.nino
     localStorage.setItem('partpg', partpg)
     localStorage.setItem('vfgn', this.page.data?.info?.vfgn)
+    localStorage.setItem('ctno', this.page.data?.isctno ? this.page.data.isctno : this.page.data?.info.isctno)
     localStorage.setItem('nino', this.page.data?.info?.nino)
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/newcustomization/' + this.nhno]);

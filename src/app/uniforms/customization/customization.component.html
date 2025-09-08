@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         
-                        <div class="row g-3 mb-3">
+                        <div class="row g-3 mb-3" *ngIf="!this.dropship">
                             <div class="col-md-3">
                                 <label for="inputCnfg" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Style Configurator Template:</strong> </label>
                                 <input type="text" readonly class="form-control" [value]="vfgdesc ? vfgdesc : ''">

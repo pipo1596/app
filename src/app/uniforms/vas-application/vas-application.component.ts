@@ -15,6 +15,7 @@ import { hideWait, showWait } from '../../shared/utils';
 export class VasApplicationComponent {
   page = new Page();
   drop = false; // More Actions
+  dropship = false; 
   copy: any;
   errors: any;
 
@@ -82,6 +83,7 @@ export class VasApplicationComponent {
       if (this.page.data?.vedp_sku && !this.vedpSku) this.vedpSku = this.page.data.vedp_sku;
       if (this.page.data?.acno) this.acno = this.page.data.acno;
       if (this.page.data?.upct) this.upct = this.page.data.upct;
+      if (this.page.data?.dropship == 'Y') this.dropship = true;
       if (this.page.data?.v1cd && this.page.editmode) this.v1cd = this.page.data.v1cd
       if (this.page.data?.v1cd_desc) this.v1cdDesc = this.page.data.v1cd_desc
       if (this.page.data?.v1cd && this.page.entrymode){
@@ -171,7 +173,8 @@ export class VasApplicationComponent {
       desc: this.desc,
       actv: this.actv == 'Y' ? 'Y' : '',
       mand: this.mand == 'Y' ? 'Y' : '',
-      upct: (mode == 'update') ? this.upct : ''
+      upct: (mode == 'update') ? this.upct : '',
+      drop: (this.dropship) ? 'Y': ''
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV1', data).subscribe(response => {

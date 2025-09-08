@@ -16,6 +16,7 @@ import { hideWait, showWait } from '../../shared/utils';
 export class CustomizationComponent {
   page = new Page();
   drop = false; // More Actions
+  dropship = false;
   copy: any;
   partpg: any;
 
@@ -68,7 +69,7 @@ export class CustomizationComponent {
         this.desc = 'Copy of ' + this.page.data?.info?.desc;
       } else if (this.page.data?.info?.desc && !this.desc) { this.desc = this.page.data.info.desc; }
 
-      if (this.page.data?.info?.vfgn && !this.vfgn){
+      if (this.page.data?.info?.vfgn && !this.vfgn && !this.ctno){
         this.vfgn = this.page.data?.info?.vfgn
         this.getVFGN()
       }
@@ -101,7 +102,11 @@ export class CustomizationComponent {
     });
 
     if(localStorage.getItem('vfgn') && !this.vfgn) this.vfgn = localStorage.getItem('vfgn');
-    if(localStorage.getItem('ctno') && !this.vfgn) this.ctno = localStorage.getItem('ctno');
+    if(localStorage.getItem('ctno') && !this.ctno){
+      this.dropship = true;
+      this.vfgn = '';
+      this.ctno = localStorage.getItem('ctno');
+    }
 
     if(localStorage.getItem('p1')){
       let p1 = JSON.parse(localStorage.getItem('p1')!)
@@ -114,8 +119,8 @@ export class CustomizationComponent {
       this.nino = p1.nino ? p1.nino : this.nino;
     }
 
-    if (this.vfgn !== null && this.vfgn !== "") this.getVFGN()
-    if (this.vfgn !== null && this.vfgn !== "") this.getCTNO()
+    if (this.vfgn !== '') this.getVFGN()
+    if (this.vfgn == '' && this.ctno !== '') this.getCTNO()
 
     if (this.npno && !this.copy) {
       this.page.editmode = true;
@@ -212,7 +217,8 @@ export class CustomizationComponent {
         seq: this.seq,
         stat: (this.actv == 'Y') ? this.actv : '',
         nino: (this.nino) ? this.nino : '',
-        upct: (mode == 'update') ? this.upct : ''
+        upct: (mode == 'update') ? this.upct : '',
+        drop: this.dropship ? 'Y' : ''
       }
     }
 

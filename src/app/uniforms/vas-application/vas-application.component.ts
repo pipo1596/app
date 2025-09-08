@@ -97,7 +97,7 @@ export class VasApplicationComponent {
     });
   }
 
-  inqStyle() {
+  inqItem() {
     localStorage.clear();
     let p1 = {
       dscx: this.dscx,

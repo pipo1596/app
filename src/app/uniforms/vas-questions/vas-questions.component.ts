@@ -66,38 +66,56 @@ export class VasQuestionsComponent {
     showWait();
     this.errors = ""
     this.msg = ""
-    for (let i = 0; i < this.page.data?.vasq.length; i++) {
-      
-      let data = {
-        mode: 'update',
-        nhno: this.nhno,
-        npno: this.npno,
-        n1no: this.application?.n1no,
-        n2no: this.page.data?.vasq[i]!.n2no, 
-        v1cd: this.application?.v1cd,
-        v2no: this.page.data?.vasq[i]!.v2no,
-        type: this.page.data?.vasq[i]!.type,
-        dfan: (<HTMLInputElement>document.getElementById('dfan' + i + this.page.data?.vasq[i]!.n2no)).value,
-        dspd: (<HTMLInputElement>document.getElementById('dspd' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : 'N',
-        dflk: (<HTMLInputElement>document.getElementById('dflk' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : 'N',
-        upct: this.page.data?.vasq[i].upct,
-        app: 'Y'
-      }
+    let n2no = [];
+    let v2no = [];
+    let type = [];
+    let dfan = [];
+    let dspd = [];
+    let dflk = [];
+    let upct = [];
+    let ansq = [];
 
-      this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2', data).subscribe(response => {
-        let temp = new Page();
-        temp.data = response;
-        if (temp.data.result !== 'pass'){
-          if(this.errors == ""){
-            this.errors = temp.data.errors
-          } else this.errors = this.errors + ',' + temp.data.errors
-        } else{
-          this.msg = "Questions updated successfully"
-          localStorage.setItem('allexpand',this.all ? 'Y' : '');
-          location.reload();
-        }
-      });
+
+    for (let i = 0; i < this.page.data?.vasq.length; i++) {
+      n2no.push(this.page.data?.vasq[i]!.n2no);
+      v2no.push(this.page.data?.vasq[i]!.v2no);
+      type.push(this.page.data?.vasq[i]!.type);
+      upct.push(this.page.data?.vasq[i].upct);
+      ansq.push('1');
+      dfan.push((<HTMLInputElement>document.getElementById('dfan' + i + this.page.data?.vasq[i]!.n2no)).value);
+      dspd.push((<HTMLInputElement>document.getElementById('dspd' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : 'N');
+      dflk.push((<HTMLInputElement>document.getElementById('dflk' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : 'N');
     } 
+
+    let data = {
+      mode: 'update',
+      nhno: this.nhno,
+      npno: this.npno,
+      n1no: this.application?.n1no,
+      n2no: n2no, 
+      v1cd: this.application?.v1cd,
+      v2no: v2no,
+      type: type,
+      dfan: dfan,
+      dspd: dspd,
+      dflk: dflk,
+      upct: upct,
+      ansq: ansq
+    }
+  
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2B', data).subscribe(response => {
+      let temp = new Page();
+      temp.data = response;
+      if (temp.data.result !== 'pass'){
+        if(this.errors == ""){
+          this.errors = temp.data.errors
+        } else this.errors = this.errors + ',' + temp.data.errors
+      } else{
+        this.msg = "Questions updated successfully"
+        localStorage.setItem('allexpand',this.all ? 'Y' : '');
+        location.reload();
+      }
+    });
 
     if(this.errors == ""){
       showWait()

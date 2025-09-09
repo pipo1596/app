@@ -229,6 +229,11 @@ ul.categories li {
     background: rgb(33, 37, 41);
 }
 
+.available-item {
+    border-bottom: 1px solid #ccc!important;
+}
+
+
 
 
 

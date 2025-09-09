@@ -1,7 +1,7 @@
 import { HostListener, Component} from '@angular/core';
 import { Page } from '../../shared/textField';
 import { ActivatedRoute, Router } from '@angular/router';
-import { hideWait } from '../../shared/utils';
+import { hideWait, showToast, showWait } from '../../shared/utils';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment.development';
 
@@ -29,7 +29,7 @@ export class IframeComponent {
   }
 
   ngOnInit(): void {
-    hideWait();
+    showWait();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
     });
@@ -42,6 +42,10 @@ export class IframeComponent {
 
   getSafeUrl(url: string): SafeResourceUrl {
   return this.sanitizer.bypassSecurityTrustResourceUrl(environment.apiurl + url);
+  }
+
+  loadEvent(){
+    hideWait()
   }
 
   goBack() {

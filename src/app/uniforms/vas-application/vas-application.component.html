@@ -30,7 +30,7 @@
                         <div class="form-group row g-1 mb-5">
                                 <label class="col-md-2 col-form-label"><strong><span class="text-danger"><strong>* </strong></span>Application:</strong> </label>
                                 <div class="col-md-3" *ngIf="page.entrymode">
-                                    <select name="v1Input" [(ngModel)]="v1cd" class="form-select">
+                                    <select name="v1Input" [(ngModel)]="v1cd" class="form-select" (change)="clearItem()">
                                         <option value="">Select</option>
                                         <option *ngFor="let app of page.data?.v1cd" [ngValue]="app.valu">{{app.desc}}</option>
                                     </select>

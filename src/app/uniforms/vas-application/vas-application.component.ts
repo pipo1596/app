@@ -52,6 +52,7 @@ export class VasApplicationComponent {
       this.desc = p1.desc;
       this.mand = p1.mand;
       this.actv = p1.actv;
+      this.vedp = p1.vedp;
     }
     this.setMode();
     localStorage.clear();
@@ -106,7 +107,8 @@ export class VasApplicationComponent {
       v1cd: this.v1cd,
       desc: this.desc,
       mand: this.mand,
-      actv: this.actv
+      actv: this.actv,
+      vedp: this.vedp
     }
     localStorage.setItem('p1', JSON.stringify(p1));
     if(this.page.editmode){
@@ -114,7 +116,7 @@ export class VasApplicationComponent {
     } else {
       localStorage.setItem('partpg','/uniforms/newvasapplication/' + this.nhno + '/' + this.npno + '/')
     }
-    let menu = '/cgi/APOELMIS2?PAMODE=*INQ&PMV1CD=' + this.v1cd + '&PMACNO=' + this.acno + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
+    let menu = '/cgi/APOELMIS2?PAMODE=*INQ&PMV1CD=' + this.v1cd + '&PMACNO=' + this.acno + '&PMDROP=' + (this.dropship ? 'Y' : '') + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/iframe/APOELMIS2'])
@@ -135,12 +137,18 @@ export class VasApplicationComponent {
 
   }
 
+  clearItem() {
+    this.vedp = ""
+    this.vedpDesc = ""
+    this.vedpSku = ""
+  }
+
   setMode() {
     this.route.paramMap.subscribe(params => {
       this.nhno = params.get('nhno')
       this.npno = params.get('npno')
       this.n1no = params.get('n1no')
-      this.vedp = params.get('vedp')
+      if(!this.vedp) this.vedp = params.get('vedp')
     });
 
     if (this.n1no && !this.copy) {

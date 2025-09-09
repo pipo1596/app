@@ -46,6 +46,7 @@ export class IframeComponent {
 
   loadEvent(){
     hideWait()
+    return false;
   }
 
   goBack() {

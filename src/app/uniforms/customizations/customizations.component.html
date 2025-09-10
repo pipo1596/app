@@ -39,7 +39,7 @@
 
                 <div class="row g-3 mb-4">
                     <div class="col-md-3">
-                        <input placeholder="Search" [(ngModel)]="desc" class="form-control" (keyup.enter)="getCustomizations()">
+                        <input placeholder="Search" [(ngModel)]="desc" class="form-control" (keyup.enter)='p = 1' (keyup.enter)="getCustomizations()">
                     </div>
                     <div class="col-md-3">
                         <ngx-select-dropdown name="inputVEDP" [config]="searchConfig('VAS Item')" [options]="page.data?.items" [(ngModel)]="vitem" (change)="getCustomizations()"></ngx-select-dropdown>
@@ -67,7 +67,7 @@
                         <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('VAS Category')" [(ngModel)]="ctno" [options]="page.data?.catgDrop" (change)="getCustomizations()"></ngx-select-dropdown>
                     </div> 
                     <div class="col-md-1">
-                        <button class="btn btn-primary rounded-0 mw-75" type="button" (click)="getCustomizations()">Go</button>
+                        <button class="btn btn-primary rounded-0 mw-75" type="button" (click)="p = 1" (click)="getCustomizations()">Go</button>
                     </div>
                 </div>
 

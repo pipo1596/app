@@ -40,10 +40,10 @@
 
                 <div class="row g-3">
                     <div class="col-md-2">
-                        <input type="text" class="form-control" name="imgSrch" [(ngModel)]="img" placeholder="Search">
+                        <input type="text" class="form-control" name="imgSrch" [(ngModel)]="img" placeholder="Search" (keyup.enter)="p=1" (keyup.enter)="getImages(img)">
                     </div>
                     <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary me-3" (click)="getImages(img)">Go</button>
+                        <button type="button" class="btn btn-primary me-3" (click)="p=1" (click)="getImages(img)">Go</button>
                     </div>
                 </div>
 

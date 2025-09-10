@@ -44,7 +44,7 @@
 
                 <div class="row g-3 mb-4">
                     <div class="col-md-2">
-                        <input list="matchesSrch" placeholder="Search" [(ngModel)]="style" class="form-control" (keyup.enter)="getProducts()">
+                        <input list="matchesSrch" placeholder="Search" [(ngModel)]="style" class="form-control" (keyup.enter)="p = 1" (keyup.enter)="getProducts()">
                     </div>
 
                     <div class="col-md-1">
@@ -72,7 +72,7 @@
                     </div>
 
                     <div class="col-md-3 mb-3">
-                        <button class="btn btn-primary rounded-0 me-5 mw-25" type="button" (click)="getProducts()">Go</button>
+                        <button class="btn btn-primary rounded-0 me-5 mw-25" type="button" (click)="p = 1" (click)="getProducts()" >Go</button>
                     </div>          
 
                     <div class="col-md-2 mb-3">

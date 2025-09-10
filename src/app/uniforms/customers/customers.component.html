@@ -30,10 +30,10 @@
 
                     <div class="row g-3">
                         <div class="col-md-2">
-                            <input class="form-control" placeholder="Account Number" #acct>
+                            <input class="form-control" placeholder="Account Number" (keyup.enter)='p = 1' (keyup.enter)="getCustomers(acct.value)" #acct>
                         </div>
                         <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary me-3" (click)="getCustomers(acct.value)">Go</button>
+                            <button type="button" class="btn btn-primary me-3" (click)="p = 1" (click)="getCustomers(acct.value)">Go</button>
                         </div>
                     </div>
 

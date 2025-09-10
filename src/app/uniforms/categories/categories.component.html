@@ -28,10 +28,10 @@
         
                     <div class="row g-3">
                         <div class="col-md-3">
-                            <input list="matchesSrch" placeholder="Search" [(ngModel)]="srch" class="form-control" (keyup.enter)="getCategories()">
+                            <input list="matchesSrch" placeholder="Search" [(ngModel)]="srch" class="form-control" (keyup.enter)="p=1" (keyup.enter)="getCategories()">
                         </div>
                         <div class="col-md-2">
-                            <button class="btn btn-primary rounded-0 mw-50 me-3" type="button" (click)="getCategories()">Go</button>
+                            <button class="btn btn-primary rounded-0 mw-50 me-3" type="button" (click)="p=1" (click)="getCategories()">Go</button>
                         </div>
                     </div>
                 </div>

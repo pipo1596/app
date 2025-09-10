@@ -30,10 +30,10 @@
 
                 <div class="row g-3">
                     <div class="col-md-2">
-                        <input class="form-control" placeholder="Search" #srch>
+                        <input class="form-control" placeholder="Search" (keyup.enter)="p=1" (keyup.enter)="getNotes(srch.value)" #srch>
                     </div>
                     <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary me-3" (click)="getNotes(srch.value)">Go</button>
+                        <button type="submit" class="btn btn-primary me-3" (click)="p=1" (click)="getNotes(srch.value)">Go</button>
                     </div>
                 </div>
 

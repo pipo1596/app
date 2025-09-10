@@ -39,16 +39,16 @@
 
                 <div class="row g-3 mb-4">
                     <div class="col-md-3">
-                        <input placeholder="Search" [(ngModel)]="desc" class="form-control" (keyup.enter)='p = 1' (keyup.enter)="getCustomizations()">
+                        <input placeholder="Search" [(ngModel)]="desc" class="form-control" (keyup.enter)="getCustomizations('search')">
                     </div>
                     <div class="col-md-3">
-                        <ngx-select-dropdown name="inputVEDP" [config]="searchConfig('VAS Item')" [options]="page.data?.items" [(ngModel)]="vitem" (change)="getCustomizations()"></ngx-select-dropdown>
+                        <ngx-select-dropdown name="inputVEDP" [config]="searchConfig('VAS Item')" [options]="page.data?.items" [(ngModel)]="vitem" (change)="getCustomizations('search')"></ngx-select-dropdown>
                     </div>
                     <div class="col-md-3">
-                        <ngx-select-dropdown name="inputN1NO" [config]="searchConfig('Application')" [options]="page.data?.apps" [(ngModel)]="app" (change)="getCustomizations()"></ngx-select-dropdown>
+                        <ngx-select-dropdown name="inputN1NO" [config]="searchConfig('Application')" [options]="page.data?.apps" [(ngModel)]="app" (change)="getCustomizations('search')"></ngx-select-dropdown>
                     </div>
                     <div class="col-md-2">
-                        <select class="form-select" [(ngModel)]="img" (change)="getCustomizations()">
+                        <select class="form-select" [(ngModel)]="img" (change)="getCustomizations('search')">
                             <option value="">Image</option>
                             <option [ngValue]="'Y'">Yes</option>
                             <option [ngValue]="'N'">No</option>
@@ -58,16 +58,16 @@
 
                 <div class="row g-3 mb-4">
                     <div class="col-md-3">
-                        <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style')" [options]="page.data?.stylDrop" [(ngModel)]="styl" (change)="getCustomizations()"></ngx-select-dropdown>
+                        <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style')" [options]="page.data?.stylDrop" [(ngModel)]="styl" (change)="getCustomizations('search')"></ngx-select-dropdown>
                     </div>
                     <div class="col-md-3">
-                        <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style Configurator Template')" [(ngModel)]="vfg" [options]="page.data?.stylconfig" (change)="getCustomizations()"></ngx-select-dropdown>
+                        <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style Configurator Template')" [(ngModel)]="vfg" [options]="page.data?.stylconfig" (change)="getCustomizations('search')"></ngx-select-dropdown>
                     </div>
                     <div class="col-md-4">
-                        <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('VAS Category')" [(ngModel)]="ctno" [options]="page.data?.catgDrop" (change)="getCustomizations()"></ngx-select-dropdown>
+                        <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('VAS Category')" [(ngModel)]="ctno" [options]="page.data?.catgDrop" (change)="getCustomizations('search')"></ngx-select-dropdown>
                     </div> 
                     <div class="col-md-1">
-                        <button class="btn btn-primary rounded-0 mw-75" type="button" (click)="p = 1" (click)="getCustomizations()">Go</button>
+                        <button class="btn btn-primary rounded-0 mw-75" type="button" (click)="getCustomizations('search')">Go</button>
                     </div>
                 </div>
 

@@ -48,7 +48,7 @@ export class CustomizationsComponent {
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
     });
-    this.getCustomizations()
+    this.getCustomizations('')
   }
 
   loadAction(action: any){
@@ -56,8 +56,9 @@ export class CustomizationsComponent {
     this.router.navigate(['/uniforms/mass' + action + '/' + this.page.rfno]);
   }
 
-  getCustomizations() {
+  getCustomizations(mode: any) {
     showWait();
+    if(mode == 'search') this.p = 1;
      let data = {
       mode: 'getInfo',
       nhno: this.page.rfno,
@@ -141,7 +142,7 @@ export class CustomizationsComponent {
         this.page.loading = false;
         hideWait();
       } else {
-        this.getCustomizations();
+        this.getCustomizations('');
       }
     });
   }
@@ -231,12 +232,12 @@ export class CustomizationsComponent {
   onItemChange(event: number){
     showWait();
     this.itemsPerPage = event
-    this.getCustomizations()
+    this.getCustomizations('')
   }
 
   onPageChange(event: number) {
     showWait();
     this.p = event
-    this.getCustomizations()
+    this.getCustomizations('')
   }
 }

@@ -44,7 +44,7 @@
 
                 <div class="row g-3 mb-4">
                     <div class="col-md-2">
-                        <input list="matchesSrch" placeholder="Search" [(ngModel)]="style" class="form-control" (keyup.enter)="p = 1" (keyup.enter)="getProducts()">
+                        <input list="matchesSrch" placeholder="Search" [(ngModel)]="style" class="form-control" (keyup.enter)="getProducts('search')">
                     </div>
 
                     <div class="col-md-1">
@@ -56,23 +56,23 @@
                 
                 <div class="row g-3">    
                     <div class="col-md-2">
-                        <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Customization')" [options]="page.data?.customizations" [(ngModel)]="customization" (change)="getProducts()"></ngx-select-dropdown>
+                        <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Customization')" [options]="page.data?.customizations" [(ngModel)]="customization" (change)="getProducts('search')"></ngx-select-dropdown>
                     </div>
 
                     <div class="col-md-2">
-                        <ngx-select-dropdown name="inputNANO" [config]="searchConfig('Category')" [options]="page.data?.categories" [(ngModel)]="category" (change)="getProducts()"></ngx-select-dropdown>
+                        <ngx-select-dropdown name="inputNANO" [config]="searchConfig('Category')" [options]="page.data?.categories" [(ngModel)]="category" (change)="getProducts('search')"></ngx-select-dropdown>
                     </div>
 
                     <div class="col-md-2">
-                        <ngx-select-dropdown name="inputWHNO" [config]="searchConfig('Warehouse')" [options]="page.data?.warehouses" [(ngModel)]="warehouse" (change)="getProducts()"></ngx-select-dropdown>
+                        <ngx-select-dropdown name="inputWHNO" [config]="searchConfig('Warehouse')" [options]="page.data?.warehouses" [(ngModel)]="warehouse" (change)="getProducts('search')"></ngx-select-dropdown>
                     </div>
 
                     <div class="col-md-3">
-                        <ngx-select-dropdown name="inputVFGN" [config]="searchConfig('Style Configurator Template')" [options]="page.data?.stylconfig" [(ngModel)]="stylconfig" (change)="getProducts()"></ngx-select-dropdown>
+                        <ngx-select-dropdown name="inputVFGN" [config]="searchConfig('Style Configurator Template')" [options]="page.data?.stylconfig" [(ngModel)]="stylconfig" (change)="getProducts('search')"></ngx-select-dropdown>
                     </div>
 
                     <div class="col-md-3 mb-3">
-                        <button class="btn btn-primary rounded-0 me-5 mw-25" type="button" (click)="p = 1" (click)="getProducts()" >Go</button>
+                        <button class="btn btn-primary rounded-0 me-5 mw-25" type="button" (click)="getProducts('search')" >Go</button>
                     </div>          
 
                     <div class="col-md-2 mb-3">

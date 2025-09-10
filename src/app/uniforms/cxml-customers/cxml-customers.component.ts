@@ -60,6 +60,7 @@ export class CxmlCustomersComponent {
 
   filterConfigs(event: any){
     this.acno = event
+    this.p = 1
     this.getConfigs();
   }
 

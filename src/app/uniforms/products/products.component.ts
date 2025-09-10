@@ -50,7 +50,7 @@ export class ProductsComponent {
       this.page.rfno = params.get('nhno');
       this.style = params.get('styl');
     });
-    this.getProducts()
+    this.getProducts('')
   }
 
   loadProduct(mode: any, nino: any){
@@ -85,13 +85,14 @@ export class ProductsComponent {
         this.page.loading = false;
         hideWait();
       } else {
-        this.getProducts();
+        this.getProducts('');
       }
     });
   }
 
-  getProducts() {
+  getProducts(mode: any) {
     showWait();
+    if(mode == 'search') this.p = 1;
      let data = {
       mode: 'getInfo',
       nhno: this.page.rfno,
@@ -245,12 +246,12 @@ export class ProductsComponent {
   onItemChange(event: number){
     showWait();
     this.itemsPerPage = event
-    this.getProducts()
+    this.getProducts('')
   }
 
   onPageChange(event: number) {
     showWait();
     this.p = event
-    this.getProducts()
+    this.getProducts('')
   }
 }

@@ -103,6 +103,7 @@ export class VasQuestionComponent {
       if (this.vhno && this.type == 'P') this.rsli = this.vhno;
       if (this.page.data?.info?.rsli && !this.rsli) this.rsli = this.page.data.info.rsli;
       if (this.page.data?.info?.vh2vhdesc && !this.vhdesc) this.vhdesc = this.page.data?.info?.vh2vhdesc;
+      if (this.page.data?.info?.vh1vhdesc && !this.vhdesc) this.vhdesc = this.page.data?.info?.vh1vhdesc;
       if (this.page.data?.info?.minr) this.minr = this.page.data.info.minr;
       if (this.page.data?.info?.maxr) this.maxr = this.page.data.info.maxr;
       if (this.page.data?.info?.decr) this.decr = this.page.data.info.decr;

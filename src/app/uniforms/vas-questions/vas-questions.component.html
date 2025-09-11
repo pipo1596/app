@@ -35,7 +35,7 @@
             <!-- Default Answer -->
             <td align="left">
                 <!-- Displaying Dropdown-->
-                <select name="" class="form-select" *ngIf="!question.dfltNoDrop" [id]="'dfan' + i + question.n2no">
+                <select name="" class="form-select" *ngIf="!question.dfltNoDrop" [id]="'dfan' + i + question.n2no" (change)="saveQuestions('validate')">
                     <option value="">Select</option>
                     <option *ngFor="let answer of question.dfltAnsDrop" [value]="answer.value" [selected]="answer.value == question.dfan">{{answer.desc}}</option>
                 </select>
@@ -57,7 +57,7 @@
             <th align="left"></th>
             <th align="left"></th>
             <th align="left">
-                <button class="btn btn-primary rounded-0 w-100" type="button" (click)="saveQuestions()">Save</button>
+                <button class="btn btn-primary rounded-0 w-100" type="button" (click)="saveQuestions('')">Save</button>
             </th>
         </tr>
     </tbody>

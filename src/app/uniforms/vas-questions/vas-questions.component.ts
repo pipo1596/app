@@ -62,7 +62,7 @@ export class VasQuestionsComponent {
     this.router.navigate(['/uniforms/vasquestion/' + this.nhno + '/' + this.npno]);
   }
 
-  saveQuestions(){
+  saveQuestions(mode: any){
     showWait();
     this.errors = ""
     this.msg = ""
@@ -88,7 +88,7 @@ export class VasQuestionsComponent {
     } 
 
     let data = {
-      mode: 'update',
+      mode: mode == 'validate' ? 'validate' : 'update',
       nhno: this.nhno,
       npno: this.npno,
       n1no: this.application?.n1no,
@@ -110,17 +110,21 @@ export class VasQuestionsComponent {
         if(this.errors == ""){
           this.errors = temp.data.errors
         } else this.errors = this.errors + ',' + temp.data.errors
+
+      for (let i = 0; i < this.page.data?.vasq.length; i++) {
+        this.page.data.vasq[i].dfan = temp.data.questions[i].dfan
+        this.page.data.vasq[i].dflk = temp.data.questions[i].dflk
+        this.page.data.vasq[i].dspd = temp.data.questions[i].dspd
+      } 
+
       } else{
-        this.msg = "Questions updated successfully"
+        if (mode !== 'validate') this.msg = "Questions updated successfully"
         localStorage.setItem('allexpand',this.all ? 'Y' : '');
-        location.reload();
+        // location.reload();
+        if (mode !== 'validate') this.getQuestions();
       }
     });
-
-    if(this.errors == ""){
-      showWait()
-      this.getQuestions();
-    }
+    
     hideWait();
     this.page.loading = false;
   }

@@ -120,7 +120,7 @@ export class VasQuestionsComponent {
       } else{
         if (mode !== 'validate') this.msg = "Questions updated successfully"
         localStorage.setItem('allexpand',this.all ? 'Y' : '');
-        // location.reload();
+        if (mode !== 'validate') location.reload();
         if (mode !== 'validate') this.getQuestions();
       }
     });

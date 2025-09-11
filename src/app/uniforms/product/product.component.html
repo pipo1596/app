@@ -106,7 +106,7 @@
                                 <label for="inputItem" class="form-label">Customization:</label>
                                 <ngx-select-dropdown name="custDrop" [multiple]="true" [config]="searchConfig()" (change)="custs = $event.value" [options]="page.data?.customizations" [(ngModel)]="custs"></ngx-select-dropdown>
                             </div>
-                            <div class="col-md-2 mt-5">
+                            <div class="col-md-2 mt-5" *ngIf="page.editmode">
                                 <button type="button" class="btn btn-primary me-3"  (click)="newCustomization('')">New</button>
                             </div> 
                         </div>
@@ -121,7 +121,7 @@
                                 <div class="col-md-1 me-4">
                                     <label for="inputItem" class="form-label">Customization:</label>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2" *ngIf="page.editmode">
                                     <button type="button" class="btn btn-primary me-3" (click)="newCustomization('drop')">New</button>
                                 </div> 
                             </ng-container>

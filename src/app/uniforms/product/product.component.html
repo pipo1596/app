@@ -69,7 +69,7 @@
                         <div class="row g-3 mb-5">
                             <div class="col-md-2" *ngIf="page.data?.option1">
                                 <input type="checkbox"  class="form-check-input mb-3" (click)="selectAll(0, page.data?.option1)" [checked]="allSelected(0, page.data?.option1) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">Select All</span><br>
-                                <ng-container *ngFor="let opv1 of page.data.option1; index as i">
+                                <ng-container *ngFor="let opv1 of page.data?.option1; index as i">
                                     <input type="checkbox" class="form-check-input mb-3" (click)="checkOpt(0, page.data.option1, i)" value="{{ opv1 }}" [checked]="opv[0].includes(opv1) && sku.length == 0" [disabled]="sku.length > 0"><span class="ms-2">{{opv1}}</span><br>
                                 </ng-container>
                             </div>
@@ -112,7 +112,7 @@
                         </div>
 
                         <div class="row g-3 mb-5" *ngIf="page.data?.style && !page.data?.vfgn || page.data?.info && !page.data?.info?.vfgn">
-                            <div class="col-md-5" *ngIf="!(page.data.dropship == 'Y' || page.data?.info.dropship == 'Y')">
+                            <div class="col-md-5" *ngIf="!(page.data?.dropship == 'Y' || page.data?.info.dropship == 'Y')">
                                 <label for="inputItem" class="form-label">Customization:</label>
                                 <label for="inputItem" class="form-label fst-italic"><strong>Style not configured for VAS. Please contact Commercialization to configure this style if VAS is needed.</strong></label>
                             </div>

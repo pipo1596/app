@@ -23,6 +23,9 @@ export class IframeComponent {
 
   @HostListener('window:message', ['$event']) onMessage(event: MessageEvent) {
     localStorage.setItem('UP_AUTH','Y');
+    this.p1 = JSON.parse(this.p1)
+    if(this.p1.vedp && this.partpg.indexOf('newvasapplication') !== -1) this.p1.vedp = '';
+    this.p1 = JSON.stringify(this.p1)
     localStorage.setItem('p1',this.p1);
     localStorage.setItem('p2',this.p2);
     this.router.navigate([this.partpg + event.data.data]);

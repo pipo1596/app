@@ -29,10 +29,10 @@ export class VasQuestionsComponent {
   ){}
 
   ngOnInit(): void {
-    this.getQuestions('')
+    this.getQuestions('','')
   }
 
-  getQuestions(rules: any){
+  getQuestions(rules: any, temp: any){
     showWait();
     let data = {
       mode: 'getInfo',
@@ -45,7 +45,15 @@ export class VasQuestionsComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNV2', data).subscribe(response => {
       this.page.data = response;
-      if (!rules) hideWait();
+
+      if(this.page.data?.vasq.length > 0 && temp){
+        for (let i = 0; i < this.page.data?.vasq.length; i++) {
+          this.page.data.vasq[i].dfan = temp[i].dfan
+          this.page.data.vasq[i].dflk = temp[i].dflk
+          this.page.data.vasq[i].dspd = temp[i].dspd
+        } 
+      }
+      hideWait();
     });
   }
 
@@ -118,20 +126,14 @@ export class VasQuestionsComponent {
         for (let i = 0; i < temp.data.rules.length; i++) {
           rules[i] = temp.data.rules[i].ques, temp.data.rules[i].drop, temp.data.rules[i].dfan, temp.data.rules[i].dflk
         }
-        this.getQuestions(rules);
+        this.getQuestions(rules, temp.data.questions);
       }
-
-      for (let i = 0; i < this.page.data?.vasq.length; i++) {
-        this.page.data.vasq[i].dfan = temp.data.questions[i].dfan
-        this.page.data.vasq[i].dflk = temp.data.questions[i].dflk
-        this.page.data.vasq[i].dspd = temp.data.questions[i].dspd
-      } 
 
       } else{
         if (mode !== 'validate') this.msg = "Questions updated successfully"
         localStorage.setItem('allexpand',this.all ? 'Y' : '');
         if (mode !== 'validate') location.reload();
-        if (mode !== 'validate') this.getQuestions('');
+        if (mode !== 'validate') this.getQuestions('','');
       }
     });
     

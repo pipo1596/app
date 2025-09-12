@@ -21,6 +21,7 @@ export class VasQuestionsComponent {
   page = new Page();
   errors = ""
   msg = ""
+  rules: any;
   
   constructor(
     private http: HttpClient, 
@@ -28,22 +29,23 @@ export class VasQuestionsComponent {
   ){}
 
   ngOnInit(): void {
-    this.getQuestions()
+    this.getQuestions('')
   }
 
-  getQuestions(){
+  getQuestions(rules: any){
     showWait();
     let data = {
       mode: 'getInfo',
       nhno: this.nhno,
       n1no: this.application?.n1no,
       npno: this.npno,
-      v1cd: this.application?.v1cd
+      v1cd: this.application?.v1cd,
+      rules: rules ? rules : ''
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNV2', data).subscribe(response => {
       this.page.data = response;
-      hideWait();
+      if (!rules) hideWait();
     });
   }
 
@@ -74,6 +76,7 @@ export class VasQuestionsComponent {
     let dflk = [];
     let upct = [];
     let ansq = [];
+    let rules = [];
 
 
     for (let i = 0; i < this.page.data?.vasq.length; i++) {
@@ -111,6 +114,13 @@ export class VasQuestionsComponent {
           this.errors = temp.data.errors
         } else this.errors = this.errors + ',' + temp.data.errors
 
+      if(temp.data.rules.length > 0){
+        for (let i = 0; i < temp.data.rules.length; i++) {
+          rules[i] = [temp.data.rules[i].ques, temp.data.rules[i].drop, temp.data.rules[i].dfan, temp.data.rules[i].dflk]
+        }
+        this.getQuestions(rules);
+      }
+
       for (let i = 0; i < this.page.data?.vasq.length; i++) {
         this.page.data.vasq[i].dfan = temp.data.questions[i].dfan
         this.page.data.vasq[i].dflk = temp.data.questions[i].dflk
@@ -121,7 +131,7 @@ export class VasQuestionsComponent {
         if (mode !== 'validate') this.msg = "Questions updated successfully"
         localStorage.setItem('allexpand',this.all ? 'Y' : '');
         if (mode !== 'validate') location.reload();
-        if (mode !== 'validate') this.getQuestions();
+        if (mode !== 'validate') this.getQuestions('');
       }
     });
     

@@ -84,7 +84,7 @@ export class VasQuestionsComponent {
     let dflk = [];
     let upct = [];
     let ansq = [];
-    let rules = [];
+    let rules: any = [];
 
 
     for (let i = 0; i < this.page.data?.vasq.length; i++) {
@@ -124,7 +124,10 @@ export class VasQuestionsComponent {
 
       if(temp.data.rules.length > 0){
         for (let i = 0; i < temp.data.rules.length; i++) {
-          rules[i] = temp.data.rules[i].ques + ',' + temp.data.rules[i].drop + ',' +  temp.data.rules[i].dfan + ',' + temp.data.rules[i].dflk
+          rules[i] = temp.data?.rules[i]?.ques
+          if(temp.data?.rules[i]?.drop) rules[i] += (',' + temp.data.rules[i].drop)
+          if(temp.data?.rules[i]?.dfan) rules[i] += (',' + temp.data.rules[i].dfan)
+          if(temp.data?.rules[i]?.dflk) rules[i] += (',' + temp.data.rules[i].dflk)
         }
         this.getQuestions(rules, temp.data.questions);
       }

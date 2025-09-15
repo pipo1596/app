@@ -63,6 +63,7 @@ export class VasApplicationsComponent {
       if (this.page.data.title) this.page.title = this.page.data.title;
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data.total) this.total = this.page.data.total;
       if (this.allexpanded) this.expandAll();
       this.page.loading = false;
       hideWait();

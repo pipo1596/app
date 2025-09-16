@@ -78,21 +78,20 @@ export class VasQuestionsComponent {
     this.msg = ""
     let n2no = [];
     let v2no = [];
-    let type: any = [];
+    let type = [];
     let dfan = [];
     let dspd = [];
     let dflk = [];
     let upct = [];
-    let tbld = [];
     let ansq = [];
-    let rules: any = [];
+    let rules = [];
 
 
     for (let i = 0; i < this.page.data?.vasq.length; i++) {
       n2no.push(this.page.data?.vasq[i]!.n2no);
       v2no.push(this.page.data?.vasq[i]!.v2no);
+      type.push(this.page.data?.vasq[i]!.type);
       upct.push(this.page.data?.vasq[i].upct);
-      tbld.push(this.page.data?.vasq[i]!.tbld);
       ansq.push('1');
       dfan.push((<HTMLInputElement>document.getElementById('dfan' + i + this.page.data?.vasq[i]!.n2no)).value);
       dspd.push((<HTMLInputElement>document.getElementById('dspd' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : 'N');
@@ -111,7 +110,6 @@ export class VasQuestionsComponent {
       dfan: dfan,
       dspd: dspd,
       dflk: dflk,
-      tbld: tbld,
       upct: upct,
       ansq: ansq
     }
@@ -126,10 +124,7 @@ export class VasQuestionsComponent {
 
       if(temp.data.rules.length > 0){
         for (let i = 0; i < temp.data.rules.length; i++) {
-          rules[i] = temp.data?.rules[i]?.ques
-          if(temp.data?.rules[i]?.drop) rules[i] += (',' + temp.data.rules[i].drop)
-          if(temp.data?.rules[i]?.dfan) rules[i] += (',' + temp.data.rules[i].dfan)
-          if(temp.data?.rules[i]?.dflk) rules[i] += (',' + temp.data.rules[i].dflk)
+          rules[i] = temp.data.rules[i].ques + ',' + temp.data.rules[i].drop + ',' +  temp.data.rules[i].dfan + ',' + temp.data.rules[i].dflk
         }
         this.getQuestions(rules, temp.data.questions);
       }
@@ -138,7 +133,7 @@ export class VasQuestionsComponent {
         if (mode !== 'validate') this.msg = "Questions updated successfully"
         localStorage.setItem('allexpand',this.all ? 'Y' : '');
         if (mode !== 'validate') location.reload();
-        if (mode !== 'validate') this.getQuestions('','');
+        this.getQuestions('','');
       }
     });
     

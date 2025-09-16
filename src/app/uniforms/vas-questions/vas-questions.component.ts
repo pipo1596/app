@@ -113,6 +113,7 @@ export class VasQuestionsComponent {
       dfan: dfan,
       dspd: dspd,
       dflk: dflk,
+      tbld: tbld,
       upct: upct,
       ansq: ansq
     }

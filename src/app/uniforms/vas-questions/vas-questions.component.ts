@@ -139,7 +139,11 @@ export class VasQuestionsComponent {
           for (let x = 0; x < temp.data?.questions.length; x++){
             if(temp.data?.questions[x]?.rules){
               for (let i = 0; i < temp.data.questions[x].rules.length; i++) {
-                rules.push(temp.data.questions[x].rules[i].ques + ',' + temp.data.questions[x].rules[i].drop + ',' +  temp.data.questions[x].rules[i].dfan + ',' + temp.data.questions[x].rules[i].dflk)
+                let rule = temp.data.questions[x].rules[i].ques
+                if(temp.data.questions[x].rules[i].drop) rule += ( ',' + temp.data.questions[x].rules[i].drop)
+                if(temp.data.questions[x].rules[i].dfan) rule += ( ',' + temp.data.questions[x].rules[i].dfan)
+                if(temp.data.questions[x].rules[i].dflk) rule += ( ',' + temp.data.questions[x].rules[i].dflk)
+                rules.push(rule)
               }
             }
           }

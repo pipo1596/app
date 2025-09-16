@@ -135,11 +135,15 @@ export class VasQuestionsComponent {
         if (mode !== 'validate') location.reload();
         if (mode !== 'validate') this.getQuestions('','');
 
-        if(mode == 'validate' && temp.data.rules.length > 0){
-            for (let i = 0; i < temp.data.rules.length; i++) {
-              rules[i] = temp.data.rules[i].ques + ',' + temp.data.rules[i].drop + ',' +  temp.data.rules[i].dfan + ',' + temp.data.rules[i].dflk
+        if(mode == 'validate'){
+          for (let x = 0; x < temp.data.questions; x++){
+            if(temp.data.questions[x].rules?.length > 0){
+              for (let i = 0; i < temp.data.questions[x].rules.length; i++) {
+                rules[i] = temp.data.questions[x].rules.ques + ',' + temp.data.questions[x].rules.drop + ',' +  temp.data.questions[x].rules.dfan + ',' + temp.data.questions[x].rules.dflk
+              }
             }
-            this.getQuestions(rules, temp.data.questions);
+          }
+          this.getQuestions(rules, temp.data.questions);
         }
         
       }

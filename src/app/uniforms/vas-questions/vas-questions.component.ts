@@ -133,7 +133,15 @@ export class VasQuestionsComponent {
         if (mode !== 'validate') this.msg = "Questions updated successfully"
         localStorage.setItem('allexpand',this.all ? 'Y' : '');
         if (mode !== 'validate') location.reload();
-        this.getQuestions('','');
+        if (mode !== 'validate') this.getQuestions('','');
+
+        if(mode == 'validate' && temp.data.rules.length > 0){
+            for (let i = 0; i < temp.data.rules.length; i++) {
+              rules[i] = temp.data.rules[i].ques + ',' + temp.data.rules[i].drop + ',' +  temp.data.rules[i].dfan + ',' + temp.data.rules[i].dflk
+            }
+            this.getQuestions(rules, temp.data.questions);
+        }
+        
       }
     });
     

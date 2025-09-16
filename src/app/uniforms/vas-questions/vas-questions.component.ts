@@ -122,31 +122,31 @@ export class VasQuestionsComponent {
           this.errors = temp.data.errors
         } else this.errors = this.errors + ',' + temp.data.errors
 
-      if(temp.data.rules.length > 0){
-        for (let i = 0; i < temp.data.rules.length; i++) {
-          let rule = temp.data.rules[i].ques
-          if(temp.data.rules[i].drop) rule += ( ',' + temp.data.rules[i].drop)
-          if(temp.data.rules[i].dfan) rule += ( ',' + temp.data.rules[i].dfan)
-          if(temp.data.rules[i].dflk) rule += ( ',' + temp.data.rules[i].dflk)
-          rules.push(rule)
-        }
-        this.getQuestions(rules, temp.data.questions);
-      } else {
-        for (let x = 0; x < temp.data?.questions.length; x++){
-          if(temp.data?.questions[x]?.rulesV){
-            for (let i = 0; i < temp.data.questions[x].rulesV.length; i++) {
-              let rule = temp.data.questions[x].rulesV[i].ques
-              if(temp.data.questions[x].rulesV[i].drop) rule += ( ',' + temp.data.questions[x].rulesV[i].drop)
-              if(temp.data.questions[x].rulesV[i].dfan) rule += ( ',' + temp.data.questions[x].rulesV[i].dfan)
-              if(temp.data.questions[x].rulesV[i].dflk) rule += ( ',' + temp.data.questions[x].rulesV[i].dflk)
-              rules.push(rule)
+      if(mode == 'validate'){
+        if(temp.data.rules.length > 0){
+          for (let i = 0; i < temp.data.rules.length; i++) {
+            let rule = temp.data.rules[i].ques
+            if(temp.data.rules[i].drop) rule += ( ',' + temp.data.rules[i].drop)
+            if(temp.data.rules[i].dfan) rule += ( ',' + temp.data.rules[i].dfan)
+            if(temp.data.rules[i].dflk) rule += ( ',' + temp.data.rules[i].dflk)
+            rules.push(rule)
+          }
+          this.getQuestions(rules, temp.data.questions);
+        } else {
+          for (let x = 0; x < temp.data?.questions.length; x++){
+            if(temp.data?.questions[x]?.rulesV){
+              for (let i = 0; i < temp.data.questions[x].rulesV.length; i++) {
+                let rule = temp.data.questions[x].rulesV[i].ques
+                if(temp.data.questions[x].rulesV[i].drop) rule += ( ',' + temp.data.questions[x].rulesV[i].drop)
+                if(temp.data.questions[x].rulesV[i].dfan) rule += ( ',' + temp.data.questions[x].rulesV[i].dfan)
+                if(temp.data.questions[x].rulesV[i].dflk) rule += ( ',' + temp.data.questions[x].rulesV[i].dflk)
+                rules.push(rule)
+              }
             }
           }
+          this.getQuestions(rules, temp.data.questions);
         }
-        this.getQuestions(rules, temp.data.questions);
       }
-
-
       } else{
         if (mode !== 'validate') this.msg = "Questions updated successfully"
         localStorage.setItem('allexpand',this.all ? 'Y' : '');

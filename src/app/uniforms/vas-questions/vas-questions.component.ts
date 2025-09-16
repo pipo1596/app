@@ -49,8 +49,9 @@ export class VasQuestionsComponent {
       if(this.page.data?.vasq.length > 0 && temp){
         for (let i = 0; i < this.page.data?.vasq.length; i++) {
           this.page.data.vasq[i].dfan = temp[i].dfan
+          this.page.data.vasq[i].dfan = temp[i].dfan
           this.page.data.vasq[i].dflk = temp[i].dflk
-          this.page.data.vasq[i].dspd = temp[i].dspd
+          this.page.data.vasq[i].tbld = temp[i].tbld
         } 
       }
       hideWait();
@@ -82,6 +83,7 @@ export class VasQuestionsComponent {
     let dfan = [];
     let dspd = [];
     let dflk = [];
+    let tbld = [];
     let upct = [];
     let ansq = [];
     let rules = [];
@@ -91,6 +93,7 @@ export class VasQuestionsComponent {
       n2no.push(this.page.data?.vasq[i]!.n2no);
       v2no.push(this.page.data?.vasq[i]!.v2no);
       type.push(this.page.data?.vasq[i]!.type);
+      tbld.push(this.page.data?.vasq[i]!.tbld);
       upct.push(this.page.data?.vasq[i].upct);
       ansq.push('1');
       dfan.push((<HTMLInputElement>document.getElementById('dfan' + i + this.page.data?.vasq[i]!.n2no)).value);

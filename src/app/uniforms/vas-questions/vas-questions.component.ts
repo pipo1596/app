@@ -143,6 +143,7 @@ export class VasQuestionsComponent {
               }
             }
           }
+          console.log('test');
           this.getQuestions(rules, temp.data.questions);
         }
         

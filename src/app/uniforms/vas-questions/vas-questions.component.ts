@@ -136,10 +136,10 @@ export class VasQuestionsComponent {
         if (mode !== 'validate') this.getQuestions('','');
 
         if(mode == 'validate'){
-          for (let x = 0; x < temp.data.questions; x++){
-            if(temp.data.questions[x].rules?.length > 0){
+          for (let x = 0; x < temp.data?.questions; x++){
+            if(temp.data?.questions[x]?.rules){
               for (let i = 0; i < temp.data.questions[x].rules.length; i++) {
-                rules[i] = temp.data.questions[x].rules.ques + ',' + temp.data.questions[x].rules.drop + ',' +  temp.data.questions[x].rules.dfan + ',' + temp.data.questions[x].rules.dflk
+                rules.push(temp.data.questions[x].rules.ques + ',' + temp.data.questions[x].rules.drop + ',' +  temp.data.questions[x].rules.dfan + ',' + temp.data.questions[x].rules.dflk)
               }
             }
           }

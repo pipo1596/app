@@ -3,7 +3,7 @@ import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait } from '../../shared/utils';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-mass-app',

@@ -3,7 +3,7 @@ import { Page } from '../../shared/textField';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showToast, showWait } from '../../shared/utils';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-iframe',

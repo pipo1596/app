@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Page, TextField } from '../../shared/textField';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait } from '../../shared/utils';

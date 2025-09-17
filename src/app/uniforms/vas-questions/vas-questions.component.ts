@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { Page } from '../../shared/textField';
 import { Router } from '@angular/router';

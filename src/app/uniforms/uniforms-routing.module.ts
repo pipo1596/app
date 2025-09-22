@@ -35,6 +35,7 @@ import { OERP52Component } from './reports/oerp52/oerp52.component';
 import { OERP53Component } from './reports/oerp53/oerp53.component';
 import { OERP302Component } from './reports/oerp302/oerp302.component';
 import { WarehouseComponent } from './warehouse/warehouse.component';
+import { AuditComponent } from './audit/audit.component';
 import { authGuard } from './auth.guard';
 
 const routes: Routes = [
@@ -121,6 +122,9 @@ const routes: Routes = [
 
   //Vas Price
   { path: 'vasprice/:nhno', component: VaspriceComponent, canActivate: [authGuard]  },
+
+  //Audit
+  { path: 'audit/:nhno', component: AuditComponent, canActivate: [authGuard]  },
   
   { path: 'iframe/:menu', component: IframeComponent, canActivate: [authGuard]  },
   { path: '**', component: UniformComponent }

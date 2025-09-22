@@ -1,0 +1,110 @@
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+
+<div id="container">
+
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
+
+    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+        <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
+            <div class="card-body">
+                <h6 class="mb-3" *ngIf="errors"><strong class="text-danger">{{errors}}</strong></h6>
+                <div class="row g-4">
+                    <div class="col-10">
+                        <h6><strong class="text-danger">{{ page.data?.errors }}</strong></h6>
+                        <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label class="col-md-2 col-form-label">From Date: </label>
+                    <div class="col-md-2">
+                        <input type="date" class="form-control" name="fromDt" [(ngModel)]="frdt">
+                    </div>
+                    <label class="col-md-2 col-form-label">To Date: </label>
+                    <div class="col-md-2">
+                        <input type="date" class="form-control" name="toDt" [(ngModel)]="todt">
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label class="col-md-2 col-form-label">Personalization Group: </label>
+                    <div class="col-md-2">
+                        <select name="" class="form-select" name="inputSeq" [(ngModel)]="npno" (change)="p = 1" (change)="getAudits()">
+                            <option value="">Select</option>
+                            <option *ngFor="let grp of page.data?.npDrop" [ngValue]="grp.npno">{{grp.desc}}</option>
+                        </select>
+                    </div>
+                    <label class="col-md-2 col-form-label">Assortment: </label>
+                    <div class="col-md-2">
+                        <select name="" class="form-select" name="inputSeq" [(ngModel)]="nano" (change)="p = 1" (change)="getAudits()">
+                            <option value="">Select</option>
+                            <option *ngFor="let asrt of page.data?.naDrop" [ngValue]="asrt.nano">{{asrt.desc}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label class="col-md-2 col-form-label">Style: </label>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control" [(ngModel)]="styl">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary me-3" (click)="p=1" (change)="p = 1" (click)="getAudits()">Go</button>
+                    </div>
+                </div>
+
+                <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
+
+                <table class="table table-striped w-100">
+                    <thead>
+                        <tr>
+                            <th align="left">Personalization Group</th>
+                            <th align="left">Assortment</th>
+                            <th align="left">VAS Code</th>
+                            <th align="left">VAS Question</th>
+                            <th align="left">Style</th>
+                            <th align="left">Program</th>
+                            <th align="left">Action</th>
+                            <th align="left">Date</th>
+                            <th align="left">User</th>
+                            <th align="left">Note</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let audit of page.data?.audits | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
+                            <td align="left">{{audit.npno}}</td>
+                            <td align="left">{{audit.nano}}</td>
+                            <td align="left">{{audit.n1no}}</td>
+                            <td align="left">{{audit.n2no}}</td>
+                            <td align="left">{{audit.styl}}</td>
+                            <td align="left">{{audit.pgm}}</td>
+                            <td align="left">{{audit.type}}</td>
+                            <td align="left">{{dsppbdate(audit.date)}} <br> {{dsppbtime(audit.time)}}</td>
+                            <td align="left">{{audit.user}}</td>
+                            <td align="left">{{audit.note}}</td>
+                        </tr> 
+                    </tbody>
+                </table> 
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-8 mx-auto w-50">
+                <label>Items per page:
+                    <select [(ngModel)]="itemsPerPage" (change)="onItemChange(itemsPerPage)">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="col-2 w-25">
+                <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
+            </div>
+        </div>
+        <app-footer></app-footer>
+    </section>
+</div>
+

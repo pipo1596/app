@@ -41,6 +41,7 @@ import { MassItemComponent } from './mass-item/mass-item.component';
 import { MassQuestionComponent } from './mass-question/mass-question.component';
 import { VasQuestionsComponent } from './vas-questions/vas-questions.component';
 import { VasQuestionComponent } from './vas-question/vas-question.component';
+import { AuditComponent } from './audit/audit.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { VasQuestionComponent } from './vas-question/vas-question.component';
     MassItemComponent,
     MassQuestionComponent,
     VasQuestionsComponent,
-    VasQuestionComponent
+    VasQuestionComponent,
+    AuditComponent
   ],
   imports: [
     CommonModule,

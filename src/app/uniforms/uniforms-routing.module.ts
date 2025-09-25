@@ -124,7 +124,7 @@ const routes: Routes = [
   { path: 'vasprice/:nhno', component: VaspriceComponent, canActivate: [authGuard]  },
 
   //Audit
-  { path: 'audit/:nhno', component: AuditComponent, canActivate: [authGuard]  },
+  { path: 'audit/:nhno', component: AuditComponent },
   
   { path: 'iframe/:menu', component: IframeComponent, canActivate: [authGuard]  },
   { path: '**', component: UniformComponent }

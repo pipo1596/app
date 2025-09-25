@@ -56,13 +56,18 @@
                                         class="bi bi-pencil-square" title="Edit Category"></span></button>
                                     <button class="btn bg-transparent" (click)="loadCategory('copy', category.nano)"><span
                                         class="bi bi-clipboard" title="Copy Category"></span></button>
-                                    <button class="btn bg-transparent" (click)="deleteCategory(category.nano)"><span
+                                    <button class="btn bg-transparent" (click)="validate(category.nano)"><span
                                         class="bi bi-trash" title="Delete Category"></span></button>
                                     <button class="btn bg-transparent" *ngIf="category.bttn == 'Y'" (click)="expandCategory(category, true)"><span
                                         [ngClass]="expanded.includes(category) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category"></span></button>
                                 </td>
-                                <td align="left">{{category.desc}}</td>
-                                <td align="left">{{category.seq}}</td>
+                                <td align="left">{{category.desc}} ({{trim(category.nano)}})</td>
+                                <!-- <td align="left">{{category.seq}}</td> -->
+                                <td align="left">
+                                    <select name="" class="form-select" name="inputSeq" (change)="p = 1" (change)="saveSeq(category.nano, inSeq.value, category.upct)" #inSeq>
+                                        <option *ngFor="let seq of page.data?.seqDrop" [ngValue]="seq.valu" [selected]="trim(seq.valu) == category.seq">{{seq.desc}}</option>
+                                    </select>
+                                </td>
                                 <td align="left">{{category.sub}}</td>
 
                                 <!-- Product Count -->

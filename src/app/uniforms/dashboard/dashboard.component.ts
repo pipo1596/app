@@ -83,7 +83,22 @@ export class DashboardComponent {
     }
   }
 
-    dsppbdate(date:any){
-      return formatDateUS(new Date(convertToDate(date)));
+  loadUP(nhno: any, mode: any){
+    localStorage.setItem('UP_AUTH','Y')
+    switch(mode){
+      case 'name':
+        this.router.navigate(['/uniforms/upname/' + this.page.rfno]);
+        break;
+      case 'effd':
+        this.router.navigate(['/uniforms/upeffd/' + this.page.rfno]);
+        break;
+      case 'expd':
+        this.router.navigate(['/uniforms/upexpd/' + this.page.rfno]);
+        break;
     }
+  }
+
+  dsppbdate(date:any){
+    return formatDateUS(new Date(convertToDate(date)));
+  }
 }

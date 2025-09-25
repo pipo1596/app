@@ -25,6 +25,7 @@ export class CategoriesComponent {
 
   //Search 
   srch = "";
+  seq = "001";
   expanded: any[] = [];
 
   //Paging
@@ -44,6 +45,10 @@ export class CategoriesComponent {
   ngAfterContentChecked(): void {
    this.cdr.detectChanges();
   }  
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
 
   getCategories() {
     showWait();
@@ -90,6 +95,35 @@ export class CategoriesComponent {
         localStorage.setItem('copy',nano)
         this.router.navigate(['/uniforms/category/' + this.page.rfno + '/' + nano]);
         break;
+    }
+  }
+
+  saveSeq(nano: any, seq: any, upct: any){
+    showWait();
+    let data = {
+      mode: 'seq',
+      nhno: this.page.rfno,
+      nano: nano, 
+      upct: upct,
+      seq: seq
+    }
+
+    let temp = new Page();
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNA', data).subscribe(response => {
+      temp.data = response;
+      if (temp.data.result == 'pass'){
+        this.getCategories()
+      } else {
+        this.page.loading = false;
+        hideWait()
+      }
+    });
+  }
+
+  validate(nano: string){
+    if(confirm("Are you sure you want to delete this category?")){
+      this.deleteCategory(nano)
     }
   }
 

@@ -63,9 +63,15 @@ export class NaChildComponent {
     }
   }
 
+  validate(nano: string){
+    if(confirm("Are you sure you want to delete this category?")){
+      this.deleteCategory(nano)
+    }
+  }
+
   deleteCategory(nano: string){
     showWait();
-    
+
     let data = {
       mode: 'delete',
       nhno: this.nhno,

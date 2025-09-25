@@ -56,6 +56,10 @@ export class CustomizationsComponent {
     this.router.navigate(['/uniforms/mass' + action + '/' + this.page.rfno]);
   }
 
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
+
   getCustomizations(mode: any) {
     showWait();
     if(mode == 'search') this.p = 1;
@@ -125,6 +129,12 @@ export class CustomizationsComponent {
         localStorage.setItem('copy',npno)
         this.router.navigate(['/uniforms/customization/' + this.page.rfno + '/' + npno]);
         break;
+    }
+  }
+
+  validate(npno: string){
+    if(confirm("Are you sure you want to delete this customization?")){
+      this.deleteCustomization(npno)
     }
   }
 

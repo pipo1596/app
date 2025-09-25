@@ -105,11 +105,11 @@
                                     class="bi bi-pencil-square" title="Edit Product"></span></button>
                                 <button class="btn bg-transparent" (click)="loadCustomization('copy', customization.npno)"><span
                                     class="bi bi-clipboard" title="Copy Product"></span></button>
-                                <button class="btn bg-transparent" (click)="deleteCustomization(customization.npno)"><span
+                                <button class="btn bg-transparent" (click)="validate(customization.npno)"><span
                                     class="bi bi-trash" title="Product Details"></span></button>
                                 <button class="btn btn-outline-primary btn-sm" (click)="loadVAS(customization.npno)">VAS</button>
                             </td>
-                            <td align="left">{{customization.name}}</td>
+                            <td align="left">{{customization.name}} ({{trim(customization.npno)}})</td>
                             <td align="left">{{customization.desc}}</td>
                             <!-- Style Count -->
                             <td align="left" *ngIf="customization.styles.length > 0">
@@ -155,4 +155,3 @@
         <app-footer></app-footer>
     </section>
 </div>
-

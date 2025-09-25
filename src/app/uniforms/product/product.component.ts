@@ -80,6 +80,7 @@ export class ProductComponent {
   styl: any;
   item: any;
   nano: any;
+  cache: any;
   upct: any;
 
   // Input
@@ -90,6 +91,9 @@ export class ProductComponent {
   custs: any = [];
   opv: string[][] = [[],[],[],[],[]];
   options: any = [];
+  op1U: any;
+  op2U: any;
+  op3U: any;
   categories: any = [];
   customizations: any = [];
 
@@ -177,7 +181,7 @@ export class ProductComponent {
           nano: this.page.data?.info?.nano,
           desc: this.page.data?.info?.pdesc
         }
-        this.cats = []
+        // this.cats = []
         this.cats.push(cat)
       }
 
@@ -188,9 +192,23 @@ export class ProductComponent {
       if (this.page.data?.info?.nicdesc) this.cdesc = this.page.data?.info?.nicdesc
       if (this.page.data?.info?.img) this.image.value = this.page.data?.info?.img;
       if (this.page.data?.info?.upct) this.upct = this.page.data?.info?.upct;
+
+      if(this.cache) this.getCache();
+
       this.page.loading = false;
       hideWait();
     });
+  }
+
+  getCache() {
+    this.cache = JSON.parse(this.cache)
+    this.sku = this.cache.sku;
+    this.opv = this.cache?.options;
+    this.categories = this.cache.categories;
+    this.customizations = this.cache.customizations;
+    this.dsallow = this.cache.DSALLOWED;
+    this.autotag = this.cache.AUTOTAG;
+    this.contract = this.cache.CONTRACT;
   }
 
   inqStyle() {
@@ -204,6 +222,42 @@ export class ProductComponent {
     localStorage.setItem('menu','/cgi/APOELMIS?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/iframe/APOELMIS'])
+  }
+
+  bldCache() {
+
+    if(this.custs){
+      this.customizations = [];
+      for (let i = 0; i < this.custs.length; i++) {
+        this.customizations.push(this.custs[i].npno)
+      }
+    }
+
+    if(this.cats){
+      this.categories = [];
+      for (let i = 0; i < this.cats.length; i++) {
+        this.categories.push(this.cats[i].nano)
+      }
+    }
+
+    let cache = {
+      nhno: this.nhno,
+      nino: this.nino,
+      nano: this.nano,
+      styl: this.styl,
+      whno: this.warehouse?.whno, 
+      categories: this.categories,
+      options: this.opv,
+      customizations: this.customizations,
+      DSALLOWED: this.dsallow,
+      AUTOTAG: this.autotag,
+      CONTRACT: this.contract, 
+      item: this.citem, 
+      desc: this.cdesc,
+      sku: this.sku
+    }
+
+    localStorage.setItem('cache', JSON.stringify(cache));
   }
 
   catConfig(){
@@ -246,7 +300,7 @@ export class ProductComponent {
   }
 
   allSelected(opt: number, arr: any){
-    if(JSON.stringify(this.opv[opt]) === JSON.stringify(arr)) { return true } else return false
+    if(JSON.stringify(this.opv[opt].sort()) === JSON.stringify(arr.sort())) { return true } else return false
   }
 
   selectAll(opt: number, arr: any){
@@ -274,9 +328,18 @@ export class ProductComponent {
     const arr1 = this.opv[0]
     const arr2 = this.opv[1]
     const arr3 = this.opv[2]
-    if(arr1.length > 0) arrays.push(arr1)
-    if(arr2.length > 0) arrays.push(arr2)
-    if(arr3.length > 0) arrays.push(arr3)
+
+    if(arr1.length > 0){
+      arrays.push(arr1)
+    } else arrays.push(['*']);
+
+    if(arr2.length > 0){
+      arrays.push(arr2)
+    } else arrays.push(['*']);
+
+    if(arr3.length > 0){
+      arrays.push(arr3)
+    } else arrays.push(['*']);
 
     if(arrays.length > 1){
       let combinations = this.getCombinations(arrays);
@@ -321,12 +384,42 @@ export class ProductComponent {
     if(!this.item && localStorage.getItem('styl')){
       this.item = localStorage.getItem('styl')
     }
+
+    if(localStorage.getItem('nano') && this.page.entrymode){
+      let naCat = JSON.parse(localStorage.getItem('nano')!)
+      this.cats.push(naCat);
+    }
+
+    if(localStorage.getItem('cache') && this.page.entrymode){
+      this.cache = localStorage.getItem('cache');
+    }
+
     this.showUpload = true;
   }
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/products/' + this.nhno]);
+  }
+
+  getUnselected(){
+    this.op1U = []
+    this.op2U = []
+    this.op3U = []
+    for(let i = 0; i < this.page.data.option1.length; i++){
+      if(!this.opv[0]?.includes(this.page.data.option1[i])){
+        this.op1U.push(this.page.data.option1[i])
+      }
+      if(!this.opv[1]?.includes(this.page.data.option2[i])){
+        this.op2U.push(this.page.data.option2[i])
+      }
+      if(!this.opv[2]?.includes(this.page.data.option3[i])){
+       this.op3U.push(this.page.data.option3[i])
+      }
+    }
+    this.op1U = this.op1U.join(',');
+    this.op2U = this.op2U.join(',');
+    this.op3U = this.op3U.join(',');
   }
 
   loadProduct(){
@@ -341,6 +434,7 @@ export class ProductComponent {
         this.options.push(this.sku[i].value)
       }
     }
+    this.getUnselected()
 
     if(this.custs){
       this.customizations = [];
@@ -371,6 +465,9 @@ export class ProductComponent {
       CONTRACT: this.contract, 
       item: this.citem, 
       desc: this.cdesc,
+      op1U: this.op1U,
+      op2U: this.op2U,
+      op3U: this.op3U,
       upct: mode == 'update' ? this.upct : ''
     }
 
@@ -418,6 +515,7 @@ export class ProductComponent {
   }
 
   newCategory() {
+    this.bldCache();
     let partpg = this.page.editmode ? '/uniforms/product/' + this.nhno + '/' + this.nino :  '/uniforms/newproduct/' + this.nhno
     localStorage.setItem('partpg', partpg)
     localStorage.setItem('styl', this.styl)

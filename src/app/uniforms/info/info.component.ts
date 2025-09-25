@@ -114,4 +114,9 @@ export class InfoComponent {
     }
   }
 
+  goBack(){
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate(['/uniforms/dashboard/' + this.page.rfno]);
+  }
+
 }

@@ -36,6 +36,7 @@ import { OERP53Component } from './reports/oerp53/oerp53.component';
 import { OERP302Component } from './reports/oerp302/oerp302.component';
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { AuditComponent } from './audit/audit.component';
+import { InfoComponent } from './info/info.component';
 import { authGuard } from './auth.guard';
 
 const routes: Routes = [
@@ -45,6 +46,9 @@ const routes: Routes = [
 
   //Dashboard
   { path: 'dashboard/:nhno', component: DashboardComponent},
+  { path: 'upname/:nhno', component: InfoComponent, canActivate: [authGuard]},
+  { path: 'upeffd/:nhno', component: InfoComponent, canActivate: [authGuard]},
+  { path: 'upexpd/:nhno', component: InfoComponent, canActivate: [authGuard]},
 
   //Products
   { path: 'products/:nhno', component: ProductsComponent, canActivate: [authGuard]  }, //Products LM

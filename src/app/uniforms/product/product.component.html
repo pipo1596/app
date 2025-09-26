@@ -112,12 +112,12 @@
                         </div>
 
                         <div class="row g-3 mb-5" *ngIf="page.data?.style && !page.data?.vfgn || page.data?.info && !page.data?.info?.vfgn">
-                            <div class="col-md-5" *ngIf="!(page.data?.dropship == 'Y' || page.data?.info.dropship == 'Y')">
+                            <div class="col-md-5" *ngIf="!(page.data?.dropship == 'Y' || page.data?.info?.dropship == 'Y')">
                                 <label for="inputItem" class="form-label">Customization:</label>
                                 <label for="inputItem" class="form-label fst-italic"><strong>Style not configured for VAS. Please contact Commercialization to configure this style if VAS is needed.</strong></label>
                             </div>
 
-                            <ng-container *ngIf="page.editmode && (page.data?.dropship == 'Y' || page.data?.info.dropship == 'Y')">
+                            <ng-container *ngIf="page.editmode && (page.data?.dropship == 'Y' || page.data?.info?.dropship == 'Y')">
                                 <div class="col-md-1 me-4">
                                     <label for="inputItem" class="form-label">Customization:</label>
                                 </div>

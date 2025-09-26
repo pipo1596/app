@@ -406,7 +406,7 @@ export class ProductComponent {
     this.op1U = []
     this.op2U = []
     this.op3U = []
-    for(let i = 0; i < this.page.data.option1.length; i++){
+    for(let i = 0; i < this.page.data?.option1?.length; i++){
       if(this.page.data?.option1){
         if(!this.opv[0]?.includes(this.page.data?.option1[i])){
           this.op1U.push(this.page.data?.option1[i])
@@ -414,7 +414,7 @@ export class ProductComponent {
       }
     }
 
-    for(let i = 0; i < this.page.data.option2.length; i++){
+    for(let i = 0; i < this.page.data?.option2?.length; i++){
       if(this.page.data?.option2){
         if(!this.opv[1]?.includes(this.page.data?.option2[i])){
           this.op2U.push(this.page.data?.option2[i])
@@ -422,7 +422,7 @@ export class ProductComponent {
       }
     }
 
-    for(let i = 0; i < this.page.data.option3.length; i++){
+    for(let i = 0; i < this.page.data?.option3?.length; i++){
       if(this.page.data?.option3){
         if(!this.opv[2]?.includes(this.page.data?.option3[i])){
         this.op3U.push(this.page.data?.option3[i])

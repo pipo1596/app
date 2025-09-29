@@ -27,7 +27,7 @@
                         </div>
                     </div>
 
-                    <div class="col-2">
+                    <div class="col-2" *ngIf="!page.data?.single">
                         <button (click)="loadApplication('new','')" class="btn btn-primary rounded-0 w-50 me-3" type="button">New</button>
                         <button class="btn">
                             <span class="bi bi-question-circle" title="FAQ"></span>

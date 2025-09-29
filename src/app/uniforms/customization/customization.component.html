@@ -66,7 +66,7 @@
                         <div class="row g-3 mb-3" *ngIf="page.entrymode && this.single == 'Y'">
                             <div class="col-md-3">
                                 <label for="inputCTNO" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>VAS Category:</strong> </label>
-                                <input type="text" class="form-control" [value]="ctdesc ? ctdesc : ''">
+                                <input type="text" readonly class="form-control" [value]="ctdesc ? ctdesc : ''">
                             </div>
                             <div class="col-md-1 mt-5">
                                 <button class="btn" (click)="inqCtno()"><span class="bi bi-search" title="Inquire"></span></button>

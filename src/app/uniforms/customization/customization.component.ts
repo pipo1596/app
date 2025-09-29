@@ -80,7 +80,7 @@ export class CustomizationComponent {
       if (this.page.data?.info?.expd && !this.expd){
         this.expd = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
       }
-      if (this.page.data?.info?.seq) this.seq = this.page.data.info.seq
+      if (this.page.data?.info?.seq && !this.seq) this.seq = this.page.data.info.seq
       if (this.page.data?.info?.stat && !this.actv) this.actv = this.page.data.info.stat
       if (this.page.data?.info?.upct) this.upct = this.page.data.info.upct
       this.page.loading = false;
@@ -117,9 +117,13 @@ export class CustomizationComponent {
       this.expd = p1.expd;
       this.actv = p1.actv;
       if(!this.vfgn && !p1.single) this.vfgn = p1.vfgn ? p1.vfgn : '';
-      if(p1.single) this.single = p1.single 
-      if(!this.ctno && p1.ctno) this.ctno = p1.ctno 
+      if(p1.single){
+        this.single = p1.single 
+        if(!this.ctno && this.vfgn) this.ctno = this.vfgn
+        this.vfgn = '';
+      }
       this.nino = p1.nino ? p1.nino : this.nino;
+      this.seq = p1.seq
     }
 
     if (this.vfgn !== '') this.getVFGN()
@@ -173,7 +177,8 @@ export class CustomizationComponent {
       expd: this.expd,
       actv: this.actv,
       vfgn: this.vfgn, 
-      nino: this.nino
+      nino: this.nino,
+      seq: this.seq
     }
 
     localStorage.setItem('p1', JSON.stringify(p1));

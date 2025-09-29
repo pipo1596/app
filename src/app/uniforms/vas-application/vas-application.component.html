@@ -50,7 +50,7 @@
                         <div class="form-group row g-1 mb-3" *ngIf="v1cd">
                                 <label class="col-md-2 col-form-label"><span class="text-danger"><strong>* </strong></span><strong>VAS Item:</strong> </label>
                                 <div class="col-md-3 me-5">
-                                    <input type="text" readonly disabled class="form-control-plaintext" [value]="vedpSku ? vedpSku + ' - ' + vedpDesc : ''">
+                                    <input type="text" readonly class="form-control" [value]="vedpSku ? vedpSku + ' - ' + vedpDesc : ''">
                                 </div>
                                 <div class="col-md-1">
                                     <button class="btn" (click)="inqItem()">

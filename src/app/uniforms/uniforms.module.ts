@@ -43,6 +43,7 @@ import { VasQuestionsComponent } from './vas-questions/vas-questions.component';
 import { VasQuestionComponent } from './vas-question/vas-question.component';
 import { AuditComponent } from './audit/audit.component';
 import { InfoComponent } from './info/info.component';
+import { QuickAddComponent } from './quick-add/quick-add.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import { InfoComponent } from './info/info.component';
     VasQuestionsComponent,
     VasQuestionComponent,
     AuditComponent,
-    InfoComponent
+    InfoComponent,
+    QuickAddComponent
   ],
   imports: [
     CommonModule,

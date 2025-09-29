@@ -95,6 +95,7 @@
                             <th align="left">Style Description</th>
                             <th align="left" style="width: 10%;">Option 1</th>
                             <th align="left" style="width: 15%">Category</th>
+                            <th align="left">Sort Order</th>
                             <th align="left">Customization</th>
                             <th align="left">DS Allowed?</th>
                             <th align="left">Fulfillment Override</th>
@@ -116,7 +117,12 @@
                             <td align="left">{{product.styl}}</td>
                             <td align="left">{{product.desc}}</td>
                             <td align="left" style="width: 10%">{{product.opv1}}</td>
-                            <td align="left" style="width: 15%">{{product.pdesc}}</td>
+                            <td align="left" style="width: 15%">{{product.pdesc}} ({{trim(product.nano)}})</td>
+                            <td align="left" style="width: 15%">
+                                <select name="" class="form-select" [id]="'sort' + u + product.nino" (change)="saveSeq(product.nino, inSeq.value, product.upct)" #inSeq>
+                                    <option *ngFor="let seq of page.data?.seqDrop" [ngValue]="seq.valu" [selected]="seq.valu == product.seq">{{seq.desc}}</option>
+                                </select>
+                            </td>
                             <td align="left">{{product.custcount}}</td>
                             <td align="left" *ngIf="product.dsallowed == 'Y'">Yes</td>
                             <td align="left" *ngIf="product.dsallowed !== 'Y'">No</td>

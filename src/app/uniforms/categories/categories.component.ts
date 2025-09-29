@@ -159,6 +159,11 @@ export class CategoriesComponent {
     this.router.navigate(['/uniforms/products/' + this.page.rfno]);
   }
 
+  quickAdd(nano: any){
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate(['/uniforms/quickadd/' + this.page.rfno + '/' + nano]);   
+  }
+
   onItemChange(event: number){
     this.itemsPerPage = event
     this.getCategories()

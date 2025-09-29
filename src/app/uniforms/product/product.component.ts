@@ -134,7 +134,7 @@ export class ProductComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data?.menu) this.page.menu = this.page.data?.menu;
+      if (this.page.data?.menu) this.page.menu = this.page.data.menu;
 
       if(this.item){
         this.styl = this.item;

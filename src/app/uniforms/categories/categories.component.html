@@ -64,7 +64,7 @@
                                 <td align="left">{{category.desc}} ({{trim(category.nano)}})</td>
                                 <!-- <td align="left">{{category.seq}}</td> -->
                                 <td align="left">
-                                    <select name="" class="form-select" name="inputSeq" (change)="p = 1" (change)="saveSeq(category.nano, inSeq.value, category.upct)" #inSeq>
+                                    <select name="" class="form-select" name="inputSeq" (change)="saveSeq(category.nano, inSeq.value, category.upct)" #inSeq>
                                         <option *ngFor="let seq of page.data?.seqDrop" [ngValue]="seq.valu" [selected]="trim(seq.valu) == category.seq">{{seq.desc}}</option>
                                     </select>
                                 </td>
@@ -72,8 +72,14 @@
 
                                 <!-- Product Count -->
                                 <!-- <td align="left">{{category.prod}}</td> -->
-                                <td align="left" *ngIf="category.prod !==  '0'"><a href="javascript:void" (click)="goProducts(category)">{{category.prod}}</a></td>
-                                <td align="left" *ngIf="category.prod == 0"><a href="javascript:void" (click)="goProducts(category)">0</a></td>
+                                <td align="left" *ngIf="category.prod !==  '0'">
+                                    <a href="javascript:void" (click)="goProducts(category)" class="me-3">{{category.prod}}</a>
+                                    <button type="button" class="btn btn-primary" (click)="quickAdd(category.nano)">Quick Add</button>
+                                </td>
+                                <td align="left" *ngIf="category.prod == 0">
+                                    <a href="javascript:void" (click)="goProducts(category)" class="me-3">0</a>
+                                    <button type="button" class="btn btn-primary" (click)="quickAdd(category.nano)">Quick Add</button>
+                                </td>
 
                             </tr>
 

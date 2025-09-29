@@ -140,7 +140,11 @@ export class ProductsComponent {
       scrollToTopInstant();
     });
   }
-
+  
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
+  
   allChecked(){
     for (let x = 0; x < this.page.data?.products.length; x++) {
       if(!(this.isChecked(this.page.data.products[x]))){
@@ -231,6 +235,20 @@ export class ProductsComponent {
       }
     }
     return configs
+  }
+
+  saveSeq(nino: any, seq: any, upct: any){
+    showWait();
+    let data = {
+      mode: 'seq',
+      nhno: this.page.rfno,
+      nino: nino,
+      seq: seq
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNI', data).subscribe(response => {
+      this.getProducts('');
+    });
   }
 
   goBack() {

@@ -37,6 +37,7 @@ import { OERP302Component } from './reports/oerp302/oerp302.component';
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { AuditComponent } from './audit/audit.component';
 import { InfoComponent } from './info/info.component';
+import { QuickAddComponent } from './quick-add/quick-add.component';
 import { authGuard } from './auth.guard';
 
 const routes: Routes = [
@@ -62,6 +63,8 @@ const routes: Routes = [
   { path: 'categories/:nhno', component: CategoriesComponent, canActivate: [authGuard]   },   //Categories LM
   { path: 'category/:nhno', component: CategoryComponent, canActivate: [authGuard]   },       //Creating Category
   { path: 'category/:nhno/:nano', component: CategoryComponent, canActivate: [authGuard]   }, //Editing Category
+  { path: 'quickadd/:nhno/:nano', component: QuickAddComponent, canActivate: [authGuard]   },   
+  { path: 'quickadd/:nhno/:nano/:styl', component: QuickAddComponent, canActivate: [authGuard]   },   
 
   //Warehouse
   { path: 'warehouse/:nhno', component: WarehouseComponent, canActivate: [authGuard]   }, 

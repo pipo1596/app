@@ -48,10 +48,11 @@ export class VasQuestionsComponent {
 
       if(this.page.data?.vasq.length > 0 && temp){
         for (let i = 0; i < this.page.data?.vasq.length; i++) {
-          this.page.data.vasq[i].dfan = temp[i].dfan
-          this.page.data.vasq[i].dfan = temp[i].dfan
-          this.page.data.vasq[i].dflk = temp[i].dflk
-          this.page.data.vasq[i].tbld = temp[i].tbld
+          this.page.data.vasq[i].dfan = temp[i].dfan;
+          this.page.data.vasq[i].dflk = temp[i].dflk;
+          this.page.data.vasq[i].dspd = temp[i].dspd;
+          this.page.data.vasq[i].req = temp[i].req;
+          this.page.data.vasq[i].tbld = temp[i].tbld;
         } 
       }
       hideWait();
@@ -84,6 +85,7 @@ export class VasQuestionsComponent {
     let dspd = [];
     let dflk = [];
     let tbld = [];
+    let req = [];
     let upct = [];
     let ansq = [];
     let rules = [];
@@ -99,6 +101,7 @@ export class VasQuestionsComponent {
       dfan.push((<HTMLInputElement>document.getElementById('dfan' + i + this.page.data?.vasq[i]!.n2no)).value);
       dspd.push((<HTMLInputElement>document.getElementById('dspd' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : 'N');
       dflk.push((<HTMLInputElement>document.getElementById('dflk' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : 'N');
+      req.push((<HTMLInputElement>document.getElementById('req' + i + this.page.data?.vasq[i]!.n2no)).value);
     } 
 
     let data = {
@@ -114,6 +117,7 @@ export class VasQuestionsComponent {
       dspd: dspd,
       dflk: dflk,
       tbld: tbld,
+      req: req,
       upct: upct,
       ansq: ansq
     }

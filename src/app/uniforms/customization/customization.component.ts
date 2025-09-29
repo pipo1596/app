@@ -41,6 +41,7 @@ export class CustomizationComponent {
   // expdUsa: any;
   seq: any = "";
   actv: any;
+  single: any = "N";
 
 
   constructor(
@@ -115,7 +116,9 @@ export class CustomizationComponent {
       this.effd = p1.effd;
       this.expd = p1.expd;
       this.actv = p1.actv;
-      if(!this.vfgn) this.vfgn = p1.vfgn ? p1.vfgn : '';
+      if(!this.vfgn && !p1.single) this.vfgn = p1.vfgn ? p1.vfgn : '';
+      if(p1.single) this.single = p1.single 
+      if(!this.ctno && p1.ctno) this.ctno = p1.ctno 
       this.nino = p1.nino ? p1.nino : this.nino;
     }
 
@@ -185,6 +188,26 @@ export class CustomizationComponent {
     this.router.navigate(['/uniforms/iframe/APOELMVFG'])
   }
 
+  inqCtno(){
+    localStorage.clear();
+    let p1 = {
+      name: this.name,
+      desc: this.desc,
+      ctno: this.ctno,
+      effd: this.effd,
+      expd: this.expd,
+      seq: this.seq,
+      actv: this.actv
+    }
+
+    localStorage.setItem('p1', JSON.stringify(p1));
+    localStorage.setItem('partpg','/uniforms/newcustomization/' + this.nhno + '/')
+    let menu = '/cgi/APOELMCT?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
+    localStorage.setItem('menu', menu)
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate(['/uniforms/iframe/APOELMCT'])
+  }
+
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
     if(this.partpg){
@@ -218,7 +241,8 @@ export class CustomizationComponent {
         stat: (this.actv == 'Y') ? this.actv : '',
         nino: (this.nino) ? this.nino : '',
         upct: (mode == 'update') ? this.upct : '',
-        drop: this.dropship ? 'Y' : ''
+        drop: this.dropship ? 'Y' : '',
+        single: (this.page.entrymode) ? this.single : ''
       }
     }
 

@@ -8,6 +8,7 @@
             <th align="left">Type</th>
             <th align="left">Force Default</th>
             <th align="left">Display Forced Answer</th>
+            <th align="left">Required?</th>
             <th align="left">Default Answer</th>
             <th align="left"></th>
         </tr>
@@ -31,6 +32,12 @@
                 </select>
 
                 <input class="form-check-input" type="checkbox" [id]="'dspd' + i + question.n2no" [checked]="question.dspd == 'Y'" *ngIf="!question.dspdDrop || question.dspdDrop !== 'Y'">
+            </td>
+            <td align="left" style="width: 15%">
+                <select name="" class="form-select" [id]="'req' + i + question.n2no">
+                    <option value="">Select</option>
+                    <option *ngFor="let answer of question.reqDrop" [value]="answer.value" [selected]="answer.value == question.req">{{answer.desc}}</option>
+                </select>
             </td>
             <!-- Default Answer -->
             <td align="left">

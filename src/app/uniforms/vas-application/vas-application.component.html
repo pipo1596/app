@@ -16,7 +16,7 @@
 
                         <h6 class="card-title mb-5">Add New Information</h6>
 
-                        <div class="form-group row g-1 mb-3" *ngIf="page.entrymode && !this.dropship">
+                        <div class="form-group row g-1 mb-3" *ngIf="page.entrymode && !this.dropship && !this.single">
                                 <label class="col-md-2 col-form-label"><span class="text-danger"><strong>* </strong></span><strong>Location:</strong> </label>
                                 <div class="col-md-3 mb-3" *ngIf="page.entrymode">
                                     <select name="vdInput" [(ngModel)]="dscx" class="form-select" (change)="getApplication()">

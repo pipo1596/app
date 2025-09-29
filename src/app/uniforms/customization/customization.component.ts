@@ -197,6 +197,7 @@ export class CustomizationComponent {
       effd: this.effd,
       expd: this.expd,
       seq: this.seq,
+      single: this.single,
       actv: this.actv
     }
 

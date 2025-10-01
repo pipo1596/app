@@ -341,6 +341,8 @@ export class ProductComponent {
       arrays.push(arr3)
     } else arrays.push(['*']);
 
+    if(arr1.length == 0 && arr2.length == 0 && arr3.length == 0) arrays = []
+
     if(arrays.length > 1){
       let combinations = this.getCombinations(arrays);
       for (let i = 0; i < combinations.length; i++) {
@@ -487,9 +489,9 @@ export class ProductComponent {
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
       this.page.data = response;
 
-      if (this.page.data.result == 'pass' && this.page.data.nhno){
+      if (this.page.data.result == 'pass'){
        localStorage.setItem('UP_AUTH','Y');
-       this.router.navigate(['/uniforms/products/' + this.page.data.nhno]);
+       this.router.navigate(['/uniforms/products/' + this.nhno]);
       }
 
       this.page.loading = false;

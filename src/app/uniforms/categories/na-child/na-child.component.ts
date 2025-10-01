@@ -91,6 +91,11 @@ export class NaChildComponent {
     });
   }
 
+  quickAdd(nano: any){
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate(['/uniforms/quickadd/' + this.page.rfno + '/' + nano]);   
+  }
+
   expandCategory(category: any) {
     if(this.expanded.includes(category)){
       this.expanded.splice(this.expanded.indexOf(category),1)

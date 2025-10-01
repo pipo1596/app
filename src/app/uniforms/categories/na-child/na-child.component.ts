@@ -93,7 +93,7 @@ export class NaChildComponent {
 
   quickAdd(nano: any){
     localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate(['/uniforms/quickadd/' + this.page.rfno + '/' + nano]);   
+    this.router.navigate(['/uniforms/quickadd/' + this.nhno + '/' + nano]);   
   }
 
   expandCategory(category: any) {

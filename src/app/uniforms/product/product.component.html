@@ -52,7 +52,7 @@
                         </div>
 
                         <div class="row g-3" *ngIf="page.data?.style || item">
-                            <h6 *ngIf="page.data?.optionH">-- OR --</h6>
+                            <h6 *ngIf="page.data?.optionH[0]">-- OR --</h6>
                             <ng-container *ngIf="page.data?.optionH">
                                 <div *ngIf="page.data?.optionH[0]" class="col-md-2">
                                     <label for="inputOP1" class="form-label">{{ page.data?.optionH[0]}}</label>

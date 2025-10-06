@@ -91,11 +91,6 @@ export class NaChildComponent {
     });
   }
 
-  quickAdd(nano: any){
-    localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate(['/uniforms/quickadd/' + this.nhno + '/' + nano]);   
-  }
-
   expandCategory(category: any) {
     if(this.expanded.includes(category)){
       this.expanded.splice(this.expanded.indexOf(category),1)
@@ -130,5 +125,8 @@ export class NaChildComponent {
     this.router.navigate(['/uniforms/products/' + this.nhno]);
   }
 
-
+  quickAdd(nano: any){
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate(['/uniforms/quickadd/' + this.nhno + '/' + nano]);   
+  }
 }

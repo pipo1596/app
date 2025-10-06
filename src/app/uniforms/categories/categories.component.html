@@ -74,11 +74,11 @@
                                 <!-- <td align="left">{{category.prod}}</td> -->
                                 <td align="left" *ngIf="category.prod !==  '0'">
                                     <a href="javascript:void" (click)="goProducts(category)" class="me-3">{{category.prod}}</a>
-                                    <!-- <button type="button" class="btn btn-primary" (click)="quickAdd(category.nano)">Quick Add</button> -->
+                                    <button type="button" class="btn btn-primary" (click)="quickAdd(category.nano)" *ngIf="category.leaf == 'Y'">Quick Add</button>
                                 </td>
                                 <td align="left" *ngIf="category.prod == 0">
                                     <a href="javascript:void" (click)="goProducts(category)" class="me-3">0</a>
-                                    <!-- <button type="button" class="btn btn-primary" (click)="quickAdd(category.nano)">Quick Add</button> -->
+                                    <button type="button" class="btn btn-primary" (click)="quickAdd(category.nano)" *ngIf="category.leaf == 'Y'">Quick Add</button>
                                 </td>
 
                             </tr>

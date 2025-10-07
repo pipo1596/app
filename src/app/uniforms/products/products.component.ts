@@ -230,7 +230,7 @@ export class ProductsComponent {
     let configs: any = []
     let aNpnos: any = []
     for (let i = 0; i < this.assign.length; i++) {
-        if(configs.indexOf(this.assign[i].config) == -1 && this.assign[i].config !== ''){
+        if(aNpnos.indexOf(this.assign[i].npno) == -1 && this.assign[i].npno !== ''){
           configs.push(this.assign[i].config)
           aNpnos.push(this.assign[i].npno)
         }

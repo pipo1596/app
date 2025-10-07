@@ -87,7 +87,8 @@
                     <thead>
                         <tr>
                             <th align="left" class="ps-2 pe-3 pb-1">
-                                <input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked() && page.data?.customizations.length > 0">
+                                <!-- <input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked() && page.data?.customizations.length > 0"> -->
+                                <!-- <input type="radio" class="form-check-input" (click)="checkAll()" [checked]="allChecked() && page.data?.customizations.length > 0"> -->
                             </th>
                             <th align="left" class="w-25 ps-3">Actions</th>
                             <th align="left">Customization Name</th>
@@ -99,7 +100,7 @@
 
                     <tbody>
                         <tr *ngFor="let customization of page.data?.customizations | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
-                            <td align="left" class="ps-2" colspan="1"><input type="checkbox" class="form-check-input" (click)="checkCustomization(customization)" [checked]="isChecked(customization)"></td>
+                            <td align="left" class="ps-2" colspan="1"><input type="radio" class="form-check-input" (click)="checkCustomization(customization)" [checked]="isChecked(customization)"></td>
                             <td class="w-25">
                                 <button class="btn bg-transparent" (click)="loadCustomization('edit', customization.npno)"><span
                                     class="bi bi-pencil-square" title="Edit Product"></span></button>

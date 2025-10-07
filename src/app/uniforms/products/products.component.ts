@@ -102,7 +102,8 @@ export class ProductsComponent {
       warehouse: this?.warehouse?.whno,
       stylconfig: this?.stylconfig?.vfgn,
       assign: this.assign ? 'Y' : '',
-      aVfg: this.assign ? this.getConfig() : '',
+      aVfg: this.assign ? this.getConfig('config') : '',
+      aNpno: this.assign ? this.getConfig('npno') : '',
       itemsPerPage: this.itemsPerPage,
       currentPage: this.p,
       offset: this.offset
@@ -225,16 +226,19 @@ export class ProductsComponent {
     })
   }
 
-  getConfig(){
+  getConfig(rtMode: any){
     let configs: any = []
+    let aNpnos: any = []
     for (let i = 0; i < this.assign.length; i++) {
-      for (let x = 0; x < this.assign[i].config.length; x++){
-        if(configs.indexOf(this.assign[i].config[x]) == -1 && this.assign[i].config[x] !== ''){
-          configs.push(this.assign[i].config[x])
+        if(configs.indexOf(this.assign[i].config) == -1 && this.assign[i].config !== ''){
+          configs.push(this.assign[i].config)
+          aNpnos.push(this.assign[i].npno)
         }
       }
-    }
-    return configs
+
+    if(rtMode == 'config') {
+      return configs 
+    } else return aNpnos
   }
 
   saveSeq(nino: any, seq: any, upct: any){

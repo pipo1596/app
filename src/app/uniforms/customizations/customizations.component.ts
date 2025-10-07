@@ -180,20 +180,21 @@ export class CustomizationsComponent {
   }
 
   checkCustomization(customization: any) {
-    let configurators = []
-    for (let i = 0; i < customization.styles.length; i++){
-      configurators.push(customization.styles[i].vfgn)
-    }
+    // let configurators = []
+    // for (let i = 0; i < customization.styles.length; i++){
+    //   configurators.push(customization.styles[i].vfgn)
+    // }
 
     let np = {
       npno: customization.npno,
-      config: configurators
+      config: customization.vfgn
     }
 
     if(this.isChecked(np)) {
       let index = this.checked.findIndex(x => x.npno === np.npno)
       this.checked.splice(index,1)
     } else {
+      this.checked = []
       this.checked.push(np);
       this.checked.sort();
     }    

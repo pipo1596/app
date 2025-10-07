@@ -22,7 +22,7 @@
 
                         <h6 class="card-title ms-1 mb-4"><strong>Basic Customization Information</strong></h6>
 
-                        <div class="row g-3 mb-4">
+                        <div class="row g-3 mb-4" *ngIf="page.entrymode && !this.nino">
                             <div class="col-md-4">
                                 <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Is this for a single application like Hemming?</strong> </label>
                                 <select name="singleApp" [(ngModel)]="single" class="form-select">

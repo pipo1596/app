@@ -80,6 +80,11 @@ export class CustomizationComponent {
       if (this.page.data?.info?.expd && !this.expd){
         this.expd = this.page.data.info.expd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
       }
+
+      if (this.page.data?.info?.single) {
+        this.single = 'Y'
+        this.getCTNO('single')
+      }
       if (this.page.data?.info?.seq && !this.seq) this.seq = this.page.data.info.seq
       if (this.page.data?.info?.stat && !this.actv) this.actv = this.page.data.info.stat
       if (this.page.data?.info?.upct) this.upct = this.page.data.info.upct
@@ -126,8 +131,8 @@ export class CustomizationComponent {
       this.seq = p1.seq
     }
 
-    if (this.vfgn !== '') this.getVFGN()
-    if (this.vfgn == '' && this.ctno !== '') this.getCTNO()
+    if (this.vfgn) this.getVFGN()
+    if (!this.vfgn && this.ctno) this.getCTNO('')
 
     if (this.npno && !this.copy) {
       this.page.editmode = true;
@@ -154,17 +159,19 @@ export class CustomizationComponent {
     });
   }
 
-  getCTNO(){
+  getCTNO(mode: any){
     let temp = new Page();
     let data = {
-      nhno: this.nhno,
       mode: 'getCtno',
-      ctno: this.ctno
+      nhno: this.nhno,
+      npno: mode == 'single' ? this.npno: '',
+      ctno: mode !== 'single' ? this.ctno: ''
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
       temp.data = response;
-      if (temp.data?.ct_desc) this.ctdesc = temp.data.ct_desc
+      if (temp.data?.ct_desc) this.ctdesc = temp.data?.ct_desc
+      if (mode == 'single' && temp.data?.ctno) this.ctno = temp.data?.ctno
     });
   }
 
@@ -248,7 +255,7 @@ export class CustomizationComponent {
         nino: (this.nino) ? this.nino : '',
         upct: (mode == 'update') ? this.upct : '',
         drop: this.dropship ? 'Y' : '',
-        single: (this.page.entrymode) ? this.single : ''
+        single: this.single
       }
     }
 

@@ -82,6 +82,7 @@ export class ProductComponent {
   nano: any;
   cache: any;
   upct: any;
+  hasIW: any;
 
   // Input
   desc = "";
@@ -192,6 +193,7 @@ export class ProductComponent {
       if (this.page.data?.info?.nicdesc) this.cdesc = this.page.data?.info?.nicdesc
       if (this.page.data?.info?.img) this.image.value = this.page.data?.info?.img;
       if (this.page.data?.info?.upct) this.upct = this.page.data?.info?.upct;
+      if (this.page.data?.info?.hasIW) this.hasIW = this.page.data?.info?.hasIW;
 
       if(this.cache) this.getCache();
 
@@ -406,7 +408,12 @@ export class ProductComponent {
 
   goImg() {
     localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate(['/uniforms/overrides/' + this.nhno + '/' + this.nino]);
+    if(this.hasIW){
+      this.router.navigate(['/uniforms/overrides/' + this.nhno + '/' + this.nino]);
+    } else {
+      this.router.navigate(['/uniforms/override/' + this.nhno + '/' + this.nino]);
+    }
+
   }
 
   getUnselected(){

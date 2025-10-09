@@ -20,7 +20,7 @@
                         <div class="form-group row g-3 mb-3">
                             <label class="col-md-2 col-form-label" align="right"><strong>Style:</strong></label>
                             <div class="col-md-3">
-                                <input type="text" readonly class="form-control-plaintext" [value]="this.page.data?.style?.styl + ' - ' + this.page.data?.style?.desc">
+                                <input type="text" readonly class="form-control-plaintext" [value]="this.page.data?.style?.styl ? (this.page.data?.style?.styl + ' - ' + this.page.data?.style?.desc) : ''">
                             </div>
                         </div>
 
@@ -155,12 +155,11 @@
 
                         <div class="d-flex flex-row">
                             <div class="col-md-5 ms-5">
-                                <button type="button" class="btn btn-primary me-3" (click)="loadOverride()">Save Changes</button>
-                                <button type="button" class="btn btn-primary me-3" (click)="dltOverride()">Delete Web Info</button>
+                                <button type="button" class="btn btn-primary me-3" (click)="loadOverride(page.editmode ? 'update' : 'add')">{{page.editmode ? 'Save Changes' : 'Save Web Info'}}</button>
+                                <button *ngIf="page.editmode" type="button" class="btn btn-primary me-3" (click)="dltOverride()">Delete Web Info</button>
                                 <button class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>
                             </div>
                         </div>
-
                     </form>
             </div>
         </div>

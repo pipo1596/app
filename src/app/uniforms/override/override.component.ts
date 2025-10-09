@@ -60,12 +60,11 @@ export class OverrideComponent {
 
   ngOnInit(): void {
     localStorage.clear();
-    hideWait();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
       this.nino = params.get('nino');
     });
-
+    
     this.route.queryParamMap.subscribe(params => {
       this.opv1 = params.get('opv1');
       this.opv2 = params.get('opv2');
@@ -73,7 +72,34 @@ export class OverrideComponent {
       this.opv4 = params.get('opv4');
       this.opv5 = params.get('opv5');
     });
+
+    this.setMode();
     this.getOverride();
+  }
+
+  setMode(){
+    let temp = new Page();
+    let data = {
+      mode: 'getMode',
+      nhno: this.page.rfno,
+      nino: this.nino,
+      opv1: this.opv1,
+      opv2: this.opv2,
+      opv3: this.opv3,
+      opv4: this.opv4,
+      opv5: this.opv5
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRIW', data).subscribe(response => {
+      temp.data = response;
+      if (temp.data?.mode == 'ENTR') {
+        this.page.entrymode = true
+        this.page.editmode = false
+      } else {
+        this.page.entrymode = false
+        this.page.editmode = true
+      } 
+    });
   }
 
   getOverride(){
@@ -116,7 +142,7 @@ export class OverrideComponent {
         if (this.page.data?.info?.mimf) this.mimf = this.page.data?.info?.mimf
         if (this.page.data?.info?.timf) this.timf = this.page.data?.info?.timf
         if (this.page.data?.info?.zimf) this.zimf = this.page.data?.info?.zimf
-        if (this.page.data?.mima) this.mima = this.page.data?.mima
+        if (this.page.data?.info?.mima) this.mima = this.page.data?.info?.mima
         if (this.page.data?.ldsc) this.ldsc = this.page.data?.ldsc
         if (this.page.data?.opcp) this.opcp = this.page.data?.opcp
         if (this.page.data?.info?.upct) this.upct = this.page.data?.info?.upct
@@ -125,11 +151,11 @@ export class OverrideComponent {
       });
   }
 
-  loadOverride(){
+  loadOverride(mode: any){
     showWait();
     this.errors = '';
       let data = {
-        mode: 'update',
+        mode: mode,
         nhno: this.page.rfno,
         nino: this.nino,
         opv1: this.opv1,
@@ -153,7 +179,10 @@ export class OverrideComponent {
       this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRIW', data).subscribe(response => {
         if (this.page.data?.result == 'pass'){
           localStorage.setItem('UP_AUTH','Y');
-          this.goBack();
+          if (!this.opv1 && !this.opv2 && !this.opv3 && !this.opv4 && !this.opv5){
+            localStorage.setItem('UP_AUTH','Y');
+            this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + this.nino]);
+          } else this.goBack();
         } else {
           this.errors = this.page.data?.errors;
           // this.getOverride();
@@ -179,7 +208,10 @@ export class OverrideComponent {
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRIW', data).subscribe(response => {
       if (this.page.data?.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
-        this.goBack();
+          if (!this.opv1 && !this.opv2 && !this.opv3 && !this.opv4 && !this.opv5){
+            localStorage.setItem('UP_AUTH','Y');
+            this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + this.nino]);
+          } else this.goBack();
       } else {
         this.errors = this.page.data?.errors;
         // this.getOverride();

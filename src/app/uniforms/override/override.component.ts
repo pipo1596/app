@@ -285,7 +285,12 @@ export class OverrideComponent {
   }
 
   goBack() {
-    localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate(['/uniforms/overrides/' + this.page.rfno + '/' + this.nino]);
+          if (!this.opv1 && !this.opv2 && !this.opv3 && !this.opv4 && !this.opv5){
+            localStorage.setItem('UP_AUTH','Y');
+            this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + this.nino]);
+          } else {
+            localStorage.setItem('UP_AUTH','Y');
+            this.router.navigate(['/uniforms/overrides/' + this.page.rfno + '/' + this.nino]);
+          }
   }
 }

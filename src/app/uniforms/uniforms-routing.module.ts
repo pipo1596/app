@@ -38,6 +38,11 @@ import { WarehouseComponent } from './warehouse/warehouse.component';
 import { AuditComponent } from './audit/audit.component';
 import { InfoComponent } from './info/info.component';
 import { QuickAddComponent } from './quick-add/quick-add.component';
+import { OverridesComponent } from './overrides/overrides.component';
+import { OverrideComponent } from './override/override.component';
+import { ItemImagesComponent } from './item-images/item-images.component';
+import { ItemImageComponent } from './item-image/item-image.component';
+import { ModalImfComponent } from './modal-imf/modal-imf.component';
 import { authGuard } from './auth.guard';
 
 const routes: Routes = [
@@ -58,6 +63,14 @@ const routes: Routes = [
   { path: 'product/:nhno/:nino/:styl', component: ProductComponent, canActivate: [authGuard]  }, //Editing Product + Selected Item
   { path: 'newproduct/:nhno', component: ProductComponent, canActivate: [authGuard]  }, //Creating Product
   { path: 'newproduct/:nhno/:styl', component: ProductComponent, canActivate: [authGuard]  }, //Creating Product + Selected Item
+
+  //Product Images
+  { path: 'overrides/:nhno/:nino', component: OverridesComponent, canActivate: [authGuard] }, 
+  { path: 'override/:nhno/:nino', component: OverrideComponent, canActivate: [authGuard] }, 
+  { path: 'modalimf/:nhno/:nino', component: ModalImfComponent, canActivate: [authGuard] }, 
+  { path: 'itemimages/:nhno/:nino', component: ItemImagesComponent, canActivate: [authGuard] }, 
+  { path: 'itemimage/:nhno/:nino', component: ItemImageComponent, canActivate: [authGuard] }, 
+  { path: 'itemimage/:nhno/:nino/:iino', component: ItemImageComponent, canActivate: [authGuard] }, 
 
   //Categories
   { path: 'categories/:nhno', component: CategoriesComponent, canActivate: [authGuard]   },   //Categories LM

@@ -1,0 +1,115 @@
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+
+<div id="container">
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
+
+    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+        <app-modal-imf *ngIf="popup" (close)="popup = ''" [mode]="popup" (file)="loadImf($event)"></app-modal-imf>
+        <div class="card mx-auto mb-5 mt-5  w-75 mh-100">
+            <div class="card-body">
+                    <form>
+                        <h6 class="mb-3" *ngIf="errors"><strong class="text-danger">{{errors}}</strong></h6>
+
+                        <div class="form-group row g-1 mb-3">
+                                <label class="col-md-2 col-form-label"><span class="text-danger"></span><strong>Style:</strong> </label>
+                                <div class="col-md-3 mb-3">
+                                     <input type="text" readonly class="form-control-plaintext" [value]="this.page.data?.style ? (this.page.data?.style?.styl + ' - ' + this.page.data?.style?.desc) : ''">
+                                </div>
+                        </div>
+
+                        <div class="form-group row g-1 mb-3">
+                                <label class="col-md-2 col-form-label"><span class="text-danger"></span><strong>Options:</strong> </label>
+                                <div class="col-md-3 mb-3">
+                                    <input type="text" readonly class="form-control-plaintext" [value]="this.options">
+                                </div>
+                        </div>
+
+                        <div class="form-group row g-1 mb-3">
+                                <label class="col-md-2 col-form-label"><span class="text-danger"><strong>* </strong></span><strong>Full Image File:</strong> </label>
+                                <div class="col-md-3 mb-3">
+                                    <input type="text" class="form-control" name="inputFIMF" [(ngModel)]="fimf" [value] = 'fimf'>
+                                </div>
+                            <div [ngClass]="chkImg('fimf') == true ? 'col-md-2' : 'col-md-1'">
+                                <button type="button" class="btn btn-light bg-transparent me-1" (click)="popup = 'fimf'">
+                                    <span class="bi bi-upload" title="upload"></span>
+                                </button>
+                                <a *ngIf="chkImg('fimf')" type="button" class="btn btn-light bg-transparent" [id]="'viewFIMF'" (click)="viewImage(fimf, 'FIMF')" target="_blank" rel="noopener noreferrer">
+                                    <span class="bi bi-eye" title="view"></span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="form-group row g-1 mb-3">
+                                <label class="col-md-2 col-form-label"><span class="text-danger"></span><strong>Medium Image File:</strong> </label>
+                                <div class="col-md-3 mb-3">
+                                    <input type="text" class="form-control" name="inputMIMF" [(ngModel)]="mimf" [value] = 'mimf'>
+                                </div>
+                            <div [ngClass]="chkImg('mimf') == true ? 'col-md-2' : 'col-md-1'">
+                                <button type="button" class="btn btn-light bg-transparent me-1" (click)="popup = 'mimf'">
+                                    <span class="bi bi-upload" title="upload"></span>
+                                </button>
+                                <a *ngIf="chkImg('mimf')" type="button" class="btn btn-light bg-transparent" [id]="'viewMIMF'" (click)="viewImage(mimf, 'MIMF')" target="_blank" rel="noopener noreferrer">
+                                    <span class="bi bi-eye" title="view"></span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="form-group row g-1 mb-3">
+                                <label class="col-md-2 col-form-label"><span class="text-danger"></span><strong>Thumbnail File:</strong> </label>
+                                <div class="col-md-3 mb-3">
+                                    <input type="text" class="form-control" name="inputTIMF" [(ngModel)]="timf" [value] = 'timf'>
+                                </div>
+                            <div [ngClass]="chkImg('timf') == true ? 'col-md-2' : 'col-md-1'">
+                                <button type="button" class="btn btn-light bg-transparent me-1" (click)="popup = 'timf'">
+                                    <span class="bi bi-upload" title="upload"></span>
+                                </button>
+                                <a *ngIf="chkImg('timf')" type="button" class="btn btn-light bg-transparent" [id]="'viewTIMF'" (click)="viewImage(fimf, 'TIMF')" target="_blank" rel="noopener noreferrer">
+                                    <span class="bi bi-eye" title="view"></span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="form-group row g-1 mb-3">
+                                <label class="col-md-2 col-form-label"><span class="text-danger"></span><strong>Zoom Image File:</strong> </label>
+                                <div class="col-md-3 mb-3">
+                                    <input type="text" class="form-control" name="inputZIMF" [(ngModel)]="zimf" [value] = 'zimf'>
+                                </div>
+                            <div [ngClass]="chkImg('zimf') == true ? 'col-md-2' : 'col-md-1'">
+                                <button type="button" class="btn btn-light bg-transparent me-1" (click)="popup = 'zimf'">
+                                    <span class="bi bi-upload" title="upload"></span>
+                                </button>
+                                <a *ngIf="chkImg('zimf')" type="button" class="btn btn-light bg-transparent" [id]="'viewZIMF'" (click)="viewImage(zimf, 'ZIMF')" target="_blank" rel="noopener noreferrer">
+                                    <span class="bi bi-eye" title="view"></span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="form-group row g-1 mb-3">
+                                <label class="col-md-2 col-form-label"><span class="text-danger"></span><strong>Thumbnail Alt Text:</strong> </label>
+                                <div class="col-md-3 mb-3">
+                                    <input type="text" class="form-control" name="inputALT" [(ngModel)]="alt" [value] = 'alt'>
+                                </div>
+                        </div>
+                
+                        <div class="row g-3 mb-5">
+                            <div class="col-md-3">
+                                <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span><span class="fst-italic">Denotes required information </span></label>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-row">
+                            <div class="col-md-3">
+                                <button  type="submit" class="btn btn-primary me-3" (click)="page.editmode ? loadImage('update') : loadImage('add')">Save</button>
+                                <button *ngIf="page.editmode" type="submit" class="btn btn-primary me-3" (click)="deleteImage()">Delete</button>
+                                <button type="submit" class="btn btn-primary me-3" (click)="goBack()">Cancel</button>
+                            </div>
+                        </div>
+                
+                    </form>
+            </div>
+        </div>
+        
+        <app-footer></app-footer>
+
+    </section>
+</div>

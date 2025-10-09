@@ -1,0 +1,85 @@
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+
+<div id="container">
+
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
+
+    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+
+        <div class="d-flex flex-row-reverse mt-5">
+            <div class="col-md-2">
+            <input type="button" value="Cancel" class="btn btn-secondary" (click)="goBack()">
+            </div>
+        </div>
+        
+        <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
+            <div class="card-body">
+                <h6><strong class="text-danger">{{this.errors}}</strong></h6>
+                
+                <div class="form-group row g-3 mb-3">
+                    <label class="col-md-1 col-form-label"><strong>Style:</strong></label>
+                    <div class="col-md-8">
+                        <input type="text" readonly class="form-control-plaintext" [value]="this.page.data?.style?.styl + ' - ' + this.page.data?.style?.desc">
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-primary rounded-0 w-50 me-3" type="button" (click)="addImage()">Add Web Image</button>
+                    </div>
+                </div>
+
+                <div class="form-group row g-3 mb-3">
+                    <label class="col-md-1 col-form-label"><strong>Options:</strong></label>
+                    <div class="col-md-3">
+                        <input type="text" readonly class="form-control-plaintext" [value]="this.options">
+                    </div>
+                </div>
+                <table class="table table-striped w-100">
+                    <thead>
+                        <tr>
+                            <th align="left">Edit</th>
+                            <th align="left">Delete</th>
+                            <th align="left">Full Image</th>
+                            <th align="left">Medium Image</th>
+                            <th align="left">Thumbnail</th>
+                            <th align="left">Alt Text</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let image of page.data?.images | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
+                            <td align="left">
+                                <button class="btn" (click)="editImage(image)"><span
+                                    class="bi bi-pencil-square" title="Edit Image"></span></button>
+                            </td>
+                            <td align="left">
+                                <button class="btn" (click)="deleteImage(image)"><span
+                                    class="bi bi-trash" title="Delete Image"></span></button>
+                            </td>
+                            <td align="left">{{image.fimf}}</td>
+                            <td align="left">{{image.mimf}}</td>
+                            <td align="left">{{image.timf}}</td>
+                            <td align="left">{{image.altt}}</td>
+                        </tr> 
+                    </tbody>
+                </table> 
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-8 mx-auto w-50">
+                <label>Items per page:
+                    <select [(ngModel)]="itemsPerPage" (change)="onItemChange(itemsPerPage)">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="col-2 w-25">
+                <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
+            </div>
+        </div>
+        <app-footer></app-footer>
+    </section>
+</div>
+

@@ -44,6 +44,11 @@ import { VasQuestionComponent } from './vas-question/vas-question.component';
 import { AuditComponent } from './audit/audit.component';
 import { InfoComponent } from './info/info.component';
 import { QuickAddComponent } from './quick-add/quick-add.component';
+import { OverridesComponent } from './overrides/overrides.component';
+import { OverrideComponent } from './override/override.component';
+import { ModalImfComponent } from './modal-imf/modal-imf.component';
+import { ItemImageComponent } from './item-image/item-image.component';
+import { ItemImagesComponent } from './item-images/item-images.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +91,12 @@ import { QuickAddComponent } from './quick-add/quick-add.component';
     VasQuestionComponent,
     AuditComponent,
     InfoComponent,
-    QuickAddComponent
+    QuickAddComponent,
+    OverridesComponent,
+    OverrideComponent,
+    ModalImfComponent,
+    ItemImageComponent,
+    ItemImagesComponent
   ],
   imports: [
     CommonModule,

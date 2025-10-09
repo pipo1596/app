@@ -18,6 +18,8 @@ export class ImageUploadComponent implements OnInit {
   message = '';
   preview = '';
   @Output() triggerEvent = new EventEmitter<string>();
+  @Output() file = new EventEmitter<any>();
+  @Output() browse = new EventEmitter<boolean>();
   @Input() mode : string = "";
 
   imageInfos?: Observable<any>;
@@ -50,6 +52,7 @@ export class ImageUploadComponent implements OnInit {
         showWait();
         this.preview = '';
         this.currentFile = file;
+        this.file.emit(event.target.files)
 
         const reader = new FileReader();
 

@@ -404,6 +404,11 @@ export class ProductComponent {
     this.router.navigate(['/uniforms/products/' + this.nhno]);
   }
 
+  goImg() {
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate(['/uniforms/overrides/' + this.nhno + '/' + this.nino]);
+  }
+
   getUnselected(){
     this.op1U = []
     this.op2U = []

@@ -1,0 +1,37 @@
+<div class="popup-overlay w-100 h-100">
+  <div class="popup-content w-50" (click)="$event.stopPropagation()">
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-11">
+            <h5 class="mb-3">Image Upload</h5>
+        </div>
+        <div class="col-md-1 justify-content-end">
+            <button type="button" class="btn btn-light bg-transparent border-0 me-1" (click)="closePopup()">
+                <span class="bi bi-x-lg" title="close"></span>
+            </button>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-11">
+            <!-- <h3 class="mb-3 justify-content-start"><span class="bi bi-cloud-upload me-2" title="close"></span></h3> <h5>Select / Drag & Drop Image</h5> -->
+            <span class="text-danger ms-1" id="{{image.htmlid}}" *ngIf="image.error!==''">{{image.error}}</span>
+            <app-image-upload (triggerEvent)="saveAfterImageUpload($event)" [mode]="'U'" (file)="selectImage($event)" (browse)="clearFields($event)"></app-image-upload>
+            
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4" *ngIf="showUpload">
+        <div class="col-md-11">
+            <span [ngClass]="status == 'New Image' ? 'text-success' : 'text-danger'"><strong>{{status}}</strong></span>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4" *ngIf="showUpload">
+        <div class="col-md-11">
+            <button *ngIf="showUpload" type="submit" class="btn btn-primary mt-3 me-3" (click)="validate()">Upload</button>
+        </div>
+    </div>
+
+  </div>
+</div>

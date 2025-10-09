@@ -178,11 +178,12 @@
                             </ng-container>
                             
                             <div *ngIf="showUpload">
-                                <h5>Upload Image
+                                <!-- <h5>Upload Image
                                     <span class="text-danger ms-1" id="{{image.htmlid}}"
                                         *ngIf="image.error!==''">{{image.error}}</span>
                                 </h5>
-                                <app-image-upload (triggerEvent)="saveAfterImageUpload($event)" [mode]="'U'"></app-image-upload>
+                                <app-image-upload (triggerEvent)="saveAfterImageUpload($event)" [mode]="'U'"></app-image-upload> -->
+                                <button type="button" class="btn btn-primary me-3 mb-4" (click)="goImg()">Manage Product Images</button>
                             </div>
 
                         </div>

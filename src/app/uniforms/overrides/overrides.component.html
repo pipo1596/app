@@ -1,0 +1,117 @@
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+
+<div id="container">
+
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
+
+    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+
+        <div class="d-flex flex-row-reverse mt-5">
+            <div class="col-md-2">
+            <input type="button" value="Cancel" class="btn btn-secondary" (click)="goBack()">
+            </div>
+        </div>
+        
+        <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
+            <div class="card-body">
+                <h6><strong class="text-danger">{{this.errors}}</strong></h6>
+                <table class="table table-striped w-100">
+                    <thead>
+                        <tr>
+                            <th align="left">Edit</th>
+                            <th align="left">Delete</th>
+                            <th align="left" *ngIf="page.data?.headers?.opd1">
+                                {{page.data?.headers?.opd1}}<br>
+                                <select class="form-select w-50" name="opd1Drop" [(ngModel)]="opv1">
+                                    <option value="">&lt;all&gt;</option>
+                                    <option *ngFor="let opv of page.data?.headers?.opd1Drop"  [value]="opv.valu">{{opv.valu}}</option>
+                                </select>
+                            </th>
+                            <th align="left" *ngIf="page.data?.headers?.opd2">
+                                {{page.data?.headers?.opd2}}<br>
+                                <select class="form-select w-50" name="opd2Drop" [(ngModel)]="opv2">
+                                    <option value="">&lt;all&gt;</option>
+                                    <option *ngFor="let opv of page.data?.headers?.opd2Drop"  [value]="opv.valu">{{opv.valu}}</option>
+                                </select>
+                            </th>
+                            <th align="left" *ngIf="page.data?.headers?.opd3">
+                                {{page.data?.headers?.opd3}}<br>
+                                <select class="form-select w-50" name="opd3Drop" [(ngModel)]="opv3">
+                                    <option value="">&lt;all&gt;</option>
+                                    <option *ngFor="let opv of page.data?.headers?.opd3Drop"  [value]="opv.valu">{{opv.valu}}</option>
+                                </select>
+                            </th>
+                            <th align="left" *ngIf="page.data?.headers?.opd4">
+                                {{page.data?.headers?.opd4}}<br>
+                                <select class="form-select w-50" name="opd4Drop" [(ngModel)]="opv4">
+                                    <option value="">&lt;all&gt;</option>
+                                    <option *ngFor="let opv of page.data?.headers?.opd4Drop"  [value]="opv.valu">{{opv.valu}}</option>
+                                </select>
+                            </th>
+                            <th align="left" *ngIf="page.data?.headers?.opd5">
+                                {{page.data?.headers?.opd5}}<br>
+                                <select class="form-select w-50" name="opd5Drop" [(ngModel)]="opv5">
+                                    <option value="">&lt;all&gt;</option>
+                                    <option *ngFor="let opv of page.data?.headers?.opd5Drop"  [value]="opv.valu">{{opv.valu}}</option>
+                                </select>
+                            </th>
+                            <th align="left">
+                                <button class="btn btn-primary" (click)="addOverride()">Add</button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="left">
+                                <button class="btn" (click)="editOverride('')"><span
+                                    class="bi bi-pencil-square" title="Edit Override"></span></button>
+                            </td>
+                            <td align="left"></td>
+                            <td align="left" *ngIf="page.data?.headers?.opd1">&lt;all&gt;</td>
+                            <td align="left" *ngIf="page.data?.headers?.opd2">&lt;all&gt;</td>
+                            <td align="left" *ngIf="page.data?.headers?.opd3">&lt;all&gt;</td>
+                            <td align="left" *ngIf="page.data?.headers?.opd4">&lt;all&gt;</td>
+                            <td align="left" *ngIf="page.data?.headers?.opd5">&lt;all&gt;</td>
+                            <td align="left"></td>
+                        </tr> 
+                        <tr *ngFor="let override of page.data?.overrides | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
+                            <td align="left">
+                                <button class="btn" (click)="editOverride(override)"><span
+                                    class="bi bi-pencil-square" title="Edit Override"></span></button>
+                            </td>
+                            <td align="left">
+                                <button class="btn" (click)="deleteOverride(override)"><span
+                                    class="bi bi-trash" title="Delete Override"></span></button>
+                            </td>
+                            <td align="left" *ngIf="page.data?.headers?.opd1">{{override.opv1}}</td>
+                            <td align="left" *ngIf="page.data?.headers?.opd2">{{override.opv2}}</td>
+                            <td align="left" *ngIf="page.data?.headers?.opd3">{{override.opv3}}</td>
+                            <td align="left" *ngIf="page.data?.headers?.opd4">{{override.opv4}}</td>
+                            <td align="left" *ngIf="page.data?.headers?.opd5">{{override.opv5}}</td>
+                            <td align="left"></td>
+                        </tr> 
+                    </tbody>
+                </table> 
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-8 mx-auto w-50">
+                <label>Items per page:
+                    <select [(ngModel)]="itemsPerPage" (change)="onItemChange(itemsPerPage)">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="col-2 w-25">
+                <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
+            </div>
+        </div>
+        <app-footer></app-footer>
+    </section>
+</div>
+

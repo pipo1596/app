@@ -10,14 +10,14 @@
                     <form>
                         <h6 class="mb-3" *ngIf="errors"><strong class="text-danger">{{errors}}</strong></h6>
 
-                        <div class="form-group row g-1 mb-3">
+                        <div *ngIf="options" class="form-group row g-1 mb-3">
                                 <label class="col-md-2 col-form-label"><span class="text-danger"></span><strong>Style:</strong> </label>
                                 <div class="col-md-3 mb-3">
                                      <input type="text" readonly class="form-control-plaintext" [value]="this.page.data?.style ? (this.page.data?.style?.styl + ' - ' + this.page.data?.style?.desc) : ''">
                                 </div>
                         </div>
 
-                        <div class="form-group row g-1 mb-3">
+                        <div *ngIf="options" class="form-group row g-1 mb-3">
                                 <label class="col-md-2 col-form-label"><span class="text-danger"></span><strong>Options:</strong> </label>
                                 <div class="col-md-3 mb-3">
                                     <input type="text" readonly class="form-control-plaintext" [value]="this.options">
@@ -98,8 +98,8 @@
                         </div>
 
                         <div class="d-flex flex-row">
-                            <div class="col-md-3">
-                                <button  type="submit" class="btn btn-primary me-3" (click)="page.editmode ? loadImage('update') : loadImage('add')">Save</button>
+                            <div class="col-md-6">
+                                <button  type="submit" class="btn btn-primary me-3" (click)="page.editmode ? loadImage('update') : loadImage('add')">{{page.editmode ? 'Save Changes' : 'Save'}}</button>
                                 <button *ngIf="page.editmode" type="submit" class="btn btn-primary me-3" (click)="deleteImage()">Delete</button>
                                 <button type="submit" class="btn btn-primary me-3" (click)="goBack()">Cancel</button>
                             </div>

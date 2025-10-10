@@ -72,19 +72,19 @@ export class ItemImagesComponent {
         if (this.page.data.menu) this.page.menu = this.page.data.menu;
         if (this.page.data.total) this.total = this.page.data.total;
         if (this.page.data?.style?.opd1){
-          this.options += (this.page.data?.style?.opd1 + ': ' + (this.page.data?.style?.opv1 ? this.page.data?.style?.opv1 : '<all>') + '   ')
+          this.options += (this.page.data?.style?.opd1 + ': ' + (this.opv1 ? this.opv1 : '<all>') + '   ')
         }
         if (this.page.data?.style?.opd2){
-          this.options += (this.page.data?.style?.opd2 + ': ' + (this.page.data?.style?.opv1 ? this.page.data?.style?.opv1 : '<all>') + '   ')
+          this.options += (this.page.data?.style?.opd2 + ': ' + (this.opv2 ? this.opv2 : '<all>') + '   ')
         }
         if (this.page.data?.style?.opd3){
-          this.options += (this.page.data?.style?.opd3 + ': ' + (this.page.data?.style?.opv1 ? this.page.data?.style?.opv1 : '<all>') + '   ')
+          this.options += (this.page.data?.style?.opd3 + ': ' + (this.opv3 ? this.opv3 : '<all>') + '   ')
         }
         if (this.page.data?.style?.opd4){
-          this.options += (this.page.data?.style?.opd4 + ': ' + (this.page.data?.style?.opv1 ? this.page.data?.style?.opv1 : '<all>') + '   ')
+          this.options += (this.page.data?.style?.opd4 + ': ' + (this.opv4 ? this.opv4 : '<all>') + '   ')
         }
         if (this.page.data?.style?.opd5){
-          this.options += (this.page.data?.style?.opd5 + ': ' + (this.page.data?.style?.opv1 ? this.page.data?.style?.opv1 : '<all>') + '   ')
+          this.options += (this.page.data?.style?.opd5 + ': ' + (this.opv5 ? this.opv5 : '<all>') + '   ')
         }
         this.page.loading = false;
         hideWait();

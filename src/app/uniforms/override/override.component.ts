@@ -73,8 +73,8 @@ export class OverrideComponent {
       this.opv5 = params.get('opv5');
     });
 
-    this.setMode();
     this.getOverride();
+    this.setMode();
   }
 
   setMode(){
@@ -121,19 +121,19 @@ export class OverrideComponent {
         if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
         if (this.page.data.menu) this.page.menu = this.page.data.menu;
         if (this.page.data?.style?.opd1){
-          this.options += (this.page.data?.style?.opd1 + ': ' + this.page.data?.style?.opv1 + '   ')
+          this.options += (this.page.data?.style?.opd1 + ': ' + (this.page.data?.info?.opv1 ? this.page.data?.info?.opv1 : '<all>') + '   ')
         }
         if (this.page.data?.style?.opd2){
-          this.options += (this.page.data?.style?.opd2 + ': ' + this.page.data?.style?.opv2 + '   ')
+          this.options += (this.page.data?.style?.opd2 + ': ' + (this.page.data?.info?.opv2 ? this.page.data?.info?.opv2 : '<all>') + '   ')
         }
         if (this.page.data?.style?.opd3){
-          this.options += (this.page.data?.style?.opd3 + ': ' + this.page.data?.style?.opv3 + '   ')
+          this.options += (this.page.data?.style?.opd3 + ': ' + (this.page.data?.info?.opv3 ? this.page.data?.info?.opv3 : '<all>') + '   ')
         }
         if (this.page.data?.style?.opd4){
-          this.options += (this.page.data?.style?.opd4 + ': ' + this.page.data?.style?.opv4 + '   ')
+          this.options += (this.page.data?.style?.opd4 + ': ' + (this.page.data?.info?.opv4 ? this.page.data?.info?.opv4 : '<all>') + '   ')
         }
         if (this.page.data?.style?.opd5){
-          this.options += (this.page.data?.style?.opd5 + ': ' + this.page.data?.style?.opv5 + '   ')
+          this.options += (this.page.data?.style?.opd5 + ': ' + (this.page.data?.info?.opv5 ? this.page.data?.info?.opv5 : '<all>') + '   ')
         }
         if (this.page.data?.info?.rstr) this.rstr = this.page.data?.info?.rstr
         if (this.page.data?.info?.h1sc) this.h1sc = this.page.data?.info?.h1sc

@@ -70,6 +70,7 @@ export class VasQuestionsComponent {
     }
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('vasApp',JSON.stringify(application));
+    localStorage.setItem('ruleVF',question.reqVF);
     localStorage.setItem('allexpand',this.all ? 'Y' : '');
     this.router.navigate(['/uniforms/vasquestion/' + this.nhno + '/' + this.npno]);
   }

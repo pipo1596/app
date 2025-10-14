@@ -227,7 +227,7 @@
                     <div class="form-group row g-3 mb-3">
                         <label class="col-md-2 col-form-label" align="right"><strong>Rule:</strong></label>
                         <div class="col-md-3">
-                            <select name="" class="form-select" name="inputRule" [(ngModel)]="rule">
+                            <select name="" class="form-select" name="inputRule" [(ngModel)]="rule" [disabled]="ruleVF == 'Y'">
                                 <option value="">Select</option>
                                 <option *ngFor="let rule of page.data?.ruleDrop" [ngValue]="rule.value" [selected]="page.data?.info?.rule == rule.value">{{rule.desc}}</option>
                             </select>

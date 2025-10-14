@@ -41,6 +41,7 @@ export class VasQuestionComponent {
   lkqt: any = ""; // Lock Inventory Qty
   dflk: any = ""; // Force Default
   rule: any = ""; // Rule
+  ruleVF: any = ""; // Rule
   afmt: any = ""; // VAS Answer FOrmat
   upct: any; 
 
@@ -52,6 +53,10 @@ export class VasQuestionComponent {
   ngOnInit(): void {
     if(localStorage.getItem('allexpand')){
       this.all = localStorage.getItem('allexpand')
+    }
+
+    if(localStorage.getItem('ruleVF')){
+      this.ruleVF = localStorage.getItem('ruleVF')
     }
 
     if(localStorage.getItem('vasApp')){

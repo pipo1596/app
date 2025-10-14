@@ -20,21 +20,21 @@
                 <button class="btn bg-transparent" (click)="editQuestion(question)"><span
                     class="bi bi-pencil-square" title="Edit Category"></span></button>
             </td>
-            <td align="left">{{question.desc}}</td>
-            <td align="left">{{question.typeDesc}}</td>
+            <td align="left">{{question.desc}}</td> <!-- VAS Question -->
+            <td align="left">{{question.typeDesc}}</td> <!-- Type -->
             <td align="left">
-                <input class="form-check-input" type="checkbox" [id]="'dflk' + i + question.n2no" [checked]="question.dflk == 'Y'" >
+                <input class="form-check-input" type="checkbox" [id]="'dflk' + i + question.n2no" [checked]="question.dflk == 'Y'" > <!-- Force Default -->
             </td>
             <td align="left">
-                <select class="form-select" name="displayForced" [id]="'dspd' + i + question.n2no" *ngIf="question.dspdDrop == 'Y'">
+                <select class="form-select" name="displayForced" [id]="'dspd' + i + question.n2no" *ngIf="question.dspdDrop == 'Y'"> <!-- Display Forced Answer -->
                     <option value="">Select</option>
                     <option *ngFor="let default of question.ynDrop"  [value]="default.value" [selected]="default.value == question.dspd">{{default.desc}}</option>
                 </select>
 
                 <input class="form-check-input" type="checkbox" [id]="'dspd' + i + question.n2no" [checked]="question.dspd == 'Y'" *ngIf="!question.dspdDrop || question.dspdDrop !== 'Y'">
             </td>
-            <td align="left" style="width: 15%">
-                <select name="" class="form-select" [id]="'req' + i + question.n2no">
+            <td align="left" style="width: 15%"> <!-- Required -->
+                <select name="" class="form-select" [id]="'req' + i + question.n2no" [disabled]="question.reqVF == 'Y'">
                     <option value="">Select</option>
                     <option *ngFor="let answer of question.reqDrop" [value]="answer.value" [selected]="answer.value == question.req">{{answer.desc}}</option>
                 </select>

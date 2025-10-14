@@ -8,7 +8,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   let nhno = route.paramMap.get('nhno')
   let refreshed = (perfEntries.length > 0 && (perfEntries[0] as PerformanceNavigationTiming).type === 'reload') //Detect browser refreshed
 
-  if(localStorage.getItem('UP_AUTH') || refreshed || (router.url.indexOf('/blogs/') >= 0) ) { // If navigated through app or refreshed
+  if(localStorage.getItem('UP_AUTH') || refreshed) { // If navigated through app or refreshed
     return true;
   } else { // URL Tampered
     if(nhno){

@@ -25,7 +25,7 @@ export class HeaderComponent {
     ) { }
   
   async ngOnInit() {
-    localStorage.clear();
+    // localStorage.clear();
     const response = await this.sessionService.getSession();
     this.fullname = response.name;
   }

@@ -83,6 +83,7 @@ export class ProductComponent {
   cache: any;
   upct: any;
   hasIW: any;
+  showHelp: boolean = false;
 
   // Input
   desc = "";

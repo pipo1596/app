@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait } from '../../shared/utils';
 import { environment } from '../../../environments/environment.development';
 
@@ -19,6 +19,7 @@ export class WarehouseComponent {
 
   constructor(
     private http: HttpClient,
+    private router: Router,
     private route: ActivatedRoute
   ) { }
 
@@ -49,6 +50,11 @@ export class WarehouseComponent {
       this.page.loading = false;
       hideWait();
     });
+  }
+
+  goCategories(){
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate(['/uniforms/categories/' + this.page.rfno]);
   }
 
 }

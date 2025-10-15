@@ -17,8 +17,11 @@ export class CustomizationsComponent {
   drop = false; // More Actions
 
   //Filter
-  desc: any;
+  name: any;
+  npno: any;
+  rtpg: any;
   vitem: any;
+  lvl: any;
   app: any;
   img: any = "";
   styl: any;
@@ -43,6 +46,7 @@ export class CustomizationsComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('rtpg')) this.rtpg = localStorage.getItem('rtpg');
     localStorage.clear();
     hideWait();
     this.route.paramMap.subscribe(params => {
@@ -66,8 +70,10 @@ export class CustomizationsComponent {
      let data = {
       mode: 'getInfo',
       nhno: this.page.rfno,
-      desc: this.desc,
+      name: this.rtpg ? this.rtpg : this.name,
+      npno: this.npno,
       item: this.vitem?.vedp,
+      lvl: this.lvl?.valu,
       app: this.app?.v1cd,
       img: this.img,
       style: this.styl?.styl,
@@ -111,6 +117,11 @@ export class CustomizationsComponent {
         });
       }
 
+      if (this.page.data?.levels){
+        this.page.data.levels = this.page.data.levels.sort((a: any,b: any) => a.valu.localeCompare(b.valu))
+      }
+
+      this.rtpg = '';
       this.page.loading = false;
       hideWait();
     });
@@ -198,6 +209,7 @@ export class CustomizationsComponent {
       this.checked.push(np);
       this.checked.sort();
     }    
+    console.log(this.checked)
   }
 
   assignStyles(){

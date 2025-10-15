@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FileUploadService } from '../../services/file-upload.service';
 import { environment } from '../../../environments/environment.development';
 import { DataService } from '../../services/data-trigger.service';
 import { TextField } from '../../shared/textField';

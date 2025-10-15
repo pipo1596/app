@@ -14,7 +14,6 @@ import { hideWait, showWait, scrollToTopInstant} from '../../shared/utils';
 
 export class ProductsComponent {
   page = new Page();
-  drop = false; // More Actions
   assign: any;
   inNano: any;
   

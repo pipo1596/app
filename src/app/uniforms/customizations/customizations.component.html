@@ -39,7 +39,7 @@
 
                 <div class="row g-3 mb-4">
                     <div class="col-md-3">
-                        <input placeholder="Search" [(ngModel)]="desc" class="form-control" (keyup.enter)="getCustomizations('search')">
+                        <input placeholder="Search Customization Name" [(ngModel)]="name" class="form-control" (keyup.enter)="getCustomizations('search')">
                     </div>
                     <div class="col-md-3">
                         <ngx-select-dropdown name="inputVEDP" [config]="searchConfig('VAS Item')" [options]="page.data?.items" [(ngModel)]="vitem" (change)="getCustomizations('search')"></ngx-select-dropdown>
@@ -53,6 +53,15 @@
                             <option [ngValue]="'Y'">Yes</option>
                             <option [ngValue]="'N'">No</option>
                         </select>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <input placeholder="Search Customization Number" [(ngModel)]="npno" class="form-control" (keyup.enter)="getCustomizations('search')">
+                    </div>
+                    <div class="col-md-3">
+                        <ngx-select-dropdown name="inputLvl" [config]="searchConfig('Question Level Items')" [options]="page.data?.levels" [(ngModel)]="lvl" (change)="getCustomizations('search')"></ngx-select-dropdown>
                     </div>
                 </div>
 

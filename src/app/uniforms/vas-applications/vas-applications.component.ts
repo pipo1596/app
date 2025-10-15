@@ -14,7 +14,6 @@ import { hideWait, showWait, convertToDate, formatDateUS } from '../../shared/ut
 
 export class VasApplicationsComponent {
   page = new Page();
-  drop = false; // More Actions
   allexpanded: boolean = false;
   expanded: any[] = [];
 
@@ -189,8 +188,13 @@ export class VasApplicationsComponent {
     }    
   }
 
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
+
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('rtpg', this.page.data?.npname);
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }
 

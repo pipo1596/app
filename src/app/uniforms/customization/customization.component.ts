@@ -85,15 +85,19 @@ export class CustomizationComponent {
         this.single = 'Y'
         this.getCTNO('single')
       }
+      if(this.single == 'N' && this.vfgn) this.name = '[' + this.trim(this.vfgn) + '] '
       if (this.page.data?.info?.seq && !this.seq) this.seq = this.page.data.info.seq
       if (this.page.data?.info?.stat && !this.actv) this.actv = this.page.data.info.stat
       if (this.page.data?.info?.upct) this.upct = this.page.data.info.upct
       this.page.loading = false;
       hideWait();
     });
-
     this.page.loading = false;
     hideWait();
+  }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
   }
 
   setMode() {
@@ -107,7 +111,9 @@ export class CustomizationComponent {
       this.vfgn = params.get('vfgn')
     });
 
-    if(localStorage.getItem('vfgn') && !this.vfgn) this.vfgn = localStorage.getItem('vfgn');
+    if(localStorage.getItem('vfgn') && !this.vfgn){
+      this.vfgn = localStorage.getItem('vfgn');
+    }
     if(localStorage.getItem('ctno') && !this.ctno){
       this.dropship = true;
       this.vfgn = '';
@@ -175,6 +181,26 @@ export class CustomizationComponent {
     });
   }
 
+  keepVFG(event: any){
+    const input = event.target as HTMLInputElement;
+    const prefix = ('[' + this.trim(this.vfgn) + '] ').length;
+
+    if(input.selectionStart! > 0 && input.selectionStart! <= prefix && 
+      ['Backspace', 'ArrowLeft'].includes(event.key)
+    ) {
+      event.preventDefault();
+      input.setSelectionRange(prefix,prefix);
+      if(input.selectionStart! == prefix) this.name = '[' + this.trim(this.vfgn) + '] '
+    } 
+    else if (input.selectionStart! == 0 && 
+      ['Backspace', 'ArrowLeft'].includes(event.key)
+    ) {
+      event.preventDefault();
+      input.setSelectionRange(prefix,prefix);
+      this.name = '[' + this.trim(this.vfgn) + '] '
+    }
+  }
+
   inqVfg() {
     localStorage.clear();
     let p1 = {
@@ -226,7 +252,16 @@ export class CustomizationComponent {
     if(this.partpg){
       this.router.navigate([this.partpg]);
     } else this.router.navigate(['/uniforms/customizations/' + this.nhno]);
-    
+  }
+
+  clrVFGN(){
+    this.vfgn = ""
+    this.vfgdesc = ""
+
+    if(this.single == 'N'){
+      this.name = ""
+      this.desc = ""
+    }
   }
 
   loadProduct(mode: string){

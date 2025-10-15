@@ -184,4 +184,16 @@ export class VasQuestionsComponent {
     this.page.loading = false;
   }
 
+  chkReq(event: any, index: any){
+    let rule = event.target?.value
+    let type = this.page.data?.vasq[index]!.type
+
+    if(rule == 'R' && type == 'D'){
+      (<HTMLInputElement>document.getElementById('dflk' + index + this.page.data?.vasq[index]!.n2no)).checked = true;
+      (<HTMLInputElement>document.getElementById('dflk' + index + this.page.data?.vasq[index]!.n2no)).disabled = true;
+    } else {
+      (<HTMLInputElement>document.getElementById('dflk' + index + this.page.data?.vasq[index]!.n2no)).disabled = false;
+    }
+  }
+
 }

@@ -5,7 +5,7 @@
     <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
 
     <section class="ftco-section bg-light pb-3 pt-5 content w-100">
-        <div class="card mx-auto mb-5 mt-5 w-75 h-25">
+        <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
             <div class="card-body">
                 <form>
                     <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
@@ -27,11 +27,19 @@
                     </div>
 
                     <div class="row g-3">
-                        <div class="col-md-3">
+                        <div class="col-md-3 mb-5">
                             <select class="form-select p-2" name="inputPrice" [(ngModel)]="whno">
                                 <option value="">Select</option>
                                 <option *ngFor="let warehouse of warehouses" [ngValue]="warehouse.whno" [selected]="page.data?.info?.whno == warehouse.whno">{{warehouse.whno}} - {{warehouse.desc}}</option>
                             </select>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-5">
+                            <h6 class="mb-3" *ngIf="page.data?.result == 'pass' && page.data.whno"><strong class="text-primary">
+                                Now you're ready to add products to the Uniform Program. First you will need to add product Categories. 
+                                <br><br> Click <a href="javascript:void" (click)="goCategories()">HERE</a> to start</strong></h6> 
                         </div>
                     </div>
 

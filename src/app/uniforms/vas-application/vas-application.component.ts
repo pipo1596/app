@@ -143,6 +143,21 @@ export class VasApplicationComponent {
     this.vedp = ""
     this.vedpDesc = ""
     this.vedpSku = ""
+
+    if(!this.vedp){
+      let temp = new Page();
+      let data = {
+        nhno: this.nhno,
+        mode: 'getDflt',
+        v1cd: this.v1cd
+      }
+      this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV1', data).subscribe(response => {
+        temp.data = response;
+        if (temp.data?.vedp_desc) this.vedpDesc = temp.data?.vedp_desc
+        if (temp.data?.vedp_sku) this.vedpSku = temp.data?.vedp_sku
+        if (temp.data?.vedp) this.vedp = temp.data?.vedp
+      });
+    }
   }
 
   setMode() {
@@ -159,6 +174,7 @@ export class VasApplicationComponent {
     } else { 
       this.page.entrymode = true;
       this.page.editmode = false;
+      if(!localStorage.getItem('p1')) this.mand = 'Y'
     }
 
   }

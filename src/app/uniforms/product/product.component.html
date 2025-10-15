@@ -23,6 +23,31 @@
                             </div>
                         </div>
 
+                        <div class="row g-2">
+                            <div class="col-md-7">
+                                <h6><small><strong>UP Max Helper:</strong> </small></h6>
+                            </div>
+                            <div class="col-md-7 ms-5">
+                                <h6><small>This screen allows you to define style options being sold to the customer and assign an eisting customization group or build a new customization group if needed.
+                                </small></h6>
+                            </div>
+                        </div>
+
+                        <div class="row g-2 mb-5">
+                            <div class="col-md-7">
+                                <h6>
+                                    <small><strong>How to select options:</strong> </small>
+                                    <button type="button" class="btn btn-light bg-transparent border-0" (click)="showHelp = !showHelp">
+                                        <span [ngClass]="showHelp ? 'bi bi-dash-lg' : 'bi bi-plus-lg'" title="Inquire"></span>
+                                    </button>
+                                </h6>
+                            </div>
+                            <div class="col-md-7 ms-5" *ngIf="showHelp">
+                                <h6><small>If you do not select any options in any column, then all options for that column will be available for purchase by the customer.<br><br> If you select one or more options in a column, then only those selected options will be available for purchase by the customer.
+                                </small></h6>
+                            </div>
+                        </div>
+
                         <h5 class="card-title mb-4">General Information</h5>
 
                         <div class="row g-3 mb-3">
@@ -51,7 +76,7 @@
                             </div>
                         </div>
 
-                        <div class="row g-3" *ngIf="page.data?.style || item">
+                        <div class="row g-3" *ngIf="page.data?.style || page.data?.info?.styl || item">
                             <h6 *ngIf="page.data?.optionH[0]">-- OR --</h6>
                             <ng-container *ngIf="page.data?.optionH">
                                 <div *ngIf="page.data?.optionH[0]" class="col-md-2">

@@ -74,10 +74,12 @@
                                 <label for="inputSKU" class="form-label">SKU:</label>
                                 <ngx-select-dropdown name="skuDrop" [multiple]="true" [config]="searchConfig()" (change)="sku = $event.value" [options]="page.data?.sku" [(ngModel)]="sku"></ngx-select-dropdown>
                             </div>
+                            <div class="col-md-3" *ngIf="page.data?.optionH[0]">
+                                <h6 *ngIf="page.data?.optionH[0]" class="mt-4">Select from droplist of all SKUs <br> -- OR -- <br> Select from grid below</h6>
+                            </div>
                         </div>
 
                         <div class="row g-3" *ngIf="page.data?.style || page.data?.info?.styl || item">
-                            <h6 *ngIf="page.data?.optionH[0]">-- OR --</h6>
                             <ng-container *ngIf="page.data?.optionH">
                                 <div *ngIf="page.data?.optionH[0]" class="col-md-2">
                                     <label for="inputOP1" class="form-label">{{ page.data?.optionH[0]}}</label>

@@ -45,16 +45,6 @@ export class VasApplicationComponent {
   ) { }
 
   ngOnInit(): void {
-    this.copy = localStorage.getItem('copy')
-    if(localStorage.getItem('p1')){
-      let p1 = JSON.parse(localStorage.getItem('p1')!)
-      this.dscx = p1.dscx;
-      this.v1cd = p1.v1cd;
-      this.desc = p1.desc;
-      this.mand = p1.mand;
-      this.actv = p1.actv;
-      this.vedp = p1.vedp;
-    }
     this.setMode();
     localStorage.clear();
     this.getApplication();
@@ -161,12 +151,24 @@ export class VasApplicationComponent {
   }
 
   setMode() {
+
     this.route.paramMap.subscribe(params => {
       this.nhno = params.get('nhno')
       this.npno = params.get('npno')
       this.n1no = params.get('n1no')
       if(!this.vedp) this.vedp = params.get('vedp')
     });
+
+    this.copy = localStorage.getItem('copy')
+    if(localStorage.getItem('p1')){
+      let p1 = JSON.parse(localStorage.getItem('p1')!)
+      this.dscx = p1.dscx;
+      this.v1cd = p1.v1cd;
+      this.desc = p1.desc;
+      this.mand = p1.mand;
+      this.actv = p1.actv;
+      if(!this.vedp) this.vedp = p1.vedp;
+    }
 
     if (this.n1no && !this.copy) {
       this.page.editmode = true;

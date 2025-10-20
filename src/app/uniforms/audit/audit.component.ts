@@ -40,11 +40,12 @@ export class AuditComponent {
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
     });
-    this.getAudits();
+    this.getAudits('');
   }
 
-  getAudits() {
+  getAudits(search: any) {
     showWait();
+    if(search) this.p = 1;
     this.errors = ""
     if(this.frdt || this.todt) this.chkFltr();
 
@@ -97,12 +98,14 @@ export class AuditComponent {
   }
 
   onItemChange(event: number){
+    showWait();
     this.itemsPerPage = event
-    this.getAudits();
+    this.getAudits('');
   }
 
   onPageChange(event: number) {
+    showWait();
     this.p = event
-    this.getAudits();
+    this.getAudits('');
   }
 }

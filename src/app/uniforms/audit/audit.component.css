@@ -1,0 +1,7 @@
+.table > :not(caption) > * > * {
+    background-color: transparent;
+}
+
+.stripe{
+    background-color: #0000000d;
+}

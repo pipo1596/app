@@ -81,6 +81,10 @@ export class AuditComponent {
     if(frdt > todt) this.errors = 'End Date has to be Greater than Start Date'
   }
 
+  getInt(value: any){
+    return parseInt(value);
+  }
+
   dsppbdate(date:any){
       return formatDateUS(new Date(convertToDate(date)));
   }

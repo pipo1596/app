@@ -193,7 +193,7 @@
                     <div class="form-group row g-3 mb-3">
                         <label class="col-md-2 col-form-label" align="right"><strong>Display Default Locked Answer:</strong></label>
                         <div class="col-md-3" *ngIf="page.rfno !== '000000000000269'">
-                            <input type="checkbox" class="form-check-input mt-4" (click)="dspd == 'Y' ? dspd = 'N' : dspd = 'Y'" [checked]="dspd == 'Y'">
+                            <input type="checkbox" class="form-check-input mt-4" (click)="dspd == 'Y' ? dspd = '' : dspd = 'Y'" [checked]="dspd == 'Y'">
                         </div>
                         <div class="col-md-3" *ngIf="page.rfno == '000000000000269'">
                             <select name="" class="form-select" name="inputDspd" [(ngModel)]="dspd">
@@ -213,7 +213,7 @@
                         <div class="form-group row g-3 mb-3">
                             <label class="col-md-2 col-form-label" align="right"><strong>Lock Inventory Qty:</strong></label>
                             <div class="col-md-3">
-                                <input type="checkbox" class="form-check-input mt-2" (click)="lkqt == 'Y' ? lkqt = 'N' : lkqt = 'Y'" [checked]="lkqt == 'Y'">
+                                <input type="checkbox" class="form-check-input mt-2" (click)="lkqt == 'Y' ? lkqt = '' : lkqt = 'Y'" [checked]="lkqt == 'Y'">
                             </div>
                         </div>
                     </ng-container>

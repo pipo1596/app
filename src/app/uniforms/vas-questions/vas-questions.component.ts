@@ -100,7 +100,7 @@ export class VasQuestionsComponent {
       upct.push(this.page.data?.vasq[i].upct);
       ansq.push('1');
       dfan.push((<HTMLInputElement>document.getElementById('dfan' + i + this.page.data?.vasq[i]!.n2no)).value);
-      dspd.push((<HTMLInputElement>document.getElementById('dspd' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : 'N');
+      dspd.push((<HTMLInputElement>document.getElementById('dspd' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : '');
       dflk.push((<HTMLInputElement>document.getElementById('dflk' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : 'N');
       req.push((<HTMLInputElement>document.getElementById('req' + i + this.page.data?.vasq[i]!.n2no)).value);
     } 

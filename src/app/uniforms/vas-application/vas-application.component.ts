@@ -37,6 +37,7 @@ export class VasApplicationComponent {
   mand: any;
   actv: any;
   acno: any;
+  seq = "1";
 
   constructor(
     private http: HttpClient,
@@ -87,6 +88,7 @@ export class VasApplicationComponent {
       if(this.page.data?.vdno){
         this.page.data.vdno = this.page.data.vdno.sort((a: any,b: any) => a.valu.localeCompare(b.valu))
       }
+      if (this.page.data?.seq && this.page.data?.seq !== '0') this.seq = this.page.data.seq
       hideWait();
       this.page.loading = false;
     });
@@ -181,6 +183,10 @@ export class VasApplicationComponent {
 
   }
 
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
+
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/vasapplications/' + this.nhno + '/' + this.npno]);
@@ -203,7 +209,8 @@ export class VasApplicationComponent {
       mand: this.mand == 'Y' ? 'Y' : '',
       upct: (mode == 'update') ? this.upct : '',
       drop: (this.dropship) ? 'Y': '',
-      single: (this.single) ? 'Y': ''
+      single: (this.single) ? 'Y': '',
+      seq: this.seq
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV1', data).subscribe(response => {

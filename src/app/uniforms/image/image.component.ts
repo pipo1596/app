@@ -20,7 +20,7 @@ export class ImageComponent {
   accept: any;
 
   iofile: any;
-  iofkey: any;
+  iofkey: any = "";
   file = new TextField("file", ["required"]);
 
   constructor(private http: HttpClient,

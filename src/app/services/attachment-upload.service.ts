@@ -13,19 +13,21 @@ export class AttachmentUploadService {
 
   upload(file: File, mode: string, iofkey: string, iofile: string, desc: string): Observable<HttpEvent<any>> {
 
-    if(mode && this.baseUrl.indexOf('MODE') == -1){
+    this.baseUrl = environment.apiurl+'/cgi/APPFLUPL';
+
+    if(mode){
       this.baseUrl += `?MODE=${mode}`
     }
 
-    if(iofkey && this.baseUrl.indexOf('FKEY') == -1){
+    if(iofkey){
       this.baseUrl += `&FKEY=${iofkey}`
     }
 
-    if(iofile && this.baseUrl.indexOf('FILE') == -1){
+    if(iofile){
       this.baseUrl += `&FILE=${iofile}`
     }
 
-    if(desc && this.baseUrl.indexOf('DESC') == -1){
+    if(desc){
       this.baseUrl += `&DESC=${desc}`
     }
 

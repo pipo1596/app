@@ -73,6 +73,15 @@
                                 </div>
                         </div>
 
+                        <div class="form-group row g-3 mb-3">
+                            <label class="col-md-2 col-form-label"><strong>Sequence:</strong></label>
+                            <div class="col-md-2">
+                                <select name="" class="form-select" name="inputSeq" [(ngModel)]="seq">
+                                    <option *ngFor="let sequence of page.data?.seqDrop" [ngValue]="trim(sequence.valu)" [selected]="page.data?.seq == sequence.valu">{{sequence.desc}}</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="d-flex flex-row">
                             <div class="col-md-3">
                                 <button *ngIf="page.editmode" type="submit" class="btn btn-primary me-3" (click)="loadApp('update')">Save</button>

@@ -38,6 +38,7 @@ export class UniformComponent {
     let data = {
       mode: 'create',
       name: this.programName,
+      acno: this.acno
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNH', data).subscribe(response => {

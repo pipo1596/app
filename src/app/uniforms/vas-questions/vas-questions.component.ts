@@ -196,4 +196,33 @@ export class VasQuestionsComponent {
     }
   }
 
+  inqVSMT(){
+    localStorage.clear();
+    this.bldCache()
+    localStorage.setItem('partpg','/uniforms/vasapplications/' + this.nhno + '/' + this.npno + '/')
+    let menu = '/cgi/APOELMIS4?PAMODE=*INQ&PMVSMT=EMBLEM' + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
+    localStorage.setItem('menu',menu)
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate(['/uniforms/iframe/APOELMIS4'])
+  }
+
+  bldCache(){
+    let vasq: any = []
+
+    for (let i = 0; i < this.page.data?.vasq.length; i++) {
+      let question: any = {}
+      question.dfan = this.page.data?.vasq[i].dfan;
+      question.dflk = this.page.data?.vasq[i].dflk;
+      question.dspd = this.page.data?.vasq[i].dspd;
+      question.req = this.page.data?.vasq[i].req;
+      question.tbld = this.page.data?.vasq[i].tbld;
+      vasq.push(question)
+    } 
+    let cache = {
+      expanded: this.expanded,
+      questions: vasq
+    }
+    localStorage.setItem('p1', JSON.stringify(cache))
+  }
+
 }

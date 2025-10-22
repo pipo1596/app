@@ -53,7 +53,19 @@
                 </select>
 
                 <!-- Showing Inquiry -->
-                <input type="text" readonly class="form-control-plaintext" *ngIf="question.dfltNoDrop == 'inq'" [id]="'dfan' + i + question.n2no" [value]="question.dfan">
+                <ng-container *ngIf="question.dfltNoDrop == 'inq'">
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-10">
+                                <input type="text" readonly class="form-control-plaintext" [id]="'dfan' + i + question.n2no" [value]="question.dfan">       
+                            </div>
+
+                            <div class="col-md-1">
+                                <button class="btn btn-light" (click)="inqVSMT()">
+                                    <span class="bi bi-search" title="Inquire"></span>
+                                </button>
+                            </div>
+                        </div>
+                </ng-container>
 
 
                 <!-- Showing Input -->

@@ -148,14 +148,14 @@
                             </select>
 
                             <!-- Showing Inquiry -->
-                            <input type="text" readonly class="form-control-plaintext" *ngIf="page.data?.dfltNoDrop == 'inq'" [value]="dfan? dfan : ''">
+                            <input type="text" readonly class="form-control-plaintext" *ngIf="page.data?.dfltNoDrop == 'inq'" [value]="dfan? dfan + (vsdesc ? '-' + vsdesc : ''): ''">
 
 
                             <!-- Showing Input -->
                             <input type="text" class="form-control" *ngIf="page.data?.dfltNoDrop == 'input' || page.data?.dfltNoDrop == 'inputU'" name="inputDfan" [attr.maxlength]="page.data.maxi" [(ngModel)]="dfan" [value]="page.data?.dfltNoDrop == 'inputU' ? dfan.toUpperCase() : dfan">
 
                         </div>
-                        <div class="col-md-1 mt-5" *ngIf="page.data?.dfltNoDrop == 'inq'"> <!-- Dfan Inquiry -->
+                        <div class="col-md-1" *ngIf="page.data?.dfltNoDrop == 'inq'"> <!-- Dfan Inquiry -->
                             <button class="btn btn-light" (click)="inqDfan()">
                                 <span class="bi bi-search" title="Inquire"></span>
                             </button>

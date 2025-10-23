@@ -84,6 +84,7 @@ export class ProductComponent {
   upct: any;
   hasIW: any;
   showHelp: boolean = false;
+  imgprfx = environment.logoprfx;
 
   // Input
   desc = "";
@@ -395,7 +396,7 @@ export class ProductComponent {
       this.cats.push(naCat);
     }
 
-    if(localStorage.getItem('cache') && this.page.entrymode){
+    if(localStorage.getItem('cache')){
       this.cache = localStorage.getItem('cache');
     }
 
@@ -552,6 +553,7 @@ export class ProductComponent {
   }
 
   newCustomization(mode: any) {
+    this.bldCache();
     let partpg = '/uniforms/product/' + this.nhno + '/' + this.nino
     localStorage.setItem('partpg', partpg)
     localStorage.setItem('vfgn', this.page.data?.info?.vfgn)

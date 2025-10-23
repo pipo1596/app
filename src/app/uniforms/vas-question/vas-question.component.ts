@@ -34,6 +34,7 @@ export class VasQuestionComponent {
   vhno: any; // Droplist
   vhdesc: any; // Droplist Desc
   vsmt: any; // VAS Material Type
+  vsdesc: any; // VAS Material Emblem Desc
   dfan: any = ""; // Default Answer
   pdfan: any = ""; // Default if no Parent found
   dspd: any = ""; // Display Defaulted Locked Answer
@@ -126,6 +127,15 @@ export class VasQuestionComponent {
       if (this.page.data?.info?.dflk) this.dflk = this.page.data.info.dflk;
       if (this.page.data?.info?.upct) this.upct = this.page.data.info.upct;
 
+      if(this.page.data?.dfltNoDrop == 'inq' && this.vhno){
+        this.dfan = this.vhno
+        this.vhno = ''
+        this.vhdesc = ''
+        this.getEMB();
+      } else if (this.page.data?.dfltNoDrop == 'inq' && this.dfan){
+        this.getEMB()
+      }
+
       //Dropdowns
       if (this.page.data?.seqDrop){
         this.page.data.seqDrop = this.page.data.seqDrop.sort((a: any, b: any) => a.value.localeCompare(b.value));
@@ -154,6 +164,19 @@ export class VasQuestionComponent {
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2', data).subscribe(response => {
       this.page.data = response;
       if (this.page.data.vh_desc) this.vhdesc = this.page.data.vh_desc
+    });
+  }
+
+  getEMB(){
+    let data = {
+      mode: 'getEmb',
+      dfan: this.dfan
+    }
+    let temp = new Page ();
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2', data).subscribe(response => {
+     temp.data = response;
+      if (temp.data.vs_desc) this.vsdesc = temp.data.vs_desc
     });
   }
 
@@ -235,7 +258,7 @@ export class VasQuestionComponent {
     localStorage.clear();
     localStorage.setItem('p1',JSON.stringify(this.application));
     localStorage.setItem('p2',this.all ? 'Y' : '');
-    let menu = '/cgi/APOELMIS4?PAMODE=*INQ&PMV1CD=' + this.application.v1cd + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N'
+    let menu = '/cgi/APOELMIS4?PAMODE=*INQ&PMVSMT=EMBLEM' + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('partpg','/uniforms/vasquestion/' + this.page.rfno + '/' + this.npno + '/');
     localStorage.setItem('menu',menu);

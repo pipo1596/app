@@ -23,18 +23,18 @@
             <td align="left">{{question.desc}}</td> <!-- VAS Question -->
             <td align="left">{{question.typeDesc}}</td> <!-- Type -->
             <td align="left">
-                <input class="form-check-input" type="checkbox" [id]="'dflk' + i + question.n2no" [checked]="question.dflk == 'Y' || (question.req == 'R' && question.type == 'D')" [disabled]="question.type == 'D' && question.req == 'R'"> <!-- Force Default -->
+                <input class="form-check-input" type="checkbox" [id]="'dflk' + i + question.n2no" [checked]="question.dflk == 'Y' || (question.req == 'R' && question.type == 'D')" [disabled]="question.type == 'D' && question.req == 'R'" (change)="updService(i, question.n2no)"> <!-- Force Default -->
             </td>
             <td align="left">
-                <select class="form-select" name="displayForced" [id]="'dspd' + i + question.n2no" *ngIf="question.dspdDrop == 'Y'"> <!-- Display Forced Answer -->
+                <select class="form-select" name="displayForced" [id]="'dspd' + i + question.n2no" *ngIf="question.dspdDrop == 'Y'" (change)="updService(i, question.n2no)"> <!-- Display Forced Answer -->
                     <option value="">Select</option>
                     <option *ngFor="let default of question.ynDrop"  [value]="default.value" [selected]="default.value == question.dspd">{{default.desc}}</option>
                 </select>
 
-                <input class="form-check-input" type="checkbox" [id]="'dspd' + i + question.n2no" [checked]="question.dspd == 'Y'" *ngIf="!question.dspdDrop || question.dspdDrop !== 'Y'">
+                <input class="form-check-input" type="checkbox" [id]="'dspd' + i + question.n2no" [checked]="question.dspd == 'Y'" *ngIf="!question.dspdDrop || question.dspdDrop !== 'Y'" (change)="updService(i, question.n2no)">
             </td>
             <td align="left" style="width: 15%"> <!-- Required -->
-                <select name="" class="form-select" [id]="'req' + i + question.n2no" [disabled]="question.reqVF == 'Y'" (change)="chkReq($event, i)">
+                <select name="" class="form-select" [id]="'req' + i + question.n2no" [disabled]="question.reqVF == 'Y'" (change)="chkReq($event, i)" (change)="updService(i, question.n2no)">
                     <option value="">Select</option>
                     <option *ngFor="let answer of question.reqDrop" [value]="answer.value" [selected]="answer.value == question.req">{{answer.desc}}</option>
                 </select>
@@ -42,12 +42,12 @@
             <!-- Default Answer -->
             <td align="left">
                 <!-- Displaying Dropdown-->
-                <select name="" class="form-select" *ngIf="question.dfltAnsDrop" [id]="'dfan' + i + question.n2no" (change)="saveQuestions('validate')">
+                <select name="" class="form-select" *ngIf="question.dfltAnsDrop" [id]="'dfan' + i + question.n2no" (change)="saveQuestions('validate')" (change)="updService(i, question.n2no)">
                     <option value="">Select</option>
                     <option *ngFor="let answer of question.dfltAnsDrop" [value]="answer.value" [selected]="answer.value == question.dfan">{{answer.desc}}</option>
                 </select>
 
-                <select name="" class="form-select" *ngIf="question.dfltAnsPDrop" [id]="'dfan' + i + question.n2no" (change)="saveQuestions('validate')">
+                <select name="" class="form-select" *ngIf="question.dfltAnsPDrop" [id]="'dfan' + i + question.n2no" (change)="saveQuestions('validate')" (change)="updService(i, question.n2no)">
                     <option value="">Select</option>
                     <option *ngFor="let answer of question.dfltAnsPDrop" [value]="answer.value" [selected]="answer.value == question.dfan">{{answer.desc}}</option>
                 </select>
@@ -56,11 +56,11 @@
                 <ng-container *ngIf="question.dfltNoDrop == 'inq'">
                         <div class="row g-3 mb-3">
                             <div class="col-md-10">
-                                <input type="text" readonly class="form-control-plaintext" [id]="'dfan' + i + question.n2no" [value]="question.dfan">       
+                                <input type="text" readonly class="form-control-plaintext" [id]="'dfan' + i + question.n2no" [value]="question.dfan" (change)="updService(i, question.n2no)">       
                             </div>
 
                             <div class="col-md-1">
-                                <button class="btn btn-light" (click)="inqVSMT()">
+                                <button class="btn btn-light" (click)="inqVSMT(question)">
                                     <span class="bi bi-search" title="Inquire"></span>
                                 </button>
                             </div>
@@ -69,7 +69,7 @@
 
 
                 <!-- Showing Input -->
-                <input type="text" class="form-control" *ngIf="question.dfltNoDrop == 'input' || question.dfltNoDrop == 'inputU'" [id]="'dfan' + i + question.n2no" [attr.maxlength]="question.maxi" [value]=" question.dfltNoDrop == 'inputU' ? question.dfan.toUpperCase() : question.dfan">
+                <input type="text" class="form-control" *ngIf="question.dfltNoDrop == 'input' || question.dfltNoDrop == 'inputU'" [id]="'dfan' + i + question.n2no" [attr.maxlength]="question.maxi" [value]=" question.dfltNoDrop == 'inputU' ? question.dfan.toUpperCase() : question.dfan" (change)="updService(i, question.n2no)">
             </td>
             <td align="left"></td>
         </tr>

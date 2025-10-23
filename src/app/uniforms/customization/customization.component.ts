@@ -26,6 +26,7 @@ export class CustomizationComponent {
   // Parms
   nhno: any;
   npno: any;
+  cache: any; 
   upct = "0";
 
   // Input
@@ -103,6 +104,7 @@ export class CustomizationComponent {
   setMode() {
     this.copy = localStorage.getItem('copy')
     this.nino = localStorage.getItem('nino')
+    this.cache = localStorage.getItem('cache');
     this.partpg = localStorage.getItem('partpg');
 
     this.route.paramMap.subscribe(params => {
@@ -301,6 +303,8 @@ export class CustomizationComponent {
       if (this.page.data.result == 'pass' && this.page.data.nhno){
         localStorage.setItem('UP_AUTH','Y');
         if(mode == 'create' && this.page.data.npno){
+          if(this.nino) localStorage.setItem('nino',this.nino);
+          if(this.cache) localStorage.setItem('cache',this.cache);
           this.router.navigate(['/uniforms/vasapplications/' + this.page.data.nhno + '/' + this.page.data.npno]);
         } else this.router.navigate(['/uniforms/customizations/' + this.page.data.nhno]);
       }

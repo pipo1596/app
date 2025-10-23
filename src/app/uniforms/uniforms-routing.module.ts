@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UniformComponent } from './uniform/uniform.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { InfoComponent } from './info/info.component';
 import { ProductsComponent } from './products/products.component';
 import { ProductComponent } from './product/product.component';
 import { CategoriesComponent } from './categories/categories.component';
@@ -36,19 +37,18 @@ import { OERP53Component } from './reports/oerp53/oerp53.component';
 import { OERP302Component } from './reports/oerp302/oerp302.component';
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { AuditComponent } from './audit/audit.component';
-import { InfoComponent } from './info/info.component';
 import { QuickAddComponent } from './quick-add/quick-add.component';
 import { OverridesComponent } from './overrides/overrides.component';
 import { OverrideComponent } from './override/override.component';
 import { ItemImagesComponent } from './item-images/item-images.component';
 import { ItemImageComponent } from './item-image/item-image.component';
-import { ModalImfComponent } from './modal-imf/modal-imf.component';
 import { authGuard } from './auth.guard';
+import { ModalImfComponent } from './modal-imf/modal-imf.component';
 
 const routes: Routes = [
   //Uniform
-  { path: 'newuniform', component: UniformComponent},
-  { path: 'newuniform/:acno', component: UniformComponent},
+  { path: 'newuniform', component: UniformComponent  },
+  { path: 'newuniform/:acno', component: UniformComponent, canActivate: [authGuard]  },
 
   //Dashboard
   { path: 'dashboard/:nhno', component: DashboardComponent},
@@ -95,6 +95,7 @@ const routes: Routes = [
   { path: 'customization/:nhno/:npno', component: CustomizationComponent, canActivate: [authGuard]  }, 
   { path: 'customization/:nhno/:npno/:vfgn', component: CustomizationComponent, canActivate: [authGuard]  }, 
   { path: 'vasapplications/:nhno/:npno', component: VasApplicationsComponent, canActivate: [authGuard]  },
+  { path: 'vasapplications/:nhno/:npno/:vsmt', component: VasApplicationsComponent, canActivate: [authGuard]  },
   { path: 'newvasapplication/:nhno/:npno', component: VasApplicationComponent, canActivate: [authGuard]  },
   { path: 'newvasapplication/:nhno/:npno/:vedp', component: VasApplicationComponent, canActivate: [authGuard]  },
   { path: 'vasapplication/:nhno/:npno/:n1no', component: VasApplicationComponent, canActivate: [authGuard]  },
@@ -144,7 +145,7 @@ const routes: Routes = [
   { path: 'vasprice/:nhno', component: VaspriceComponent, canActivate: [authGuard]  },
 
   //Audit
-  { path: 'audit/:nhno', component: AuditComponent },
+  { path: 'audit/:nhno', component: AuditComponent, canActivate: [authGuard]  },
   
   { path: 'iframe/:menu', component: IframeComponent, canActivate: [authGuard]  },
   { path: '**', component: UniformComponent }

@@ -117,7 +117,7 @@
                         </div>
 
                         <!-- Category -->
-                        <div class="row g-3 mb-5" *ngIf="page.data?.style || page.data?.info">
+                        <div class="row g-3 mb-4" *ngIf="page.data?.style || page.data?.info">
                             <div class="col-md-5">
                                 <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span>Category:</label>
                                 <ngx-select-dropdown name="catDrop" [multiple]="true" [disabled]="page.editmode" [config]="catConfig()" (change)="cats = $event.value;" [options]="page.data?.categories" [(ngModel)]="cats"></ngx-select-dropdown>
@@ -125,6 +125,21 @@
                             <div class="col-md-2 mt-5">
                                 <button type="button" class="btn btn-primary me-3" (click)="newCategory()">New</button>
                             </div> 
+                        </div>
+
+                        <!-- Helper -->
+                        <div class="row g-1 mb-3" *ngIf="page.data?.style && page.data?.vfgn || page.data?.info && page.data?.info?.vfgn">
+                            <div class="col-md-8 ms-4">
+                                <h6><img style="max-width: 3%; max-height: 50%;" src="{{imgprfx}}/lightbulb.png"></h6>
+                                <div class="col-md-9 ms-4">
+                                    <h6><small>Select an existing Customization from the drop list or if you need to create new Customization, click the NEW button below.</small></h6>
+                                </div>
+                            </div>
+                            <div class="col-md-9 ms-4">
+                                <div class="col-md-8 ms-4 mt-3">
+                                    <h6><small>Note: You will only see Customizations applicable to this style in the drop list. The Style Configurator Template on the Customization must match the Style Configurator Template on this style for it to appear in the drop list.</small></h6>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Customization -->

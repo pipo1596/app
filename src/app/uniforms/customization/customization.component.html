@@ -33,26 +33,39 @@
                         </div>
 
                         <div class="row g-3 mb-3" *ngIf="page.entrymode && this.single == 'N'"> <!-- Single Config Top -->
+                            <div class="col-md-9">
+                                <label for="inputCnfg" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Style Configurator Template:</strong> <small class="ms-5" *ngIf="page.entrymode && this.nino"><strong><i>This template is pulled in from your selected style</i></strong></small> </label>
+                            </div>
+                        </div>       
+
+                        <div class="row g-3 mb-3" *ngIf="page.entrymode && this.single == 'N'"> <!-- Single Config Top -->
                             <div class="col-md-3">
-                                <label for="inputCnfg" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Style Configurator Template:</strong> </label>
                                 <input type="text" readonly class="form-control" [value]="vfgdesc ? vfgdesc : ''">
                             </div>
-                            <div class="col-md-2 mt-5">
+                            <div class="col-md-2">
                                 <button class="btn" (click)="inqVfg()"><span class="bi bi-search me-2" title="Inquire"></span></button>
                                 <a *ngIf="this.vfgn" href="javascript:void(0)" (click)="clrVFGN()"><span>Clear</span></a>
                             </div>
                         </div>        
 
+                        <div class="row g-3">
+                            <div class="col-md-9">
+                                <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Name:</strong> <small class="ms-5" *ngIf="page.entrymode && this.nino"><strong><i>Create Customization name using standard naming practice</i></strong></small></label>
+                            </div>
+                        </div>
                         <div class="row g-3 mb-4">
                             <div class="col-md-3">
-                                <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Name:</strong> </label>
                                 <input type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="name" [disabled]="this.single == 'N' && !this.vfgn" (keydown)="this.single == 'N' && page.entrymode && !this.nino ? ($event.key == 'Backspace' || $event.key == 'ArrowLeft' ? keepVFG($event) : '') : ''">
                             </div>
                         </div>
 
                         <div class="row g-3 mb-3">
+                            <div class="col-md-9">
+                                <label for="inputDesc" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>eQuip Description:</strong> <small class="ms-5" *ngIf="page.entrymode && this.nino"><strong><i>eQuip Description is what the customer will see on the eQuip site</i></strong></small> </label>
+                            </div>
+                        </div>
+                        <div class="row g-3 mb-3">
                             <div class="col-md-3">
-                                <label for="inputDesc" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>eQuip Description:</strong> </label>
                                 <input type="text" class="form-control" id="inputDesc" name='description' [(ngModel)]="desc" [disabled]="this.single == 'N' && !this.vfgn">
                             </div>
                         </div>
@@ -85,8 +98,13 @@
                         </div>
 
                         <div class="row g-3 mb-3">
+                            <div class="col-md-9">
+                                <label for="inputEffd" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Effective Date:</strong> <small class="ms-5" *ngIf="page.entrymode && this.nino"><strong><i>These dates automatically default to the UP Header level expiration & effective date</i></strong></small> </label>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
                             <div class="col-md-3">
-                                <label for="inputEffd" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Effective Date:</strong> </label>
                                 <input type="date" class="form-control" name="effective" [(ngModel)]="effd">
                             </div>
                         </div>
@@ -99,8 +117,13 @@
                         </div>
 
                         <div class="row g-3 mb-3">
+                            <div class="col-md-9">
+                                <label for="inputSeq" class="form-label"><strong>Sequence:</strong> <small class="ms-5" *ngIf="page.entrymode && this.nino"><strong><i>Sequence determines the order in which these Customization Groups display in the list </i></strong></small> </label>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
                             <div class="col-md-1">
-                                <label for="inputSeq" class="form-label"><strong>Sequence:</strong> </label>
                                 <input type="text" class="form-control" name='sequence' [(ngModel)]="seq">
                             </div>
                         </div>

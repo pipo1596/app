@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { Page } from '../../shared/textField';
 import { Router } from '@angular/router';
 import { hideWait, showWait } from '../../shared/utils';
+import { AppQuestionsService } from '../../services/app-questions.service';
 
 @Component({
   selector: 'app-vas-questions',
@@ -17,15 +18,19 @@ export class VasQuestionsComponent {
   @Input() application : any = "";
   @Input() expanded : any = [];
   @Input() all : any;
+  @Input() cache : any;
+  @Input() vsmt : any;
 
   page = new Page();
   errors = ""
   msg = ""
   rules: any;
+  questions: any;
   
   constructor(
     private http: HttpClient, 
-    private router: Router
+    private router: Router,
+    private questionService: AppQuestionsService
   ){}
 
   ngOnInit(): void {
@@ -55,6 +60,31 @@ export class VasQuestionsComponent {
           this.page.data.vasq[i].tbld = temp[i].tbld;
         } 
       }
+
+      if(this.cache?.questions?.length > 0){ // Coming from Inquiry
+        let apps = this.questionService.getApp();
+        if(apps){
+          for(let i = 0; i < apps.length; i++){
+            if(JSON.stringify(this.application) == JSON.stringify(apps[i][0])){ //Found Application
+              this.page.data.vasq = apps[i][1]
+            }
+          }
+        }
+
+        for (let i = 0; i < this.cache?.questions.length; i++) {
+          if (JSON.stringify(this.page.data.vasq[i].n2no) == JSON.stringify(this.cache?.question.n2no)) 
+            {
+              if(this.vsmt) {
+                this.page.data.vasq[i].dfan = this.vsmt
+              }
+            } 
+        } 
+        this.cache = ''
+      }
+
+      this.questions = this.page.data?.vasq;
+      this.questionService.setQuestions(this.application,this.questions)
+      let apps = this.questionService.getApp();
       hideWait();
     });
   }
@@ -196,9 +226,9 @@ export class VasQuestionsComponent {
     }
   }
 
-  inqVSMT(){
+  inqVSMT(question: any){
     localStorage.clear();
-    this.bldCache()
+    this.bldCache(question)
     localStorage.setItem('partpg','/uniforms/vasapplications/' + this.nhno + '/' + this.npno + '/')
     let menu = '/cgi/APOELMIS4?PAMODE=*INQ&PMVSMT=EMBLEM' + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('menu',menu)
@@ -206,23 +236,37 @@ export class VasQuestionsComponent {
     this.router.navigate(['/uniforms/iframe/APOELMIS4'])
   }
 
-  bldCache(){
+  bldCache(q: any){
     let vasq: any = []
 
     for (let i = 0; i < this.page.data?.vasq.length; i++) {
       let question: any = {}
-      question.dfan = this.page.data?.vasq[i].dfan;
-      question.dflk = this.page.data?.vasq[i].dflk;
-      question.dspd = this.page.data?.vasq[i].dspd;
-      question.req = this.page.data?.vasq[i].req;
+      question.dfan = (<HTMLInputElement>document.getElementById('dfan' + i + this.page.data?.vasq[i]!.n2no)).value;
+      question.dflk = (<HTMLInputElement>document.getElementById('dflk' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : 'N'
+      question.dspd = (<HTMLInputElement>document.getElementById('dspd' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : '';
+      question.req = (<HTMLInputElement>document.getElementById('req' + i + this.page.data?.vasq[i]!.n2no)).value
       question.tbld = this.page.data?.vasq[i].tbld;
       vasq.push(question)
     } 
     let cache = {
+      question: q,
       expanded: this.expanded,
       questions: vasq
     }
     localStorage.setItem('p1', JSON.stringify(cache))
+  }
+
+  updService(i: any, n2no: any){
+    for (let i = 0; i < this.questions?.length; i++) {
+      if(this.questions[i].n2no == n2no){
+        this.questions[i].dfan = (<HTMLInputElement>document.getElementById('dfan' + i + n2no)).value;
+        this.questions[i].dflk = (<HTMLInputElement>document.getElementById('dflk' + i + n2no)).checked ? 'Y' : 'N'
+        this.questions[i].dspd = (<HTMLInputElement>document.getElementById('dspd' + i + n2no)).checked ? 'Y' : '';
+        this.questions[i].req = (<HTMLInputElement>document.getElementById('req' + i + n2no)).value
+        this.questionService.setQuestions(this.application,this.questions)
+      }
+    } 
+    let apps = this.questionService.getApp()
   }
 
 }

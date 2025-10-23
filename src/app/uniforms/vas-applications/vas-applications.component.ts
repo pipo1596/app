@@ -103,13 +103,18 @@ export class VasApplicationsComponent {
   }
 
   expandApplication(application: any){
+
     if(this.chkExpanded(application)){
-      this.expanded.splice(this.expanded.indexOf(application),1)
+      for(let i = 0; i < this.expanded.length; i++){
+        if(JSON.stringify(this.expanded[i]) == JSON.stringify(application)){
+          this.expanded.splice(i,1)
+        }
+      }
+      this.questionService.clrApp(application)
       this.allexpanded = false;
     } else{
       this.expanded.push(application)
       this.questionService.setApp(application)
-      let apps = this.questionService.getApp();
       this.allexpanded = true;
 
       for(let i = 0; i < this.page.data?.applications.length; i++){
@@ -121,13 +126,21 @@ export class VasApplicationsComponent {
   }
 
   expandAll(){
+    this.questionService.clrAll();
     for (let i = 0; i < this.page.data?.applications.length; i++) {
       let application = this.page.data?.applications[i]
       if(application.bttn == 'Y'){
-        if(this.allexpanded && this.expanded.indexOf(application) == -1){
+        if(this.allexpanded && !this.chkExpanded(application)){
           this.expanded.push(application)
-        } else if(!this.allexpanded && this.expanded.indexOf(application) !== -1){
-          this.expanded.splice(this.expanded.indexOf(application),1)
+          this.questionService.setApp(application)
+        } else if(!this.allexpanded && this.chkExpanded(application)){
+
+          for(let y = 0; y < this.expanded.length; y++){
+            if (JSON.stringify(this.expanded[y]) == JSON.stringify(application)){
+              this.expanded.splice(y,1)
+            }
+          }
+
         }
       }
     }

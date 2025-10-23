@@ -8,8 +8,28 @@ export class AppQuestionsService {
 
   constructor() { }
 
+  clrAll() {
+    this.applications = [];
+  }
+
   setApp(app: any){
-    this.applications.push([app,{}])
+    let included = false;
+    for (let i = 0; i < this.applications.length; i++) {
+      if(JSON.stringify(this.applications[i][0]) == JSON.stringify(app)){
+        included = true
+      }
+    }
+    if(!included){
+      this.applications.push([app,{}])
+    }
+  }
+
+  clrApp(app: any){
+    for (let i = 0; i < this.applications.length; i++) {
+      if(this.applications[i][0] == app){
+        this.applications.splice(i,1)
+      }
+    }
   }
 
   getApp(){

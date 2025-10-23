@@ -65,14 +65,14 @@ export class VasQuestionsComponent {
         let apps = this.questionService.getApp();
         if(apps){
           for(let i = 0; i < apps.length; i++){
-            if(JSON.stringify(this.application) == JSON.stringify(apps[i][0])){ //Found Application
+            if(Object.keys(apps[i][1]).length !== 0 && (JSON.stringify(this.application) == JSON.stringify(apps[i][0]))){ //Found Application
               this.page.data.vasq = apps[i][1]
             }
           }
         }
 
         for (let i = 0; i < this.cache?.questions.length; i++) {
-          if (JSON.stringify(this.page.data.vasq[i].n2no) == JSON.stringify(this.cache?.question.n2no)) 
+          if (JSON.stringify(this.page.data?.vasq[i]?.n2no) == JSON.stringify(this.cache?.question?.n2no)) 
             {
               if(this.vsmt) {
                 this.page.data.vasq[i].dfan = this.vsmt
@@ -84,7 +84,6 @@ export class VasQuestionsComponent {
 
       this.questions = this.page.data?.vasq;
       this.questionService.setQuestions(this.application,this.questions)
-      let apps = this.questionService.getApp();
       hideWait();
     });
   }
@@ -266,7 +265,6 @@ export class VasQuestionsComponent {
         this.questionService.setQuestions(this.application,this.questions)
       }
     } 
-    let apps = this.questionService.getApp()
   }
 
 }

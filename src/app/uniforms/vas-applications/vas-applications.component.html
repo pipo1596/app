@@ -33,29 +33,29 @@
                         <h6><small> {{'Catalog > Customization > ' + (page.data?.npname ? page.data?.npname + ' (' + trim(this.npno) + ')' : '')}} </small></h6>
                     </div>
                     <div class="col-md-5">
-                        <h6 class="" *ngIf="this.nino">Step 1: Click NEW to start adding VAS Applications to this Customization Group</h6>
+                        <p *ngIf="this.nino"><strong>Step 1:</strong> Click NEW to start adding VAS Applications to this Customization Group</p>
                     </div>
                 </div>
 
                 <div class="row g-3 mb-1">
                     <div class="col-md-5"></div>
                     <div class="col-md-5">
-                        <h6 class="" *ngIf="this.nino">Step 2: Edit VAS Questions from the list below. Click + button to see all questions for an application.</h6>
+                        <p *ngIf="this.nino"><strong>Step 2:</strong> Edit VAS Questions from the list below. Click + button to see all questions for an application.</p>
                     </div>
                 </div>
 
                 <div class="row g-3 mb-1">
                     <div class="col-md-5"></div>
                     <div class="col-md-5">
-                        <h6 class="" *ngIf="this.nino">Step 3: Answer all Required questions, then review non-required questions and answer as necessary.</h6>
-                        <h6 class="ms-5" *ngIf="this.nino"><strong>*If you answer a non-required question, you need to set it to "Required" for it to work</strong></h6>
+                        <p *ngIf="this.nino"><strong>Step 3:</strong> Answer all Required questions, then review non-required questions and answer as necessary.</p>
+                        <p class="ms-5" *ngIf="this.nino"><strong>*If you answer a non-required question, you need to set it to "Required" for it to work</strong></p>
                     </div>
                 </div>
 
                 <div class="row g-3 mb-1">
                     <div class="col-md-5"></div>
                     <div class="col-md-5">
-                        <h6 class="" *ngIf="this.nino">Step 4: Click "Finish Customization, Return to Style" to return to your originally selected style. Or use Cancel to return to the Customizations list.</h6>
+                        <p *ngIf="this.nino"><strong>Step 4:</strong> Click "Finish Customization, Return to Style" to return to your originally selected style. Or use Cancel to return to the Customizations list.</p>
                     </div>
                 </div>
     

@@ -8,9 +8,10 @@
 
         <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
             <div class="card-body">
-                <div class="row g-4 mb-5">
-                    <div class="col-2">
-                        <button (click)="goBack()" class="btn btn-secondary rounded-0 w-50 me-3" type="button">Cancel</button>
+                <div class="d-flex flex-row mb-5">
+                    <div class="col-md-6">
+                        <button (click)="goBack()" class="btn btn-secondary rounded-0 w-25 me-3" type="button">Cancel</button>
+                        <button (click)="goProduct()" class="btn btn-primary rounded-0 w-50" type="button" *ngIf="this.nino">Finish Customization, Return to Style</button>
                     </div>
                 </div>
 
@@ -27,12 +28,37 @@
                     </div>
                 </div>
 
-                <div class="row g-3 mb-3">
-                    <div class="col-md-9">
+                <div class="row g-3 mb-1">
+                    <div class="col-md-5">
                         <h6><small> {{'Catalog > Customization > ' + (page.data?.npname ? page.data?.npname + ' (' + trim(this.npno) + ')' : '')}} </small></h6>
+                    </div>
+                    <div class="col-md-5">
+                        <h6 class="" *ngIf="this.nino">Step 1: Click NEW to start adding VAS Applicaitons to this Customization Group</h6>
                     </div>
                 </div>
 
+                <div class="row g-3 mb-1">
+                    <div class="col-md-5"></div>
+                    <div class="col-md-5">
+                        <h6 class="" *ngIf="this.nino">Step 2: Edit VAS Questions from the list below. Click + button to see all questions for an application.</h6>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-1">
+                    <div class="col-md-5"></div>
+                    <div class="col-md-5">
+                        <h6 class="" *ngIf="this.nino">Step 3: Answer all Required questions, then review non-required questions and answer as necessary.</h6>
+                        <h6 class="ms-5" *ngIf="this.nino"><strong>*If you answer a non-required question, you need to set it to "Required" for it to work</strong></h6>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-1">
+                    <div class="col-md-5"></div>
+                    <div class="col-md-5">
+                        <h6 class="" *ngIf="this.nino">Step 4: Click "Finish Customization, Return to Style" to return to your originally selected style. Or use Cancel to return to the Customizations list.</h6>
+                    </div>
+                </div>
+    
                 <div class="row g-3 mb-4" *ngIf="hasQuestions()">
                     <div class="col-md-3">
                         <span>Expand All VAS Questions: </span>
@@ -68,7 +94,7 @@
                                     <button class="btn bg-transparent" (click)="deleteApplication(application.n1no)"><span
                                         class="bi bi-trash" title="Product Details"></span></button>
                                     <button class="btn bg-transparent" (click)="expandApplication(application)" *ngIf="application.bttn == 'Y'"><span
-                                        [ngClass]="expanded.includes(application) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category"></span></button>
+                                        [ngClass]="chkExpanded(application) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category"></span></button>
                                 </td>
                                 <td align="left">{{application.desc}}</td>
                                 <td align="left">{{application.v1cd}}</td>
@@ -78,10 +104,10 @@
                                 <td align="left">{{(application.addt) ? dsppbdate(application.addt) : ''}}</td>
                             </tr>
 
-                            <ng-container *ngIf="expanded.includes(application)">
+                            <ng-container *ngIf="chkExpanded(application)">
                                 <tr>
                                     <td colspan="7">
-                                        <app-vas-questions [nhno]="page.rfno" [npno]="this.npno" [application]="application" [expanded]="expanded" [all]="allexpanded ? true : false"></app-vas-questions>
+                                        <app-vas-questions [nhno]="page.rfno" [npno]="this.npno" [application]="application" [expanded]="expanded" [all]="allexpanded ? true : false" [cache]="this.p1?.expanded ? this.p1 : ''" [vsmt]="this.vsmt"></app-vas-questions>
                                     </td>
                                 </tr>
                             </ng-container>

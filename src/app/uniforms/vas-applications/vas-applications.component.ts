@@ -4,6 +4,7 @@ import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait, convertToDate, formatDateUS } from '../../shared/utils';
+import { AppQuestionsService } from '../../services/app-questions.service';
 
 @Component({
   selector: 'app-vas-applications',
@@ -19,6 +20,10 @@ export class VasApplicationsComponent {
 
   // Input 
   npno: any;
+  nino: any;
+  vsmt: any;
+  cache: any;
+  p1: any;
 
   // Checkboxes
   checked: any[] = [];
@@ -30,7 +35,8 @@ export class VasApplicationsComponent {
 
   constructor(private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private questionService: AppQuestionsService,
   ) { }
 
   ngOnInit(): void {
@@ -39,10 +45,21 @@ export class VasApplicationsComponent {
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
       this.npno = params.get('npno');
+      this.vsmt = params.get('vsmt');
     });
     if(localStorage.getItem('allexpand')){
       this.allexpanded = localStorage.getItem('allexpand') ? true : false;
     }
+    if(localStorage.getItem('nino')){
+      this.nino = localStorage.getItem('nino')
+    }
+    if(localStorage.getItem('cache')){
+      this.cache = localStorage.getItem('cache')
+    }
+    if(localStorage.getItem('p1')){
+      this.p1 = JSON.parse(localStorage.getItem('p1')!);
+    }
+
     this.getCustomizations()
     
     localStorage.clear();
@@ -63,6 +80,9 @@ export class VasApplicationsComponent {
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
       if (this.page.data.total) this.total = this.page.data.total;
+      if (this.p1?.expanded){
+        this.expanded = this.p1.expanded
+      }
       if (this.allexpanded) this.expandAll();
       this.page.loading = false;
       hideWait();
@@ -74,17 +94,26 @@ export class VasApplicationsComponent {
       if (this.page.data?.applications[i].bttn == 'Y') return true;
     } return false;
   }
+  
+  chkExpanded(application: any){
+    for (let i = 0; i < this.expanded.length; i++) {
+      let expand = this.expanded[i]
+      if (JSON.stringify(expand) == JSON.stringify(application)) return true;
+    } return false;
+  }
 
   expandApplication(application: any){
-    if(this.expanded.includes(application)){
+    if(this.chkExpanded(application)){
       this.expanded.splice(this.expanded.indexOf(application),1)
       this.allexpanded = false;
     } else{
       this.expanded.push(application)
+      this.questionService.setApp(application)
+      let apps = this.questionService.getApp();
       this.allexpanded = true;
 
       for(let i = 0; i < this.page.data?.applications.length; i++){
-        if(this.page.data?.applications[i].bttn == 'Y' && !this.expanded.includes(this.page.data?.applications[i])) {
+        if(this.page.data?.applications[i].bttn == 'Y' && !this.chkExpanded(this.page.data?.applications[i])) {
           this.allexpanded = false
         }
       }
@@ -157,7 +186,7 @@ export class VasApplicationsComponent {
   }
 
   allChecked(){
-    for (let i = 0; i < this.page.data?.applications.length; i++) {
+    for (let i = 0; i < this.page.data?.applications?.length; i++) {
       if(!(this.isChecked(this.page.data.applications[i]))){
         return false;
       }
@@ -196,6 +225,12 @@ export class VasApplicationsComponent {
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('rtpg', this.page.data?.npname);
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
+  }
+
+  goProduct() {
+    localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('cache',this.cache);
+    this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + this.nino]);
   }
 
   dsppbdate(date:any){

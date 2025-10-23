@@ -24,6 +24,7 @@ export class VasApplicationComponent {
   nhno: any;
   npno: any;
   n1no: any;
+  imgprfx = environment.logoprfx;
   upct = "0";
 
   // Input

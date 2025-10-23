@@ -5,6 +5,8 @@ import { EventEmitter, Injectable } from '@angular/core';
 })
 export class AppQuestionsService {
   applications:any[][] = []
+  page: any = ""
+  itemsPerPage: any = ""
 
   constructor() { }
 
@@ -42,5 +44,18 @@ export class AppQuestionsService {
         this.applications[i][1] = questions
       }
     }
+  }
+
+  setConfig(p: any, i: any){
+    this.page = p;
+    this.itemsPerPage = i;
+  }
+
+  getPage(){
+    return this.page;
+  }
+
+  getItems(){
+    return this.itemsPerPage;
   }
 }

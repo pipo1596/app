@@ -66,6 +66,14 @@ export class VasApplicationsComponent {
   }
 
   getCustomizations() {
+    if(this.questionService.getPage()){
+      this.p = this.questionService.getPage();
+    }
+
+    if(this.questionService.getItems()){
+      this.itemsPerPage = this.questionService.getItems();
+    }
+
      let data = {
       mode: 'getInfo',
       nhno: this.page.rfno,
@@ -110,6 +118,7 @@ export class VasApplicationsComponent {
           this.expanded.splice(i,1)
         }
       }
+      // this.expanded.splice(this.expanded.indexOf(application),1)
       this.questionService.clrApp(application)
       this.allexpanded = false;
     } else{
@@ -253,6 +262,7 @@ export class VasApplicationsComponent {
   onItemChange(event: number){
     showWait();
     this.itemsPerPage = event
+    this.questionService.setConfig(this.p, this.itemsPerPage);
     this.getCustomizations()
     this.expanded = []
   }
@@ -260,6 +270,7 @@ export class VasApplicationsComponent {
   onPageChange(event: number) {
     showWait();
     this.p = event
+    this.questionService.setConfig(this.p, this.itemsPerPage);
     this.getCustomizations()
     this.expanded = []
   }

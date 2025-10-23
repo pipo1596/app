@@ -9,25 +9,25 @@
             <div class="card-body">
 
                 <div class="row g-3">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <h6 class="">Uniform Program - {{ page.data?.info?.name }}</h6>
                     </div>
-                    <div class="col-md-1">
+                    <div class="col">
                         <button class="btn" (click)="loadUP(page.rfno, 'name')"><span class="bi bi-pencil-square" title="Edit UP"></span></button>
                     </div>
                     <div class="col-md-2">
                         <h6 class="me-5">Start Date: {{ dsppbdate(page.data?.info?.effd) }}</h6>
                     </div>
-                    <div class="col-md-1">
+                    <div class="col">
                         <button class="btn" (click)="loadUP(page.rfno, 'effd')"><span class="bi bi-pencil-square" title="Edit Start Date"></span></button>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col">
                         <h6 class="me-5">Expiration Date: {{ dsppbdate(page.data?.info?.expd) }}</h6>
                     </div>
-                    <div class="col-md-1">
+                    <div class="col">
                         <button class="btn" (click)="loadUP(page.rfno, 'expd')"><span class="bi bi-pencil-square" title="Edit Exp Date"></span></button>   
                     </div>
-                    <div class="col-md-1">
+                    <div class="col">
                         <button class="btn">
                             <span class="bi bi-bell" title=""></span>
                         </button>

@@ -139,7 +139,7 @@
                     <!-- Default Answer -->
                     <div class="form-group row g-3 mb-3">
                         <label class="col-md-2 col-form-label" align="right"><strong>Default Answer:</strong></label>
-                        <div class="col-md-3">
+                        <div [ngClass]="page.data?.dfltNoDrop == 'inq' ? 'col' : 'col-md-3'">
 
                             <!-- Displaying Dropdown-->
                             <select name="" class="form-select" *ngIf="!page.data?.dfltNoDrop" name="inputDfan" [(ngModel)]="dfan">
@@ -155,7 +155,7 @@
                             <input type="text" class="form-control" *ngIf="page.data?.dfltNoDrop == 'input' || page.data?.dfltNoDrop == 'inputU'" name="inputDfan" [attr.maxlength]="page.data.maxi" [(ngModel)]="dfan" [value]="page.data?.dfltNoDrop == 'inputU' ? dfan.toUpperCase() : dfan">
 
                         </div>
-                        <div class="col-md-1" *ngIf="page.data?.dfltNoDrop == 'inq'"> <!-- Dfan Inquiry -->
+                        <div class="col" *ngIf="page.data?.dfltNoDrop == 'inq'"> <!-- Dfan Inquiry -->
                             <button class="btn btn-light" (click)="inqDfan()">
                                 <span class="bi bi-search" title="Inquire"></span>
                             </button>

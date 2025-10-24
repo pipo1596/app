@@ -86,7 +86,7 @@ export class CustomizationComponent {
         this.single = 'Y'
         this.getCTNO('single')
       }
-      if(this.single == 'N' && this.page.entrymode && this.vfgn && !this.nino) this.name = '[' + this.trim(this.vfgn) + '] '
+      if(this.single == 'N' && this.page.entrymode && this.vfgn) this.name = '[' + this.trim(this.vfgn) + '] '
       if (this.page.data?.info?.seq && !this.seq) this.seq = this.page.data.info.seq
       if (this.page.data?.info?.stat && !this.actv) this.actv = this.page.data.info.stat
       if (this.page.data?.info?.upct) this.upct = this.page.data.info.upct

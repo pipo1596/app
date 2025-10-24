@@ -26,6 +26,7 @@ export class VasApplicationComponent {
   n1no: any;
   imgprfx = environment.logoprfx;
   upct = "0";
+  nino: any;
 
   // Input
   v1cd: any = "";
@@ -97,6 +98,7 @@ export class VasApplicationComponent {
 
   inqItem() {
     localStorage.clear();
+    if(this.nino) localStorage.setItem('p2',this.nino)
     let p1 = {
       dscx: this.dscx,
       v1cd: this.v1cd,
@@ -163,6 +165,12 @@ export class VasApplicationComponent {
     });
 
     this.copy = localStorage.getItem('copy')
+
+    this.nino = localStorage.getItem('nino')
+    if(localStorage.getItem('p2')){
+      this.nino = localStorage.getItem('p2')
+    }
+
     if(localStorage.getItem('p1')){
       let p1 = JSON.parse(localStorage.getItem('p1')!)
       this.dscx = p1.dscx;
@@ -190,6 +198,7 @@ export class VasApplicationComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
+    if(this.nino) localStorage.setItem('nino',this.nino)
     this.router.navigate(['/uniforms/vasapplications/' + this.nhno + '/' + this.npno]);
   }
 
@@ -220,6 +229,7 @@ export class VasApplicationComponent {
 
       if (this.page.data.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
+        if(this.nino) localStorage.setItem('nino',this.nino)
         this.router.navigate(['/uniforms/vasapplications/' + this.nhno + '/' + this.npno]);
       } else {
         this.errors = this.page.data.errors
@@ -242,6 +252,7 @@ export class VasApplicationComponent {
       this.page.data = response;
       if (this.page.data.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
+        if(this.nino) localStorage.setItem('nino',this.nino)
         this.router.navigate(['/uniforms/vasapplications/' + this.nhno + '/' + this.npno]);
       }
       this.page.loading = false;

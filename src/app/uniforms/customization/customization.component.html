@@ -55,7 +55,7 @@
                         </div>
                         <div class="row g-3 mb-4">
                             <div class="col-md-3">
-                                <input type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="name" [disabled]="this.single == 'N' && !this.vfgn" (keydown)="this.single == 'N' && page.entrymode && !this.nino ? ($event.key == 'Backspace' || $event.key == 'ArrowLeft' ? keepVFG($event) : '') : ''">
+                                <input type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="name" [disabled]="this.single == 'N' && !this.vfgn" (keydown)="this.single == 'N' && page.entrymode && this.vfgn ? ($event.key == 'Backspace' || $event.key == 'ArrowLeft' ? keepVFG($event) : '') : ''">
                             </div>
                         </div>
 

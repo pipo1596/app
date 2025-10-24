@@ -252,7 +252,7 @@ export class VasApplicationsComponent {
 
   goProduct() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('cache',this.cache);
+    if(this.cache) localStorage.setItem('cache',this.cache);
     this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + this.nino]);
   }
 

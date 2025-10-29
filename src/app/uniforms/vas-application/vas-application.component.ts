@@ -166,7 +166,7 @@ export class VasApplicationComponent {
 
     this.copy = localStorage.getItem('copy')
 
-    this.nino = localStorage.getItem('nino')
+    if(localStorage.getItem('nino')) this.nino = localStorage.getItem('nino')
     if(localStorage.getItem('p2')){
       this.nino = localStorage.getItem('p2')
     }
@@ -229,7 +229,7 @@ export class VasApplicationComponent {
 
       if (this.page.data.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
-        if(this.nino) localStorage.setItem('nino',this.nino)
+        if(this.nino && this.nino !== 'null' && this.nino !== null) localStorage.setItem('nino',this.nino)
         this.router.navigate(['/uniforms/vasapplications/' + this.nhno + '/' + this.npno]);
       } else {
         this.errors = this.page.data.errors

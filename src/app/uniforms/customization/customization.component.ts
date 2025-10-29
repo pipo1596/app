@@ -59,7 +59,7 @@ export class CustomizationComponent {
     let data = {
       mode: 'getInfo',
       nhno: this.nhno,
-      npno: this.npno,
+      npno: this.npno
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
@@ -136,7 +136,8 @@ export class CustomizationComponent {
         this.vfgn = '';
       }
       this.nino = p1.nino ? p1.nino : this.nino;
-      this.seq = p1.seq
+      this.seq = p1.seq;
+      this.copy = p1.copy ? p1.copy : '';
     }
 
     if (this.vfgn) this.getVFGN()
@@ -213,7 +214,8 @@ export class CustomizationComponent {
       actv: this.actv,
       vfgn: this.vfgn, 
       nino: this.nino,
-      seq: this.seq
+      seq: this.seq,
+      copy: this.copy
     }
 
     localStorage.setItem('p1', JSON.stringify(p1));
@@ -222,7 +224,14 @@ export class CustomizationComponent {
     } else {
       localStorage.setItem('partpg','/uniforms/newcustomization/' + this.nhno + '/')
     }
-    let menu = '/cgi/APOELMVFG?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
+
+    let menu = ""
+    if(this.copy){
+      menu = '/cgi/APOELMVFG?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N&PMNHNO=' + this.nhno + '&PMNPNO=' + this.copy 
+    } else {
+      menu = '/cgi/APOELMVFG?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
+    }
+
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/iframe/APOELMVFG'])
@@ -238,7 +247,8 @@ export class CustomizationComponent {
       expd: this.expd,
       seq: this.seq,
       single: this.single,
-      actv: this.actv
+      actv: this.actv,
+      copy: this.copy
     }
 
     localStorage.setItem('p1', JSON.stringify(p1));
@@ -292,7 +302,8 @@ export class CustomizationComponent {
         nino: (this.nino) ? this.nino : '',
         upct: (mode == 'update') ? this.upct : '',
         drop: this.dropship ? 'Y' : '',
-        single: this.single
+        single: this.single,
+        copy: this.copy ? this.copy : ''
       }
     }
 

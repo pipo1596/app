@@ -302,6 +302,25 @@ export class ProductComponent {
     }
     return config
   }
+  
+  fulfillConfig(){
+    var config ={
+      displayFn:(item: any) => { 
+        return item.whno + ' - ' + item.desc
+      },
+      displayKey: 'desc',
+      search: true,
+      placeholder: 'Select',
+      height: '300px',
+      noResultsFound: 'No results found',
+      searchOnKey: 'desc',
+      customComparator: (i1: any,i2: any) => {
+        let ret = i1[config.displayKey] < i2[config.displayKey];
+        return ret? -1: 1;
+      }
+    }
+    return config
+  }
 
   allSelected(opt: number, arr: any){
     if(JSON.stringify(this.opv[opt].sort()) === JSON.stringify(arr.sort())) { return true } else return false

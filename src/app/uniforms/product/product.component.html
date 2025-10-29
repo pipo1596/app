@@ -192,7 +192,7 @@
                             <!-- Warehouse -->
                             <div class="col-md-7 mb-3" *ngIf="page.data?.style || page.data?.info">
                                 <label class="col-form-label">Fulfillment Override: </label>
-                                <ngx-select-dropdown name="whseDrop" [config]="searchConfig()" [options]="page.data?.warehouses" [(ngModel)]="warehouse"></ngx-select-dropdown>
+                                <ngx-select-dropdown name="whseDrop" [config]="fulfillConfig()" [options]="page.data?.warehouses" [(ngModel)]="warehouse"></ngx-select-dropdown>
                             </div>
 
                             <div class="col-md-6">

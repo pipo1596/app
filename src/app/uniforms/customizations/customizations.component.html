@@ -14,11 +14,11 @@
                     </div>
 
                     <div class="dropdown col-2">
-                        <button (click)="drop = !drop" class="btn btn-primary rounded-0 dropdown-toggle overflow-hidden w-100" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More Actions</button>
+                        <button (click)="drop = !drop" class="btn btn-primary rounded-0 dropdown-toggle overflow-hidden w-100" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mass Update</button>
                         <div class="dropdown-menu rounded-0" aria-labelledby="dropdownMenuButton" [ngClass]="{'d-block': (drop), 'd-none': !(drop)}" (mouseleave)="drop = false">
-                            <a class="dropdown-item" href="javascript:void" (click)="loadAction('question')">Mass Question Update</a>
-                            <a class="dropdown-item" href="javascript:void" (click)="loadAction('app')">Mass Application Update</a>
-                            <a class="dropdown-item" href="javascript:void" (click)="loadAction('item')">Mass VAS Item Update</a>
+                            <a class="dropdown-item" href="javascript:void" (click)="loadAction('add')">Add Applications</a> <!-- FKA: Mass Question Update -->
+                            <a class="dropdown-item" href="javascript:void" (click)="loadAction('delete')">Delete Applications</a> <!-- FKA: Mass Application Update -->
+                            <a class="dropdown-item" href="javascript:void" (click)="loadAction('update')">Update Applications</a> <!-- FKA: Mass VAS Item Update -->
                         </div>
                     </div>
 
@@ -39,7 +39,7 @@
 
                 <div class="row g-3 mb-4">
                     <div class="col-md-3">
-                        <input placeholder="Search Customization Name" [(ngModel)]="name" class="form-control" (keyup.enter)="getCustomizations('search')">
+                        <input placeholder="Search Customization Name" name="inputName" [(ngModel)]="name" class="form-control" (keyup.enter)="getCustomizations('search')">
                     </div>
                     <div class="col-md-3">
                         <ngx-select-dropdown name="inputVEDP" [config]="searchConfig('VAS Item')" [options]="page.data?.items" [(ngModel)]="vitem" (change)="getCustomizations('search')"></ngx-select-dropdown>
@@ -48,7 +48,7 @@
                         <ngx-select-dropdown name="inputN1NO" [config]="searchConfig('Application')" [options]="page.data?.apps" [(ngModel)]="app" (change)="getCustomizations('search')"></ngx-select-dropdown>
                     </div>
                     <div class="col-md-2">
-                        <select class="form-select" [(ngModel)]="img" (change)="getCustomizations('search')">
+                        <select class="form-select" name="inputImg" [(ngModel)]="img" (change)="getCustomizations('search')">
                             <option value="">Image</option>
                             <option [ngValue]="'Y'">Yes</option>
                             <option [ngValue]="'N'">No</option>

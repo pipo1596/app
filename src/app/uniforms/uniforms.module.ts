@@ -49,6 +49,9 @@ import { OverrideComponent } from './override/override.component';
 import { ModalImfComponent } from './modal-imf/modal-imf.component';
 import { ItemImageComponent } from './item-image/item-image.component';
 import { ItemImagesComponent } from './item-images/item-images.component';
+import { MassappAddComponent } from './massapp-add/massapp-add.component';
+import { MassappUpdateComponent } from './massapp-update/massapp-update.component';
+import { MassappDeleteComponent } from './massapp-delete/massapp-delete.component';
 
 @NgModule({
   declarations: [
@@ -96,7 +99,10 @@ import { ItemImagesComponent } from './item-images/item-images.component';
     OverrideComponent,
     ModalImfComponent,
     ItemImageComponent,
-    ItemImagesComponent
+    ItemImagesComponent,
+    MassappAddComponent,
+    MassappUpdateComponent,
+    MassappDeleteComponent
   ],
   imports: [
     CommonModule,

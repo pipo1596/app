@@ -48,16 +48,21 @@ export class CustomizationsComponent {
   ngOnInit(): void {
     if(localStorage.getItem('rtpg')) this.rtpg = localStorage.getItem('rtpg');
     localStorage.clear();
-    hideWait();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
     });
     this.getCustomizations('')
   }
 
+  // For discontinued mass update functions
+  // loadMassAction(action: any){
+  //   localStorage.setItem('UP_AUTH','Y')
+  //   this.router.navigate(['/uniforms/mass' + action + '/' + this.page.rfno]);
+  // }
+
   loadAction(action: any){
     localStorage.setItem('UP_AUTH','Y')
-    this.router.navigate(['/uniforms/mass' + action + '/' + this.page.rfno]);
+    this.router.navigate(['/uniforms/massapp' + action + '/' + this.page.rfno]);
   }
 
   trim(value: any){

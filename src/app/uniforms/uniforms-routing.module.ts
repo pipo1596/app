@@ -42,8 +42,11 @@ import { OverridesComponent } from './overrides/overrides.component';
 import { OverrideComponent } from './override/override.component';
 import { ItemImagesComponent } from './item-images/item-images.component';
 import { ItemImageComponent } from './item-image/item-image.component';
-import { authGuard } from './auth.guard';
 import { ModalImfComponent } from './modal-imf/modal-imf.component';
+import { MassappAddComponent } from './massapp-add/massapp-add.component';
+import { MassappDeleteComponent } from './massapp-delete/massapp-delete.component';
+import { MassappUpdateComponent } from './massapp-update/massapp-update.component';
+import { authGuard } from './auth.guard';
 
 const routes: Routes = [
   //Uniform
@@ -104,9 +107,12 @@ const routes: Routes = [
   { path: 'vasquestion/:nhno/:npno/:vhno', component: VasQuestionComponent, canActivate: [authGuard]  },
 
   //Mass Updates
-  { path: 'massquestion/:nhno', component: MassQuestionComponent, canActivate: [authGuard]  },
-  { path: 'massitem/:nhno', component: MassItemComponent, canActivate: [authGuard]  },
-  { path: 'massapp/:nhno', component: MassAppComponent, canActivate: [authGuard]  },
+  { path: 'massappadd/:nhno', component: MassappAddComponent, canActivate: [authGuard]  },
+  { path: 'massappupdate/:nhno', component: MassappUpdateComponent, canActivate: [authGuard]  },
+  { path: 'massappdelete/:nhno', component: MassappDeleteComponent, canActivate: [authGuard]  },
+  { path: 'massquestion/:nhno', component: MassQuestionComponent },
+  { path: 'massitem/:nhno', component: MassItemComponent },
+  { path: 'massapp/:nhno', component: MassAppComponent },
 
   //Images
   { path: 'images/:nhno', component: ImagesComponent, canActivate: [authGuard]  },

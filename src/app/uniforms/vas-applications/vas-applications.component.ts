@@ -157,9 +157,9 @@ export class VasApplicationsComponent {
 
   loadApplication(mode: any, n1no: any){
     localStorage.setItem('UP_AUTH','Y');
+    if(this.nino) localStorage.setItem('nino',this.nino);
     switch(mode){
       case 'new':
-        if(this.nino) localStorage.setItem('nino',this.nino)
         this.router.navigate(['/uniforms/newvasapplication/' + this.page.rfno + '/' + this.npno]);
         break;
       case 'edit':

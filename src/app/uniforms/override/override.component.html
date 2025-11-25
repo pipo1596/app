@@ -42,7 +42,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row g-3 mb-3">
+                        <div class="form-group row g-3 mt-3">
                             <label class="col-md-2 col-form-label" align="right"><strong>H1 Description:</strong></label>
                             <div class="col-md-3">
                                 <input type="text" class="form-control" name="inputH1SC" [(ngModel)]="h1sc" [value] = 'h1sc'>
@@ -51,8 +51,12 @@
                                 <p>{{256 - h1sc.length}}</p>
                             </div>
                         </div>
+                        <div class="form-group row g-3" *ngIf="page.data?.base?.h1sc">
+                            <label class="col-md-2 col-form-label" align="right"><strong></strong></label>
+                            <label class="col-md-10 col-form-label">{{'(' + page.data?.base?.h1sc + ')'}}</label>
+                        </div>
 
-                        <div class="form-group row g-3 mb-3">
+                        <div class="form-group row g-3 mt-3">
                             <label class="col-md-2 col-form-label" align="right"><strong>Short Description:</strong></label>
                             <div class="col-md-3">
                                 <input type="text" class="form-control" name="inputSDSC" [(ngModel)]="sdsc" [value] = 'sdsc'>
@@ -61,8 +65,12 @@
                                 <p>{{256 - sdsc.length}}</p>
                             </div>
                         </div>
+                        <div class="form-group row g-3" *ngIf="page.data?.base?.sdsc">
+                            <label class="col-md-2 col-form-label" align="right"><strong></strong></label>
+                            <label class="col-md-10 col-form-label">{{'(' + page.data?.base?.sdsc + ')'}}</label>
+                        </div>
 
-                        <div class="form-group row g-3 mb-3">
+                        <div class="form-group row g-3 mt-3">
                             <label class="col-md-2 col-form-label" align="right"><strong>Full Image File:</strong></label>
                             <div class="col-md-3">
                                 <input type="text" class="form-control" name="inputFIMF" [(ngModel)]="fimf" [value] = 'fimf'>
@@ -79,8 +87,12 @@
                                 <a href="javascript:void" (click)="goAdditional()"><p class="col-form-label">Additional Images</p></a>
                             </div>
                         </div>
+                        <div class="form-group row g-3" *ngIf="page.data?.base?.fimf">
+                            <label class="col-md-2 col-form-label" align="right"><strong></strong></label>
+                            <label class="col-md-10 col-form-label">{{'(' + page.data?.base?.fimf + ')'}}</label>
+                        </div>
 
-                        <div class="form-group row g-3 mb-3">
+                        <div class="form-group row g-3 mt-3">
                             <label class="col-md-2 col-form-label" align="right"><strong>Medium Image File:</strong></label>
                             <div class="col-md-3">
                                 <input type="text" class="form-control" name="inputMIMF" [(ngModel)]="mimf" [value] = 'mimf'>
@@ -94,8 +106,12 @@
                                 </a>
                             </div>
                         </div>
+                        <div class="form-group row g-3" *ngIf="page.data?.base?.mimf">
+                            <label class="col-md-2 col-form-label" align="right"><strong></strong></label>
+                            <label class="col-md-10 col-form-label">{{'(' + page.data?.base?.mimf + ')'}}</label>
+                        </div>
 
-                        <div class="form-group row g-3 mb-3">
+                        <div class="form-group row g-3 mt-3">
                             <label class="col-md-2 col-form-label" align="right"><strong>Thumbnail File:</strong></label>
                             <div class="col-md-3">
                                 <input type="text" class="form-control" name="inputTIMF" [(ngModel)]="timf" [value] = 'timf'>
@@ -110,8 +126,12 @@
                                 <span class="text-danger"><b>(Galls B2B Only)</b></span>
                             </div>
                         </div>
+                        <div class="form-group row g-3" *ngIf="page.data?.base?.timf">
+                            <label class="col-md-2 col-form-label" align="right"><strong></strong></label>
+                            <label class="col-md-10 col-form-label">{{'(' + page.data?.base?.timf + ')'}}</label>
+                        </div>
 
-                        <div class="form-group row g-3 mb-3">
+                        <div class="form-group row g-3 mt-3">
                             <label class="col-md-2 col-form-label" align="right"><strong>Zoom Image File:</strong></label>
                             <div class="col-md-3">
                                 <input type="text" class="form-control" name="inputZIMF" [(ngModel)]="zimf" [value] = 'zimf'>
@@ -125,8 +145,12 @@
                                 </a>
                             </div>
                         </div>
+                        <div class="form-group row g-3" *ngIf="page.data?.base?.zimf">
+                            <label class="col-md-2 col-form-label" align="right"><strong></strong></label>
+                            <label class="col-md-10 col-form-label">{{'(' + page.data?.base?.zimf + ')'}}</label>
+                        </div>
 
-                        <div class="form-group row g-3 mb-3">
+                        <div class="form-group row g-3 mt-3">
                             <label class="col-md-2 col-form-label" align="right"><strong>Medium Image Alt Text:</strong></label>
                             <div class="col-md-3">
                                 <input type="text" class="form-control" name="inputMIMA" [(ngModel)]="mima" [value] = 'mima'>
@@ -135,8 +159,12 @@
                                 <span class="text-danger"><b>(QM B2B only)</b></span>
                             </div>
                         </div>
+                        <div class="form-group row g-3" *ngIf="page.data?.base?.mima">
+                            <label class="col-md-2 col-form-label" align="right"><strong></strong></label>
+                            <label class="col-md-10 col-form-label">{{'(' + page.data?.base?.mima + ')'}}</label>
+                        </div>
 
-                        <div class="form-group row g-3 mb-3">
+                        <div class="form-group row g-3 mt-3">
                             <label class="col-md-2 col-form-label" align="right"><strong>Long Description:</strong></label>
                             <div class="col-md-6">
                                 <!-- <input type="text" class="form-control" name="inputLDSC" [(ngModel)]="ldsc" [value] = 'ldsc'> -->
@@ -146,7 +174,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row g-3 mb-5">
+                        <div class="form-group row g-3 mt-3 mb-5">
                             <label class="col-md-2 col-form-label" align="right"><strong>Option Copy:</strong></label>
                             <div class="col-md-6">
                                 <textarea class="form-control" rows="5" name="inputOPCP" [(ngModel)]="opcp"></textarea>

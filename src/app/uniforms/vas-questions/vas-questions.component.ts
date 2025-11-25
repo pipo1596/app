@@ -20,6 +20,7 @@ export class VasQuestionsComponent {
   @Input() all : any;
   @Input() cache : any;
   @Input() vsmt : any;
+  @Input() nino : any;
 
   page = new Page();
   errors = ""
@@ -101,6 +102,7 @@ export class VasQuestionsComponent {
     localStorage.setItem('vasApp',JSON.stringify(application));
     localStorage.setItem('ruleVF',question.reqVF);
     localStorage.setItem('allexpand',this.all ? 'Y' : '');
+    localStorage.setItem('nino',this.nino);
     this.router.navigate(['/uniforms/vasquestion/' + this.nhno + '/' + this.npno]);
   }
 
@@ -188,6 +190,7 @@ export class VasQuestionsComponent {
       } else{
         if (mode !== 'validate') this.msg = "Questions updated successfully"
         localStorage.setItem('allexpand',this.all ? 'Y' : '');
+        localStorage.setItem('nino',this.nino);
         if (mode !== 'validate') location.reload();
         if (mode !== 'validate') this.getQuestions('','');
 
@@ -230,6 +233,7 @@ export class VasQuestionsComponent {
     this.bldCache(question)
     localStorage.setItem('partpg','/uniforms/vasapplications/' + this.nhno + '/' + this.npno + '/')
     let menu = '/cgi/APOELMIS4?PAMODE=*INQ&PMVSMT=EMBLEM' + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
+    localStorage.setItem('nino',this.nino)
     localStorage.setItem('menu',menu)
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/iframe/APOELMIS4'])

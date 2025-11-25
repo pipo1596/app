@@ -19,6 +19,7 @@ export class VasQuestionComponent {
   n2no: any;
   type: any;
   all: any;
+  nino: any;
 
   //Input
   desc: any; // Description
@@ -67,10 +68,13 @@ export class VasQuestionComponent {
     }
 
     if(localStorage.getItem('p2') && !this.all){
-      this.all = localStorage.getItem('p2')
+      this.all = localStorage.getItem('p2');
     }
 
-    if(localStorage)
+    if(localStorage.getItem('nino')){
+      this.nino = localStorage.getItem('nino');
+    }
+
     localStorage.clear();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -221,6 +225,7 @@ export class VasQuestionComponent {
       if (this.page.data.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
         localStorage.setItem('allexpand',this.all ? 'Y' : '');
+        localStorage.setItem('nino',this.nino);
         this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + this.npno]);
       } else {
         this.errors = this.page.data.errors
@@ -251,6 +256,7 @@ export class VasQuestionComponent {
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('partpg','/uniforms/vasquestion/' + this.page.rfno + '/' + this.npno + '/');
     localStorage.setItem('menu',menu);
+    localStorage.setItem('nino',this.nino);
     this.router.navigate(['/uniforms/iframe/APOELMVH']);
   }
 
@@ -262,12 +268,14 @@ export class VasQuestionComponent {
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('partpg','/uniforms/vasquestion/' + this.page.rfno + '/' + this.npno + '/');
     localStorage.setItem('menu',menu);
+    localStorage.setItem('nino',this.nino);
     this.router.navigate(['/uniforms/iframe/APOELMVH']);
   }
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('allexpand',this.all ? 'Y' : '');
+    localStorage.setItem('nino',this.nino);
     this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + this.npno]);
   }
 

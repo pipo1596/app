@@ -1,1 +1,286 @@
-<p>massapp-update works!</p>
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+
+<div id="container">
+
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
+
+    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+        <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
+            <div class="card-body">
+                <form>
+                    <h6 class="mb-3" *ngIf="errors"><strong class="text-danger">{{errors}}</strong></h6>
+            
+                    <div class="row">
+                        <div class="col-8 mb-4">
+                            <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
+                        </div>
+
+                        <div class="col-2" *ngIf="v1cd">
+                            <button type="button" class="btn btn-primary" (click)="updateApps()" *ngIf="type == 'A' || type == 'Q'">Update Description</button>
+                            <button type="button" class="btn btn-primary" (click)="this.itemChng = true" *ngIf="type == 'V' && this.vedp && !this.itemChng">Continue</button>
+                            <button type="button" class="btn btn-primary" *ngIf="type == 'I' || type == 'S'">Update Answer</button>
+                        </div>
+
+                        <div class="col-1">
+                            <button type="button" class="btn btn-secondary" (click)="goBack()">Cancel</button>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-md-9">
+                            <h6><small>Mass Application Update</small></h6>
+                        </div>
+                        <div class="col-md-4 ms-3 mb-4">
+                            <small *ngIf="!type">What do you want to update?</small>
+                            <!-- <small *ngIf="type">Update {{this.typeDesc}}</small> -->
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-4">
+                            <select class="form-select p-2" name="inputType" [(ngModel)]="type" (ngModelChange)="getInfo()"  (change)="clrType()">
+                                <option value="">Select</option>
+                                <option *ngFor="let type of page.data?.types" [ngValue]="type.value" [selected]="type.value == this.type">{{type.desc}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- VAS Item Search - Step 1 -->
+                    <ng-container *ngIf="type == 'V' && !this.itemChng">
+                        <div class="row">
+                            <div class="col-md-5 mb-3">
+                                <label for="vedpInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span> Old VAS Item: </label>
+                                <select class="form-select p-2" name="inputVEDP" [(ngModel)]="vedp" (ngModelChange)="getInfo()" (change)="clrFields()">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let item of page.data?.itemDrop" [ngValue]="item.vedp" [selected]="item.vedp == vedp">{{item.desc}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3" *ngIf="vedp">
+                            <div class="col-md-5">
+                                <label for="vedpNewInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span> New VAS Item: </label>
+                                <input type="text" readonly class="form-control" [value]="newVSku ? newVSku + ' - ' + newVDesc : ''">
+                            </div>
+                            <div class="col mt-5">
+                                <button class="btn" (click)="inqItem()">
+                                    <span class="bi bi-search" title="Inquire"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <!-- VAS Item Search - Step 2 -->
+                    <ng-container *ngIf="type == 'V' && this.itemChng">
+                        <div class="row">
+                            <div class="col-md-5 mb-3">
+                                <label for="vedpInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span> Old VAS Item: </label>
+                                <select class="form-select p-2" name="inputVEDP" [(ngModel)]="vedp" (ngModelChange)="getInfo()" (change)="clrFields()">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let item of page.data?.itemDrop" [ngValue]="item.vedp" [selected]="item.vedp == vedp">{{item.desc}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3" *ngIf="vedp">
+                            <div class="col-md-5">
+                                <label for="vedpNewInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span> New VAS Item: </label>
+                                <input type="text" readonly class="form-control" [value]="newVSku ? newVSku + ' - ' + newVDesc : ''">
+                            </div>
+                            <div class="col mt-5">
+                                <button class="btn" (click)="inqItem()">
+                                    <span class="bi bi-search" title="Inquire"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <!-- Application Dropdown-->
+                    <div class="row" *ngIf="type == 'A' || type == 'Q'">
+                        <div class="col-md-4 mb-3">
+                            <label for="vedpNewInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span>Application: </label>
+                            <select class="form-select p-2" name="inputV1CD" [(ngModel)]="v1cd" (ngModelChange)="getInfo()" (change)="clrFields()">
+                                <option value="">Select</option>
+                                <option *ngFor="let app of applications" [ngValue]="app.v1cd" [selected]="app.v1cd == v1cd">{{app.v1desc}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Question Dropdown -->
+                    <ng-container *ngIf="type == 'Q' && v1cd">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="v2noInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span>Question: </label>
+                                <select class="form-select p-2" name="inputV2NO" [(ngModel)]="v2no" (ngModelChange)="getInfo()" (change)="clrFields()">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let question of page.data?.qstnDrp" [ngValue]="question.v2no" [selected]="question.v2no == v2no">{{question.desc}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="v2no">
+                            <div class="col-md-4 mb-3">
+                                <label for="descInput" class="col-md-5 col-form-label"><span class="text-danger"><strong>*</strong></span>New Description: </label>
+                                <input name="inputNewDesc" [(ngModel)]="newDesc" class="form-control">
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <div class="row g-3 mb-3" *ngIf="type == 'A' && v1cd">
+                        <div class="col-md-3">
+                            <span class="text-danger"><strong>*</strong></span>
+                            <input placeholder="New Description" name="inputNewDesc" [(ngModel)]="newDesc" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-5">
+                        <div class="col-md-10">
+                            <label class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span> Denotes required information </label>
+                        </div>
+                    </div>
+
+                    <!-- START: VAS Application Description //////////////////////////////////// -->
+                    <ng-container *ngIf="v1cd && type == 'A'"> 
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-3">
+                                <input placeholder="Search Customization Name" name="inputName" [(ngModel)]="name" class="form-control" (keyup.enter)="getInfo()">
+                            </div>
+                            <div class="col-md-3">
+                                <ngx-select-dropdown name="inputVEDP" [config]="searchConfig('VAS Item')" [options]="page.data?.itemDrop" [(ngModel)]="vedp" (change)="getInfo()"></ngx-select-dropdown>
+                            </div>
+                            <div class="col-md-3">
+                                <input placeholder="Search Application Desc" name="inputDesc" [(ngModel)]="desc" class="form-control" (keyup.enter)="getInfo()">
+                            </div>
+                            <div class="col-md-3">
+                                <ngx-select-dropdown name="inputLevl" [config]="searchConfig('Question Level Items')" [options]="page.data?.lvlDrop" [(ngModel)]="levl" (change)="getInfo()"></ngx-select-dropdown>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-5">
+                            <div class="col-md-3">
+                                <ngx-select-dropdown name="inputStyl" [config]="searchConfig('Style')" [options]="page.data?.stylDrop" [(ngModel)]="styl" (change)="getInfo()"></ngx-select-dropdown>
+                            </div>
+                            <div class="col-md-3">
+                                <ngx-select-dropdown name="inputVFGN" [config]="searchConfig('Style Configurator Template')" [options]="page.data?.vfgnDrop" [(ngModel)]="vfgn" (change)="getInfo()"></ngx-select-dropdown>
+                            </div>
+                            <div class="col-md-3">
+                                <ngx-select-dropdown name="inputCTNO" [config]="searchConfig('VAS Category')" [options]="page.data?.catgDrop" [(ngModel)]="ctno" (change)="getInfo()"></ngx-select-dropdown>
+                            </div>
+                            <div class="col-md-1">
+                                <button class="btn btn-primary rounded-0 w-100" type="button" (click)="getInfo()">Go</button>
+                            </div>
+                        </div>
+
+                        <div class="row g-3" *ngIf="v1cd && groups.length == 0 ">
+                            <div class="col-md-3">
+                                <span class="text-primary"><strong>No Customization Groups Found</strong></span>
+                            </div>
+                        </div>
+                    </ng-container> 
+                    <!-- END: VAS Application Description //////////////////////////////////// -->
+
+                    <!-- START: VAS Item - Step 1 //////////////////////////////////// -->
+                    <ng-container *ngIf="showTable() && this.type == 'V' && !this.itemChng"> 
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-3">
+                                <input placeholder="Search Customization Name" name="inputName" [(ngModel)]="name" class="form-control" (keyup.enter)="getInfo()">
+                            </div>
+                            <div class="col-md-3">
+                                <input placeholder="Search Application Desc" name="inputDesc" [(ngModel)]="desc" class="form-control" (keyup.enter)="getInfo()">
+                            </div>
+                            <div class="col-md-3">
+                                <ngx-select-dropdown name="inputLevl" [config]="searchConfig('Question Level Items')" [options]="page.data?.lvlDrop" [(ngModel)]="levl" (change)="getInfo()"></ngx-select-dropdown>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-5">
+                            <div class="col-md-3">
+                                <ngx-select-dropdown name="inputStyl" [config]="searchConfig('Style')" [options]="page.data?.stylDrop" [(ngModel)]="styl" (change)="getInfo()"></ngx-select-dropdown>
+                            </div>
+                            <div class="col-md-3">
+                                <ngx-select-dropdown name="inputVFGN" [config]="searchConfig('Style Configurator Template')" [options]="page.data?.vfgnDrop" [(ngModel)]="vfgn" (change)="getInfo()"></ngx-select-dropdown>
+                            </div>
+                            <div class="col-md-3">
+                                <ngx-select-dropdown name="inputCTNO" [config]="searchConfig('VAS Category')" [options]="page.data?.catgDrop" [(ngModel)]="ctno" (change)="getInfo()"></ngx-select-dropdown>
+                            </div>
+                            <div class="col-md-1">
+                                <button class="btn btn-primary rounded-0 w-100" type="button" (click)="getInfo()">Go</button>
+                            </div>
+                        </div>
+
+                        <div class="row g-3" *ngIf="showTable() && groups.length == 0 ">
+                            <div class="col-md-3">
+                                <span class="text-primary"><strong>No Customization Groups Found</strong></span>
+                            </div>
+                        </div>
+                    </ng-container> 
+                    <!-- END: VAS Item  - Step 1//////////////////////////////////// -->
+
+
+                    <!-- START: VAS Question Description //////////////////////////////////// -->
+                    <ng-container *ngIf="showTable() && type == 'Q'"> 
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-3">
+                                <input placeholder="Search Customization Name" name="inputName" [(ngModel)]="name" class="form-control" (keyup.enter)="getInfo()">
+                            </div>
+                            <div class="col-md-3">
+                                <ngx-select-dropdown name="inputVEDP" [config]="searchConfig('VAS Item')" [options]="page.data?.itemDrop" [(ngModel)]="vedp" (change)="getInfo()"></ngx-select-dropdown>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-5">
+                            <div class="col-md-3">
+                                <ngx-select-dropdown name="inputStyl" [config]="searchConfig('Style')" [options]="page.data?.stylDrop" [(ngModel)]="styl" (change)="getInfo()"></ngx-select-dropdown>
+                            </div>
+                            <div class="col-md-3">
+                                <ngx-select-dropdown name="inputVFGN" [config]="searchConfig('Style Configurator Template')" [options]="page.data?.vfgnDrop" [(ngModel)]="vfgn" (change)="getInfo()"></ngx-select-dropdown>
+                            </div>
+                            <div class="col-md-1">
+                                <button class="btn btn-primary rounded-0 w-100" type="button" (click)="getInfo()">Go</button>
+                            </div>
+                        </div>
+
+                        <div class="row g-3" *ngIf="groups.length == 0 ">
+                            <div class="col-md-3">
+                                <span class="text-primary"><strong>No Customization Groups Found</strong></span>
+                            </div>
+                        </div>
+                    </ng-container> 
+                    <!-- END: VAS Question Description //////////////////////////////////// -->
+
+                    <!-- Customization Group Tables -->
+                    <ng-container *ngIf="showTable() && this.groups.length > 0">
+                        <div class="d-flex justify-content-between w-50">
+                            <h6><small>Customization Groups</small></h6>
+                            <a href="javascript:void(0)" (click)="checkAll()"><h6><small>Check/Uncheck All</small></h6></a>
+                        </div>
+
+                        <table class="table table-striped table-bordered w-50">
+                            <tbody>
+                                <ng-container *ngFor="let group of groups; index as i">
+                                    <tr class="mb-2" *ngIf="isRow(group.npno, i)">
+                                        <td>
+                                            <div class="d-flex border-bottom border-dark" style="--bs-border-opacity: .5;">
+                                                <label for="npDesc" class="p-2"><strong>Customization Group: </strong></label>
+                                                <span class="p-2" name="npDesc">{{group.npName}}</span>                                      
+                                            </div>
+                                            <div class="d-flex border-bottom border-dark" style="--bs-border-opacity: .5;" *ngFor="let app of buildApps(group.npDesc)">
+                                                <label for="v1Desc" class="p-2 ms-5"><strong>Application: </strong></label>
+                                                <span class="p-2" name="v1Desc">{{app.nv1Desc}}</span>          
+                                                <input type="checkbox" class="ms-auto me-5 p-2 form-check-input mt-2" id="N1NO{{app.n1no}}" value="{{app.n1no}}" [checked]="isChecked(app.n1no)" (click)="checkGroup(app.n1no)">         
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table> 
+                    </ng-container>
+
+                </form>
+            </div>
+        </div>
+
+        <app-footer></app-footer>
+    </section>
+</div>
+

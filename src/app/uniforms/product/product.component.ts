@@ -81,6 +81,7 @@ export class ProductComponent {
   item: any;
   nano: any;
   cache: any;
+  filters: any;
   upct: any;
   hasIW: any;
   showHelp: boolean = false;
@@ -369,7 +370,9 @@ export class ProductComponent {
     if(arrays.length > 1){
       let combinations = this.getCombinations(arrays);
       for (let i = 0; i < combinations.length; i++) {
-      this.options.push(combinations[i].toString().replaceAll(',',' '))
+        let combo = combinations[i].toString().replaceAll('*','')
+        combo = combo.replaceAll(',',' ')
+      this.options.push(combo)
       }
     } else {
       this.options = arrays[0];
@@ -379,6 +382,14 @@ export class ProductComponent {
   getCombinations(arrays: any){
     if (!arrays || arrays.length === 0) {
       return [[]];
+    }
+
+    for(let i = 0; i < arrays.length; i++){
+      for(let y = 0; y < arrays[i].length; y++){
+        if(arrays[i][y] == '*'){
+          arrays[i].splice(arrays[i].indexOf(arrays[i][y]),1)
+        }
+      }
     }
 
     const firstArray = arrays[0];
@@ -419,11 +430,16 @@ export class ProductComponent {
       this.cache = localStorage.getItem('cache');
     }
 
+    if(localStorage.getItem('filters')){
+      this.filters = localStorage.getItem('filters');
+    }
+
     this.showUpload = true;
   }
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
+    if(this.filters) localStorage.setItem('filters',this.filters)
     this.router.navigate(['/uniforms/products/' + this.nhno]);
   }
 

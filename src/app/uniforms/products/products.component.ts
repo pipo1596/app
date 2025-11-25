@@ -42,6 +42,9 @@ export class ProductsComponent {
     this.assign = localStorage.getItem('assign') ? JSON.parse(localStorage.getItem('assign')!) : '';
     this.inNano = localStorage.getItem('nano') ? JSON.parse(localStorage.getItem('nano')!) : '';
     // if(this.inNano) this.category = this.inNano;
+    if(localStorage.getItem('filters')){
+      this.getCache();
+    }
     localStorage.clear();
     this.checked = [];
     this.offset = '0';
@@ -54,6 +57,7 @@ export class ProductsComponent {
 
   loadProduct(mode: any, nino: any){
     localStorage.setItem('UP_AUTH','Y');
+    this.bldCache();
     switch(mode){
       case 'new':
         this.router.navigate(['/uniforms/newproduct/' + this.page.rfno]);
@@ -252,6 +256,25 @@ export class ProductsComponent {
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNI', data).subscribe(response => {
       this.getProducts('');
     });
+  }
+
+  bldCache() {
+    let cache = {
+      customization: this.customization,
+      category: this.category,
+      warehouse: this.warehouse,
+      stylconfig: this.stylconfig
+    }
+
+    localStorage.setItem('filters', JSON.stringify(cache));
+  }
+
+  getCache() {
+    let cache = JSON.parse(localStorage.getItem('filters')!)
+    this.customization = cache?.customization;
+    this.category = cache?.category;
+    this.warehouse = cache?.warehouse;
+    this.stylconfig = cache?.stylconfig;
   }
 
   goBack() {

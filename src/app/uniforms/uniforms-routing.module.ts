@@ -109,6 +109,7 @@ const routes: Routes = [
   //Mass Updates
   { path: 'massappadd/:nhno', component: MassappAddComponent, canActivate: [authGuard]  },
   { path: 'massappupdate/:nhno', component: MassappUpdateComponent, canActivate: [authGuard]  },
+  { path: 'massappupdate/:nhno/:vedp', component: MassappUpdateComponent, canActivate: [authGuard]  },
   { path: 'massappdelete/:nhno', component: MassappDeleteComponent, canActivate: [authGuard]  },
   { path: 'massquestion/:nhno', component: MassQuestionComponent },
   { path: 'massitem/:nhno', component: MassItemComponent },

@@ -24,6 +24,7 @@ export class VasApplicationsComponent {
   vsmt: any;
   cache: any;
   p1: any;
+  p2: any;
 
   // Checkboxes
   checked: any[] = [];
@@ -58,6 +59,9 @@ export class VasApplicationsComponent {
     }
     if(localStorage.getItem('p1')){
       this.p1 = JSON.parse(localStorage.getItem('p1')!);
+    }
+    if(localStorage.getItem('p2')){
+      this.p2 = localStorage.getItem('p2');
     }
 
     this.getCustomizations()
@@ -247,6 +251,7 @@ export class VasApplicationsComponent {
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('rtpg', this.page.data?.npname);
+    localStorage.setItem('p2', this.p2);
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }
 

@@ -47,6 +47,7 @@ export class CustomizationsComponent {
 
   ngOnInit(): void {
     if(localStorage.getItem('rtpg')) this.rtpg = localStorage.getItem('rtpg');
+    if(localStorage.getItem('p2')) this.p = parseInt(localStorage.getItem('p2')!);
     localStorage.clear();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -75,7 +76,7 @@ export class CustomizationsComponent {
      let data = {
       mode: 'getInfo',
       nhno: this.page.rfno,
-      name: this.rtpg ? this.rtpg : this.name,
+      name: this.name,
       npno: this.npno,
       item: this.vitem?.vedp,
       lvl: this.lvl?.valu,
@@ -94,7 +95,7 @@ export class CustomizationsComponent {
       if (this.page.data?.title) this.page.title = this.page.data.title;
       if (this.page.data?.fullname) this.page.fullname = this.page.data.fullname;
       if (this.page.data?.menu) this.page.menu = this.page.data.menu;
-      if (this.page.data?.customizations) this.page.data.customizations = this.page.data.customizations.sort((a: any,b: any) => a.npno.localeCompare(b.npno))
+      if (!this.rtpg && this.page.data?.customizations) this.page.data.customizations = this.page.data.customizations.sort((a: any,b: any) => a.npno.localeCompare(b.npno))
       if (this.page.data?.total) this.total = this.page.data.total
 
       if (this.page.data?.stylDrop){
@@ -126,7 +127,16 @@ export class CustomizationsComponent {
         this.page.data.levels = this.page.data.levels.sort((a: any,b: any) => a.valu.localeCompare(b.valu))
       }
 
+      if(this.page.data?.customizations && this.rtpg){
+        let fromIndex = this.page.data?.customizations.findIndex((x: { name: any; }) => x.name === this.rtpg) //Get position in array
+        if(fromIndex > 0){ //If not already first in array, move to first
+        let element = this.page.data?.customizations.splice(fromIndex, 1);
+        this.page.data?.customizations.splice(0, 0, element[0]);
+        }
+      }
+
       this.rtpg = '';
+      if(localStorage.getItem('rtpg')) localStorage.setItem('rtpg','')
       this.page.loading = false;
       hideWait();
     });
@@ -134,6 +144,7 @@ export class CustomizationsComponent {
 
   loadCustomization(mode: any, npno: any){
     localStorage.setItem('UP_AUTH','Y')
+    localStorage.setItem('p2',this.page.toString())
     switch(mode){
       case 'new':
         this.router.navigate(['/uniforms/newcustomization/' + this.page.rfno]);
@@ -254,6 +265,7 @@ export class CustomizationsComponent {
 
   loadVAS(npno: any){
     localStorage.setItem('UP_AUTH','Y')
+    localStorage.setItem('p2',this.p.toString())
     this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + npno]);
   }
 

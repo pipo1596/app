@@ -367,7 +367,17 @@ export class ProductComponent {
 
     if(arr1.length == 0 && arr2.length == 0 && arr3.length == 0) arrays = []
 
-    if(arrays.length > 1){
+    let optIX = 0
+    for(let i = 0; i < arrays.length; i++){
+      for(let y = 0; y < arrays[i].length; y++){
+        if(arrays[i][y] !== '*'){
+          optIX += 1
+          break
+        }
+      }
+    }
+
+    if(optIX > 1){
       let combinations = this.getCombinations(arrays);
       for (let i = 0; i < combinations.length; i++) {
         let combo = combinations[i].toString().replaceAll('*','')
@@ -384,13 +394,13 @@ export class ProductComponent {
       return [[]];
     }
 
-    for(let i = 0; i < arrays.length; i++){
-      for(let y = 0; y < arrays[i].length; y++){
-        if(arrays[i][y] == '*'){
-          arrays[i].splice(arrays[i].indexOf(arrays[i][y]),1)
-        }
-      }
-    }
+    // for(let i = 0; i < arrays.length; i++){
+    //   for(let y = 0; y < arrays[i].length; y++){
+    //     if(arrays[i][y] == '*'){
+    //       arrays[i].splice(arrays[i].indexOf(arrays[i][y]),1)
+    //     }
+    //   }
+    // }
 
     const firstArray = arrays[0];
     const remainingArrays = arrays.slice(1);

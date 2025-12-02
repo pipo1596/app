@@ -16,9 +16,9 @@
                     <div class="dropdown col-2">
                         <button (click)="drop = !drop" class="btn btn-primary rounded-0 dropdown-toggle overflow-hidden w-100" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mass Update</button>
                         <div class="dropdown-menu rounded-0" aria-labelledby="dropdownMenuButton" [ngClass]="{'d-block': (drop), 'd-none': !(drop)}" (mouseleave)="drop = false">
-                            <a class="dropdown-item" href="javascript:void" (click)="loadAction('add')">Add Applications</a> <!-- FKA: Mass Question Update -->
+                            <!-- <a class="dropdown-item" href="javascript:void" (click)="loadAction('add')">Add Applications</a>  -->
                             <a class="dropdown-item" href="javascript:void" (click)="loadAction('delete')">Delete Applications</a> <!-- FKA: Mass Application Update -->
-                            <a class="dropdown-item" href="javascript:void" (click)="loadAction('update')">Update Applications</a> <!-- FKA: Mass VAS Item Update -->
+                            <!-- <a class="dropdown-item" href="javascript:void" (click)="loadAction('update')">Update Applications</a>  -->
                         </div>
                     </div>
 

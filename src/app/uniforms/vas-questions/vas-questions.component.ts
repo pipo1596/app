@@ -190,7 +190,7 @@ export class VasQuestionsComponent {
       } else{
         if (mode !== 'validate') this.msg = "Questions updated successfully"
         localStorage.setItem('allexpand',this.all ? 'Y' : '');
-        localStorage.setItem('nino',this.nino);
+        if(this.nino) localStorage.setItem('nino',this.nino);
         if (mode !== 'validate') location.reload();
         if (mode !== 'validate') this.getQuestions('','');
 

@@ -59,7 +59,7 @@
                     <ng-container *ngIf="!processed && !confirmed">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="vfgnInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span>Style Configurator Template: </label>
+                                <label for="vfgnInput" class="col-md-6 col-form-label"><span class="text-danger"><strong>*</strong></span>Style Configurator Template: </label>
                                 <select class="form-select p-2" name="inputVFGN" [(ngModel)]="vfgn" (ngModelChange)="grpChecked = []" (ngModelChange)="getInfo()">
                                     <option value="">Select</option>
                                     <option *ngFor="let config of page.data?.vfgnDrop" [ngValue]="config.vfgn" [selected]="config.vfgn == vfgn">{{config.desc}}</option>

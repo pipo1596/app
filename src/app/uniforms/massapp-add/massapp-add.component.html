@@ -1,1 +1,297 @@
-<p>massapp-add works!</p>
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+
+<div id="container">
+
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
+
+    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+        <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
+            <div class="card-body">
+                <form>
+                    <h6 class="mb-3" *ngIf="errors.length > 0"><strong class="text-danger">{{errors.toString()}}</strong></h6><br>
+            
+                    <div class="row">
+                        <div class="col-8 mb-4">
+                            <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
+                        </div>
+
+                        <div class="col-2" *ngIf="vfgn && !processed && !confirmed">
+                            <button type="button" class="btn btn-primary" (click)="getInfoA()">Confirm Selections</button>
+                        </div>
+
+                        <div class="col-2" *ngIf="processed">
+                            <button type="button" class="btn btn-primary" (click)="getQuestions()">Confirm Application</button>
+                        </div>
+
+                        <div class="col-2" *ngIf="confirmed">
+                            <button type="button" class="btn btn-primary" (click)="getQuestions()">Add Application</button>
+                        </div>
+
+                        <div class="col-1">
+                            <button type="button" class="btn btn-secondary" (click)="goBack()">Cancel</button>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-md-9">
+                            <h6><small>Mass Application Add</small></h6>
+                        </div>
+                        <div class="col-md-5 ms-4 mb-4" *ngIf="vfgn && !processed && !confirmed">
+                            <small class="mb-5">
+                                Select all customizations where you would like to add an application. 
+                                A list of valid applications will then be built based on customization selection.
+                                <br><br>If no applications populate, then the selected Customizations' Style Configurator Templates do not have any applications in common.
+                            </small>
+                        </div>
+                        <div class="col-md-5 ms-4 mb-4" *ngIf="processed">
+                            <small class="mb-5">
+                                Based on Customizations selected, these are the applications that are available. Make a selection and confirm to continue to questions.
+                            </small>
+                        </div>
+                        <div class="col-md-5 ms-4 mb-4" *ngIf="confirmed">
+                            <small class="mb-5">
+                                Make your question selections. Any VAS Questions where the rules differ between Style Configurator Templates will not be available. You will have to answer these manually.
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- START: (Step 1) PG Selection -->
+                    <ng-container *ngIf="!processed && !confirmed">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="vfgnInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span>Style Configurator Template: </label>
+                                <select class="form-select p-2" name="inputVFGN" [(ngModel)]="vfgn" (ngModelChange)="grpChecked = []" (ngModelChange)="getInfo()">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let config of page.data?.vfgnDrop" [ngValue]="config.vfgn" [selected]="config.vfgn == vfgn">{{config.desc}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                            <ng-container *ngIf="vfgn">
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-3">
+                                        <input placeholder="Search Customization Name" name="inputName" [(ngModel)]="name" class="form-control" (keyup.enter)="getInfo()">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <ngx-select-dropdown name="inputV1CD" [config]="searchConfig('Application')" [options]="page.data?.appDrp" [(ngModel)]="v1cd" (change)="getInfo()"></ngx-select-dropdown>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-3">
+                                        <input placeholder="Search Customization Number" name="inputNpno" [(ngModel)]="npno" class="form-control" (keyup.enter)="getInfo()">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <ngx-select-dropdown name="inputVEDP" [config]="searchConfig('VAS Item')" [options]="page.data?.itemDrop" [(ngModel)]="vedp" (change)="getInfo()"></ngx-select-dropdown>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3 mb-5">
+                                    <div class="col-md-3">
+                                        <ngx-select-dropdown name="inputStyl" [config]="searchConfig('Style')" [options]="page.data?.stylDrop" [(ngModel)]="styl" (change)="getInfo()"></ngx-select-dropdown>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <ngx-select-dropdown name="inputLevl" [config]="searchConfig('Question Level Items')" [options]="page.data?.lvlDrop" [(ngModel)]="levl" (change)="getInfo()"></ngx-select-dropdown>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button class="btn btn-primary rounded-0 w-100" type="button" (click)="getInfo()">Go</button>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3" *ngIf="vfgn && groups.length == 0 ">
+                                    <div class="col-md-3">
+                                        <span class="text-primary"><strong>No Customization Groups Found</strong></span>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                        <!-- Customization Group Tables -->
+                        <ng-container *ngIf="vfgn && this.groups.length > 0">
+                            <div class="d-flex justify-content-between w-50">
+                                <h6><small>Customization Groups</small></h6>
+                                <a href="javascript:void(0)" (click)="checkAll()"><h6><small>Check/Uncheck All</small></h6></a>
+                            </div>
+
+                            <table class="table table-striped table-bordered w-50">
+                                <tbody>
+                                    <ng-container *ngFor="let group of groups; index as i">
+                                        <tr class="mb-2" *ngIf="isRow(group.npno, i)">
+                                            <td>
+                                                <div class="d-flex" style="--bs-border-opacity: .5;">
+                                                    <label for="npDesc" class="p-2"><strong>Customization Group: </strong></label>
+                                                    <span class="p-2" name="npDesc">{{group.npName}}</span> 
+                                                    <input type="checkbox" class="ms-auto me-5 p-2 form-check-input mt-2" id="input{{group.npno}}" value="{{group.npno}}" [checked]="isChecked(group.npno)" (click)="checkGroup(group.npno)">                                         
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table> 
+                        </ng-container>
+                    </ng-container>
+                    <!-- END: (Step 1) PG Selection -->
+
+                    <!-- START: (Step 2) App Confirmation -->
+                    <ng-container *ngIf="processed">
+                        <div class="form-group row g-1 mb-3">
+                                <label class="col-md-2 col-form-label"><span class="text-danger"><strong>* </strong></span><strong>Location:</strong> </label>
+                                <div class="col-md-3 mb-3">
+                                    <select name="vdInput" [(ngModel)]="locn" class="form-select" (change)="getInfoA()">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let location of page.data?.vdno" [ngValue]="location.valu">{{location.valu}}</option>
+                                    </select>
+                                </div>
+                                <h6> -- OR -- </h6>
+                        </div>
+
+                        <div class="form-group row g-1 mb-5">
+                                <label class="col-md-2 col-form-label"><strong><span class="text-danger"><strong>* </strong></span>Application:</strong> </label>
+                                <div class="col-md-3">
+                                    <select name="v1Input" [(ngModel)]="v1cd" class="form-select" (change)="clearItem()">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let app of page.data?.v1cd" [ngValue]="app.valu">{{app.desc}}</option>
+                                    </select>
+                                </div>
+                        </div>
+
+                        <div class="form-group row g-1 mb-3">
+                            <label class="col-md-2 col-form-label"><span class="text-danger"><strong>* </strong></span><strong>Description:</strong> </label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" id="inputDesc" name='description' [(ngModel)]="desc" [value] = 'desc'>
+                            </div>
+                        </div>
+
+                        <div class="form-group row g-1 mb-3" *ngIf="v1cd">
+                            <label class="col-md-2 col-form-label"><span class="text-danger"><strong>* </strong></span><strong>VAS Item:</strong> </label>
+                            <div class="col-md-3 me-5">
+                                <input type="text" readonly class="form-control" [value]="vedpSku ? vedpSku + ' - ' + vedpDesc : ''">
+                            </div>
+                            <div class="col">
+                                <button class="btn" (click)="inqItem()">
+                                    <span class="bi bi-search" title="Inquire"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group row g-1 mb-3">
+                                <label class="col-md-2 col-form-label"><strong>Mandatory:</strong> </label>
+                                <div class="col-md-1 mt-3">
+                                    <input class="form-check-input" type="checkbox" [checked]="mand == 'Y'" (click)="mand == 'Y' ? mand = 'N' : mand = 'Y'">
+                                </div>
+                                <div class="col-md-7 mt-3">
+                                    <h6><strong>*If checked, this application is required</strong></h6>
+                                </div>
+                        </div>
+
+                        <div class="form-group row g-3 mb-4">
+                                <label class="col-md-2 col-form-label"><strong>Active:</strong> </label>
+                                <div class="col-md-3 mt-4">
+                                    <input class="form-check-input" type="checkbox" [checked]="actv == 'Y'" (click)="actv == 'Y' ? actv = 'N' : actv = 'Y'">
+                                </div>
+                        </div>
+
+                        <div class="form-group row g-3 mb-5">
+                            <label class="col-md-2 col-form-label"><strong>Sequence:</strong></label>
+                            <div class="col-md-2">
+                                <select name="" class="form-select" name="inputSeq" [(ngModel)]="seq">
+                                    <option *ngFor="let sequence of page.data?.seqDrop" [ngValue]="trim(sequence.valu)" [selected]="page.data?.seq == sequence.valu">{{sequence.desc}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    <div class="row mb-2 mt-3">
+                        <div class="col-md-9">
+                            <h6><small>Selected Customizations:</small></h6>
+                            <ng-container *ngFor="let group of this.procBlob">
+                                <span class="ms-3">{{group}}</span><br>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                    </ng-container>
+                    <!-- END: (Step 2) App Confirmation -->
+
+                    <!-- START: (Step 3) App Creation -->
+                    <ng-container *ngIf="confirmed">
+                        <table class="table">
+                            <th align="left">VAS Question</th>
+                            <th align="left">Type</th>
+                            <th align="left">Force Default</th>
+                            <th align="left">Display Forced Answer</th>
+                            <th align="left">Required?</th>
+                            <th align="left">Default Answer</th>
+                            <th align="left"></th>
+                            <tbody>
+                                <tr *ngFor="let question of questions; index as i">
+                                    <td align="left">{{question.desc}}</td> <!-- VAS Question -->
+                                    <td align="left">{{question.typeDesc}}</td> <!-- Type -->
+                                    <td align="left"> <!-- Force Default -->
+                                        <input class="form-check-input" type="checkbox" [id]="'dflk' + i + question.v2no" [checked]="question.dflk == 'Y'" (change)="updService(i, question.v2no)"> <!-- Force Default -->
+                                    </td>
+                                    <td align="left"> <!-- Display Forced Answer -->
+                                        <select class="form-select" name="displayForced" [id]="'dspd' + i + question.v2no" *ngIf="question.dspdDrop == 'Y'" (change)="updService(i, question.v2no)"> <!-- Display Forced Answer -->
+                                            <option value="">Select</option>
+                                            <option *ngFor="let default of question.ynDrop"  [value]="default.value" [selected]="default.value == question.dspd">{{default.desc}}</option>
+                                        </select>
+                                        <input class="form-check-input" type="checkbox" [id]="'dspd' + i + question.v2no" [checked]="question.dspd == 'Y'" *ngIf="!question.dspdDrop || question.dspdDrop !== 'Y'" (change)="updService(i, question.v2no)">
+                                    </td>
+                                    <td align="left" style="width: 15%"> <!-- Required -->
+                                        <select name="" class="form-select" [id]="'req' + i + question.v2no" [disabled]="question.reqVF == 'Y'" (change)="chkReq($event, i)" (change)="updService(i, question.v2no)">
+                                            <option value="">Select</option>
+                                            <option *ngFor="let answer of question.reqDrop" [value]="answer.value" [selected]="answer.value == question.req">{{answer.desc}}</option>
+                                        </select>
+                                    </td>
+                                                
+                                    <td align="left"> <!-- Default Answer -->
+                                        <!-- Displaying Dropdown-->
+                                        <select name="" class="form-select" *ngIf="question.dfltAnsDrop" [id]="'dfan' + i + question.v2no" (change)="updService(i, question.v2no)">
+                                            <option value="">Select</option>
+                                            <option *ngFor="let answer of question.dfltAnsDrop" [value]="answer.value" [selected]="answer.value == question.dfan">{{answer.desc}}</option>
+                                        </select>
+
+                                        <select name="" class="form-select" *ngIf="question.dfltAnsPDrop" [id]="'dfan' + i + question.v2no" (change)="updService(i, question.v2no)">
+                                            <option value="">Select</option>
+                                            <option *ngFor="let answer of question.dfltAnsPDrop" [value]="answer.value" [selected]="answer.value == question.dfan">{{answer.desc}}</option>
+                                        </select>
+
+                                        <!-- Showing Inquiry -->
+                                        <ng-container *ngIf="question.dfltNoDrop == 'inq'"> 
+                                            <div class="row g-3 mb-3">
+                                                <div class="col-md-10">
+                                                    <input type="text" readonly class="form-control-plaintext" [id]="'dfan' + i + question.v2no" [value]="question.dfan" (change)="updService(i, question.v2no)">       
+                                                </div>
+
+                                                <div class="col-md-1">
+                                                    <button class="btn btn-light" (click)="inqVSMT(question.v2no)">
+                                                        <span class="bi bi-search" title="Inquire"></span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                        
+                                        <!-- Showing Input -->
+                                        <input type="text" class="form-control" *ngIf="question.dfltNoDrop == 'input' || question.dfltNoDrop == 'inputU'" [id]="'dfan' + i + question.v2no" [attr.maxlength]="question.maxi" [value]=" question.dfltNoDrop == 'inputU' ? question.dfan.toUpperCase() : question.dfan" (change)="updService(i, question.v2no)"> 
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table> 
+                        
+                    <div class="row mb-2 mt-3">
+                        <div class="col-md-9">
+                            <h6><small>Selected Customizations:</small></h6>
+                            <ng-container *ngFor="let group of this.procBlob">
+                                <span class="ms-3">{{group}}</span><br>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                    </ng-container>
+                    <!-- END: (Step 3) App Creation -->
+                </form>
+            </div>
+        </div>
+
+        <app-footer></app-footer>
+    </section>
+</div>
+

@@ -8,7 +8,7 @@
         <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
             <div class="card-body">
                 <form>
-                    <h6 class="mb-3" *ngIf="errors"><strong class="text-danger">{{errors}}</strong></h6>
+                    <h6 class="mb-3" *ngIf="errors.length > 0"><strong class="text-danger">{{errors.toString()}}</strong></h6><br>
             
                     <div class="row">
                         <div class="col-8 mb-4">
@@ -17,8 +17,9 @@
 
                         <div class="col-2" *ngIf="v1cd">
                             <button type="button" class="btn btn-primary" (click)="updateApps()" *ngIf="type == 'A' || type == 'Q'">Update Description</button>
-                            <button type="button" class="btn btn-primary" (click)="this.itemChng = true" *ngIf="type == 'V' && this.vedp && !this.itemChng">Continue</button>
-                            <button type="button" class="btn btn-primary" *ngIf="type == 'I' || type == 'S'">Update Answer</button>
+                            <button type="button" class="btn btn-primary" (click)="getInfoV()" *ngIf="type == 'V' && this.vedp && !this.itemChng && !processed">Continue</button>
+                            <button type="button" class="btn btn-primary" (click)="saveQuestions()" *ngIf="processed" >Update VAS Item</button>
+                            <button type="button" class="btn btn-primary" (click)="updateAnswers()" *ngIf="(type == 'I' || type == 'S') && this.vedp && this.v2no">Update Answer</button>
                         </div>
 
                         <div class="col-1">
@@ -75,7 +76,7 @@
                         <div class="row">
                             <div class="col-md-5 mb-3">
                                 <label for="vedpInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span> Old VAS Item: </label>
-                                <select class="form-select p-2" name="inputVEDP" [(ngModel)]="vedp" (ngModelChange)="getInfo()" (change)="clrFields()">
+                                <select class="form-select p-2" name="inputVEDP" [(ngModel)]="vedp" (ngModelChange)="getInfo()" (change)="clrFields()" [disabled]="processed">
                                     <option value="">Select</option>
                                     <option *ngFor="let item of page.data?.itemDrop" [ngValue]="item.vedp" [selected]="item.vedp == vedp">{{item.desc}}</option>
                                 </select>
@@ -85,9 +86,9 @@
                         <div class="row g-3 mb-3" *ngIf="vedp">
                             <div class="col-md-5">
                                 <label for="vedpNewInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span> New VAS Item: </label>
-                                <input type="text" readonly class="form-control" [value]="newVSku ? newVSku + ' - ' + newVDesc : ''">
+                                <input type="text" readonly class="form-control" [value]="newVSku ? newVSku + ' - ' + newVDesc : ''" [disabled]="processed">
                             </div>
-                            <div class="col mt-5">
+                            <div class="col mt-5" *ngIf="!processed">
                                 <button class="btn" (click)="inqItem()">
                                     <span class="bi bi-search" title="Inquire"></span>
                                 </button>
@@ -96,7 +97,7 @@
                     </ng-container>
 
                     <!-- Application Dropdown-->
-                    <div class="row" *ngIf="type == 'A' || type == 'Q'">
+                    <div class="row" *ngIf="type == 'A' || type == 'Q' || type == 'I' || type == 'S'">
                         <div class="col-md-4 mb-3">
                             <label for="vedpNewInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span>Application: </label>
                             <select class="form-select p-2" name="inputV1CD" [(ngModel)]="v1cd" (ngModelChange)="getInfo()" (change)="clrFields()">
@@ -105,6 +106,84 @@
                             </select>
                         </div>
                     </div>
+
+                    <!-- VAS Item Question Answers -->
+                    <ng-container *ngIf="(type == 'I' || type == 'S') && v1cd">
+                        <div class="row" *ngIf="type == 'I'">
+                            <div class="col-md-5 mb-3">
+                                <label for="vedpInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span>VAS Item: </label>
+                                <select class="form-select p-2" name="inputVEDP" [(ngModel)]="vedp" (ngModelChange)="getInfo()" (change)="clrFields()" [disabled]="processed">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let item of page.data?.itemDrop" [ngValue]="item.vedp" [selected]="item.vedp == vedp">{{item.desc}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="type == 'S'">
+                            <div class="col-md-6 mb-3">
+                                <label for="vfgnInput" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span>Style Configurator Template: </label>
+                                <select class="form-select p-2" name="inputVFGN" [(ngModel)]="vfgn" (ngModelChange)="getInfo()" (change)="clrFields()">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let config of page.data?.vfgnDrop" [ngValue]="config.vfgn" [selected]="config.vfgn == vfgn">{{config.desc}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="(type == 'I' && vedp) || (type == 'S' && vfgn)">
+                            <div class="col-md-4 mb-3">
+                                <label for="inputV2" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span>Question: </label>
+                                <select class="form-select p-2" name="inputV2" [(ngModel)]="v2no" (ngModelChange)="getInfo()" (change)="clrFields()">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let question of page.data?.qstnDrp" [ngValue]="question.v2no" [selected]="question.v2no == v2no">{{question.desc}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="((type == 'I' && vedp) || (type == 'S' && vfgn)) && v2no && !(v2type == 'P' || v2type == 'I')"> <!-- Current Answer-->
+                            <div class="col-md-4 mb-3">
+                                <label for="inputOldDFAN" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span>Current Answer: </label>
+                                <select class="form-select p-2" name="inputOldDFAN" [(ngModel)]="oldDfan" (ngModelChange)="getInfo()" (change)="clrFields()">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let answer of page.data?.dfltAnsDrop" [ngValue]="answer.value" [selected]="answer.value == oldDfan">{{answer.desc}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3" *ngIf="page.data?.vf2p">
+                                <label for="inputPDFAN" class="col-md-6 col-form-label"><span class="text-danger"><strong>*</strong></span>Dependency Filter - {{page.data?.vf2pDesc}} </label>
+                                <select class="form-select p-2" name="inputPDFAN" [(ngModel)]="pDfan" (ngModelChange)="getInfo()" (change)="clrFields()">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let answer of page.data?.dfltAnsDropP" [ngValue]="answer.value" [selected]="answer.value == pDfan">{{answer.desc}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="((type == 'I' && vedp) || (type == 'S' && vfgn)) && v2no"> <!-- New Answer -->
+                            <div class="col-md-4 mb-3">
+                                <label for="inputNewDFAN" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span>New Answer: </label>
+                                <!-- Droplist -->
+                                <select *ngIf="v2type == 'D'" class="form-select p-2" name="inputNewDFAN" [(ngModel)]="newDfan">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let answer of page.data?.dfltAnsDrop" [ngValue]="answer.value" [selected]="answer.value == newDfan">{{answer.desc}}</option>
+                                </select>
+                                <!-- Lookup -->
+                                <ng-container *ngIf="v2type == 'E' && page.data?.dfltNoDrop == 'inq'">
+                                    <div class="row g-3 mb-3">
+                                        <div class="col-md-10">
+                                            <input type="text" readonly class="form-control-plaintext">       
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <button class="btn btn-light" (click)="inqVSMT(v2no)">
+                                                <span class="bi bi-search" title="Inquire"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <!-- Text -->
+                                 <input type="text" name="inputNewDFAN" class="form-control" *ngIf="(v2type == 'P' || v2type == 'I') && page.data?.dfltNoDrop == 'input' || page.data?.dfltNoDrop == 'inputU'" [attr.maxlength]="page.data?.maxi" [(ngModel)]="newDfan">
+                            </div>
+                        </div>
+                    </ng-container>
+
 
                     <!-- Question Dropdown -->
                     <ng-container *ngIf="type == 'Q' && v1cd">
@@ -248,6 +327,136 @@
                     </ng-container> 
                     <!-- END: VAS Question Description //////////////////////////////////// -->
 
+                    <!-- START: VAS Item Question Answers //////////////////////////////////// -->
+                    <ng-container *ngIf="showTable() && type == 'I'"> 
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-3">
+                                <input placeholder="Search Customization Name" name="inputName" [(ngModel)]="name" class="form-control" (keyup.enter)="getInfo()">
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-5">
+                            <div class="col-md-3">
+                                <ngx-select-dropdown name="inputStyl" [config]="searchConfig('Style')" [options]="page.data?.stylDrop" [(ngModel)]="styl" (change)="getInfo()"></ngx-select-dropdown>
+                            </div>
+                            <div class="col-md-3">
+                                <ngx-select-dropdown name="inputVFGN" [config]="searchConfig('Style Configurator Template')" [options]="page.data?.vfgnDrop" [(ngModel)]="vfgn" (change)="getInfo()"></ngx-select-dropdown>
+                            </div>
+                            <div class="col-md-1">
+                                <button class="btn btn-primary rounded-0 w-100" type="button" (click)="getInfo()">Go</button>
+                            </div>
+                        </div>
+
+                        <div class="row g-3" *ngIf="groups.length == 0 ">
+                            <div class="col-md-3">
+                                <span class="text-primary"><strong>No Customization Groups Found</strong></span>
+                            </div>
+                        </div>
+                    </ng-container> 
+                    <!-- END: VAS Item Question Answers //////////////////////////////////// -->
+
+                    <!-- START: Style Question Answers //////////////////////////////////// -->
+                    <ng-container *ngIf="showTable() && type == 'S'"> 
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-3">
+                                <input placeholder="Search Customization Name" name="inputName" [(ngModel)]="name" class="form-control" (keyup.enter)="getInfo()">
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-5">
+                            <div class="col-md-3">
+                                <ngx-select-dropdown name="inputStyl" [config]="searchConfig('Style')" [options]="page.data?.stylDrop" [(ngModel)]="styl" (change)="getInfo()"></ngx-select-dropdown>
+                            </div>
+                            <div class="col-md-3">
+                                <ngx-select-dropdown name="inputVEDP" [config]="searchConfig('VAS Item')" [options]="page.data?.itemDrop" [(ngModel)]="vedp" (change)="getInfo()"></ngx-select-dropdown>
+                            </div>
+                            <div class="col-md-1">
+                                <button class="btn btn-primary rounded-0 w-100" type="button" (click)="getInfo()">Go</button>
+                            </div>
+                        </div>
+
+                        <div class="row g-3" *ngIf="groups.length == 0 ">
+                            <div class="col-md-3">
+                                <span class="text-primary"><strong>No Customization Groups Found</strong></span>
+                            </div>
+                        </div>
+                    </ng-container> 
+                    <!-- END: Style Question Answers //////////////////////////////////// -->
+
+                    <!-- VAS Item Questions -->
+                    <ng-container *ngIf="this.processed && this.questions?.length == 0"> <!-- No New Questions -->
+                        <div class="row mb-2">
+                            <div class="col-md-9">
+                                <h6 class="text-primary">No question updates needed, click Update VAS Item to proceed</h6>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="this.processed && this.questions?.length > 0"> <!-- Display New Questions -->
+                        <table class="table">
+                            <th align="left">VAS Question</th>
+                            <th align="left">Type</th>
+                            <th align="left">Force Default</th>
+                            <th align="left">Display Forced Answer</th>
+                            <th align="left">Required?</th>
+                            <th align="left">Default Answer</th>
+                            <th align="left"></th>
+                            <tbody>
+                                <tr *ngFor="let question of questions; index as i">
+                                    <td align="left">{{question.desc}}</td> <!-- VAS Question -->
+                                    <td align="left">{{question.typeDesc}}</td> <!-- Type -->
+                                    <td align="left"> <!-- Force Default -->
+                                        <input class="form-check-input" type="checkbox" [id]="'dflk' + i + question.v2no" [checked]="question.dflk == 'Y'" (change)="updService(i, question.v2no)"> <!-- Force Default -->
+                                    </td>
+                                    <td align="left"> <!-- Display Forced Answer -->
+                                        <select class="form-select" name="displayForced" [id]="'dspd' + i + question.v2no" *ngIf="question.dspdDrop == 'Y'" (change)="updService(i, question.v2no)"> <!-- Display Forced Answer -->
+                                            <option value="">Select</option>
+                                            <option *ngFor="let default of question.ynDrop"  [value]="default.value" [selected]="default.value == question.dspd">{{default.desc}}</option>
+                                        </select>
+                                        <input class="form-check-input" type="checkbox" [id]="'dspd' + i + question.v2no" [checked]="question.dspd == 'Y'" *ngIf="!question.dspdDrop || question.dspdDrop !== 'Y'" (change)="updService(i, question.v2no)">
+                                    </td>
+                                    <td align="left" style="width: 15%"> <!-- Required -->
+                                        <select name="" class="form-select" [id]="'req' + i + question.v2no" [disabled]="question.reqVF == 'Y'" (change)="chkReq($event, i)" (change)="updService(i, question.v2no)">
+                                            <option value="">Select</option>
+                                            <option *ngFor="let answer of question.reqDrop" [value]="answer.value" [selected]="answer.value == question.req">{{answer.desc}}</option>
+                                        </select>
+                                    </td>
+                                                
+                                    <td align="left"> <!-- Default Answer -->
+                                        <!-- Displaying Dropdown-->
+                                        <select name="" class="form-select" *ngIf="question.dfltAnsDrop" [id]="'dfan' + i + question.v2no" (change)="updService(i, question.v2no)">
+                                            <option value="">Select</option>
+                                            <option *ngFor="let answer of question.dfltAnsDrop" [value]="answer.value" [selected]="answer.value == question.dfan">{{answer.desc}}</option>
+                                        </select>
+
+                                        <select name="" class="form-select" *ngIf="question.dfltAnsPDrop" [id]="'dfan' + i + question.v2no" (change)="updService(i, question.v2no)">
+                                            <option value="">Select</option>
+                                            <option *ngFor="let answer of question.dfltAnsPDrop" [value]="answer.value" [selected]="answer.value == question.dfan">{{answer.desc}}</option>
+                                        </select>
+
+                                        <!-- Showing Inquiry -->
+                                        <ng-container *ngIf="question.dfltNoDrop == 'inq'"> 
+                                            <div class="row g-3 mb-3">
+                                                <div class="col-md-10">
+                                                    <input type="text" readonly class="form-control-plaintext" [id]="'dfan' + i + question.v2no" [value]="question.dfan" (change)="updService(i, question.v2no)">       
+                                                </div>
+
+                                                <div class="col-md-1">
+                                                    <button class="btn btn-light" (click)="inqVSMT(question.v2no)">
+                                                        <span class="bi bi-search" title="Inquire"></span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                        
+                                        <!-- Showing Input -->
+                                        <input type="text" class="form-control" *ngIf="question.dfltNoDrop == 'input' || question.dfltNoDrop == 'inputU'" [id]="'dfan' + i + question.v2no" [attr.maxlength]="question.maxi" [value]=" question.dfltNoDrop == 'inputU' ? question.dfan.toUpperCase() : question.dfan" (change)="updService(i, question.v2no)"> 
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table> 
+                    </ng-container>
+
                     <!-- Customization Group Tables -->
                     <ng-container *ngIf="showTable() && this.groups.length > 0">
                         <div class="d-flex justify-content-between w-50">
@@ -275,6 +484,8 @@
                             </tbody>
                         </table> 
                     </ng-container>
+
+
 
                 </form>
             </div>

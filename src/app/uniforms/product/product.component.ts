@@ -548,6 +548,7 @@ export class ProductComponent {
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
       this.page.data = response;
 
+      if(this.filters) localStorage.setItem('filters',this.filters)
       if (this.page.data.result == 'pass'){
        localStorage.setItem('UP_AUTH','Y');
        this.router.navigate(['/uniforms/products/' + this.nhno]);

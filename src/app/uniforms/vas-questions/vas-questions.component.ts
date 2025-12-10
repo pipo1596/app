@@ -222,7 +222,7 @@ export class VasQuestionsComponent {
 
     if(rule == 'R' && type == 'D'){
       (<HTMLInputElement>document.getElementById('dflk' + index + this.page.data?.vasq[index]!.n2no)).checked = true;
-      (<HTMLInputElement>document.getElementById('dflk' + index + this.page.data?.vasq[index]!.n2no)).disabled = true;
+      // (<HTMLInputElement>document.getElementById('dflk' + index + this.page.data?.vasq[index]!.n2no)).disabled = true;
     } else {
       (<HTMLInputElement>document.getElementById('dflk' + index + this.page.data?.vasq[index]!.n2no)).disabled = false;
     }

@@ -92,8 +92,8 @@ export class MassappAddComponent {
       npno: this.npno,
       vfgn: this.vfgn,
       name: this.name,
-      v1cd: this.v1cd,
-      vedp: this.vedp,
+      v1cd: this.v1cd.v1cd,
+      vedp: this.vedp.vedp,
       styl: this.styl?.styl,
       levl: this.levl?.valu,
     }
@@ -137,6 +137,12 @@ export class MassappAddComponent {
 
       if (this.page.data?.lvlDrop){
         this.page.data.lvlDrop = this.page.data.lvlDrop.sort((a: any,b: any) => a.valu.localeCompare(b.valu))
+      }
+
+      if (this.page.data?.appDrp){
+        this.page.data.appDrp.forEach((app: any) => {
+          app.desc = app.desc + ' - ' + app.v1cd
+        });
       }
 
       if (this.page.data?.acno) this.acno = this.page.data.acno

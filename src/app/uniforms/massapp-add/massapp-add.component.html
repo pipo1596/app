@@ -119,7 +119,7 @@
                                             <td>
                                                 <div class="d-flex" style="--bs-border-opacity: .5;">
                                                     <label for="npDesc" class="p-2"><strong>Customization Group: </strong></label>
-                                                    <span class="p-2" name="npDesc">{{group.npName}}</span> 
+                                                    <span class="p-2" name="npDesc">{{group.npName +  ' (' + trim(group.npno) + ')'}}</span> 
                                                     <input type="checkbox" class="ms-auto me-5 p-2 form-check-input mt-2" id="input{{group.npno}}" value="{{group.npno}}" [checked]="isChecked(group.npno)" (click)="checkGroup(group.npno)">                                         
                                                 </div>
                                             </td>

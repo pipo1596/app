@@ -471,7 +471,7 @@
                                         <td>
                                             <div class="d-flex border-bottom border-dark" style="--bs-border-opacity: .5;">
                                                 <label for="npDesc" class="p-2"><strong>Customization Group: </strong></label>
-                                                <span class="p-2" name="npDesc">{{group.npName}}</span>                                      
+                                                <span class="p-2" name="npDesc">{{group.npName + ' (' + trim(group.npno) + ')'}}</span>                                      
                                             </div>
                                             <div class="d-flex border-bottom border-dark" style="--bs-border-opacity: .5;" *ngFor="let app of buildApps(group.npDesc)">
                                                 <label for="v1Desc" class="p-2 ms-5"><strong>Application: </strong></label>

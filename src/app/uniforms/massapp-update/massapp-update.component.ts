@@ -164,7 +164,12 @@ export class MassappUpdateComponent {
         }
       }
 
-    
+      if (this.page.data?.appDrp){
+        this.page.data.appDrp.forEach((app: any) => {
+          app.desc = app.desc + ' - ' + app.v1cd
+        });
+      }
+
       if (this.page.data?.stylDrop){
         this.page.data.stylDrop = this.page.data?.stylDrop.sort((a: any,b: any) => a.styl.localeCompare(b.styl))
         this.page.data?.stylDrop.forEach((styl: any) => {
@@ -565,6 +570,10 @@ export class MassappUpdateComponent {
         this.questions[i].req = (<HTMLInputElement>document.getElementById('req' + i + n2no)).value
       }
     } 
+  }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
   }
 
   goBack() {

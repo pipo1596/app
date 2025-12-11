@@ -120,7 +120,8 @@
                         <div class="row g-3 mb-4" *ngIf="page.data?.style || page.data?.info">
                             <div class="col-md-5">
                                 <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span>Category:</label>
-                                <ngx-select-dropdown name="catDrop" [multiple]="true" [disabled]="page.editmode" [config]="catConfig()" (change)="cats = $event.value;" [options]="page.data?.categories" [(ngModel)]="cats"></ngx-select-dropdown>
+                                <!-- <ngx-select-dropdown name="catDrop" [multiple]="page.editmode ? false : true" [config]="catConfig()" (change)="page.editmode ? cats = $event.value : this.nano = $event.value.nano" [options]="page.data?.categories" [(ngModel)]="cats"></ngx-select-dropdown> -->
+                                <ngx-select-dropdown name="catDrop" [multiple]="page.editmode ? false : true" [config]="catConfig()" (change)="loadCatg($event)" [options]="page.data?.categories" [(ngModel)]="cats"></ngx-select-dropdown>
                             </div> 
                             <div class="col mt-5">
                                 <button type="button" class="btn btn-primary me-3" (click)="newCategory()">New</button>
@@ -143,7 +144,7 @@
                         </div>
 
                         <!-- Customization -->
-                        <div class="row g-3 mb-5" *ngIf="page.data?.style && page.data?.vfgn || page.data?.info && page.data?.info?.vfgn">
+                        <div class="row g-3 mb-5" *ngIf="!(page.data?.dropship == 'Y' || page.data?.info?.dropship == 'Y') && (page.data?.style && page.data?.vfgn || page.data?.info && page.data?.info?.vfgn)">
                             <div class="col-md-3">
                                 <label for="inputItem" class="form-label">Customization:</label>
                                 <ngx-select-dropdown name="custDrop" [multiple]="true" [config]="searchConfig()" (change)="custs = $event.value" [options]="page.data?.customizations" [(ngModel)]="custs"></ngx-select-dropdown>
@@ -154,16 +155,19 @@
                         </div>
 
                         <div class="row g-3 mb-5" *ngIf="page.data?.style && !page.data?.vfgn || page.data?.info && !page.data?.info?.vfgn">
-                            <div class="col-md-5" *ngIf="!(page.data?.dropship == 'Y' || page.data?.info?.dropship == 'Y')">
+                            <div class="col-md-5">
                                 <label for="inputItem" class="form-label">Customization:</label>
                                 <label for="inputItem" class="form-label fst-italic"><strong>Style not configured for VAS. Please contact Commercialization to configure this style if VAS is needed.</strong></label>
                             </div>
+                        </div>
 
+                        <div class="row g-3 mb-5">
                             <ng-container *ngIf="page.editmode && (page.data?.dropship == 'Y' || page.data?.info?.dropship == 'Y')">
-                                <div class="col-md-1 me-4">
+                                <div class="col-md-3">
                                     <label for="inputItem" class="form-label">Customization:</label>
+                                    <ngx-select-dropdown name="custDrop" [multiple]="true" [config]="searchConfig()" (change)="custs = $event.value" [options]="page.data?.customizations" [(ngModel)]="custs"></ngx-select-dropdown>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col mt-5">
                                     <button type="button" class="btn btn-primary me-3" (click)="newCustomization('drop')">New</button>
                                 </div> 
                             </ng-container>

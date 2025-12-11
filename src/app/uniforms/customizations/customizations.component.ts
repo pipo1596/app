@@ -36,7 +36,7 @@ export class CustomizationsComponent {
 
   //Paging
   p: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 50;
   total: number = 0;
   offset = "0";
 

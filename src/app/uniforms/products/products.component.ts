@@ -76,7 +76,7 @@ export class ProductsComponent {
     showWait();
 
     let data = {
-      mode: 'deleteB',
+      mode: 'delete',
       nhno: this.page.rfno,
       nano: product.nano,
       styl: product.styl

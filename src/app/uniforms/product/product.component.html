@@ -243,7 +243,7 @@
                         <div class="d-flex flex-row">
                             <div class="col-md-3">
                                 <button type="button" class="btn btn-primary me-3" *ngIf="page.data?.style || page.data?.info" (click)="loadProduct()">Save</button>
-                                <button class="btn btn-primary me-3" type="button" *ngIf="page.entrymode && !page.data?.style" (click)="styl = styl.toUpperCase()" (click)="item = styl" (click)="getProduct()">Go</button>
+                                <button class="btn btn-primary me-3" type="button" *ngIf="!copy && page.entrymode && !page.data?.style" (click)="styl = styl.toUpperCase()" (click)="item = styl" (click)="getProduct()">Go</button>
                                 <button *ngIf="page.editmode" type="button" class="btn btn-primary me-3" (click)="deleteProduct()">Delete</button>
                                 <button type="button" class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>
                             </div>

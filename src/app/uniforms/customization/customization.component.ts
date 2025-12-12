@@ -116,6 +116,7 @@ export class CustomizationComponent {
     if(localStorage.getItem('vfgn') && !this.vfgn){
       this.vfgn = localStorage.getItem('vfgn');
     }
+
     if(localStorage.getItem('ctno') && !this.ctno){
       this.dropship = true;
       this.vfgn = '';
@@ -138,6 +139,20 @@ export class CustomizationComponent {
       this.nino = p1.nino ? p1.nino : this.nino;
       this.seq = p1.seq;
       this.copy = p1.copy ? p1.copy : '';
+    }
+
+    if(localStorage.getItem('p2')){
+      let p2 = JSON.parse(localStorage.getItem('p2')!)
+      if(p2.data?.customizations){
+        for (let i = 0; i < p2.data?.customizations.length; i++) {
+          if(p2.data?.customizations[i].npno == this.npno && p2.data?.customizations[i].drop == 'Y'){
+            this.dropship = true;
+            this.vfgn = ''
+            this.ctno = p2.data?.customizations[i].ctno
+            break;
+          } else if (p2.data?.customizations[i].npno == this.npno) break;
+        }
+      }
     }
 
     if (this.vfgn) this.getVFGN()

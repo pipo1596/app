@@ -144,7 +144,7 @@ export class CustomizationsComponent {
 
   loadCustomization(mode: any, npno: any){
     localStorage.setItem('UP_AUTH','Y')
-    localStorage.setItem('p2',this.page.toString())
+    localStorage.setItem('p2',JSON.stringify(this.page))
     switch(mode){
       case 'new':
         this.router.navigate(['/uniforms/newcustomization/' + this.page.rfno]);

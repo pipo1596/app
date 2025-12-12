@@ -141,7 +141,7 @@ export class MassappAddComponent {
 
       if (this.page.data?.appDrp){
         this.page.data.appDrp.forEach((app: any) => {
-          app.desc = app.desc + ' - ' + app.v1cd
+          app.desc = app.v1desc + ' - ' + app.v1cd
         });
       }
 

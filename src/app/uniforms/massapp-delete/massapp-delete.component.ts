@@ -109,6 +109,11 @@ export class MassappDeleteComponent {
   }
 
   deleteApps(){
+    if(this.grpChecked.length == 0){
+      this.errors = 'Must select at least one Application'
+      return
+    } else this.errors = ''
+
     if(confirm("Are you sure you want to delete all of these? Are you sure you've selected the correct customizations?")){
       showWait()
       let data = {

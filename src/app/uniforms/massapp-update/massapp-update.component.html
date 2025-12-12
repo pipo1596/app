@@ -16,7 +16,7 @@
                         </div>
 
                         <div class="col-2" *ngIf="v1cd">
-                            <button type="button" class="btn btn-primary" (click)="updateApps()" *ngIf="type == 'A' || type == 'Q'">Update Description</button>
+                            <button type="button" class="btn btn-primary" (click)="updateApps()" *ngIf="type == 'A' || (type == 'Q' && this.v2no)">Update Description</button>
                             <button type="button" class="btn btn-primary" (click)="getInfoV()" *ngIf="type == 'V' && this.vedp && !this.itemChng && !processed">Continue</button>
                             <button type="button" class="btn btn-primary" (click)="saveQuestions()" *ngIf="processed" >Update VAS Item</button>
                             <button type="button" class="btn btn-primary" (click)="updateAnswers()" *ngIf="(type == 'I' || type == 'S') && this.vedp && this.v2no">Update Answer</button>
@@ -132,7 +132,7 @@
                         <div class="row" *ngIf="(type == 'I' && vedp) || (type == 'S' && vfgn)">
                             <div class="col-md-4 mb-3">
                                 <label for="inputV2" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span>Question: </label>
-                                <select class="form-select p-2" name="inputV2" [(ngModel)]="v2no" (ngModelChange)="getInfo()" (change)="clrFields()">
+                                <select class="form-select p-2" name="inputV2" [(ngModel)]="v2no" (ngModelChange)="oldDfan = ''" (ngModelChange)="getInfo()" (change)="clrFields()">
                                     <option value="">Select</option>
                                     <option *ngFor="let question of page.data?.qstnDrp" [ngValue]="question.v2no" [selected]="question.v2no == v2no">{{question.desc}}</option>
                                 </select>
@@ -148,7 +148,7 @@
                                 </select>
                             </div>
                             <div class="col-md-4 mb-3" *ngIf="page.data?.vf2p">
-                                <label for="inputPDFAN" class="col-md-6 col-form-label"><span class="text-danger"><strong>*</strong></span>Dependency Filter - {{page.data?.vf2pDesc}} </label>
+                                <label for="inputPDFAN" class="col-md-6 col-form-label">Dependency Filter - {{page.data?.vf2pDesc}} </label>
                                 <select class="form-select p-2" name="inputPDFAN" [(ngModel)]="pDfan" (ngModelChange)="getInfo()" (change)="clrFields()">
                                     <option value="">Select</option>
                                     <option *ngFor="let answer of page.data?.dfltAnsDropP" [ngValue]="answer.value" [selected]="answer.value == pDfan">{{answer.desc}}</option>

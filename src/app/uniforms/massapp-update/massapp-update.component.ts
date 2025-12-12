@@ -127,6 +127,7 @@ export class MassappUpdateComponent {
 
   getInfo(){
     this.row = ''
+    this.errors = []
     showWait()
     let data = {
       mode: 'getInfoU',
@@ -200,6 +201,11 @@ export class MassappUpdateComponent {
       if (this.page.data?.vf2pDfan && this.type == 'S') this.pDfan = this.page.data?.vf2pDfan
       if (this.page.data?.vf2pV2NO && this.type == 'S') this.pV2NO = this.page.data?.vf2pV2NO
 
+      if (this.page.data?.result == 'fail'){
+        this.errors = this.page.data?.errors.toString().split(",")
+        this.v2no = ''
+      }
+
       this.page.loading = false;
       hideWait();
     });
@@ -213,6 +219,12 @@ export class MassappUpdateComponent {
       hideWait();
       return
     }
+
+    if(this.grpChecked.length == 0){
+      this.errors.push('Must select at least one Customization Group')
+      return
+    }
+
     this.itemChng = true
     let data = {
       mode: 'process',
@@ -240,11 +252,9 @@ export class MassappUpdateComponent {
 
   updateApps(){
     this.errors = [];
-    if((this.type == 'I' || this.type == 'S') && (!this.newDfan || (this.v2type !== 'P' && this.v2type !== 'I' && !this.oldDfan))){
-      if(this.v2type !== 'P' && this.v2type !== 'I') {
-        this.errors.push('Current and New Answers are required')
-      } else this.errors.push('New Answer is required')
-      hideWait();
+
+    if(this.grpChecked.length == 0){
+      this.errors.push('Must select at least one Customization Group')
       return
     }
 
@@ -255,6 +265,7 @@ export class MassappUpdateComponent {
         type: this.type,
         nhno: this.page.rfno,
         v1cd: this.v1cd,
+        v2no: this.v2no,
         newDesc: !(this.type == 'I' || this.type == 'S') ? this.newDesc : '',
         newDfan: (this.type == 'I' || this.type == 'S') ? this.newDfan : '',
         n1noArr: this.grpChecked
@@ -279,6 +290,11 @@ export class MassappUpdateComponent {
 
   updateAnswers(){
     this.errors = [];
+    if(this.grpChecked.length == 0){
+      this.errors.push('Must select at least one Customization Group')
+      return
+    }
+
     if(!this.newDfan || (this.v2type !== 'P' && this.v2type !== 'I' && !this.oldDfan)){
       if(this.v2type !== 'P' && this.v2type !== 'I') {
         this.errors.push('Current and New Answers are required')
@@ -488,6 +504,7 @@ export class MassappUpdateComponent {
     this.newVDesc = ""
     this.newVSku = ""
     this.v1cd = "";
+    this.v2no = "";
     this.vfgn = "";
     this.processed = false;
     this.questions = [];

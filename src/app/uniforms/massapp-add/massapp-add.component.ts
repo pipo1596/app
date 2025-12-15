@@ -267,8 +267,6 @@ export class MassappAddComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRVAA', data).subscribe(response => {
       this.page.data = response;
-      this.processed = false;
-      this.confirmed = true;
       if (this.page.data?.title) this.page.title = this.page.data.title;
       if (this.page.data?.fullname) this.page.fullname = this.page.data.fullname;
       if (this.page.data?.menu) this.page.menu = this.page.data.menu;
@@ -281,6 +279,7 @@ export class MassappAddComponent {
         this.processed = true;
         this.errors = this.page.data?.errors.toString().split(",")
       } else if(this.confirmed){
+        this.grpChecked = [];
         this.locn = ""
         this.v1cd = ""
         this.desc = ""
@@ -288,9 +287,16 @@ export class MassappAddComponent {
         this.actv = ""
         this.seq = ""
         this.errors = []
+        this.vedp = "";
         this.confirmed = ""
         this.processed = ""
-      } 
+        this.getInfo();
+      } else {
+        this.grpChecked = [];
+        this.vedp = ""
+        this.processed = false;
+        this.confirmed = true;
+      }
 
       hideWait();
     });

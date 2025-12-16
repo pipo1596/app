@@ -275,8 +275,13 @@ export class MassappAddComponent {
       }
 
       if (this.page.data?.result == 'fail'){
-        this.confirmed = false;
-        this.processed = true;
+        if(data.mode == 'saveApp'){
+          this.confirmed = true;
+          this.processed = false;
+        } else {
+          this.confirmed = false;
+          this.processed = true;
+        }
         this.errors = this.page.data?.errors.toString().split(",")
       } else if(this.confirmed){
         this.grpChecked = [];
@@ -292,8 +297,6 @@ export class MassappAddComponent {
         this.processed = ""
         this.getInfo();
       } else {
-        this.grpChecked = [];
-        this.vedp = ""
         this.processed = false;
         this.confirmed = true;
       }

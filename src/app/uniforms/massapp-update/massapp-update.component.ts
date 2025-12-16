@@ -406,13 +406,23 @@ export class MassappUpdateComponent {
     let apps: any = []
     for (let x = 0; x < this.page.data?.cstmzChk?.length; x++) {
       let customization = this.page.data?.cstmzChk[x].npDesc;
-      if(customization == group){
-        let data = {
-          n1no: this.page.data?.cstmzChk[x].n1no,
-          nv1Desc: this.page.data?.cstmzChk[x].nv1Desc
+
+      if(this.type == 'Q' || this.type == 'I'){
+          let data = {
+            n1no: this.page.data?.cstmzChk[x].n1no,
+            nv1Desc: this.page.data?.cstmzChk[x].nv1Desc
+          }
+          apps.push(data);
+      } else {
+        if(customization == group){
+          let data = {
+            n1no: this.page.data?.cstmzChk[x].n1no,
+            nv1Desc: this.page.data?.cstmzChk[x].nv1Desc
+          }
+          apps.push(data);
         }
-        apps.push(data);
       }
+
     } 
     return apps;
   }

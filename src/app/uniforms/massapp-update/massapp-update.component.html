@@ -156,32 +156,34 @@
                             </div>
                         </div>
 
-                        <div class="row" *ngIf="((type == 'I' && vedp) || (type == 'S' && vfgn)) && v2no"> <!-- New Answer -->
-                            <div class="col-md-4 mb-3">
-                                <label for="inputNewDFAN" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span>New Answer: </label>
-                                <!-- Droplist -->
-                                <select *ngIf="v2type == 'D'" class="form-select p-2" name="inputNewDFAN" [(ngModel)]="newDfan">
-                                    <option value="">Select</option>
-                                    <option *ngFor="let answer of page.data?.dfltAnsDrop" [ngValue]="answer.value" [selected]="answer.value == newDfan">{{answer.desc}}</option>
-                                </select>
-                                <!-- Lookup -->
-                                <ng-container *ngIf="v2type == 'E' && page.data?.dfltNoDrop == 'inq'">
-                                    <div class="row g-3 mb-3">
-                                        <div class="col-md-10">
-                                            <input type="text" readonly class="form-control-plaintext">       
-                                        </div>
+                        <ng-container *ngIf="(this.v2type == 'P' || this.v2type == 'I') || ( this.oldDfan && !(this.v2type == 'P' || this.v2type == 'I'))">
+                            <div class="row" *ngIf="((type == 'I' && vedp) || (type == 'S' && vfgn)) && v2no"> <!-- New Answer -->
+                                <div class="col-md-4 mb-3">
+                                    <label for="inputNewDFAN" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span>New Answer: </label>
+                                    <!-- Droplist -->
+                                    <select *ngIf="v2type == 'D'" class="form-select p-2" name="inputNewDFAN" [(ngModel)]="newDfan">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let answer of page.data?.dfltAnsDrop" [ngValue]="answer.value" [selected]="answer.value == newDfan">{{answer.desc}}</option>
+                                    </select>
+                                    <!-- Lookup -->
+                                    <ng-container *ngIf="v2type == 'E' && page.data?.dfltNoDrop == 'inq'">
+                                        <div class="row g-3 mb-3">
+                                            <div class="col-md-10">
+                                                <input type="text" readonly class="form-control-plaintext">       
+                                            </div>
 
-                                        <div class="col-md-1">
-                                            <button class="btn btn-light" (click)="inqVSMT(v2no)">
-                                                <span class="bi bi-search" title="Inquire"></span>
-                                            </button>
+                                            <div class="col-md-1">
+                                                <button class="btn btn-light" (click)="inqVSMT(v2no)">
+                                                    <span class="bi bi-search" title="Inquire"></span>
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </ng-container>
-                                <!-- Text -->
-                                 <input type="text" name="inputNewDFAN" class="form-control" *ngIf="(v2type == 'P' || v2type == 'I') && page.data?.dfltNoDrop == 'input' || page.data?.dfltNoDrop == 'inputU'" [attr.maxlength]="page.data?.maxi" [(ngModel)]="newDfan">
+                                    </ng-container>
+                                    <!-- Text -->
+                                    <input type="text" name="inputNewDFAN" class="form-control" *ngIf="(v2type == 'P' || v2type == 'I') && page.data?.dfltNoDrop == 'input' || page.data?.dfltNoDrop == 'inputU'" [attr.maxlength]="page.data?.maxi" [(ngModel)]="newDfan">
+                                </div>
                             </div>
-                        </div>
+                        </ng-container>
                     </ng-container>
 
 

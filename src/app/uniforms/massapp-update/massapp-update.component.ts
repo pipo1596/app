@@ -500,8 +500,8 @@ export class MassappUpdateComponent {
     if ((this.type == 'A' || this.type == 'Q') && !this.v1cd) show = false
     if (this.type == 'Q' && !this.v2no) show = false 
     if (this.type == 'V' && (!this.vedp || this.itemChng || this.processed)) show = false 
-    if ((this.type == 'I') && (!this.vedp || !this.v2no)) show = false 
-    if ((this.type == 'S') && (!this.vfgn || !this.v2no)) show = false 
+    if ((this.type == 'I') && (!this.vedp || !this.v2no || (!this.oldDfan && (this.v2type !== 'P' && this.v2type !== 'I')))) show = false 
+    if ((this.type == 'S') && (!this.vfgn || !this.v2no || (!this.oldDfan && (this.v2type !== 'P' && this.v2type !== 'I')))) show = false 
     return show
   }
 

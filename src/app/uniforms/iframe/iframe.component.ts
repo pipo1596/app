@@ -28,8 +28,8 @@ export class IframeComponent {
       if(this.p1?.vedp && this.partpg?.indexOf('newvasapplication') !== -1) this.p1.vedp = '';
       this.p1 = JSON.stringify(this.p1)
     }
-    localStorage.setItem('p1',this.p1);
-    localStorage.setItem('p2',this.p2);
+    if(this.p1) localStorage.setItem('p1',this.p1);
+    if(this.p2) localStorage.setItem('p2',this.p2);
     this.router.navigate([this.partpg + event.data.data]);
   }
 
@@ -56,8 +56,8 @@ export class IframeComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('p1',this.p1);
-    localStorage.setItem('p2',this.p2);
+    if(this.p1) localStorage.setItem('p1',this.p1);
+    if(this.p2) localStorage.setItem('p2',this.p2);
     if(this.p1 && this.partpg.indexOf('editcustomer') !== -1){
       this.router.navigate([ this.partpg + this.p1 ]);
     } else {

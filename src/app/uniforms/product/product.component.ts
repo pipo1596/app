@@ -647,4 +647,8 @@ export class ProductComponent {
 
     this.loadProduct();
   }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
 }

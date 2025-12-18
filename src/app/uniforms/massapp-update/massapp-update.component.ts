@@ -329,6 +329,7 @@ export class MassappUpdateComponent {
         this.newDfan = ""
         this.oldDfan = ""
         this.v2no = ""
+        this.vfgn = ""
         this.vedp = ""
         this.v1cd = ""
         this.getInfo();

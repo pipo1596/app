@@ -132,7 +132,7 @@
                         <div class="row" *ngIf="(type == 'I' && vedp) || (type == 'S' && vfgn)">
                             <div class="col-md-4 mb-3">
                                 <label for="inputV2" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span>Question: </label>
-                                <select class="form-select p-2" name="inputV2" [(ngModel)]="v2no" (ngModelChange)="oldDfan = ''" (ngModelChange)="getInfo()" (change)="clrFields()">
+                                <select class="form-select p-2" name="inputV2" [(ngModel)]="v2no" (ngModelChange)="oldDfan = ''" (ngModelChange)="pDfan = ''" (ngModelChange)="getInfo()" (change)="clrFields()">
                                     <option value="">Select</option>
                                     <option *ngFor="let question of page.data?.qstnDrp" [ngValue]="question.v2no" [selected]="question.v2no == v2no">{{question.desc}}</option>
                                 </select>
@@ -143,13 +143,13 @@
                             <div class="col-md-4 mb-3">
                                 <label for="inputOldDFAN" class="col-md-4 col-form-label"><span class="text-danger"><strong>*</strong></span>Current Answer: </label>
                                 <select class="form-select p-2" name="inputOldDFAN" [(ngModel)]="oldDfan" (ngModelChange)="getInfo()" (change)="clrFields()">
-                                    <option value="">Select</option>
+                                    <option value="" [selected]="!oldDfan">Select</option>
                                     <option *ngFor="let answer of page.data?.dfltAnsDrop" [ngValue]="answer.value" [selected]="answer.value == oldDfan">{{answer.desc}}</option>
                                 </select>
                             </div>
                             <div class="col-md-4 mb-3" *ngIf="page.data?.vf2p">
                                 <label for="inputPDFAN" class="col-md-6 col-form-label">Dependency Filter - {{page.data?.vf2pDesc}} </label>
-                                <select class="form-select p-2" name="inputPDFAN" [(ngModel)]="pDfan" (ngModelChange)="getInfo()" (change)="clrFields()">
+                                <select class="form-select p-2" name="inputPDFAN" [(ngModel)]="pDfan" (ngModelChange)="oldDfan = ''" (ngModelChange)="getInfo()">
                                     <option value="">Select</option>
                                     <option *ngFor="let answer of page.data?.dfltAnsDropP" [ngValue]="answer.value" [selected]="answer.value == pDfan">{{answer.desc}}</option>
                                 </select>

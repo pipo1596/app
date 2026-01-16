@@ -44,7 +44,7 @@ export class VasQuestionComponent {
   dflk: any = ""; // Force Default
   rule: any = ""; // Rule
   ruleVF: any = ""; // Rule
-  afmt: any = ""; // VAS Answer FOrmat
+  afmt: any = ""; // VAS Answer Format
   upct: any; 
 
   constructor(private http: HttpClient,

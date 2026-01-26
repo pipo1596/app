@@ -120,7 +120,8 @@
                         <div class="row g-3 mb-4" *ngIf="page.data?.style || page.data?.info">
                             <div class="col-md-5">
                                 <label for="inputItem" class="form-label"><span class="text-danger"><strong>* </strong></span>Category:</label>
-                                <ngx-select-dropdown name="catDrop" [multiple]="true" [disabled]="page.editmode" [config]="catConfig()" (change)="cats = $event.value;" [options]="page.data?.categories" [(ngModel)]="cats"></ngx-select-dropdown>
+                                <!-- <ngx-select-dropdown name="catDrop" [multiple]="page.editmode ? false : true" [config]="catConfig()" (change)="page.editmode ? cats = $event.value : this.nano = $event.value.nano" [options]="page.data?.categories" [(ngModel)]="cats"></ngx-select-dropdown> -->
+                                <ngx-select-dropdown name="catDrop" [multiple]="page.editmode ? false : true" [config]="catConfig()" (change)="loadCatg($event)" [options]="page.data?.categories" [(ngModel)]="cats"></ngx-select-dropdown>
                             </div> 
                             <div class="col mt-5">
                                 <button type="button" class="btn btn-primary me-3" (click)="newCategory()">New</button>
@@ -143,7 +144,7 @@
                         </div>
 
                         <!-- Customization -->
-                        <div class="row g-3 mb-5" *ngIf="page.data?.style && page.data?.vfgn || page.data?.info && page.data?.info?.vfgn">
+                        <div class="row g-3 mb-5" *ngIf="!(page.data?.dropship == 'Y' || page.data?.info?.dropship == 'Y') && (page.data?.style && page.data?.vfgn || page.data?.info && page.data?.info?.vfgn)">
                             <div class="col-md-3">
                                 <label for="inputItem" class="form-label">Customization:</label>
                                 <ngx-select-dropdown name="custDrop" [multiple]="true" [config]="searchConfig()" (change)="custs = $event.value" [options]="page.data?.customizations" [(ngModel)]="custs"></ngx-select-dropdown>
@@ -153,21 +154,33 @@
                             </div> 
                         </div>
 
-                        <div class="row g-3 mb-5" *ngIf="page.data?.style && !page.data?.vfgn || page.data?.info && !page.data?.info?.vfgn">
-                            <div class="col-md-5" *ngIf="!(page.data?.dropship == 'Y' || page.data?.info?.dropship == 'Y')">
+                        <div class="row g-3 mb-5" *ngIf="!(page.data?.dropship == 'Y' || page.data?.info?.dropship == 'Y') && (page.data?.style && !page.data?.vfgn || page.data?.info && !page.data?.info?.vfgn)">
+                            <div class="col-md-5">
                                 <label for="inputItem" class="form-label">Customization:</label>
                                 <label for="inputItem" class="form-label fst-italic"><strong>Style not configured for VAS. Please contact Commercialization to configure this style if VAS is needed.</strong></label>
                             </div>
-
-                            <ng-container *ngIf="page.editmode && (page.data?.dropship == 'Y' || page.data?.info?.dropship == 'Y')">
-                                <div class="col-md-1 me-4">
-                                    <label for="inputItem" class="form-label">Customization:</label>
-                                </div>
-                                <div class="col-md-2">
-                                    <button type="button" class="btn btn-primary me-3" (click)="newCustomization('drop')">New</button>
-                                </div> 
-                            </ng-container>
                         </div>
+
+                    <ng-container *ngIf="page.editmode && (page.data?.dropship == 'Y' || page.data?.info?.dropship == 'Y')">
+                        <div class="row g-3 mb-1">
+                                <!-- <div class="col-md-3">
+                                    <label for="inputItem" class="form-label">Customization:</label>
+                                    <ngx-select-dropdown name="custDrop" [multiple]="true" [config]="searchConfig()" (change)="custs = $event.value" [options]="page.data?.customizations" [(ngModel)]="custs"></ngx-select-dropdown>
+                                </div>
+                                <div class="col mt-5">
+                                    <button type="button" class="btn btn-primary me-3" (click)="newCustomization('drop')">New</button>
+                                </div>  -->
+                                <div class="col-md-3">
+                                    <label for="inputItem" class="form-label me-3">Customization:</label>
+                                    <button type="button" class="btn btn-primary me-3" (click)="newCustomization('drop')">New</button>
+                                </div>
+                        </div>
+                        <div class="row g-3 mb-5">
+                                <div class="col-md-3">
+                                    <span *ngFor="let customize of page.data?.info?.customizations" class="ms-3">{{customize.desc + ' (' + trim(customize.npno) + ')'}}<br></span>
+                                </div>
+                        </div>
+                    </ng-container>
 
                         <div class="row g-3 mb-3 card w-50" *ngIf="page.editmode">
                             <div class="col-md-3">
@@ -239,7 +252,7 @@
                         <div class="d-flex flex-row">
                             <div class="col-md-3">
                                 <button type="button" class="btn btn-primary me-3" *ngIf="page.data?.style || page.data?.info" (click)="loadProduct()">Save</button>
-                                <button class="btn btn-primary me-3" type="button" *ngIf="page.entrymode && !page.data?.style" (click)="styl = styl.toUpperCase()" (click)="item = styl" (click)="getProduct()">Go</button>
+                                <button class="btn btn-primary me-3" type="button" *ngIf="!copy && page.entrymode && !page.data?.style" (click)="styl = styl.toUpperCase()" (click)="item = styl" (click)="getProduct()">Go</button>
                                 <button *ngIf="page.editmode" type="button" class="btn btn-primary me-3" (click)="deleteProduct()">Delete</button>
                                 <button type="button" class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>
                             </div>

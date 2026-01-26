@@ -32,13 +32,13 @@
                             </div>
                         </div>
 
-                        <div class="row g-3 mb-3" *ngIf="page.entrymode && this.single == 'N'"> <!-- Single Config Top -->
+                        <div class="row g-3 mb-3" *ngIf="page.entrymode && this.single == 'N' && !this.dropship"> <!-- Single Config Top -->
                             <div class="col-md-9">
                                 <label for="inputCnfg" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Style Configurator Template:</strong> <small class="ms-5" *ngIf="page.entrymode && this.nino"><i>This template is pulled in from your selected style</i></small> </label>
                             </div>
                         </div>       
 
-                        <div class="row g-3 mb-3" *ngIf="page.entrymode && this.single == 'N'"> <!-- Single Config Top -->
+                        <div class="row g-3 mb-3" *ngIf="page.entrymode && this.single == 'N' && !this.dropship"> <!-- Single Config Top -->
                             <div class="col-md-3">
                                 <input type="text" readonly class="form-control" [value]="vfgdesc ? vfgdesc : ''">
                             </div>
@@ -55,7 +55,7 @@
                         </div>
                         <div class="row g-3 mb-4">
                             <div class="col-md-3">
-                                <input type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="name" [disabled]="this.single == 'N' && !this.vfgn" (keydown)="this.single == 'N' && page.entrymode && this.vfgn ? ($event.key == 'Backspace' || $event.key == 'ArrowLeft' ? keepVFG($event) : '') : ''">
+                                <input type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="name" [disabled]="this.single == 'N' && !this.vfgn && !this.dropship" (keydown)="this.single == 'N' && page.entrymode && this.vfgn ? ($event.key == 'Backspace' || $event.key == 'ArrowLeft' ? keepVFG($event) : '') : ''">
                             </div>
                         </div>
 
@@ -66,11 +66,11 @@
                         </div>
                         <div class="row g-3 mb-3">
                             <div class="col-md-3">
-                                <input type="text" class="form-control" id="inputDesc" name='description' [(ngModel)]="desc" [disabled]="this.single == 'N' && !this.vfgn">
+                                <input type="text" class="form-control" id="inputDesc" name='description' [(ngModel)]="desc" [disabled]="this.single == 'N' && !this.vfgn && !this.dropship">
                             </div>
                         </div>
 
-                        <div class="row g-3 mb-3" *ngIf="!this.dropship && ((page.editmode && this.page.data?.info?.single !== 'Y'))"> <!-- Non Single Config Bottom -->
+                        <div class="row g-3 mb-3" *ngIf="(!this.dropship || this.copy) && ((page.editmode && this.page.data?.info?.single !== 'Y'))"> <!-- Non Single Config Bottom -->
                             <div class="col-md-3">
                                 <label for="inputCnfg" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Style Configurator Template:</strong> </label>
                                 <input type="text" readonly class="form-control" [value]="vfgdesc ? vfgdesc : ''" disabled>

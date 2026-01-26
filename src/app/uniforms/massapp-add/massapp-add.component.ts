@@ -92,8 +92,8 @@ export class MassappAddComponent {
       npno: this.npno,
       vfgn: this.vfgn,
       name: this.name,
-      v1cd: this.v1cd,
-      vedp: this.vedp,
+      v1cd: this.v1cd.v1cd,
+      vedp: this.vedp.vedp,
       styl: this.styl?.styl,
       levl: this.levl?.valu,
     }
@@ -137,6 +137,12 @@ export class MassappAddComponent {
 
       if (this.page.data?.lvlDrop){
         this.page.data.lvlDrop = this.page.data.lvlDrop.sort((a: any,b: any) => a.valu.localeCompare(b.valu))
+      }
+
+      if (this.page.data?.appDrp){
+        this.page.data.appDrp.forEach((app: any) => {
+          app.desc = app.v1desc + ' - ' + app.v1cd
+        });
       }
 
       if (this.page.data?.acno) this.acno = this.page.data.acno
@@ -261,8 +267,6 @@ export class MassappAddComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRVAA', data).subscribe(response => {
       this.page.data = response;
-      this.processed = false;
-      this.confirmed = true;
       if (this.page.data?.title) this.page.title = this.page.data.title;
       if (this.page.data?.fullname) this.page.fullname = this.page.data.fullname;
       if (this.page.data?.menu) this.page.menu = this.page.data.menu;
@@ -271,10 +275,16 @@ export class MassappAddComponent {
       }
 
       if (this.page.data?.result == 'fail'){
-        this.confirmed = false;
-        this.processed = true;
+        if(data.mode == 'saveApp'){
+          this.confirmed = true;
+          this.processed = false;
+        } else {
+          this.confirmed = false;
+          this.processed = true;
+        }
         this.errors = this.page.data?.errors.toString().split(",")
       } else if(this.confirmed){
+        this.grpChecked = [];
         this.locn = ""
         this.v1cd = ""
         this.desc = ""
@@ -282,9 +292,14 @@ export class MassappAddComponent {
         this.actv = ""
         this.seq = ""
         this.errors = []
+        this.vedp = "";
         this.confirmed = ""
         this.processed = ""
-      } 
+        this.getInfo();
+      } else {
+        this.processed = false;
+        this.confirmed = true;
+      }
 
       hideWait();
     });

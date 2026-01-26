@@ -29,7 +29,7 @@ export class ProductsComponent {
 
   //Paging
   p: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 50;
   total: number = 0;
   offset = "";
 

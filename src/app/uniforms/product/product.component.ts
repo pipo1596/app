@@ -548,7 +548,7 @@ export class ProductComponent {
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
       this.page.data = response;
 
-      if(this.filters) localStorage.setItem('filters',this.filters)
+        if(this.filters) localStorage.setItem('filters',this.filters)
       if (this.page.data.result == 'pass'){
        localStorage.setItem('UP_AUTH','Y');
        this.router.navigate(['/uniforms/products/' + this.nhno]);
@@ -598,6 +598,13 @@ export class ProductComponent {
     this.router.navigate(['/uniforms/category/' + this.nhno]);
   }
 
+  loadCatg(event: any){
+    this.cats = event.value
+    if(this.page.editmode){
+      this.nano = event.value.nano
+    }
+  }
+
   newCustomization(mode: any) {
     this.bldCache();
     let partpg = '/uniforms/product/' + this.nhno + '/' + this.nino
@@ -639,5 +646,9 @@ export class ProductComponent {
     }
 
     this.loadProduct();
+  }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
   }
 }

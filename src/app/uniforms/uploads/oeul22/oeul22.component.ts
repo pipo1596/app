@@ -117,6 +117,11 @@ export class OEUL22Component {
     });
   }
 
+  getSample(){
+    let sample = (<HTMLAnchorElement>document.getElementById('sample'));
+    sample!.href = environment.apiurl + '/images/cgoeul22.xls' 
+  }
+
   goBack(){
     localStorage.setItem('UP_AUTH','Y')
     this.router.navigate(['/uniforms/import/' + this.page.rfno]);

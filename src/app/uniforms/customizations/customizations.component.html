@@ -9,18 +9,18 @@
             <div class="card-body">
 
                 <div class="row g-4">
-                    <div class="col-10">
+                    <div class="col-8">
                         <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
                     </div>
 
-                    <!-- <div class="dropdown col-2">
+                    <div class="dropdown col-2">
                         <button (click)="drop = !drop" class="btn btn-primary rounded-0 dropdown-toggle overflow-hidden w-100" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mass Update</button>
                         <div class="dropdown-menu rounded-0" aria-labelledby="dropdownMenuButton" [ngClass]="{'d-block': (drop), 'd-none': !(drop)}" (mouseleave)="drop = false">
                             <a class="dropdown-item" href="javascript:void" (click)="loadAction('add')">Add Applications</a> 
                             <a class="dropdown-item" href="javascript:void" (click)="loadAction('delete')">Delete Applications</a> 
                             <a class="dropdown-item" href="javascript:void" (click)="loadAction('update')">Update Applications</a> 
                         </div>
-                    </div> -->
+                    </div>
 
                     <div class="col-2">
                         <button (click)="loadCustomization('new','')" class="btn btn-primary rounded-0 mw-50 me-3" type="button">New</button>
@@ -150,10 +150,9 @@
             <div class="col-8 mx-auto w-50">
                 <label>Items per page:
                     <select [(ngModel)]="itemsPerPage" (change)="onItemChange(itemsPerPage)">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
                     </select>
                 </label>
             </div>

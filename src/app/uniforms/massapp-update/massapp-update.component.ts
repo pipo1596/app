@@ -127,6 +127,7 @@ export class MassappUpdateComponent {
 
   getInfo(){
     this.row = ''
+    this.errors = []
     showWait()
     let data = {
       mode: 'getInfoU',
@@ -164,7 +165,12 @@ export class MassappUpdateComponent {
         }
       }
 
-    
+      if (this.page.data?.appDrp){
+        this.page.data.appDrp.forEach((app: any) => {
+          app.desc = app.desc + ' - ' + app.v1cd
+        });
+      }
+
       if (this.page.data?.stylDrop){
         this.page.data.stylDrop = this.page.data?.stylDrop.sort((a: any,b: any) => a.styl.localeCompare(b.styl))
         this.page.data?.stylDrop.forEach((styl: any) => {
@@ -195,6 +201,11 @@ export class MassappUpdateComponent {
       if (this.page.data?.vf2pDfan && this.type == 'S') this.pDfan = this.page.data?.vf2pDfan
       if (this.page.data?.vf2pV2NO && this.type == 'S') this.pV2NO = this.page.data?.vf2pV2NO
 
+      if (this.page.data?.result == 'fail'){
+        this.errors = this.page.data?.errors.toString().split(",")
+        this.v2no = ''
+      }
+
       this.page.loading = false;
       hideWait();
     });
@@ -208,6 +219,12 @@ export class MassappUpdateComponent {
       hideWait();
       return
     }
+
+    if(this.grpChecked.length == 0){
+      this.errors.push('Must select at least one Customization Group')
+      return
+    }
+
     this.itemChng = true
     let data = {
       mode: 'process',
@@ -235,11 +252,9 @@ export class MassappUpdateComponent {
 
   updateApps(){
     this.errors = [];
-    if((this.type == 'I' || this.type == 'S') && (!this.newDfan || (this.v2type !== 'P' && this.v2type !== 'I' && !this.oldDfan))){
-      if(this.v2type !== 'P' && this.v2type !== 'I') {
-        this.errors.push('Current and New Answers are required')
-      } else this.errors.push('New Answer is required')
-      hideWait();
+
+    if(this.grpChecked.length == 0){
+      this.errors.push('Must select at least one Customization Group')
       return
     }
 
@@ -250,6 +265,7 @@ export class MassappUpdateComponent {
         type: this.type,
         nhno: this.page.rfno,
         v1cd: this.v1cd,
+        v2no: this.v2no,
         newDesc: !(this.type == 'I' || this.type == 'S') ? this.newDesc : '',
         newDfan: (this.type == 'I' || this.type == 'S') ? this.newDfan : '',
         n1noArr: this.grpChecked
@@ -274,6 +290,11 @@ export class MassappUpdateComponent {
 
   updateAnswers(){
     this.errors = [];
+    if(this.grpChecked.length == 0){
+      this.errors.push('Must select at least one Customization Group')
+      return
+    }
+
     if(!this.newDfan || (this.v2type !== 'P' && this.v2type !== 'I' && !this.oldDfan)){
       if(this.v2type !== 'P' && this.v2type !== 'I') {
         this.errors.push('Current and New Answers are required')
@@ -308,6 +329,7 @@ export class MassappUpdateComponent {
         this.newDfan = ""
         this.oldDfan = ""
         this.v2no = ""
+        this.vfgn = ""
         this.vedp = ""
         this.v1cd = ""
         this.getInfo();
@@ -385,13 +407,23 @@ export class MassappUpdateComponent {
     let apps: any = []
     for (let x = 0; x < this.page.data?.cstmzChk?.length; x++) {
       let customization = this.page.data?.cstmzChk[x].npDesc;
-      if(customization == group){
-        let data = {
-          n1no: this.page.data?.cstmzChk[x].n1no,
-          nv1Desc: this.page.data?.cstmzChk[x].nv1Desc
+
+      if(this.type == 'Q' || this.type == 'I'){
+          let data = {
+            n1no: this.page.data?.cstmzChk[x].n1no,
+            nv1Desc: this.page.data?.cstmzChk[x].nv1Desc
+          }
+          apps.push(data);
+      } else {
+        if(customization == group){
+          let data = {
+            n1no: this.page.data?.cstmzChk[x].n1no,
+            nv1Desc: this.page.data?.cstmzChk[x].nv1Desc
+          }
+          apps.push(data);
         }
-        apps.push(data);
       }
+
     } 
     return apps;
   }
@@ -469,8 +501,8 @@ export class MassappUpdateComponent {
     if ((this.type == 'A' || this.type == 'Q') && !this.v1cd) show = false
     if (this.type == 'Q' && !this.v2no) show = false 
     if (this.type == 'V' && (!this.vedp || this.itemChng || this.processed)) show = false 
-    if ((this.type == 'I') && (!this.vedp || !this.v2no)) show = false 
-    if ((this.type == 'S') && (!this.vfgn || !this.v2no)) show = false 
+    if ((this.type == 'I') && (!this.vedp || !this.v2no || (!this.oldDfan && (this.v2type !== 'P' && this.v2type !== 'I')))) show = false 
+    if ((this.type == 'S') && (!this.vfgn || !this.v2no || (!this.oldDfan && (this.v2type !== 'P' && this.v2type !== 'I')))) show = false 
     return show
   }
 
@@ -483,6 +515,7 @@ export class MassappUpdateComponent {
     this.newVDesc = ""
     this.newVSku = ""
     this.v1cd = "";
+    this.v2no = "";
     this.vfgn = "";
     this.processed = false;
     this.questions = [];
@@ -565,6 +598,10 @@ export class MassappUpdateComponent {
         this.questions[i].req = (<HTMLInputElement>document.getElementById('req' + i + n2no)).value
       }
     } 
+  }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
   }
 
   goBack() {

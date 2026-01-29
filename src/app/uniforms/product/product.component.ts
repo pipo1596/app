@@ -380,8 +380,9 @@ export class ProductComponent {
     if(optIX > 1){
       let combinations = this.getCombinations(arrays);
       for (let i = 0; i < combinations.length; i++) {
-        let combo = combinations[i].toString().replaceAll('*','')
-        combo = combo.replaceAll(',',' ')
+        // let combo = combinations[i].toString().replaceAll('*','')
+            // combo = combo.replaceAll(',',' ')
+        let combo = combinations[i].toString()
       this.options.push(combo)
       }
     } else {

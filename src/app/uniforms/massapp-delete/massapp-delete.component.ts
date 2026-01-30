@@ -208,6 +208,10 @@ export class MassappDeleteComponent {
     return config
   }
 
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
+
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);

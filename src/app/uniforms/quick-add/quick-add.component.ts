@@ -82,7 +82,14 @@ export class QuickAddComponent implements AfterViewInit {
     let inputs = this.itemInputs.toArray()
     let items = []
     for (let i = 0; i < inputs.length; i++){
-      items.push(inputs[i].nativeElement.value);
+      if(inputs[i].nativeElement.value !== ''){
+        items.push(inputs[i].nativeElement.value);
+      }
+    }
+
+    if(items.length == 0){
+      window.alert("Must enter at least one style");
+      return;
     }
 
     showWait();

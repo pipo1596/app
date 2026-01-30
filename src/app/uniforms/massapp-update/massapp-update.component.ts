@@ -383,6 +383,7 @@ export class MassappUpdateComponent {
         this.vedp = ""
         this.newVedp = ""
         this.type = ""
+        this.itemChng = false;
         this.clrType();
       }
       hideWait();

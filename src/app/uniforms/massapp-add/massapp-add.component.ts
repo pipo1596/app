@@ -15,6 +15,7 @@ export class MassappAddComponent {
   //Display
   page = new Page();
   v1cd: any = "";
+  message: any = "";
   errors: any = [];
   row: any;
 
@@ -27,6 +28,8 @@ export class MassappAddComponent {
   vfgn: any = ""; //Style Configurator Template
   acno: any = "";
   npno: any = "";
+  vsmt: any = "";
+  inqTarget: any = "";
   
   //Input
   applications: any = [];
@@ -53,12 +56,14 @@ export class MassappAddComponent {
     if (localStorage.getItem('p1')) this.getCache();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
+      if(params.get('vsmt')) this.vsmt = params.get('vsmt');
       if(this.processed && params.get('vedp')) this.vedp = params.get('vedp');
     });
     if(this.vedp) this.getVEDP()
     localStorage.clear();
     if(!this.processed && !this.confirmed) this.getInfo();
     if(this.processed) this.getInfoA();
+    if(!this.processed && this.confirmed) this.getQuestions();
   }
 
   getCache(){
@@ -73,12 +78,17 @@ export class MassappAddComponent {
       this.actv = p1.actv;
       this.seq = p1.seq;
       this.vfgn = p1.vfgn;
+      if(p1.vsmt) this.vsmt = p1.vsmt;
+      if(p1.inqTarget) this.inqTarget = p1.inqTarget;
       if(p1.checked) this.grpChecked = JSON.parse(p1.checked);
       if(p1.groups) this.groups = JSON.parse(p1.groups);
       if(p1.questions) this.questions = JSON.parse(p1.questions);
       if(p1.processed == 'Y'){
         this.processed = true;
       } else this.processed = false;
+      if(p1.confirmed == 'Y'){
+        this.confirmed = true;
+      } else this.confirmed = false;
     }
   }
 
@@ -154,6 +164,7 @@ export class MassappAddComponent {
 
   getInfoA(){
     this.errors = [];
+    this.message = "";
     showWait();
 
     if(!this.vfgn){
@@ -236,7 +247,7 @@ export class MassappAddComponent {
     let dspd = [];
     let req = [];
     let dfan = [];
-    if(this.confirmed){
+    if(this.confirmed && !this.inqTarget){
       for (let i = 0; i < this.questions.length; i++) {
         v2no.push(this.questions[i].v2no);
         dflk.push((<HTMLInputElement>document.getElementById('dflk' + i + this.questions[i]!.v2no)).checked ? 'Y' : 'N');
@@ -247,7 +258,7 @@ export class MassappAddComponent {
     }
 
     let data = {
-      mode: this.confirmed ? 'saveApp' : 'getQstn',
+      mode: this.confirmed && !this.inqTarget ? 'saveApp' : 'getQstn',
       nhno: this.page.rfno,
       vfgn: this.vfgn,
       locn: this.locn,
@@ -274,6 +285,15 @@ export class MassappAddComponent {
         this.questions = this.page.data?.questions.sort((a: any,b: any) => a.v2no.localeCompare(b.v2no))
       }
 
+      if(this.inqTarget && this.vsmt){
+        for (let x = 0; x < this.questions.length; x++) {
+          if(this.questions[x].v2no == this.inqTarget){
+            this.questions[x].dfan = this.vsmt
+            break
+          }
+        } 
+      }
+
       if (this.page.data?.result == 'fail'){
         if(data.mode == 'saveApp'){
           this.confirmed = true;
@@ -283,7 +303,7 @@ export class MassappAddComponent {
           this.processed = true;
         }
         this.errors = this.page.data?.errors.toString().split(",")
-      } else if(this.confirmed){
+      } else if(this.confirmed && !this.inqTarget){
         this.grpChecked = [];
         this.locn = ""
         this.v1cd = ""
@@ -292,6 +312,7 @@ export class MassappAddComponent {
         this.actv = ""
         this.seq = ""
         this.errors = []
+        this.message = "Applications added successfully"
         this.vedp = "";
         this.confirmed = ""
         this.processed = ""
@@ -301,6 +322,8 @@ export class MassappAddComponent {
         this.confirmed = true;
       }
 
+      this.inqTarget = "";
+      this.vsmt = "";
       hideWait();
     });
   }
@@ -380,6 +403,7 @@ export class MassappAddComponent {
       acno: this.acno,
       vfgn: this.vfgn,
       processed: this.processed ? 'Y' : '',
+      confirmed: this.confirmed ? 'Y' : '',
       checked: JSON.stringify(this.grpChecked),
       groups: JSON.stringify(this.groups)
     }
@@ -430,31 +454,29 @@ export class MassappAddComponent {
 
   inqVSMT(v2no: any){
     localStorage.clear();
-    
-    // let p1 = {
-    //   type: this.type,
-    //   vedp: this.vedp,
-    //   newVedp: this.newVedp,
-    //   acno: this.acno,
-    //   v1cd: this.v1cd,
-    //   name: this.name,
-    //   desc: this.desc,
-    //   levl: this.levl,
-    //   styl: this.styl,
-    //   vfgn: this.vfgn,
-    //   ctno: this.ctno,
-    //   checked: JSON.stringify(this.grpChecked),
-    //   processed: this.processed ? 'Y' : '',
-    //   questions: JSON.stringify(this.questions),
-    //   answers: this.cacheAnswers(),
-    //   target: v2no
-    // }
-    // localStorage.setItem('p1', JSON.stringify(p1));
-    // localStorage.setItem('partpg','/uniforms/massappupdate/' + this.page.rfno + '/' + this.newVedp + '/')
-    // let menu = '/cgi/APOELMIS4?PAMODE=*INQ&PMVSMT=EMBLEM' + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
-    // localStorage.setItem('menu',menu)
-    // localStorage.setItem('UP_AUTH','Y');
-    // this.router.navigate(['/uniforms/iframe/APOELMIS4'])
+    let p1 = {
+      locn: this.locn,
+      v1cd: this.v1cd,
+      desc: this.desc,
+      vedp: this.vedp,
+      mand: this.mand,
+      actv: this.actv,
+      seq: this.seq,
+      acno: this.acno,
+      vfgn: this.vfgn,
+      processed: this.processed ? 'Y' : '',
+      confirmed: this.confirmed ? 'Y' : '',
+      vsmt: this.vsmt,
+      inqTarget: v2no,
+      checked: JSON.stringify(this.grpChecked),
+      groups: JSON.stringify(this.groups)
+    }
+    localStorage.setItem('p1', JSON.stringify(p1));
+    localStorage.setItem('partpg','/uniforms/massappadd/' + this.page.rfno + '/' + this.vedp + '/')
+    let menu = '/cgi/APOELMIS4?PAMODE=*INQ&PMVSMT=EMBLEM' + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
+    localStorage.setItem('menu',menu)
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate(['/uniforms/iframe/APOELMIS4'])
   }
 
   searchConfig(mode: string){

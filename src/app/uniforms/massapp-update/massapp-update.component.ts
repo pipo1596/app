@@ -383,6 +383,7 @@ export class MassappUpdateComponent {
         this.vedp = ""
         this.newVedp = ""
         this.type = ""
+        this.itemChng = false;
         this.clrType();
       }
       hideWait();
@@ -406,7 +407,7 @@ export class MassappUpdateComponent {
   buildApps(group: any){
     let apps: any = []
     for (let x = 0; x < this.page.data?.cstmzChk?.length; x++) {
-      let customization = this.page.data?.cstmzChk[x].npDesc;
+      let customization = this.page.data?.cstmzChk[x].npno;
 
       if(this.type == 'Q' || this.type == 'I'){
           let data = {

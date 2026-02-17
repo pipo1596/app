@@ -511,7 +511,7 @@
                                                 <label for="npDesc" class="p-2"><strong>Customization Group: </strong></label>
                                                 <span class="p-2" name="npDesc">{{group.npName + ' (' + trim(group.npno) + ')'}}</span>                                      
                                             </div>
-                                            <div class="d-flex border-bottom border-dark" style="--bs-border-opacity: .5;" *ngFor="let app of buildApps(group.npDesc)">
+                                            <div class="d-flex border-bottom border-dark" style="--bs-border-opacity: .5;" *ngFor="let app of buildApps(group.npno)">
                                                 <label for="v1Desc" class="p-2 ms-5"><strong>Application: </strong></label>
                                                 <span class="p-2" name="v1Desc">{{app.nv1Desc}}</span>          
                                                 <input type="checkbox" class="ms-auto me-5 p-2 form-check-input mt-2" id="N1NO{{app.n1no}}" value="{{app.n1no}}" [checked]="isChecked(app.n1no)" (click)="checkGroup(app.n1no)">         

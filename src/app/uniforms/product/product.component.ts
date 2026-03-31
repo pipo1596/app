@@ -502,11 +502,13 @@ export class ProductComponent {
     let mode = (this.page.editmode ? 'update' : 'create')
 
     this.options = [];
+    let isSKU = "";
     if(this.sku.length == 0 && this.opv){ //Loading from checkboxes
       this.generateOpt();
     } else if(this.sku.length > 0){ // Loading from SKU dropdown
       for (let i = 0; i < this.sku.length; i++) {
         let skuOPT = this.sku[i].value.replaceAll(" ",",")
+        isSKU = "Y";
         this.options.push(skuOPT)
       }
     }
@@ -544,6 +546,7 @@ export class ProductComponent {
       op1U: this.op1U,
       op2U: this.op2U,
       op3U: this.op3U,
+      isSKU: isSKU,
       upct: mode == 'update' ? this.upct : ''
     }
 

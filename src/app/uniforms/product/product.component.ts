@@ -502,11 +502,12 @@ export class ProductComponent {
     let mode = (this.page.editmode ? 'update' : 'create')
 
     this.options = [];
-    if(this.sku.length == 0 && this.opv){
+    if(this.sku.length == 0 && this.opv){ //Loading from checkboxes
       this.generateOpt();
-    } else if(this.sku.length > 0){
+    } else if(this.sku.length > 0){ // Loading from SKU dropdown
       for (let i = 0; i < this.sku.length; i++) {
-        this.options.push(this.sku[i].value)
+        let skuOPT = this.sku[i].value.replaceAll(" ",",")
+        this.options.push(skuOPT)
       }
     }
     this.getUnselected()

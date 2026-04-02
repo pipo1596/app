@@ -168,6 +168,15 @@ export class ProductComponent {
         }
       }
 
+      if (this.page.data?.dropChk){
+        for (let i = 0; i < this.page.data?.dropChk.length; i++) {
+          if(this.page.data?.dropChk[i].value !== '' && !this.sku.includes(this.page.data?.dropChk[i])) {
+            this.sku.push(this.page.data?.dropChk[i])
+            console.log(this.sku)
+          }
+        }
+      }
+
       if (this.page.data?.sku) this.page.data.sku = this.page.data.sku.sort((a:any,b: any) => a.desc.localeCompare(b.desc))
       if (this.page.data?.customizations) this.page.data.customizations = this.page.data.customizations.sort((a: any,b: any) => a.npno.localeCompare(b.npno))
       if(this.page.data?.categories){

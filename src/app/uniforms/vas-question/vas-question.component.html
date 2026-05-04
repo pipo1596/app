@@ -244,6 +244,7 @@
                         <div class="col-md-3 ms-5">
                             <button type="submit" class="btn btn-primary me-3" (click)="loadQuestion()">Save</button>
                             <button class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>
+                            <button class="btn btn-secondary me-3" *ngIf="this.retail" (click)="deleteQuestion()">Delete</button>
                         </div>
                     </div>
                 </form>

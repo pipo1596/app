@@ -16,9 +16,11 @@
 
     <tbody>
         <tr *ngFor="let question of page.data?.vasq; index as i">
-            <td class="ps-5">
+            <td class="ps-5" style="width: 15%;">
                 <button class="btn bg-transparent" (click)="editQuestion(question)"><span
-                    class="bi bi-pencil-square" title="Edit Category"></span></button>
+                    class="bi bi-pencil-square" title="Edit Question"></span></button>
+                <button *ngIf="page.data?.retail" class="btn bg-transparent" (click)="deleteQuestion(question)"><span
+                    class="bi bi-trash" title="Delete Question"></span></button>
             </td>
             <td align="left">{{question.desc}}</td> <!-- VAS Question -->
             <td align="left">{{question.typeDesc}}</td> <!-- Type -->
@@ -74,6 +76,16 @@
             </td>
             <td align="left"></td>
         </tr>
+
+        <!-- Retail Mode: Deleted/Inactive Questions -->
+        <tr *ngFor="let rtquestion of page.data?.rtlvasq; index as x">
+            <td class="ps-5" style="width: 15%;">
+                <button class="btn bg-transparent" (click)="addQuestion(rtquestion)"><b><span title="Add Question"><u>Add</u></span></b></button>
+            </td>
+            <td align="left">{{rtquestion.desc}}</td> <!-- VAS Question -->
+            <td align="left">{{rtquestion.typedesc}}</td> <!-- Type -->
+        </tr>
+
         <tr>
             <th align="left"></th>
             <th align="left"></th>

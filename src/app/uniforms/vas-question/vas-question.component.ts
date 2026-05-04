@@ -20,6 +20,7 @@ export class VasQuestionComponent {
   type: any;
   all: any;
   nino: any;
+  retail: any;
 
   //Input
   desc: any; // Description
@@ -130,6 +131,7 @@ export class VasQuestionComponent {
       if (this.page.data?.info?.lkqt) this.lkqt = this.page.data.info.lkqt;
       if (this.page.data?.info?.dflk) this.dflk = this.page.data.info.dflk;
       if (this.page.data?.info?.upct) this.upct = this.page.data.info.upct;
+      if (this.page.data?.retail) this.retail = this.page.data.retail;
 
       if(this.page.data?.dfltNoDrop == 'inq' && this.vhno){
         this.dfan = this.vhno
@@ -219,6 +221,34 @@ export class VasQuestionComponent {
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2', data).subscribe(response => {
+      this.page.data = response;
+      if(this.page.data?.upct) this.upct = this.page.data.upct;
+
+      if (this.page.data.result == 'pass'){
+        localStorage.setItem('UP_AUTH','Y');
+        localStorage.setItem('allexpand',this.all ? 'Y' : '');
+        if(this.nino) localStorage.setItem('nino',this.nino);
+        this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + this.npno]);
+      } else {
+        this.errors = this.page.data.errors
+        this.getQuestion();
+      }
+    });
+  }
+
+  deleteQuestion(){
+    this.errors = "";
+    let data = {
+      mode: 'delete',
+      nhno: this.page.rfno,
+      npno: this.npno,
+      n1no: this.application?.n1no, 
+      n2no: this.application?.n2no,
+      v1cd: this.application?.v1cd,
+      v2no: this.application?.v2no,
+      type: this.type
+    }
+      this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2', data).subscribe(response => {
       this.page.data = response;
       if(this.page.data?.upct) this.upct = this.page.data.upct;
 

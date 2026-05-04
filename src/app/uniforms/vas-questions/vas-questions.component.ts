@@ -27,6 +27,7 @@ export class VasQuestionsComponent {
   msg = ""
   rules: any;
   questions: any;
+  retail: any;
   
   constructor(
     private http: HttpClient, 
@@ -84,6 +85,7 @@ export class VasQuestionsComponent {
       }
 
       this.questions = this.page.data?.vasq;
+      this.retail = this.page.data?.retail;
       this.questionService.setQuestions(this.application,this.questions)
       hideWait();
     });
@@ -104,6 +106,58 @@ export class VasQuestionsComponent {
     localStorage.setItem('allexpand',this.all ? 'Y' : '');
     if(this.nino) localStorage.setItem('nino',this.nino);
     this.router.navigate(['/uniforms/vasquestion/' + this.nhno + '/' + this.npno]);
+  }
+
+  deleteQuestion(question: any){
+    this.errors = "";
+    let data = {
+      mode: 'delete',
+      nhno: this.nhno,
+      npno: this.npno,
+      n1no: this.application?.n1no, 
+      n2no: question?.n2no,
+      v2no: question.v2no
+    }
+      this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2', data).subscribe(response => {
+      this.page.data = response;
+
+      if (this.page.data.result == 'pass'){
+        localStorage.setItem('UP_AUTH','Y');
+        this.msg = "Question deleted successfully"
+        localStorage.setItem('allexpand',this.all ? 'Y' : '');
+        if(this.nino) localStorage.setItem('nino',this.nino);
+        location.reload();
+      } else {
+        this.errors = this.page.data.errors
+      }
+    });
+  }
+
+  addQuestion(question: any) {
+    this.errors = "";
+    let data = {
+      mode: 'add',
+      nhno: this.nhno,
+      npno: this.npno,
+      n1no: this.application?.n1no, 
+      v1cd: this.application?.v1cd,
+      v2no: question.v2no,
+      desc: question.desc,
+      type: question.type
+    }
+      this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2', data).subscribe(response => {
+      this.page.data = response;
+
+      if (this.page.data.result == 'pass'){
+        localStorage.setItem('UP_AUTH','Y');
+        this.msg = "Question added successfully"
+        localStorage.setItem('allexpand',this.all ? 'Y' : '');
+        if(this.nino) localStorage.setItem('nino',this.nino);
+        location.reload();
+      } else {
+        this.errors = this.page.data.errors
+      }
+    });
   }
 
   saveQuestions(mode: any){
@@ -132,7 +186,7 @@ export class VasQuestionsComponent {
       ansq.push('1');
       dfan.push((<HTMLInputElement>document.getElementById('dfan' + i + this.page.data?.vasq[i]!.n2no)).value);
       dspd.push((<HTMLInputElement>document.getElementById('dspd' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : '');
-      dflk.push((<HTMLInputElement>document.getElementById('dflk' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : 'N');
+      dflk.push((<HTMLInputElement>document.getElementById('dflk' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : '');
       req.push((<HTMLInputElement>document.getElementById('req' + i + this.page.data?.vasq[i]!.n2no)).value);
     } 
 

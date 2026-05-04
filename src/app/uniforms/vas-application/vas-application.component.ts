@@ -17,6 +17,7 @@ export class VasApplicationComponent {
   drop = false; // More Actions
   dropship = false; 
   single = false; 
+  retail: any;
   copy: any;
   errors: any;
 
@@ -80,6 +81,7 @@ export class VasApplicationComponent {
       if (this.page.data?.upct) this.upct = this.page.data.upct;
       if (this.page.data?.dropship == 'Y') this.dropship = true;
       if (this.page.data?.single == 'Y') this.dropship = true;
+      if (this.page.data?.retail) this.retail = this.page.data.retail;
       if (this.page.data?.v1cd && this.page.editmode) this.v1cd = this.page.data.v1cd
       if (this.page.data?.v1cd_desc) this.v1cdDesc = this.page.data.v1cd_desc
       if (this.page.data?.v1cd && this.page.entrymode){
@@ -220,6 +222,7 @@ export class VasApplicationComponent {
       upct: (mode == 'update') ? this.upct : '',
       drop: (this.dropship) ? 'Y': '',
       single: (this.single) ? 'Y': '',
+      retail: (this.retail) ? this.retail: '',
       seq: this.seq
     }
 

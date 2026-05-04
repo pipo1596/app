@@ -32,8 +32,17 @@ export class WarehouseComponent {
     this.loadWarehouse('getInfo')
   }
 
+  validateLoad(mode: any){
+    if(this.page.data?.info?.whno == 'LEX' && (this.whno !== 'LEX')) {
+      if(confirm("Are you sure you want to change this UP from LEX to Retail? Changing it back could be difficult if changes are made to VAS while in Retail Mode.")){
+        this.loadWarehouse(mode)
+      }
+    } else this.loadWarehouse(mode)
+  }
+
   loadWarehouse(mode: any){
     showWait();
+    let whnoI = this.page.data?.info?.whno
     let data = {
       mode: mode,
       nhno: this.page.rfno,
@@ -47,6 +56,7 @@ export class WarehouseComponent {
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
       if (this.page.data?.warehouses) this.warehouses = this.page.data.warehouses;
       if (this.page.data?.info?.whno) this.whno = this.page.data.info.whno;
+      if(this.page.data?.errors) this.whno = whnoI
       this.page.loading = false;
       hideWait();
     });

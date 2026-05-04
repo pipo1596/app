@@ -17,6 +17,7 @@ export class CustomizationComponent {
   page = new Page();
   drop = false; // More Actions
   dropship = false;
+  retail: any;
   copy: any;
   partpg: any;
 
@@ -37,12 +38,11 @@ export class CustomizationComponent {
   ctno: any = "";
   ctdesc: any = "";
   effd: any = "";
-  // effdUsa: any;
   expd: any = "";
-  // expdUsa: any;
   seq: any = "";
   actv: any;
   single: any = "N";
+  rtlStyl: any;
 
 
   constructor(
@@ -90,6 +90,9 @@ export class CustomizationComponent {
       if (this.page.data?.info?.seq && !this.seq) this.seq = this.page.data.info.seq
       if (this.page.data?.info?.stat && !this.actv) this.actv = this.page.data.info.stat
       if (this.page.data?.info?.upct) this.upct = this.page.data.info.upct
+      if (this.page.data?.retail){
+        this.retail = this.page.data?.retail
+      }
       this.page.loading = false;
       hideWait();
     });
@@ -118,7 +121,10 @@ export class CustomizationComponent {
     }
 
     if(localStorage.getItem('ctno') && !this.ctno){
-      this.dropship = true;
+      if(localStorage.getItem('drop')) this.dropship = true;
+      if(!this.dropship){
+        this.retail = localStorage.getItem('retail');
+      }
       this.vfgn = '';
       this.ctno = localStorage.getItem('ctno');
     }
@@ -139,6 +145,7 @@ export class CustomizationComponent {
       this.nino = p1.nino ? p1.nino : this.nino;
       this.seq = p1.seq;
       this.copy = p1.copy ? p1.copy : '';
+      this.drop = p1.drop ? p1.drop : '';
     }
 
     if(localStorage.getItem('p2')){
@@ -291,7 +298,7 @@ export class CustomizationComponent {
     }
   }
 
-  loadProduct(mode: string){
+  loadCustomization(mode: string){
     showWait();
     let data = {}
 
@@ -317,6 +324,7 @@ export class CustomizationComponent {
         nino: (this.nino) ? this.nino : '',
         upct: (mode == 'update') ? this.upct : '',
         drop: this.dropship ? 'Y' : '',
+        retail: this.retail ? this.retail : '',
         single: this.single,
         copy: this.copy ? this.copy : ''
       }

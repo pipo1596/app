@@ -12,6 +12,7 @@ import { environment } from '../../../environments/environment.development';
   styleUrl: './info.component.css'
 })
 export class InfoComponent {
+  exp: any;
   page = new Page();
   drop = false;
   titl = "";
@@ -29,6 +30,9 @@ export class InfoComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     localStorage.clear();
     showWait();
     this.setMode();
@@ -116,6 +120,7 @@ export class InfoComponent {
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/dashboard/' + this.page.rfno]);
   }
 

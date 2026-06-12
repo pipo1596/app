@@ -11,6 +11,7 @@ import { hideWait } from '../../shared/utils';
   styleUrl: './import.component.css'
 })
 export class ImportComponent {
+  exp: any;
   page = new Page();
 
   constructor(private http: HttpClient,
@@ -19,6 +20,9 @@ export class ImportComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     localStorage.clear();
     hideWait();
     this.page.loading = false;
@@ -30,6 +34,7 @@ export class ImportComponent {
 
   loadUpload(ulid: any){
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/' + ulid + '/' + this.page.rfno + '/' + ulid]);
   }
 

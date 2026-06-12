@@ -13,6 +13,7 @@ import { hideWait, showWait, scrollToTopInstant} from '../../shared/utils';
 })
 
 export class ProductsComponent {
+  exp: any;
   page = new Page();
   assign: any;
   inNano: any;
@@ -39,6 +40,9 @@ export class ProductsComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     this.assign = localStorage.getItem('assign') ? JSON.parse(localStorage.getItem('assign')!) : '';
     this.inNano = localStorage.getItem('nano') ? JSON.parse(localStorage.getItem('nano')!) : '';
     // if(this.inNano) this.category = this.inNano;
@@ -57,6 +61,7 @@ export class ProductsComponent {
 
   loadProduct(mode: any, nino: any){
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.bldCache();
     switch(mode){
       case 'new':
@@ -199,6 +204,7 @@ export class ProductsComponent {
   inqStyle() {
     localStorage.clear();
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     localStorage.setItem('partpg','/uniforms/products/' + this.page.rfno + '/')
     localStorage.setItem('menu','/cgi/APOELMIS?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     this.router.navigate(['/uniforms/iframe/APOELMIS'])
@@ -206,6 +212,7 @@ export class ProductsComponent {
 
   assignStyles(){
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     let npnos = [];
     let ninos = [];
 
@@ -225,6 +232,7 @@ export class ProductsComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPASSIGN', data).subscribe(response => {
       localStorage.setItem('UP_AUTH','Y');
+      localStorage.setItem('expanded',this.exp)
       this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
     })
   }
@@ -279,11 +287,13 @@ export class ProductsComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }
 
   goBackNA() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/categories/' + this.page.rfno]);
   }
 

@@ -20,6 +20,7 @@ export class CategoriesComponent {
     private cdr: ChangeDetectorRef
   ) { }
 
+  exp: any;
   page = new Page();
   drop = false;
 
@@ -34,6 +35,9 @@ export class CategoriesComponent {
   total: number = 0;
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     localStorage.clear();
     showWait();
     this.route.paramMap.subscribe(params => {
@@ -84,6 +88,7 @@ export class CategoriesComponent {
 
   loadCategory(mode: any, nano: any){
     localStorage.setItem('UP_AUTH','Y')
+    localStorage.setItem('expanded',this.exp)
     switch(mode){
       case 'new':
         this.router.navigate(['/uniforms/category/' + this.page.rfno]);
@@ -155,12 +160,14 @@ export class CategoriesComponent {
       desc: category.desc
     }
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     localStorage.setItem('nano',JSON.stringify(cat));
     this.router.navigate(['/uniforms/products/' + this.page.rfno]);
   }
 
   quickAdd(nano: any){
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/quickadd/' + this.page.rfno + '/' + nano]);   
   }
 

@@ -12,6 +12,7 @@ import { showWait, hideWait } from '../../shared/utils';
   styleUrl: './cxml-customers.component.css'
 })
 export class CxmlCustomersComponent {
+  exp: any;
   page = new Page();
   level: any = "";
   acno: any = "";
@@ -27,6 +28,9 @@ export class CxmlCustomersComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     localStorage.clear();
     this.level = ''
     hideWait();
@@ -66,11 +70,13 @@ export class CxmlCustomersComponent {
 
   editConfig(guno: any){
     localStorage.setItem('UP_AUTH','Y')
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/cxmlcustomer/' + this.page.rfno + '/' + guno]);
   }
 
   newConfig(){
     localStorage.setItem('UP_AUTH','Y')
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/cxmlcustomer/' + this.page.rfno]);
   }
 

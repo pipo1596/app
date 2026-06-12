@@ -2,11 +2,11 @@
 
 <div id="container">
 
-    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu" [exp]="this.exp"></app-sidebar>
 
     <section class="ftco-section bg-light pb-3 pt-5 content w-100">
 
-        <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
+        <div class="card mx-auto mb-5 mt-5  mh-100">
             <div class="card-body">
                 <div class="d-flex flex-row mb-5">
                     <div class="col-md-6">
@@ -88,11 +88,11 @@
                                 <td align="left" class="ps-2" colspan="1"><input type="checkbox" class="form-check-input" id="ckbx{{ application.n1no }}"  value="{{ application }}" (click)="checkApplication(application)" [checked] = "isChecked(application)"></td>
                                 <td class="w-25">
                                     <button class="btn bg-transparent" (click)="loadApplication('edit', application.n1no)"><span
-                                        class="bi bi-pencil-square" title="Edit Product"></span></button>
+                                        class="bi bi-pencil-square" title="Edit"></span></button>
                                     <button class="btn bg-transparent" (click)="loadApplication('copy', application.n1no)"><span
-                                        class="bi bi-clipboard" title="Copy Product"></span></button>
+                                        class="bi bi-clipboard" title="Copy"></span></button>
                                     <button class="btn bg-transparent" (click)="deleteApplication(application.n1no)"><span
-                                        class="bi bi-trash" title="Product Details"></span></button>
+                                        class="bi bi-trash" title="Delete"></span></button>
                                     <button class="btn bg-transparent" (click)="expandApplication(application)" *ngIf="application.bttn == 'Y'"><span
                                         [ngClass]="chkExpanded(application) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category"></span></button>
                                 </td>

@@ -13,6 +13,7 @@ import { showWait, hideWait } from '../../shared/utils';
   styleUrl: './image.component.css'
 })
 export class ImageComponent {
+  exp: any;
   page = new Page();
   iono: any = "";
   desc: any = "";
@@ -30,6 +31,9 @@ export class ImageComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     localStorage.clear();
     showWait();
     this.route.paramMap.subscribe(params => {
@@ -90,6 +94,7 @@ export class ImageComponent {
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     if(this.npno) {
       this.router.navigate(['/uniforms/images/' + this.page.rfno + '/' + this.npno]);
     } else this.router.navigate(['/uniforms/images/' + this.page.rfno]);

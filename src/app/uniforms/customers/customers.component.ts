@@ -12,6 +12,7 @@ import { hideWait, showWait, convertToDate, formatDateUS } from '../../shared/ut
   styleUrl: './customers.component.css'
 })
 export class CustomersComponent {
+  exp: any;
   page = new Page();
   drop = false; // More Actions 
 
@@ -64,6 +65,7 @@ export class CustomersComponent {
 
   editCustomer(acno: string) {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/editcustomer/' + this.page.rfno + '/' + acno]);
   }
 
@@ -90,6 +92,7 @@ export class CustomersComponent {
 
   newCustomer() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/newcustomer/' + this.page.rfno]);
   }
 

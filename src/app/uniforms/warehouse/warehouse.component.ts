@@ -12,6 +12,7 @@ import { environment } from '../../../environments/environment.development';
   styleUrl: './warehouse.component.css'
 })
 export class WarehouseComponent {
+  exp: any;
   page = new Page();
   drop = false;
   whno: any = "";
@@ -24,6 +25,9 @@ export class WarehouseComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     localStorage.clear();
     showWait();
     this.route.paramMap.subscribe(params => {
@@ -64,6 +68,7 @@ export class WarehouseComponent {
 
   goCategories(){
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/categories/' + this.page.rfno]);
   }
 

@@ -233,6 +233,9 @@ ul.categories li {
     border-bottom: 1px solid #ccc!important;
 }
 
+.card {
+    width: 90% !important;
+}
 
 
 

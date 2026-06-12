@@ -2,7 +2,7 @@
 
 <div id="container">
 
-    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu" [exp]="this.exp"></app-sidebar>
 
     <section class="ftco-section bg-light pb-3 pt-5 w-100">
 
@@ -12,7 +12,7 @@
         </div>
     </div> -->
         
-    <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
+    <div class="card mx-auto mb-5 mt-5  mh-100">
             <div class="card-body">
 
                 <div class="row g-4">
@@ -52,26 +52,28 @@
                     </div>
                 </div>
                 
-                <div class="row g-3">    
-                    <div class="col-md-2">
+                <div class="row g-3 mb-4">    
+                    <div class="col-md-7">
                         <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Customization')" [options]="page.data?.customizations" [(ngModel)]="customization" (change)="getProducts('search')"></ngx-select-dropdown>
                     </div>
 
-                    <div class="col-md-2">
-                        <ngx-select-dropdown name="inputNANO" [config]="searchConfig('Category')" [options]="page.data?.categories" [(ngModel)]="category" (change)="getProducts('search')"></ngx-select-dropdown>
-                    </div>
-
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <ngx-select-dropdown name="inputWHNO" [config]="searchConfig('Warehouse')" [options]="page.data?.warehouses" [(ngModel)]="warehouse" (change)="getProducts('search')"></ngx-select-dropdown>
                     </div>
+                </div>
 
+                <div class="row g-3">
+                    <div class="col-md-7">
+                        <ngx-select-dropdown name="inputNANO" [config]="searchConfig('Category')" [options]="page.data?.categories" [(ngModel)]="category" (change)="getProducts('search')"></ngx-select-dropdown>
+                    </div>
+                    
                     <div class="col-md-3">
                         <ngx-select-dropdown name="inputVFGN" [config]="searchConfig('Style Configurator Template')" [options]="page.data?.stylconfig" [(ngModel)]="stylconfig" (change)="getProducts('search')"></ngx-select-dropdown>
                     </div>
 
                     <div class="col-md-3 mb-3">
                         <button class="btn btn-primary rounded-0 me-5 mw-25" type="button" (click)="getProducts('search')" >Go</button>
-                    </div>          
+                    </div> 
 
                     <div class="col-md-2 mb-3">
                         <button *ngIf="assign" class="btn btn-primary rounded-0 w-100" type="button" (click)="assignStyles()">Assign Styles</button>
@@ -79,8 +81,8 @@
 
                     <div class="col-md-2 mb-3">
                         <button *ngIf="assign" class="btn btn-secondary rounded-0 w-50" type="button" (click)="goBack()">Cancel</button>
-                    </div>          
-                </div>
+                    </div>  
+                </div>  
 
                 <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
 
@@ -106,11 +108,11 @@
                             <td align="left" class="ps-2"><input type="checkbox" class="form-check-input" id="ckbx{{ product.nino }}"  value="{{ product }}" (click)="checkProduct(product)" [checked] = "isChecked(product)"></td>
                             <td style="width: 15%">
                                 <button class="btn bg-transparent" (click)="loadProduct('edit', product.nino)"><span
-                                    class="bi bi-pencil-square" title="Edit Product"></span></button>
+                                    class="bi bi-pencil-square" title="Edit"></span></button>
                                 <button class="btn bg-transparent" (click)="loadProduct('copy', product.nino)"><span
-                                    class="bi bi-clipboard" title="Copy Product"></span></button>
+                                    class="bi bi-clipboard" title="Copy"></span></button>
                                 <button class="btn bg-transparent" (click)="deleteProduct(product)"><span
-                                    class="bi bi-trash" title="Product Details"></span></button>
+                                    class="bi bi-trash" title="Delete"></span></button>
                             </td>
                             <td align="left">{{product.styl}}</td>
                             <td align="left">{{product.desc}}</td>

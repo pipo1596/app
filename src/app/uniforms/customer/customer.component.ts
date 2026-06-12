@@ -12,6 +12,7 @@ import { hideWait, showWait } from '../../shared/utils';
   styleUrl: './customer.component.css'
 })
 export class CustomerComponent {
+  exp: any;
   page = new Page();
   drop = false; // More Actions
 
@@ -30,6 +31,9 @@ export class CustomerComponent {
 ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     localStorage.clear();
     showWait();
     this.setMode();
@@ -84,6 +88,7 @@ export class CustomerComponent {
 
     localStorage.setItem('menu','/cgi/APOELMAC?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N');
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/iframe/APOELMAC']);
   }
 
@@ -106,9 +111,11 @@ export class CustomerComponent {
 
       if (mode !== 'update' && this.page.data?.result == 'pass' && this.page.data?.nhno){
         localStorage.setItem('UP_AUTH','Y');
+        localStorage.setItem('expanded',this.exp)
         this.router.navigate(['/uniforms/customers/' + this.page.data?.nhno]);
       } else if (mode == 'update' && this.page.data?.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
+        localStorage.setItem('expanded',this.exp)
         this.router.navigate(['/uniforms/customers/' + this.page.data?.nhno]);
       } else if (this.page.data?.result !== 'pass'){
         this.errors = this.page.data?.errors
@@ -122,6 +129,7 @@ export class CustomerComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/customers/' + this.nhno]);
   }
 }

@@ -5,7 +5,7 @@
 
     <section class="ftco-section bg-light pb-3 pt-5 content w-100">
         <app-modal-imf *ngIf="popup" (close)="popup = ''" [mode]="popup" (file)="loadImf($event)"></app-modal-imf>
-        <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
+        <div class="card mx-auto mb-5 mt-5  mh-100">
             <div class="card-body">
                     <form>
                         <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>

@@ -12,6 +12,7 @@ import { hideWait, showWait } from '../../shared/utils';
   styleUrl: './category.component.css'
 })
 export class CategoryComponent {
+  exp: any;
   page = new Page();
   drop = false; // More Actions
   copy: any;
@@ -35,6 +36,9 @@ export class CategoryComponent {
   ) {}
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     this.setMode();
     showWait();
 
@@ -132,6 +136,7 @@ export class CategoryComponent {
   
         if (this.page.data.result == 'pass' && this.page.data.nhno){
           localStorage.setItem('UP_AUTH','Y');
+          localStorage.setItem('expanded',this.exp)
           localStorage.setItem('styl', this.styl);
           localStorage.setItem('cache', this.cache);
 
@@ -154,6 +159,7 @@ export class CategoryComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     if(this.partpg) {
       localStorage.setItem('styl',this.styl);
       this.router.navigate([this.partpg]);

@@ -28,6 +28,7 @@ export class VasQuestionsComponent {
   rules: any;
   questions: any;
   retail: any;
+  exp: any;
   
   constructor(
     private http: HttpClient, 
@@ -36,6 +37,9 @@ export class VasQuestionsComponent {
   ){}
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     this.getQuestions('','')
   }
 

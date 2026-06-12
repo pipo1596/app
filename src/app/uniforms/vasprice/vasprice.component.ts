@@ -12,6 +12,7 @@ import { environment } from '../../../environments/environment.development';
   styleUrl: './vasprice.component.css'
 })
 export class VaspriceComponent {
+  exp: any;
   page = new Page();
   drop = false;
   price: any = "";
@@ -23,6 +24,9 @@ export class VaspriceComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     localStorage.clear();
     showWait();
     this.route.paramMap.subscribe(params => {

@@ -74,7 +74,9 @@
                     <div class="col-md-3 mb-3">
                         <button class="btn btn-primary rounded-0 me-5 mw-25" type="button" (click)="getProducts('search')" >Go</button>
                     </div> 
+                </div>  
 
+                <div class="row g-3 mt-2" *ngIf="assign">
                     <div class="col-md-2 mb-3">
                         <button *ngIf="assign" class="btn btn-primary rounded-0 w-100" type="button" (click)="assignStyles()">Assign Styles</button>
                     </div>     
@@ -82,7 +84,7 @@
                     <div class="col-md-2 mb-3">
                         <button *ngIf="assign" class="btn btn-secondary rounded-0 w-50" type="button" (click)="goBack()">Cancel</button>
                     </div>  
-                </div>  
+                </div>
 
                 <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
 

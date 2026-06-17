@@ -12,6 +12,7 @@ import { showWait, hideWait } from '../../shared/utils';
   styleUrl: './cxml-customer.component.css'
 })
 export class CxmlCustomerComponent {
+  exp: any;
   page = new Page();
   mode: any;
   submitError: any;
@@ -33,6 +34,9 @@ export class CxmlCustomerComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     this.showCCNC = false;
     this.showCCNS = false;
     this.route.paramMap.subscribe(params => {
@@ -169,6 +173,7 @@ export class CxmlCustomerComponent {
       } else {
         localStorage.setItem('error', 'Record not found');
         localStorage.setItem('UP_AUTH','Y');
+        localStorage.setItem('expanded',this.exp)
         this.router.navigate(['/uniforms/cxmlcustomer/' + this.page.rfno]);
       }
     });
@@ -177,6 +182,7 @@ export class CxmlCustomerComponent {
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/cxmlcustomers/' + this.page.rfno]);
   }
 

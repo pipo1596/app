@@ -12,6 +12,7 @@ import { showWait, hideWait } from '../../shared/utils';
   styleUrl: './cxml-categories.component.css'
 })
 export class CxmlCategoriesComponent {
+  exp: any;
   page = new Page();
   level: any = "";
   assign: any = "";
@@ -23,6 +24,9 @@ export class CxmlCategoriesComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     localStorage.clear();
     this.level = ''
     this.unsp = [];

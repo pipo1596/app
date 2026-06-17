@@ -12,6 +12,7 @@ import { hideWait, showWait } from '../../shared/utils';
   styleUrl: './notes.component.css'
 })
 export class NotesComponent {
+  exp: any;
   page = new Page();
   drop = false;
 
@@ -30,6 +31,9 @@ export class NotesComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     localStorage.clear();
     hideWait();
     this.route.paramMap.subscribe(params => {
@@ -61,6 +65,7 @@ export class NotesComponent {
 
   editNote(nono: string) {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/note/' + this.page.rfno + '/' + nono]);
   }
 
@@ -89,6 +94,7 @@ export class NotesComponent {
 
   newNote() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/note/' + this.page.rfno]);
   }
 

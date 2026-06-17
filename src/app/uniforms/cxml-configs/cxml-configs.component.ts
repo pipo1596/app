@@ -12,6 +12,7 @@ import { environment } from '../../../environments/environment.development';
   styleUrl: './cxml-configs.component.css'
 })
 export class CxmlConfigsComponent {
+  exp: any;
   page = new Page();
 
   constructor(private http: HttpClient,
@@ -20,6 +21,9 @@ export class CxmlConfigsComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     localStorage.clear();
     hideWait();
     this.page.loading = false;
@@ -49,9 +53,11 @@ export class CxmlConfigsComponent {
   selectConfig(level: any){
     if(level == 'CUSTOMER'){
       localStorage.setItem('UP_AUTH','Y');
+      localStorage.setItem('expanded',this.exp)
       this.router.navigate(['/uniforms/cxmlcustomers/' + this.page.rfno]);
     } else if (level == 'CATEGORY') {
       localStorage.setItem('UP_AUTH','Y');
+      localStorage.setItem('expanded',this.exp)
       this.router.navigate(['/uniforms/cxmlcategories/' + this.page.rfno]);
     }
   }

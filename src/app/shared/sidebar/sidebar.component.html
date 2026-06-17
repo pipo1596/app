@@ -44,12 +44,12 @@
         </div>
         <div class="sidebar-sub-3" [ngClass]="{'d-none': (!this.expanded.includes('pricing'))}">
             <div class="col-md-12 mb-1">
-                <a class="sidebar-link-sub text-decoration-none user-select-none" (click)="goMenu('uplist')">
+                <a class="text-decoration-none user-select-none" [ngClass]="{'sidebar-link-target': (getMenu().includes('uplist')), 'sidebar-link-sub': (!(getMenu().includes('uplist')))}" (click)="goMenu('uplist')">
                     <span>UP Price List</span> 
                 </a>
             </div>
             <div class="col-md-12 mb-1">
-                <a class="sidebar-link-sub text-decoration-none user-select-none" (click)="goMenu('vasprice')">
+                <a class="sidebar-link-sub text-decoration-none user-select-none" [ngClass]="{'sidebar-link-target': (getMenu().includes('vasprice')), 'sidebar-link-sub': (!(getMenu().includes('vasprice')))}" (click)="goMenu('vasprice')">
                     <span>UP VAS Pricing</span> 
                 </a>
             </div>
@@ -60,28 +60,28 @@
             <a (click)="(expanded == 'catalog') ? expanded = '' : expanded = 'catalog'" class="sidebar-link text-decoration-none p-3 user-select-none"
                 [ngClass]="{'active': (this.expanded.includes('catalog'))}">
                 <span>Catalog
-                    <i [ngClass]="{'bi bi-chevron-down': (this.expanded.includes('catalog')), 'bi bi-chevron-right': (!this.expanded.includes('catalog'))}" ></i>
+                    <i [ngClass]="{'bi bi-chevron-down': (this.expanded.includes('catalog')), 'bi bi-chevron-right': (!this.expanded.includes('catalog'))}" [ngStyle]=""></i>
                 </span>
             </a>
         </div>
         <div class="sidebar-sub-4" [ngClass]="{'d-none': (!this.expanded.includes('catalog'))}">
             <div class="col-md-12 mb-1">
-                <a class="sidebar-link-sub text-decoration-none user-select-none" (click)="goMenu('products')">
+                <a class="text-decoration-none user-select-none" [ngClass]="{'sidebar-link-target': (getMenu().includes('product')), 'sidebar-link-sub': (!(getMenu().includes('product')))}" (click)="goMenu('products')">
                     <span>Products<br></span> 
                 </a>
             </div>
             <div class="col-md-12 mb-1">
-                <a class="sidebar-link-sub text-decoration-none user-select-none" (click)="goMenu('categories')">
+                <a class="text-decoration-none user-select-none" [ngClass]="{'sidebar-link-target': (getMenu().includes('categ')), 'sidebar-link-sub': (!(getMenu().includes('categ')))}" (click)="goMenu('categories')">
                     <span>Categories<br></span> 
                 </a>
             </div>
             <div class="col-md-12 mb-1">
-                <a class="sidebar-link-sub text-decoration-none user-select-none" (click)="goMenu('customizations')">
+                <a class="text-decoration-none user-select-none" [ngClass]="{'sidebar-link-target': (getMenu().includes('customization')), 'sidebar-link-sub': (!(getMenu().includes('customization')))}" (click)="goMenu('customizations')">
                     <span>Customization<br></span> 
                 </a>
             </div>
             <div class="col-md-12 mb-1">
-                <a class="sidebar-link-sub text-decoration-none user-select-none" (click)="goMenu('warehouse')">
+                <a class="text-decoration-none user-select-none" [ngClass]="{'sidebar-link-target': (getMenu().includes('warehouse')), 'sidebar-link-sub': (!(getMenu().includes('warehouse')))}" (click)="goMenu('warehouse')">
                     <span>Warehouse</span> 
                 </a>
             </div>
@@ -98,12 +98,12 @@
         </div>
         <div class="sidebar-sub-5" [ngClass]="{'d-none': (!this.expanded.includes('content'))}">
             <div class="col-md-12 mb-1">
-                <a class="sidebar-link-sub text-decoration-none user-select-none" (click)="goMenu('images')">
+                <a class="text-decoration-none user-select-none" [ngClass]="{'sidebar-link-target': (getMenu().includes('image')), 'sidebar-link-sub': (!(getMenu().includes('image')))}" (click)="goMenu('images')">
                   <span>Uniform Program Images<br></span> 
                 </a>
             </div>
             <div class="col-md-12 mb-1  ">
-                <a class="sidebar-link-sub text-decoration-none user-select-none" (click)="goMenu('notes')">
+                <a class="text-decoration-none user-select-none" [ngClass]="{'sidebar-link-target': (getMenu().includes('note')), 'sidebar-link-sub': (!(getMenu().includes('note')))}" (click)="goMenu('notes')">
                     <span>Uniform Program Notes<br></span> 
                 </a>
             </div>
@@ -120,17 +120,17 @@
          </div>
           <div class="sidebar-sub-6" [ngClass]="{'d-none': (!this.expanded.includes('tools'))}">
             <div class="col-md-12 mb-1">
-                <a class="sidebar-link-sub text-decoration-none user-select-none" (click)="goMenu('import')">
+                <a class="text-decoration-none user-select-none" [ngClass]="{'sidebar-link-target': (getMenu().includes('import')), 'sidebar-link-sub': (!(getMenu().includes('import')))}" (click)="goMenu('import')">
                   <span>Data Import<br></span> 
                 </a>
             </div>
             <div class="col-md-12 mb-1">
-                <a class="sidebar-link-sub text-decoration-none user-select-none" (click)="goMenu('export')">
+                <a class="sidebar-link-sub text-decoration-none user-select-none" [ngClass]="{'sidebar-link-target': (getMenu().includes('export')), 'sidebar-link-sub': (!(getMenu().includes('export')))}" (click)="goMenu('export')">
                   <span>Data Export<br></span> 
                 </a>
             </div>
             <div class="col-md-12 mb-1">
-                <a class="sidebar-link-sub text-decoration-none user-select-none" (click)="goMenu('cxmlconfigs')">
+                <a class="sidebar-link-sub text-decoration-none user-select-none" [ngClass]="{'sidebar-link-target': (getMenu().includes('cxmlconfig')), 'sidebar-link-sub': (!(getMenu().includes('cxmlconfig')))}" (click)="goMenu('cxmlconfigs')">
                   <span>CXML Configuration<br></span> 
                 </a>
             </div>
@@ -147,22 +147,22 @@
            </div>
           <div class="sidebar-sub-7" [ngClass]="{'d-none': (!this.expanded.includes('reports'))}">
             <div class="col-md-2 mb-1">
-                <a class="sidebar-link-sub text-decoration-none user-select-none" (click)="goMenu('OERP53')">
+                <a class="text-decoration-none user-select-none" [ngClass]="{'sidebar-link-target': (getMenu().includes('OERP53')), 'sidebar-link-sub': (!(getMenu().includes('OERP53')))}" (click)="goMenu('OERP53')">
                   <span>UP Assortment Report<br></span> 
                 </a>
             </div>
             <div class="col-md-2 mb-1">
-                <a class="sidebar-link-sub text-decoration-none user-select-none" (click)="goMenu('OERP52')">
+                <a class="text-decoration-none user-select-none" [ngClass]="{'sidebar-link-target': (getMenu().includes('OERP52')), 'sidebar-link-sub': (!(getMenu().includes('OERP52')))}" (click)="goMenu('OERP52')">
                   <span>UP Personalization Group<br></span> 
                 </a>
             </div>
             <div class="col-md-2 mb-1">
-                <a class="sidebar-link-sub text-decoration-none user-select-none" (click)="goMenu('OERP302')">
+                <a class="text-decoration-none user-select-none" [ngClass]="{'sidebar-link-target': (getMenu().includes('OERP302')), 'sidebar-link-sub': (!(getMenu().includes('OERP302')))}" (click)="goMenu('OERP302')">
                   <span>UP Program Audit Log<br></span> 
                 </a>
             </div>
           </div>
-          
+
           <!-- Audit -->
             <div class="col-md-12">
                 <a class="sidebar-link text-decoration-none p-3 user-select-none" (click)="goMenu('audit')">

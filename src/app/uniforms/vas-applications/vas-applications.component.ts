@@ -14,6 +14,7 @@ import { AppQuestionsService } from '../../services/app-questions.service';
 })
 
 export class VasApplicationsComponent {
+  exp: any;
   page = new Page();
   allexpanded: boolean = false;
   expanded: any[] = [];
@@ -41,6 +42,9 @@ export class VasApplicationsComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     this.expanded = [];
     this.checked = [];
     this.route.paramMap.subscribe(params => {
@@ -161,6 +165,7 @@ export class VasApplicationsComponent {
 
   loadApplication(mode: any, n1no: any){
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     if(this.nino) localStorage.setItem('nino',this.nino);
     switch(mode){
       case 'new':
@@ -250,6 +255,7 @@ export class VasApplicationsComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     localStorage.setItem('rtpg', this.page.data?.npname);
     localStorage.setItem('p2', this.p2);
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
@@ -257,6 +263,7 @@ export class VasApplicationsComponent {
 
   goProduct() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     if(this.cache) localStorage.setItem('cache',this.cache);
     this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + this.nino]);
   }

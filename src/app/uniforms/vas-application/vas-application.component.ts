@@ -13,6 +13,7 @@ import { hideWait, showWait } from '../../shared/utils';
 })
 
 export class VasApplicationComponent {
+  exp: any;
   page = new Page();
   drop = false; // More Actions
   dropship = false; 
@@ -49,6 +50,9 @@ export class VasApplicationComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     this.setMode();
     localStorage.clear();
     this.getApplication();
@@ -118,6 +122,7 @@ export class VasApplicationComponent {
     let menu = '/cgi/APOELMIS2?PAMODE=*INQ&PMV1CD=' + this.v1cd + '&PMACNO=' + this.acno + '&PMDROP=' + (this.dropship ? 'Y' : '') + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/iframe/APOELMIS2'])
   }
 
@@ -200,6 +205,7 @@ export class VasApplicationComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     if(this.nino) localStorage.setItem('nino',this.nino)
     this.router.navigate(['/uniforms/vasapplications/' + this.nhno + '/' + this.npno]);
   }
@@ -232,6 +238,7 @@ export class VasApplicationComponent {
 
       if (this.page.data.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
+        localStorage.setItem('expanded',this.exp)
         if(this.nino && this.nino !== 'null' && this.nino !== null) localStorage.setItem('nino',this.nino)
         this.router.navigate(['/uniforms/vasapplications/' + this.nhno + '/' + this.npno]);
       } else {
@@ -255,6 +262,7 @@ export class VasApplicationComponent {
       this.page.data = response;
       if (this.page.data.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
+        localStorage.setItem('expanded',this.exp)
         if(this.nino) localStorage.setItem('nino',this.nino)
         this.router.navigate(['/uniforms/vasapplications/' + this.nhno + '/' + this.npno]);
       }

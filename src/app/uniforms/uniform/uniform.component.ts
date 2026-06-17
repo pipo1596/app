@@ -13,6 +13,7 @@ import { showWait, hideWait } from '../../shared/utils';
 })
 export class UniformComponent {
   @Output() triggerEvent = new EventEmitter<string>();
+  exp: any;
   page = new Page();
   error = "";
   programName: any = "";
@@ -24,6 +25,9 @@ export class UniformComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     if(localStorage.getItem('p1')) this.programName = localStorage.getItem('p1');
     localStorage.clear();
     hideWait();
@@ -45,6 +49,7 @@ export class UniformComponent {
       this.page.data = response;
       if (this.page.data.result == 'pass' && this.page.data.nhno){
         localStorage.setItem('UP_AUTH','Y');
+        localStorage.setItem('expanded',this.exp)
         this.router.navigate(['/uniforms/dashboard/' + this.page.data.nhno]);
       } else {
         this.error = this.page.data.errors
@@ -60,6 +65,7 @@ export class UniformComponent {
     localStorage.setItem('partpg','/uniforms/newuniform/')
     localStorage.setItem('menu','/cgi/APOELMAC?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/iframe/APOELMAC'])
   }
 

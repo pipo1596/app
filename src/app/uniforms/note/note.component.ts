@@ -12,6 +12,7 @@ import { hideWait, showWait } from '../../shared/utils';
   styleUrl: './note.component.css'
 })
 export class NoteComponent {
+  exp: any;
   page = new Page();
   drop = false; // More Actions
 
@@ -28,6 +29,9 @@ export class NoteComponent {
   ) { hideWait(); }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     localStorage.clear();
     showWait();
     this.setMode();
@@ -83,6 +87,7 @@ export class NoteComponent {
       if (mode !== 'update') {
         if (this.page.data.result == 'pass' && this.page.data.nhno){
           localStorage.setItem('UP_AUTH','Y');
+          localStorage.setItem('expanded',this.exp)
           this.router.navigate(['/uniforms/notes/' + this.page.data.nhno]);
         }
       }
@@ -93,6 +98,7 @@ export class NoteComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/notes/' + this.nhno]);
   }
 }

@@ -12,6 +12,7 @@ import { showWait, hideWait, convertToDate, formatDateUS } from '../../shared/ut
   styleUrl: './export.component.css'
 })
 export class ExportComponent {
+  exp: any;
   page = new Page();
 
   //Paging
@@ -25,6 +26,9 @@ export class ExportComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     localStorage.clear();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -54,6 +58,7 @@ export class ExportComponent {
 
   openReport(rpno: any){
     localStorage.setItem('UP_AUTH','Y')
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/' + rpno + '/' + this.page.rfno]); 
   }
 

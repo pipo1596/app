@@ -12,6 +12,7 @@ import { environment } from '../../../environments/environment.development';
   styleUrl: './mass-question.component.css'
 })
 export class MassQuestionComponent {
+  exp: any;
   page = new Page();
   drop = false;
   v1cd: any = "";
@@ -30,6 +31,9 @@ export class MassQuestionComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     localStorage.clear();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -123,6 +127,7 @@ export class MassQuestionComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }
 }

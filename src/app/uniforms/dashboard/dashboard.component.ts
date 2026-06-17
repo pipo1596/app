@@ -13,6 +13,7 @@ import { convertToDate, formatDateUS, hideWait } from '../../shared/utils';
 })
 
 export class DashboardComponent {
+  exp: any;
   page = new Page();
   imgprfx = environment.logoprfx;
   upNum: any = "";
@@ -47,6 +48,7 @@ export class DashboardComponent {
 
   loadProduct (menu: any) {
     localStorage.setItem('UP_AUTH','Y')
+    localStorage.setItem('expanded',this.exp)
     switch(menu){
       case 'addProduct':
         this.router.navigate(['uniforms/newproduct/' + this.page.rfno]);
@@ -68,11 +70,13 @@ export class DashboardComponent {
 
   loadWarehouse(){
     localStorage.setItem('UP_AUTH','Y')
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/warehouse/' + this.page.rfno]);
   }
 
   loadPricing(menu: any){
     localStorage.setItem('UP_AUTH','Y')
+    localStorage.setItem('expanded',this.exp)
     switch(menu){
       case 'addList':
         this.router.navigate(['/uniforms/uplist/' + this.page.rfno]);
@@ -85,6 +89,7 @@ export class DashboardComponent {
 
   loadUP(nhno: any, mode: any){
     localStorage.setItem('UP_AUTH','Y')
+    localStorage.setItem('expanded',this.exp)
     switch(mode){
       case 'name':
         this.router.navigate(['/uniforms/upname/' + this.page.rfno]);
@@ -99,6 +104,7 @@ export class DashboardComponent {
   }
 
   dsppbdate(date:any){
+    if (!date) return '';
     return formatDateUS(new Date(convertToDate(date)));
   }
 }

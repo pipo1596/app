@@ -2,10 +2,10 @@
 
 <div id="container">
 
-    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu" [exp]="this.exp"></app-sidebar>
 
     <section class="ftco-section bg-light pb-3 pt-5 content w-100">
-        <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
+        <div class="card mx-auto mb-5 mt-5  mh-100">
             <div class="card-body">
 
                 <div class="row g-4">
@@ -76,7 +76,7 @@
                         <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('VAS Category')" [(ngModel)]="ctno" [options]="page.data?.catgDrop" (change)="getCustomizations('search')"></ngx-select-dropdown>
                     </div> 
                     <div class="col-md-1">
-                        <button class="btn btn-primary rounded-0 mw-75" type="button" (click)="getCustomizations('search')">Go</button>
+                        <button class="btn btn-primary rounded-0 m" type="button" (click)="getCustomizations('search')">Go</button>
                     </div>
                 </div>
 
@@ -112,11 +112,11 @@
                             <td align="left" class="ps-2" colspan="1"><input type="radio" class="form-check-input" (click)="checkCustomization(customization)" [checked]="isChecked(customization)"></td>
                             <td class="w-25">
                                 <button class="btn bg-transparent" (click)="loadCustomization('edit', customization.npno)"><span
-                                    class="bi bi-pencil-square" title="Edit Product"></span></button>
+                                    class="bi bi-pencil-square" title="Edit"></span></button>
                                 <button class="btn bg-transparent" (click)="loadCustomization('copy', customization.npno)"><span
-                                    class="bi bi-clipboard" title="Copy Product"></span></button>
+                                    class="bi bi-clipboard" title="Copy"></span></button>
                                 <button class="btn bg-transparent" (click)="validate(customization.npno)"><span
-                                    class="bi bi-trash" title="Product Details"></span></button>
+                                    class="bi bi-trash" title="Delete"></span></button>
                                 <button class="btn btn-outline-primary btn-sm" (click)="loadVAS(customization.npno)">VAS</button>
                             </td>
                             <td align="left">{{customization.name}} ({{trim(customization.npno)}})</td>
@@ -135,7 +135,8 @@
                             <td align="left" *ngIf="customization.images.length > 0">
                                 <div class="tooltip"><a href="javascript:void" (click)="goImages(customization.npno)">{{customization.images.length}}</a>
                                     <span class="tooltiptext">
-                                        <p *ngFor="let image of customization.images; index as i">{{image.desc}}</p>
+                                        <!-- <p *ngFor="let image of customization.images; index as i">{{image.desc}}</p> -->
+                                        <img *ngFor="let image of customization.images; index as i" [src]="getImage(image)" [alt]="image.desc" width="100px" height="100px">
                                     </span>
                                 </div> 
                             </td>

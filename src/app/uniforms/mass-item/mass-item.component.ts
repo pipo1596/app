@@ -12,6 +12,7 @@ import { environment } from '../../../environments/environment.development';
   styleUrl: './mass-item.component.css'
 })
 export class MassItemComponent {
+  exp: any;
   page = new Page();
   drop = false;
   vedpo: any = "";
@@ -28,6 +29,9 @@ export class MassItemComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     localStorage.clear();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -152,6 +156,7 @@ export class MassItemComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }
 }

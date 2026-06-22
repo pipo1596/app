@@ -42,6 +42,7 @@ export class CustomizationComponent {
   expd: any = "";
   seq: any = "";
   actv: any;
+  img: any;
   single: any = "N";
   rtlStyl: any;
 
@@ -333,7 +334,8 @@ export class CustomizationComponent {
         drop: this.dropship ? 'Y' : '',
         retail: this.retail ? this.retail : '',
         single: this.single,
-        copy: this.copy ? this.copy : ''
+        copy: this.copy ? this.copy : '',
+        img: (this.img == 'Y') ? this.img : ''
       }
     }
 

@@ -1,10 +1,11 @@
-import { Component} from '@angular/core';
+import { Component, OnDestroy, QueryList, ViewChildren } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait, convertToDate, formatDateUS } from '../../shared/utils';
 import { AppQuestionsService } from '../../services/app-questions.service';
+import { VasQuestionsComponent } from '../vas-questions/vas-questions.component';
 
 @Component({
   selector: 'app-vas-applications',
@@ -13,7 +14,8 @@ import { AppQuestionsService } from '../../services/app-questions.service';
   styleUrl: './vas-applications.component.css'
 })
 
-export class VasApplicationsComponent {
+export class VasApplicationsComponent implements OnDestroy {
+  @ViewChildren(VasQuestionsComponent) vasQuestions!: QueryList<VasQuestionsComponent>;
   exp: any;
   page = new Page();
   allexpanded: boolean = false;
@@ -34,6 +36,8 @@ export class VasApplicationsComponent {
   p: number = 1;
   itemsPerPage: number = 50;
   total: number = 0;
+
+  
 
   constructor(private http: HttpClient,
     private router: Router,
@@ -71,6 +75,16 @@ export class VasApplicationsComponent {
     this.getCustomizations()
     
     localStorage.clear();
+  }
+
+  onLeavePage(){
+    if(this.vasQuestions){
+      this.vasQuestions.forEach(q => q.saveQuestions('silent'))
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.onLeavePage();
   }
 
   getCustomizations() {
@@ -119,6 +133,7 @@ export class VasApplicationsComponent {
   }
 
   expandApplication(application: any){
+    console.log(this.questionService.getApp())
 
     if(this.chkExpanded(application)){
       for(let i = 0; i < this.expanded.length; i++){
@@ -248,6 +263,13 @@ export class VasApplicationsComponent {
       this.checked.sort();
     }    
   }
+
+  validate(n1no: string){
+    if(confirm("Are you sure you want to delete this application?")){
+      this.deleteApplication(n1no)
+    }
+  }
+
 
   trim(value: any){
     return value.replace(/^0+/, '')

@@ -128,10 +128,17 @@
                             </div>
                         </div>
 
-                        <div class="row g-3 mb-5">
+                        <div class="row g-3 mb-3">
                             <div class="col-md-2">
                                 <label for="inputSeq" class="form-label me-2"><strong>Active:</strong></label>
                                 <input type="checkbox" class="form-check-input" (click)="actv == 'Y' ? actv = 'N' : actv = 'Y'" [checked]="actv == 'Y'">
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-5" *ngIf="this.copy">
+                            <div class="col-md-2">
+                                <label for="inputSeq" class="form-label me-2"><strong>Include Images:</strong></label>
+                                <input type="checkbox" class="form-check-input" (click)="img == 'Y' ? img = 'N' : img = 'Y'">
                             </div>
                         </div>
 

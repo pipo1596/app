@@ -182,16 +182,17 @@ export class VasQuestionsComponent {
 
 
     for (let i = 0; i < this.page.data?.vasq.length; i++) {
+      const q = this.page.data.vasq[i];
       n2no.push(this.page.data?.vasq[i]!.n2no);
       v2no.push(this.page.data?.vasq[i]!.v2no);
       type.push(this.page.data?.vasq[i]!.type);
       tbld.push(this.page.data?.vasq[i]!.tbld);
       upct.push(this.page.data?.vasq[i].upct);
       ansq.push('1');
-      dfan.push((<HTMLInputElement>document.getElementById('dfan' + i + this.page.data?.vasq[i]!.n2no)).value);
-      dspd.push((<HTMLInputElement>document.getElementById('dspd' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : '');
-      dflk.push((<HTMLInputElement>document.getElementById('dflk' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : '');
-      req.push((<HTMLInputElement>document.getElementById('req' + i + this.page.data?.vasq[i]!.n2no)).value);
+      dfan.push(q.dfan ?? '');
+      dspd.push(q.dspd == 'Y' ? 'Y' : '');
+      dflk.push(q.dflk == 'Y' ? 'Y' : '');
+      req.push(q.req ?? '');
     } 
 
     let data = {
@@ -249,10 +250,11 @@ export class VasQuestionsComponent {
         if (mode !== 'validate') this.msg = "Questions updated successfully"
         localStorage.setItem('allexpand',this.all ? 'Y' : '');
         if(this.nino) localStorage.setItem('nino',this.nino);
-        if (mode !== 'validate') location.reload();
+        if (mode !== 'validate' && mode !== 'silent') location.reload();
         if (mode !== 'validate') this.getQuestions('','');
 
-        if(mode == 'validate'){
+        if(mode == 'validate' || mode == 'silent'){
+          if(mode == 'validate'){
           for (let x = 0; x < temp.data?.questions.length; x++){
             if(temp.data?.questions[x]?.rulesV){
               for (let i = 0; i < temp.data.questions[x].rulesV.length; i++) {
@@ -265,7 +267,12 @@ export class VasQuestionsComponent {
             }
           }
           this.getQuestions(rules, temp.data.questions);
+        } else {
+          this.msg = "Questions updated successfully"
+          // location.reload()
+          this.getQuestions('','')
         }
+      }
         
       }
     });

@@ -91,8 +91,10 @@
                                         class="bi bi-pencil-square" title="Edit"></span></button>
                                     <button class="btn bg-transparent" (click)="loadApplication('copy', application.n1no)"><span
                                         class="bi bi-clipboard" title="Copy"></span></button>
-                                    <button class="btn bg-transparent" (click)="deleteApplication(application.n1no)"><span
+                                    <button class="btn bg-transparent" (click)="validate(application.n1no)"><span
                                         class="bi bi-trash" title="Delete"></span></button>
+                                    <!-- <button class="btn bg-transparent" (click)="deleteApplication(application.n1no)"><span
+                                        class="bi bi-trash" title="Delete"></span></button> -->
                                     <button class="btn bg-transparent" (click)="expandApplication(application)" *ngIf="application.bttn == 'Y'"><span
                                         [ngClass]="chkExpanded(application) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category"></span></button>
                                 </td>

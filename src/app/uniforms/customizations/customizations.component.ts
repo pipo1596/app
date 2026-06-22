@@ -33,6 +33,7 @@ export class CustomizationsComponent {
 
   //Checkboxes
   checked: any[] = [];
+  checkedImg: any[] = [];
   assigned: any[] = [];
 
   //Paging
@@ -198,8 +199,20 @@ export class CustomizationsComponent {
     } return true;
   }
 
+  allCheckedImg(){
+    for (let i = 0; i < this.page.data?.customizations.length; i++) {
+      if(!(this.isCheckedImg(this.page.data.customizations[i]))){
+        return false;
+      }
+    } return true;
+  }
+
   isChecked(customization: any){
     return this.checked.some(function(el){ return el.npno === customization.npno})
+  }
+
+  isCheckedImg(customization: any){
+    return this.checkedImg.some(function(el){ return el.npno === customization.npno})
   }
 
   checkAll() {
@@ -212,12 +225,25 @@ export class CustomizationsComponent {
     }
   }
 
-  checkCustomization(customization: any) {
-    // let configurators = []
-    // for (let i = 0; i < customization.styles.length; i++){
-    //   configurators.push(customization.styles[i].vfgn)
-    // }
+  checkAllImg(mode: any) {
+    if(mode !== 'U'){
+      var all = this.allCheckedImg()
+      for (let i = 0; i < this.page.data.customizations.length; i++) {
+        if (!all && !this.isCheckedImg(this.page.data.customizations[i]) ||
+            all && this.isCheckedImg(this.page.data.customizations[i])) {
+          this.checkImg(this.page.data.customizations[i])
+        }
+      }
+    } else {
+      for (let i = 0; i < this.page.data.customizations.length; i++) {
+        if (this.isCheckedImg(this.page.data.customizations[i])) {
+          this.checkImg(this.page.data.customizations[i])
+        }
+      }
+    }
+  }
 
+  checkCustomization(customization: any) {
     let np = {
       npno: customization.npno,
       config: customization.vfgn
@@ -231,7 +257,21 @@ export class CustomizationsComponent {
       this.checked.push(np);
       this.checked.sort();
     }    
-    console.log(this.checked)
+  }
+
+  checkImg(customization: any) {
+    let np = {
+      npno: customization.npno,
+      config: customization.vfgn
+    }
+
+    if(this.isCheckedImg(np)) {
+      let index = this.checkedImg.findIndex(x => x.npno === np.npno)
+      this.checkedImg.splice(index,1)
+    } else {
+      this.checkedImg.push(np);
+      this.checkedImg.sort();
+    }    
   }
 
   assignStyles(){
@@ -249,10 +289,25 @@ export class CustomizationsComponent {
     this.page.loading = false;
   }
 
-  goImages(npno: any){
+  goImages(npno: any, checked: any){
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('expanded',this.exp)
-    this.router.navigate(['/uniforms/images/' + this.page.rfno + '/' + npno]);
+
+    if(npno && !checked){
+      this.router.navigate(['/uniforms/images/' + this.page.rfno + '/' + npno]);
+    } else {
+      let selections = []
+      for (let i = 0; i < this.checkedImg.length; i++) {
+        selections.push(this.checkedImg[i].npno)
+      }
+      if(selections.length > 0){
+        localStorage.setItem('checked',selections.toString())
+        this.router.navigate(['/uniforms/image/' + this.page.rfno]);
+      } else {
+        window.alert("Must select at least one customization for attachments");
+      }
+    }
+    
   }
 
   searchConfig(mode: string){

@@ -81,12 +81,14 @@
                 </div>
 
                 <div class="row g-3 mb-4">
-                    <!-- <div class="col-md-3 mb-3">
-                        <label class="col-form-label">Last Usage Date: </label>
-                        <input type="date" class="form-control" name="lsdt" value="Last Usage Date">
-                    </div>    -->
-                    <div class="col-md-3">
+                    <div class="col-12 d-flex align-items-center justify-content-between">
                         <button class="btn btn-primary rounded-0 mw-50" type="button" (click)="assignStyles()">Assign Styles</button>
+                        <div class="d-flex flex-column align-items-end gap-1">
+                            <button class="btn btn-primary rounded-0 mw-50" type="button" (click)="goImages('',checkedImg)">New Attachment</button>
+                            <div>
+                                <a href="javascript:void(0)" (click)="checkAllImg('')">Check All</a> / <a href="javascript:void(0)" (click)="checkAllImg('U')">Uncheck All</a>
+                            </div>
+                        </div>
                     </div>  
                 </div>
 
@@ -133,14 +135,18 @@
 
                             <!-- Image Count -->
                             <td align="left" *ngIf="customization.images.length > 0">
-                                <div class="tooltip"><a href="javascript:void" (click)="goImages(customization.npno)">{{customization.images.length}}</a>
+                                <div class="tooltip"><a href="javascript:void" (click)="goImages(customization.npno,'')">{{customization.images.length}}</a>
                                     <span class="tooltiptext">
                                         <!-- <p *ngFor="let image of customization.images; index as i">{{image.desc}}</p> -->
                                         <img *ngFor="let image of customization.images; index as i" [src]="getImage(image)" [alt]="image.desc" width="100px" height="100px">
                                     </span>
                                 </div> 
+                                &nbsp;&nbsp;<input type="checkbox" class="form-check-input" id="ckbx{{ customization.npno }}"  value="{{ customization }}" (click)="checkImg(customization)" [checked] = "isCheckedImg(customization)">
                             </td>
-                            <td align="left" *ngIf="customization.images.length == 0"><a href="javascript:void" (click)="goImages(customization.npno)">0</a></td>
+                            <td align="left" *ngIf="customization.images.length == 0">
+                                <a href="javascript:void" (click)="goImages(customization.npno,'')">0</a>
+                                &nbsp;&nbsp;<input type="checkbox" class="form-check-input" id="ckbx{{ customization.npno }}"  value="{{ customization }}" (click)="checkImg(customization)" [checked] = "isCheckedImg(customization)">
+                            </td>
                         </tr>
                     </tbody> 
                 </table> 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
@@ -27,6 +27,9 @@ export class ProductsComponent {
 
   //Checkboxes
   checked: any[] = [];
+
+  //Customization Popup
+  openPopupNino: any = null;
 
   //Paging
   p: number = 1;
@@ -152,6 +155,31 @@ export class ProductsComponent {
   
   trim(value: any){
     return value.replace(/^0+/, '')
+  }
+
+  toggleCustPop(nino: any, event: Event){
+    event.stopPropagation();
+    this.openPopupNino = (this.openPopupNino === nino) ? null : nino;
+  }
+
+  popApp(npno: any){
+    localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
+    this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + npno]);
+  }
+
+  @HostListener('document:click')
+  onDocumentClick(){
+    this.closeCustPop();
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscapeKey(){
+    this.closeCustPop();
+  }
+
+  closeCustPop(){
+    this.openPopupNino = null;
   }
   
   allChecked(){

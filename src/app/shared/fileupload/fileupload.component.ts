@@ -17,6 +17,7 @@ export class FileUploadComponent implements OnInit {
   progress = 0;
   message = '';
   preview = '';
+  checkedImg: any[] = [];
   @Output() triggerEvent = new EventEmitter<string>();
   @Input() mode : string = "";
   @Input() iofile : string = "";
@@ -76,33 +77,70 @@ export class FileUploadComponent implements OnInit {
       if (file) {
         this.currentFile = file;
 
-        this.uploadService.upload(this.currentFile, this.mode, this.iofkey, this.iofile, this.desc).subscribe({
-          next: (event: any) => {
-            if (event.type === HttpEventType.UploadProgress) {
-              this.progress = Math.round((100 * event.loaded) / event.total);
-            } else if (event instanceof HttpResponse) {
-              if(event.body.iono){
-                localStorage.setItem('iono', event.body.iono)
+        if(this.iofkey.slice(0,3) == '***'){
+          this.iofkey = this.iofkey.substring(3)
+          this.checkedImg = this.iofkey.split(",")
+          if(this.checkedImg.length == 0){ return }
+          for (let i = 0; i < this.checkedImg.length; i++) {
+          if(this.checkedImg[i] == '') break
+          this.uploadService.upload(this.currentFile, this.mode, this.checkedImg[i], this.iofile, this.desc).subscribe({
+            next: (event: any) => {
+              if (event.type === HttpEventType.UploadProgress) {
+                this.progress = Math.round((100 * event.loaded) / event.total);
+              } else if (event instanceof HttpResponse) {
+                if(event.body.iono){
+                  localStorage.setItem('iono', event.body.iono)
+                }
+                this.message = event.body.message;
+                this.imageInfos = this.uploadService.getFiles();
+                this.triggerParentFunction(file.name);
               }
-              this.message = event.body.message;
-              this.imageInfos = this.uploadService.getFiles();
-              this.triggerParentFunction(file.name);
-            }
-            
-          },
-          error: (err: any) => {
-            console.log(err);
-            this.progress = 0;
+              
+            },
+            error: (err: any) => {
+              console.log(err);
+              this.progress = 0;
 
-            if (err.error && err.error.message) {
-              this.message = err.error.message;
-            } else {
-              this.message = 'Could not upload the file!';
-            }
+              if (err.error && err.error.message) {
+                this.message = err.error.message;
+              } else {
+                this.message = 'Could not upload the file!';
+              }
 
-            this.currentFile = undefined;
-          },
-        });
+              this.currentFile = undefined;
+            },
+          });
+          }
+        } 
+        else {
+          this.uploadService.upload(this.currentFile, this.mode, this.iofkey, this.iofile, this.desc).subscribe({
+            next: (event: any) => {
+              if (event.type === HttpEventType.UploadProgress) {
+                this.progress = Math.round((100 * event.loaded) / event.total);
+              } else if (event instanceof HttpResponse) {
+                if(event.body.iono){
+                  localStorage.setItem('iono', event.body.iono)
+                }
+                this.message = event.body.message;
+                this.imageInfos = this.uploadService.getFiles();
+                this.triggerParentFunction(file.name);
+              }
+              
+            },
+            error: (err: any) => {
+              console.log(err);
+              this.progress = 0;
+
+              if (err.error && err.error.message) {
+                this.message = err.error.message;
+              } else {
+                this.message = 'Could not upload the file!';
+              }
+
+              this.currentFile = undefined;
+            },
+          });
+        }
       }
 
       this.selectedFiles = undefined;

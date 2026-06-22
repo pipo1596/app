@@ -125,7 +125,23 @@
                                     <option *ngFor="let seq of page.data?.seqDrop" [ngValue]="seq.valu" [selected]="seq.valu == product.seq">{{seq.desc}}</option>
                                 </select>
                             </td>
-                            <td align="left">{{product.custcount}}</td>
+
+                            <td align="left" *ngIf="product.custcount !== '0'">
+                                <div class="cust-pop-wrapper">
+                                    <a href="javascript:void" (click)="toggleCustPop(product.nino, $event)">{{product.custcount}}</a>
+                                    <div class="cust-popup" *ngIf="openPopupNino === product.nino" (click)="$event.stopPropagation()">
+                                        <div class="cust-popup-header">
+                                            <span>Customizations</span>
+                                            <button type="button" class="btn-close" aria-label="Close" (click)="closeCustPop()"></button>
+                                        </div>
+                                        <div class="cust-popup-body">
+                                            <a *ngFor="let customization of product.custPop; index as i" href="javascript:void" (click)="popApp(customization.valu)">{{customization.desc + ' (' + trim(customization.valu) + ')'}}<br></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td align="left" *ngIf="product.custcount == '0'"><a href="javascript:void">0</a></td>
+
                             <td align="left" *ngIf="product.dsallowed == 'Y'">Yes</td>
                             <td align="left" *ngIf="product.dsallowed !== 'Y'">No</td>
                             <td align="left">{{product.frcfulloc}}</td>

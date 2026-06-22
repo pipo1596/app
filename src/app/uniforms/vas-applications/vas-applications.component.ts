@@ -133,9 +133,11 @@ export class VasApplicationsComponent implements OnDestroy {
   }
 
   expandApplication(application: any){
-    console.log(this.questionService.getApp())
-
+    showWait();
     if(this.chkExpanded(application)){
+    if(this.vasQuestions){
+      this.vasQuestions.forEach(q => q.saveQuestions('silent'))
+    }
       for(let i = 0; i < this.expanded.length; i++){
         if(JSON.stringify(this.expanded[i]) == JSON.stringify(application)){
           this.expanded.splice(i,1)
@@ -155,6 +157,7 @@ export class VasApplicationsComponent implements OnDestroy {
         }
       }
     }
+    hideWait();
   }
 
   expandAll(){

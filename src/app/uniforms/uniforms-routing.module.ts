@@ -46,7 +46,7 @@ import { ModalImfComponent } from './modal-imf/modal-imf.component';
 import { MassappAddComponent } from './massapp-add/massapp-add.component';
 import { MassappDeleteComponent } from './massapp-delete/massapp-delete.component';
 import { MassappUpdateComponent } from './massapp-update/massapp-update.component';
-import { authGuard } from './auth.guard';
+import { authGuard, saveOnLeaveGuard } from './auth.guard';
 
 const routes: Routes = [
   //Uniform
@@ -97,8 +97,8 @@ const routes: Routes = [
   { path: 'newcustomization/:nhno/:vfgn', component: CustomizationComponent, canActivate: [authGuard]  }, 
   { path: 'customization/:nhno/:npno', component: CustomizationComponent, canActivate: [authGuard]  }, 
   { path: 'customization/:nhno/:npno/:vfgn', component: CustomizationComponent, canActivate: [authGuard]  }, 
-  { path: 'vasapplications/:nhno/:npno', component: VasApplicationsComponent, canActivate: [authGuard]  },
-  { path: 'vasapplications/:nhno/:npno/:vsmt', component: VasApplicationsComponent, canActivate: [authGuard]  },
+  { path: 'vasapplications/:nhno/:npno', component: VasApplicationsComponent, canActivate: [authGuard], canDeactivate: [saveOnLeaveGuard]  },
+  { path: 'vasapplications/:nhno/:npno/:vsmt', component: VasApplicationsComponent, canActivate: [authGuard], canDeactivate: [saveOnLeaveGuard]  },
   { path: 'newvasapplication/:nhno/:npno', component: VasApplicationComponent, canActivate: [authGuard]  },
   { path: 'newvasapplication/:nhno/:npno/:vedp', component: VasApplicationComponent, canActivate: [authGuard]  },
   { path: 'vasapplication/:nhno/:npno/:n1no', component: VasApplicationComponent, canActivate: [authGuard]  },

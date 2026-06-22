@@ -1,6 +1,8 @@
 import { CanActivateFn, CanDeactivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { VasApplicationsComponent } from '../uniforms/vas-applications/vas-applications.component'; // adjust path
+import { Observable, forkJoin, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { VasApplicationsComponent } from '../uniforms/vas-applications/vas-applications.component'; 
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
@@ -21,7 +23,6 @@ export const authGuard: CanActivateFn = (route, state) => {
   }
 };
 
-export const saveOnLeaveGuard: CanDeactivateFn<VasApplicationsComponent> = (component) => {
-  component.onLeavePage();
-  return true;
+export const saveOnLeaveGuard: CanDeactivateFn<VasApplicationsComponent> = (component): Observable<boolean> => {
+  return component.saveExpanded();
 };

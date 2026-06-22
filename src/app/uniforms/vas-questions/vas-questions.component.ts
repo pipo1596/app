@@ -5,6 +5,8 @@ import { Page } from '../../shared/textField';
 import { Router } from '@angular/router';
 import { hideWait, showWait } from '../../shared/utils';
 import { AppQuestionsService } from '../../services/app-questions.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vas-questions',
@@ -164,7 +166,8 @@ export class VasQuestionsComponent {
     });
   }
 
-  saveQuestions(mode: any){
+  saveQuestions(mode: any): Observable<boolean> | void {
+    if (mode !== 'silent') {
     showWait();
     this.errors = ""
     this.msg = ""
@@ -279,7 +282,51 @@ export class VasQuestionsComponent {
     
     hideWait();
     this.page.loading = false;
+    return;
   }
+
+  // Silent/Exit Mode
+
+  showWait();
+  this.errors = ""
+  let n2no = [], v2no = [], type = [], dfan = [], dspd = [],
+      dflk = [], tbld = [], req = [], upct = [], ansq = [];
+
+  for (let i = 0; i < this.page.data?.vasq.length; i++) {
+    const q = this.page.data.vasq[i];
+    n2no.push(q.n2no);
+    v2no.push(q.v2no);
+    type.push(q.type);
+    tbld.push(q.tbld);
+    upct.push(q.upct);
+    ansq.push('1');
+    dfan.push(q.dfan ?? '');
+    dspd.push(q.dspd == 'Y' ? 'Y' : '');
+    dflk.push(q.dflk == 'Y' ? 'Y' : '');
+    req.push(q.req ?? '');
+  }
+
+  let data = {
+    mode: 'update',
+    nhno: this.nhno, npno: this.npno, n1no: this.application?.n1no,
+    n2no, v1cd: this.application?.v1cd, v2no, type, dfan, dspd,
+    dflk, tbld, req, upct, ansq
+  }
+
+  return this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2B', data).pipe(
+    map((response: any) => {
+      hideWait();
+      if (response.result !== 'pass') {
+        this.errors = response.errors; 
+        return false; // block redirect
+      }
+      localStorage.setItem('allexpand', this.all ? 'Y' : '');
+      if (this.nino) localStorage.setItem('nino', this.nino);
+      return true; // allow redirect
+    })
+  );
+
+}
 
   chkReq(event: any, index: any){
     let rule = event.target?.value

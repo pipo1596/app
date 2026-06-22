@@ -1,4 +1,4 @@
-import { Component, OnDestroy, QueryList, ViewChildren } from '@angular/core';
+import { Component, QueryList, ViewChildren } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait, convertToDate, formatDateUS } from '../../shared/utils';
 import { AppQuestionsService } from '../../services/app-questions.service';
 import { VasQuestionsComponent } from '../vas-questions/vas-questions.component';
+import { forkJoin, of, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vas-applications',
@@ -14,7 +16,7 @@ import { VasQuestionsComponent } from '../vas-questions/vas-questions.component'
   styleUrl: './vas-applications.component.css'
 })
 
-export class VasApplicationsComponent implements OnDestroy {
+export class VasApplicationsComponent {
   @ViewChildren(VasQuestionsComponent) vasQuestions!: QueryList<VasQuestionsComponent>;
   exp: any;
   page = new Page();
@@ -77,16 +79,6 @@ export class VasApplicationsComponent implements OnDestroy {
     localStorage.clear();
   }
 
-  onLeavePage(){
-    if(this.vasQuestions){
-      this.vasQuestions.forEach(q => q.saveQuestions('silent'))
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.onLeavePage();
-  }
-
   getCustomizations() {
     if(this.questionService.getPage()){
       this.p = this.questionService.getPage();
@@ -132,12 +124,28 @@ export class VasApplicationsComponent implements OnDestroy {
     } return false;
   }
 
+  saveExpanded(): Observable<boolean> {
+    if (!this.vasQuestions || this.vasQuestions.length === 0) {
+      return of(true);
+    }
+
+    const saves: Observable<boolean>[] = this.vasQuestions.map(q => {
+      const result = q.saveQuestions('silent');
+      return (result instanceof Observable) ? result : of(true);
+    });
+
+    return forkJoin(saves).pipe(
+      map(results => results.every(r => r === true))
+    );
+  }
+
   expandApplication(application: any){
     showWait();
     if(this.chkExpanded(application)){
-    if(this.vasQuestions){
-      this.vasQuestions.forEach(q => q.saveQuestions('silent'))
-    }
+
+      this.saveExpanded().subscribe(allPassed => {
+        if (!allPassed) return;
+
       for(let i = 0; i < this.expanded.length; i++){
         if(JSON.stringify(this.expanded[i]) == JSON.stringify(application)){
           this.expanded.splice(i,1)
@@ -146,6 +154,7 @@ export class VasApplicationsComponent implements OnDestroy {
       // this.expanded.splice(this.expanded.indexOf(application),1)
       this.questionService.clrApp(application)
       this.allexpanded = false;
+     });
     } else{
       this.expanded.push(application)
       this.questionService.setApp(application)

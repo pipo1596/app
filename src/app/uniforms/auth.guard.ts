@@ -1,10 +1,9 @@
 import { CanActivateFn, CanDeactivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { Observable, forkJoin, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { VasApplicationsComponent } from '../uniforms/vas-applications/vas-applications.component'; 
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanActivateFn = (route) => {
   const router = inject(Router);
 
   const perfEntries = performance.getEntriesByType('navigation');

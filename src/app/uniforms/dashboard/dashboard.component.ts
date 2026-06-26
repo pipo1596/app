@@ -17,6 +17,7 @@ export class DashboardComponent {
   page = new Page();
   imgprfx = environment.logoprfx;
   upNum: any = "";
+  notes: any = "";
 
   constructor(private http: HttpClient,
     private router: Router,
@@ -43,6 +44,7 @@ export class DashboardComponent {
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
       if (this.page.data.info.effd) this.page.data.info.effd = this.page.data.info.effd;
       if (this.page.data.info.expd) this.page.data.info.expd = this.page.data.info.expd;
+      if (this.page.data.info.expd) this.notes = this.page.data.notes;
     });
   }
 
@@ -106,5 +108,9 @@ export class DashboardComponent {
   dsppbdate(date:any){
     if (!date) return '';
     return formatDateUS(new Date(convertToDate(date)));
+  }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
   }
 }

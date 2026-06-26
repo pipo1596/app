@@ -107,4 +107,8 @@ export class NotesComponent {
     this.p = event
     this.getNotes(this.srch);
   }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
 }

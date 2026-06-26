@@ -101,4 +101,8 @@ export class NoteComponent {
     localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/notes/' + this.nhno]);
   }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
 }

@@ -145,6 +145,21 @@ export class VasApplicationComponent {
     this.vedp = ""
     this.vedpDesc = ""
     this.vedpSku = ""
+    this.desc = ""
+    const v1Input = document.getElementById('v1Input') as HTMLSelectElement;
+
+    if(v1Input.value){
+      let temp = new Page();
+      let data = {
+        nhno: this.nhno,
+        mode: 'getV1Desc',
+        v1cd: this.v1cd
+      }
+      this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV1', data).subscribe(response => {
+        temp.data = response;
+        if (temp.data?.v1cd_desc) this.desc = temp.data?.v1cd_desc
+      });
+    }
 
     if(!this.vedp){
       let temp = new Page();

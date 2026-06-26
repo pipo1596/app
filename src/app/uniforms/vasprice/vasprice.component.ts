@@ -55,4 +55,7 @@ export class VaspriceComponent {
     });
   }
 
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
 }

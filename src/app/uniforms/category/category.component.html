@@ -11,7 +11,7 @@
                     <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
                         <div class="row g-3">
                             <div class="col-md-10">
-                                <h6>Uniform Program - {{ page.data?.pgName }}</h6>
+                                <h6>Uniform Program - {{ page.data?.pgName + ' - ' + trim(this.nhno)}}</h6>
                             </div>
                         </div>
 
@@ -48,6 +48,15 @@
                             <div class="col-md-6">
                                 <label for="inputItem" class="form-label">Parent Category</label>
                                 <ngx-select-dropdown name="parentDrop" [config]="searchConfig()" [options]="page.data?.categories" [(ngModel)]="pnan"></ngx-select-dropdown>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-3">
+                                <label for="inputItem" class="form-label">Sort Order</label>
+                                <select name="" class="form-select" name="inputSeq" [(ngModel)]="seq">
+                                    <option *ngFor="let seq of page.data?.seqDrop" [ngValue]="trim(seq.valu)" [selected]="trim(seq.valu) == this.seq">{{seq.desc}}</option>
+                                </select>
                             </div>
                         </div>
 

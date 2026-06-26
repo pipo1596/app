@@ -138,4 +138,8 @@ export class ImagesComponent {
     localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
 }

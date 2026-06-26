@@ -89,4 +89,8 @@ export class CxmlCustomersComponent {
     this.p = event
     this.getConfigs()
   }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
 }

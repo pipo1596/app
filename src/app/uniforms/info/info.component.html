@@ -11,7 +11,7 @@
                     <h6 class="mb-3" *ngIf="page.data?.result == 'pass' && page.data.price"><strong class="text-primary">{{this.titl}} Updated Successfully</strong></h6> 
                     <div class="row g-4">
                         <div class="col-10 mb-5">
-                            <h6 class="">Uniform Program - {{(page.data?.info?.name ? page.data?.info?.name : page.data?.pgName)}}</h6>
+                            <h6 class="">Uniform Program - {{(page.data?.info?.name ? page.data?.info?.name : page.data?.pgName) + ' - ' + trim(page.rfno) }}</h6>
                         </div>
 
                         <div class="col-2">

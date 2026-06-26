@@ -132,4 +132,8 @@ export class CustomerComponent {
     localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/customers/' + this.nhno]);
   }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
 }

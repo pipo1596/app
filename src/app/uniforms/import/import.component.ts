@@ -38,4 +38,8 @@ export class ImportComponent {
     this.router.navigate(['/uniforms/' + ulid + '/' + this.page.rfno + '/' + ulid]);
   }
 
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
+
 }

@@ -17,7 +17,7 @@
 
                 <div class="row g-4">
                     <div class="col-10">
-                        <h6 class="">Uniform Program - {{ page.data?.pgName }}</h6>
+                        <h6 class="">Uniform Program - {{ page.data?.pgName  + ' - ' + trim(page.rfno) }}</h6>
                     </div>
 
                     <div class="col-2">
@@ -98,6 +98,7 @@
                             <th align="left" style="width: 10%;">Option 1</th>
                             <th align="left" style="width: 15%">Category</th>
                             <th align="left">Sort Order</th>
+                            <th align="left">Manufacturer #</th>
                             <th align="left">Customization</th>
                             <th align="left">DS Allowed?</th>
                             <th align="left">Fulfillment Override</th>
@@ -120,11 +121,12 @@
                             <td align="left">{{product.desc}}</td>
                             <td align="left" style="width: 10%">{{product.opv1}}</td>
                             <td align="left" style="width: 15%">{{product.pdesc}} ({{trim(product.nano)}})</td>
-                            <td align="left" style="width: 15%">
+                            <td align="left" style="width: 10%">
                                 <select name="" class="form-select" [id]="'sort' + u + product.nino" (change)="saveSeq(product.nino, inSeq.value, product.upct)" #inSeq>
                                     <option *ngFor="let seq of page.data?.seqDrop" [ngValue]="seq.valu" [selected]="seq.valu == product.seq">{{seq.desc}}</option>
                                 </select>
                             </td>
+                            <td align="left" style="width: 10%">{{product.mfgn}}</td>
 
                             <td align="left" *ngIf="product.custcount !== '0'">
                                 <div class="cust-pop-wrapper">

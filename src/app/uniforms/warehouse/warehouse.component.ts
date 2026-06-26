@@ -72,4 +72,8 @@ export class WarehouseComponent {
     this.router.navigate(['/uniforms/categories/' + this.page.rfno]);
   }
 
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
+
 }

@@ -155,4 +155,8 @@ export class QuickAddComponent implements AfterViewInit {
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/categories/' + this.nhno]);
   }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
 }

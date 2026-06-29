@@ -38,7 +38,9 @@
                 </div>
 
                 <div class="row g-3">
-                    <div class="col-md-5"></div>
+                    <div class="col-md-5">
+                        <h4 *ngIf="this.styl">Style - {{this.styl}}</h4>
+                    </div>
                     <div class="col-md-5">
                         <p *ngIf="this.nino"><strong>Step 2:</strong> Edit VAS Questions from the list below. Click + button to see all questions for an application.</p>
                     </div>

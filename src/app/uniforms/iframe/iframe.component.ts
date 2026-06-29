@@ -23,7 +23,6 @@ export class IframeComponent {
   constructor(private router: Router, private route: ActivatedRoute, private sanitizer: DomSanitizer) { }
 
   @HostListener('window:message', ['$event']) onMessage(event: MessageEvent) {
-    let nest = false
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('expanded',this.exp);
     if(this.p1 && this.partpg?.indexOf('newuniform') == -1){
@@ -32,16 +31,9 @@ export class IframeComponent {
       this.p1 = JSON.stringify(this.p1)
     }
 
-    //Nested Iframes
-    if((event.data.type == 'select-styl') && this.partpg.includes('newcustomization')){
-      nest = true;
-    }
-
     if(this.p1) localStorage.setItem('p1',this.p1);
     if(this.p2) localStorage.setItem('p2',this.p2);
-    if(!nest){
-      this.router.navigate([this.partpg + event.data.data]);
-    }
+    this.router.navigate([this.partpg + event.data.data]);
     
   }
 

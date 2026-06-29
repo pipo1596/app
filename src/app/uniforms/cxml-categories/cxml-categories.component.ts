@@ -116,4 +116,8 @@ export class CxmlCategoriesComponent {
   filterConfigs(event: any){
     this.getConfigs();
   }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
 }

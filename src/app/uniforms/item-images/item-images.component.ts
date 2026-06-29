@@ -148,4 +148,8 @@ export class ItemImagesComponent {
       { queryParams: { opv1: this.opv1, opv2: this.opv2, opv3: this.opv3, opv4: this.opv4, opv5: this.opv5 } }
     );
   }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
 }

@@ -27,6 +27,7 @@ export class CategoryComponent {
   //Input
   name = "";
   pnan: any = ""; 
+  seq: any = ""; 
   upct: any;
 
   constructor(
@@ -56,6 +57,8 @@ export class CategoryComponent {
       if (this.copy){
         this.name = 'Copy of ' + this.page.data?.info?.desc;
       } else { this.name = this.page.data?.info?.desc; }
+
+      this.seq = this.page.data?.info?.seq; 
 
       if(this.page.data?.info?.pnan){
         let naparent = {
@@ -127,6 +130,7 @@ export class CategoryComponent {
         nano: this.nano,
         pnan: this.pnan.nano,
         desc: this.name,
+        seq: this.seq,
         upct: (mode == 'update') ? this.upct : ''
       }
   
@@ -164,6 +168,10 @@ export class CategoryComponent {
       localStorage.setItem('styl',this.styl);
       this.router.navigate([this.partpg]);
     } else this.router.navigate(['/uniforms/categories/' + this.nhno]);
+  }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
   }
 
 }

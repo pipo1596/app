@@ -346,6 +346,6 @@ export class CustomizationsComponent {
   }
 
   getImage(image: any){
-    return environment.apiurl + '/photos/uniforms/' + image.iono + '.jpg'
+    return environment.apiurl + '/photos/uniforms/' + image.anam
   }
 }

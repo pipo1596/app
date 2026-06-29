@@ -26,6 +26,7 @@ export class VasApplicationsComponent {
   // Input 
   npno: any;
   nino: any;
+  styl: any;
   vsmt: any;
   cache: any;
   p1: any;
@@ -63,6 +64,7 @@ export class VasApplicationsComponent {
     }
     if(localStorage.getItem('nino')){
       this.nino = localStorage.getItem('nino')
+      this.styl = this.getStyl()
     }
     if(localStorage.getItem('cache')){
       this.cache = localStorage.getItem('cache')
@@ -300,6 +302,20 @@ export class VasApplicationsComponent {
     localStorage.setItem('expanded',this.exp)
     if(this.cache) localStorage.setItem('cache',this.cache);
     this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + this.nino]);
+  }
+
+  getStyl(){
+    let temp = new Page();
+    let data = {
+      mode: 'getStyl',
+      nhno: this.page.rfno,
+      nino: this.nino
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
+      temp.data = response;
+      if (temp.data?.styl) this.styl = temp.data?.styl
+    });
   }
 
   dsppbdate(date:any){

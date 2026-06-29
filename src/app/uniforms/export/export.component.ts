@@ -110,4 +110,8 @@ export class ExportComponent {
     this.getReports()
   }
 
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
+
 }

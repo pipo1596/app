@@ -186,4 +186,8 @@ export class CxmlCustomerComponent {
     this.router.navigate(['/uniforms/cxmlcustomers/' + this.page.rfno]);
   }
 
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
+
 }

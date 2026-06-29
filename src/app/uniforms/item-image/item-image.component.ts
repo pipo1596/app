@@ -233,4 +233,8 @@ export class ItemImageComponent {
       hideWait();
     });
   }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
 }

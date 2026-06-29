@@ -61,4 +61,8 @@ export class CxmlConfigsComponent {
       this.router.navigate(['/uniforms/cxmlcategories/' + this.page.rfno]);
     }
   }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
 }

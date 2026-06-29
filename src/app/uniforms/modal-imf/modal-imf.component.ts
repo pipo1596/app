@@ -75,4 +75,5 @@ export class ModalImfComponent {
     } else stat = 'New Image'
     return stat
   }
+
 }

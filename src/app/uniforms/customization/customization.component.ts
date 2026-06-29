@@ -24,6 +24,7 @@ export class CustomizationComponent {
 
   //Product Parms
   nino: any;
+  styl: any;
 
   // Parms
   nhno: any;
@@ -177,6 +178,10 @@ export class CustomizationComponent {
       this.page.entrymode = true;
       this.page.editmode = false;
     }
+
+    if(this.nino){
+      this.styl = this.getStyl()
+    }
   }
 
   getVFGN(){
@@ -208,6 +213,36 @@ export class CustomizationComponent {
       temp.data = response;
       if (temp.data?.ct_desc) this.ctdesc = temp.data?.ct_desc
       if (mode == 'single' && temp.data?.ctno) this.ctno = temp.data?.ctno
+    });
+  }
+
+  getName(npno: any){
+    let name = ""
+    let temp = new Page();
+    let data = {
+      mode: 'getName',
+      nhno: this.nhno,
+      npno: npno
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
+      temp.data = response;
+      if (temp.data?.name) name = temp.data?.name
+    });
+    return name
+  }
+
+  getStyl(){
+    let temp = new Page();
+    let data = {
+      mode: 'getStyl',
+      nhno: this.nhno,
+      nino: this.nino
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
+      temp.data = response;
+      if (temp.data?.styl) this.styl = temp.data?.styl
     });
   }
 

@@ -124,4 +124,8 @@ export class InfoComponent {
     this.router.navigate(['/uniforms/dashboard/' + this.page.rfno]);
   }
 
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
+
 }

@@ -109,4 +109,8 @@ export class AuditComponent {
     this.p = event
     this.getAudits('');
   }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
 }

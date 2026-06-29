@@ -156,10 +156,10 @@ export class VasQuestionComponent {
         this.page.data.vsmtDrop = this.page.data.vsmtDrop.sort((a: any, b: any) => a.value.localeCompare(b.value));
       }
 
-      if(this.type == 'D' && this.rule == 'R'){
-        (<HTMLInputElement>document.getElementById('dflk')).checked = true;
-        (<HTMLInputElement>document.getElementById('dflk')).disabled = true;
-      }
+      // if(this.type == 'D' && this.rule == 'R'){
+      //   (<HTMLInputElement>document.getElementById('dflk')).checked = true;
+      //   (<HTMLInputElement>document.getElementById('dflk')).disabled = true;
+      // }
 
       hideWait();
       this.page.loading = false;

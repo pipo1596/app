@@ -10,7 +10,7 @@
 
                 <div class="row g-3">
                     <div class="col-md-3">
-                        <h6 class="">Uniform Program - {{ page.data?.info?.name }}</h6>
+                        <h6 class="">Uniform Program - {{ page.data?.info?.name + ' - ' + trim(page.rfno) }}</h6>
                     </div>
                     <div class="col">
                         <button class="btn" (click)="loadUP(page.rfno, 'name')"><span class="bi bi-pencil-square" title="Edit UP"></span></button>
@@ -45,7 +45,7 @@
 
                 <div class="row g-3 mb-3">
                     <div class="col-md-12">
-                        <h6 class="">Notes:</h6>
+                        <h6 class="">Notes: <br><span [innerHTML]="this.notes"></span></h6>
                     </div>         
                 </div>
 

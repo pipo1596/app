@@ -33,7 +33,7 @@ export class IframeComponent {
     }
 
     //Nested Iframes
-    if((event.data.type == 'select-styl') && this.partpg.includes('newcustomer')){
+    if((event.data.type == 'select-styl') && this.partpg.includes('newcustomization')){
       nest = true;
     }
 

@@ -216,6 +216,22 @@ export class CustomizationComponent {
     });
   }
 
+  getName(npno: any){
+    let name = ""
+    let temp = new Page();
+    let data = {
+      mode: 'getName',
+      nhno: this.nhno,
+      npno: npno
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
+      temp.data = response;
+      if (temp.data?.name) name = temp.data?.name
+    });
+    return name
+  }
+
   getStyl(){
     let temp = new Page();
     let data = {

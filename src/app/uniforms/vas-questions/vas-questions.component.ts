@@ -166,131 +166,22 @@ export class VasQuestionsComponent {
     });
   }
 
-  saveQuestions(mode: any): Observable<boolean> | void {
-    if (mode !== 'silent') {
-    showWait();
-    this.errors = ""
-    this.msg = ""
-    let n2no = [];
-    let v2no = [];
-    let type = [];
-    let dfan = [];
-    let dspd = [];
-    let dflk = [];
-    let tbld = [];
-    let req = [];
-    let upct = [];
-    let ansq = [];
-    let rules = [];
-
-
-    for (let i = 0; i < this.page.data?.vasq.length; i++) {
-      const q = this.page.data.vasq[i];
-      n2no.push(this.page.data?.vasq[i]!.n2no);
-      v2no.push(this.page.data?.vasq[i]!.v2no);
-      type.push(this.page.data?.vasq[i]!.type);
-      tbld.push(this.page.data?.vasq[i]!.tbld);
-      upct.push(this.page.data?.vasq[i].upct);
-      ansq.push('1');
-      dfan.push(q.dfan ?? '');
-      dspd.push(q.dspd == 'Y' ? 'Y' : '');
-      dflk.push(q.dflk == 'Y' ? 'Y' : '');
-      req.push(q.req ?? '');
-    } 
-
-    let data = {
-      mode: mode == 'validate' ? 'validate' : 'update',
-      nhno: this.nhno,
-      npno: this.npno,
-      n1no: this.application?.n1no,
-      n2no: n2no, 
-      v1cd: this.application?.v1cd,
-      v2no: v2no,
-      type: type,
-      dfan: dfan,
-      dspd: dspd,
-      dflk: dflk,
-      tbld: tbld,
-      req: req,
-      upct: upct,
-      ansq: ansq
-    }
-  
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2B', data).subscribe(response => {
-      let temp = new Page();
-      temp.data = response;
-      if (temp.data.result !== 'pass'){
-        if(this.errors == ""){
-          this.errors = temp.data.errors
-        } else this.errors = this.errors + ',' + temp.data.errors
-
-      if(mode == 'validate'){
-        if(temp.data.rules.length > 0){
-          for (let i = 0; i < temp.data.rules.length; i++) {
-            let rule = temp.data.rules[i].ques
-            if(temp.data.rules[i].drop) rule += ( ',' + temp.data.rules[i].drop)
-            if(temp.data.rules[i].dfan) rule += ( ',' + temp.data.rules[i].dfan)
-            if(temp.data.rules[i].dflk) rule += ( ',' + temp.data.rules[i].dflk)
-            rules.push(rule)
-          }
-          this.getQuestions(rules, temp.data.questions);
-        } else {
-          for (let x = 0; x < temp.data?.questions.length; x++){
-            if(temp.data?.questions[x]?.rulesV){
-              for (let i = 0; i < temp.data.questions[x].rulesV.length; i++) {
-                let rule = temp.data.questions[x].rulesV[i].ques
-                if(temp.data.questions[x].rulesV[i].drop) rule += ( ',' + temp.data.questions[x].rulesV[i].drop)
-                if(temp.data.questions[x].rulesV[i].dfan) rule += ( ',' + temp.data.questions[x].rulesV[i].dfan)
-                if(temp.data.questions[x].rulesV[i].dflk) rule += ( ',' + temp.data.questions[x].rulesV[i].dflk)
-                rules.push(rule)
-              }
-            }
-          }
-          this.getQuestions(rules, temp.data.questions);
-        }
-      }
-      } else{
-        if (mode !== 'validate') this.msg = "Questions updated successfully"
-        localStorage.setItem('allexpand',this.all ? 'Y' : '');
-        if(this.nino) localStorage.setItem('nino',this.nino);
-        if (mode !== 'validate' && mode !== 'silent') location.reload();
-        if (mode !== 'validate') this.getQuestions('','');
-
-        if(mode == 'validate' || mode == 'silent'){
-          if(mode == 'validate'){
-          for (let x = 0; x < temp.data?.questions.length; x++){
-            if(temp.data?.questions[x]?.rulesV){
-              for (let i = 0; i < temp.data.questions[x].rulesV.length; i++) {
-                let rule = temp.data.questions[x].rulesV[i].ques
-                if(temp.data.questions[x].rulesV[i].drop) rule += ( ',' + temp.data.questions[x].rulesV[i].drop)
-                if(temp.data.questions[x].rulesV[i].dfan) rule += ( ',' + temp.data.questions[x].rulesV[i].dfan)
-                if(temp.data.questions[x].rulesV[i].dflk) rule += ( ',' + temp.data.questions[x].rulesV[i].dflk)
-                rules.push(rule)
-              }
-            }
-          }
-          this.getQuestions(rules, temp.data.questions);
-        } else {
-          this.msg = "Questions updated successfully"
-          // location.reload()
-          this.getQuestions('','')
-        }
-      }
-        
-      }
-    });
-    
-    hideWait();
-    this.page.loading = false;
-    return;
-  }
-
-  // Silent/Exit Mode
-
+saveQuestions(mode: any): Observable<boolean> | void {
   showWait();
   this.errors = ""
+  if(mode !== 'silent') this.msg = ""
+  
   let n2no = [], v2no = [], type = [], dfan = [], dspd = [],
-      dflk = [], tbld = [], req = [], upct = [], ansq = [];
+      dflk = [], tbld = [], req = [], upct = [], ansq = [], rules = [];
+
+  // Snapshot current values from the model
+  const snapshot = this.page.data?.vasq.map((q: any) => ({
+    dfan: q.dfan ?? '',
+    dspd: q.dspd ?? '',
+    dflk: q.dflk ?? '',
+    req: q.req ?? '',
+    tbld: q.tbld
+  }));
 
   for (let i = 0; i < this.page.data?.vasq.length; i++) {
     const q = this.page.data.vasq[i];
@@ -307,25 +198,86 @@ export class VasQuestionsComponent {
   }
 
   let data = {
-    mode: 'update',
+    mode: mode == 'validate' ? 'validate' : 'update',
     nhno: this.nhno, npno: this.npno, n1no: this.application?.n1no,
     n2no, v1cd: this.application?.v1cd, v2no, type, dfan, dspd,
     dflk, tbld, req, upct, ansq
   }
 
-  return this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2B', data).pipe(
-    map((response: any) => {
-      hideWait();
-      if (response.result !== 'pass') {
-        this.errors = response.errors; 
-        return false; // block redirect
+  if (mode === 'silent') {
+    return this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2B', data).pipe(
+      map((response: any) => {
+        hideWait();
+        if (response.result !== 'pass') {
+          this.errors = response.errors;
+          return false;
+        }
+        localStorage.setItem('allexpand', this.all ? 'Y' : '');
+        if (this.nino) localStorage.setItem('nino', this.nino);
+        return true;
+      })
+    );
+  }
+
+  this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2B', data).subscribe(response => {
+    let temp = new Page();
+    temp.data = response;
+
+    if (temp.data.result !== 'pass') {
+      this.errors = this.errors ? this.errors + ',' + temp.data.errors : temp.data.errors;
+
+      if (mode == 'validate') {
+        if (temp.data.rules.length > 0) {
+          for (let i = 0; i < temp.data.rules.length; i++) {
+            let rule = temp.data.rules[i].ques
+            if (temp.data.rules[i].drop) rule += (',' + temp.data.rules[i].drop)
+            if (temp.data.rules[i].dfan) rule += (',' + temp.data.rules[i].dfan)
+            if (temp.data.rules[i].dflk) rule += (',' + temp.data.rules[i].dflk)
+            rules.push(rule)
+          }
+          this.getQuestions(rules, snapshot); // use snapshot
+        } else {
+          for (let x = 0; x < temp.data?.questions.length; x++) {
+            if (temp.data?.questions[x]?.rulesV) {
+              for (let i = 0; i < temp.data.questions[x].rulesV.length; i++) {
+                let rule = temp.data.questions[x].rulesV[i].ques
+                if (temp.data.questions[x].rulesV[i].drop) rule += (',' + temp.data.questions[x].rulesV[i].drop)
+                if (temp.data.questions[x].rulesV[i].dfan) rule += (',' + temp.data.questions[x].rulesV[i].dfan)
+                if (temp.data.questions[x].rulesV[i].dflk) rule += (',' + temp.data.questions[x].rulesV[i].dflk)
+                rules.push(rule)
+              }
+            }
+          }
+          this.getQuestions(rules, snapshot); // use snapshot
+        }
       }
+    } else {
       localStorage.setItem('allexpand', this.all ? 'Y' : '');
       if (this.nino) localStorage.setItem('nino', this.nino);
-      return true; // allow redirect
-    })
-  );
 
+      if (mode == 'validate') {
+        for (let x = 0; x < temp.data?.questions.length; x++) {
+          if (temp.data?.questions[x]?.rulesV) {
+            for (let i = 0; i < temp.data.questions[x].rulesV.length; i++) {
+              let rule = temp.data.questions[x].rulesV[i].ques
+              if (temp.data.questions[x].rulesV[i].drop) rule += (',' + temp.data.questions[x].rulesV[i].drop)
+              if (temp.data.questions[x].rulesV[i].dfan) rule += (',' + temp.data.questions[x].rulesV[i].dfan)
+              if (temp.data.questions[x].rulesV[i].dflk) rule += (',' + temp.data.questions[x].rulesV[i].dflk)
+              rules.push(rule)
+            }
+          }
+        }
+        this.getQuestions(rules, snapshot); // use snapshot
+      } else {
+        this.msg = "Questions updated successfully"
+        location.reload();
+        this.getQuestions('', '');
+      }
+    }
+  });
+
+  hideWait();
+  this.page.loading = false;
 }
 
   chkReq(event: any, index: any){

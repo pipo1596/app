@@ -31,10 +31,14 @@ export class IframeComponent {
       this.p1 = JSON.stringify(this.p1)
     }
 
+    //Nested Iframes
+  
+
     if(this.p1) localStorage.setItem('p1',this.p1);
     if(this.p2) localStorage.setItem('p2',this.p2);
-    this.router.navigate([this.partpg + event.data.data]);
-    
+    if(!(event.data.type == 'nest')){
+      this.router.navigate([this.partpg + event.data.data]);
+    }
   }
 
   ngOnInit(): void {

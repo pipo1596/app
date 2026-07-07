@@ -80,10 +80,12 @@ export class QuickAddComponent implements AfterViewInit {
   assignStyles(){
     this.errors = "";
     let inputs = this.itemInputs.toArray()
-    let items = []
+    let items: string[] = []
     for (let i = 0; i < inputs.length; i++){
       if(inputs[i].nativeElement.value !== ''){
-        items.push(inputs[i].nativeElement.value);
+        if(!items.includes(inputs[i].nativeElement.value)){
+          items.push(inputs[i].nativeElement.value);
+        }
       }
     }
 

@@ -18,6 +18,7 @@ export class DashboardComponent {
   imgprfx = environment.logoprfx;
   upNum: any = "";
   notes: any = "";
+  plno: any = "";
 
   constructor(private http: HttpClient,
     private router: Router,
@@ -45,6 +46,7 @@ export class DashboardComponent {
       if (this.page.data.info.effd) this.page.data.info.effd = this.page.data.info.effd;
       if (this.page.data.info.expd) this.page.data.info.expd = this.page.data.info.expd;
       if (this.page.data.info.expd) this.notes = this.page.data.notes;
+      if (this.page.data?.plno) this.plno = this.page.data.plno;
     });
   }
 
@@ -92,6 +94,7 @@ export class DashboardComponent {
   loadUP(nhno: any, mode: any){
     localStorage.setItem('UP_AUTH','Y')
     localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('dash','Y')
     switch(mode){
       case 'name':
         this.router.navigate(['/uniforms/upname/' + this.page.rfno]);
@@ -101,6 +104,9 @@ export class DashboardComponent {
         break;
       case 'expd':
         this.router.navigate(['/uniforms/upexpd/' + this.page.rfno]);
+        break;
+      case 'list':
+        this.router.navigate(['/uniforms/uplist/' + this.page.rfno]);
         break;
     }
   }

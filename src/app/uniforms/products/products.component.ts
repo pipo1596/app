@@ -14,6 +14,7 @@ import { hideWait, showWait, scrollToTopInstant} from '../../shared/utils';
 
 export class ProductsComponent {
   exp: any;
+  npfilters: any;
   page = new Page();
   assign: any;
   inNano: any;
@@ -45,6 +46,9 @@ export class ProductsComponent {
   ngOnInit(): void {
     if(localStorage.getItem('expanded')){
       this.exp = localStorage.getItem('expanded')
+    }
+    if(localStorage.getItem('npfilters')){
+      this.npfilters = localStorage.getItem('npfilters')
     }
     this.assign = localStorage.getItem('assign') ? JSON.parse(localStorage.getItem('assign')!) : '';
     this.inNano = localStorage.getItem('nano') ? JSON.parse(localStorage.getItem('nano')!) : '';
@@ -261,6 +265,7 @@ export class ProductsComponent {
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPASSIGN', data).subscribe(response => {
       localStorage.setItem('UP_AUTH','Y');
       localStorage.setItem('expanded',this.exp)
+      localStorage.setItem('filters',this.npfilters)
       this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
     })
   }
@@ -316,6 +321,7 @@ export class ProductsComponent {
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('expanded',this.exp)
+      localStorage.setItem('filters',this.npfilters)
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }
 

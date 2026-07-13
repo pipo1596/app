@@ -75,8 +75,8 @@
                     <div class="col-md-4">
                         <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('VAS Category')" [(ngModel)]="ctno" [options]="page.data?.catgDrop" (change)="getCustomizations('search')"></ngx-select-dropdown>
                     </div> 
-                    <div class="col-md-1">
-                        <button class="btn btn-primary rounded-0 m" type="button" (click)="getCustomizations('search')">Go</button>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary rounded-0 m" type="button" (click)="getCustomizations('search')">Go</button>&nbsp; <a href="javascript:void(0)" (click)="clearFilters()">Clear Filters</a>
                     </div>
                 </div>
 

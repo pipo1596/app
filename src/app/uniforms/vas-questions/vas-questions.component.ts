@@ -74,7 +74,18 @@ export class VasQuestionsComponent {
         if(apps){
           for(let i = 0; i < apps.length; i++){
             if(Object.keys(apps[i][1]).length !== 0 && (JSON.stringify(this.application) == JSON.stringify(apps[i][0]))){ //Found Application
+              let upcti = []
+              
+              //Store Active UPCT
+              for(let upx = 0; upx < this.page.data?.vasq.length; upx++){
+                upcti.push(this.page.data?.vasq[upx].upct)
+              }
               this.page.data.vasq = apps[i][1]
+
+              //Maintain Active UPCT
+              for(let upx = 0; upx < this.page.data?.vasq.length; upx++){
+                this.page.data.vasq[upx].upct = upcti[upx]
+              }
             }
           }
         }
@@ -170,6 +181,9 @@ saveQuestions(mode: any): Observable<boolean> | void {
   showWait();
   this.errors = ""
   if(mode !== 'silent') this.msg = ""
+  if(mode == 'silent' && localStorage.getItem('inq')){
+    return
+  }
   
   let n2no = [], v2no = [], type = [], dfan = [], dspd = [],
       dflk = [], tbld = [], req = [], upct = [], ansq = [], rules = [];
@@ -299,6 +313,7 @@ saveQuestions(mode: any): Observable<boolean> | void {
     let menu = '/cgi/APOELMIS4?PAMODE=*INQ&PMVSMT=EMBLEM' + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     if(this.nino) localStorage.setItem('nino',this.nino)
     localStorage.setItem('menu',menu)
+    localStorage.setItem('inq','Y')
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/iframe/APOELMIS4'])
   }

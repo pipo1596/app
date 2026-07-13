@@ -24,6 +24,7 @@ export class VasApplicationsComponent {
   expanded: any[] = [];
 
   // Input 
+  filters: any;
   npno: any;
   nino: any;
   styl: any;
@@ -51,6 +52,9 @@ export class VasApplicationsComponent {
   ngOnInit(): void {
     if(localStorage.getItem('expanded')){
       this.exp = localStorage.getItem('expanded')
+    }
+    if(localStorage.getItem('filters')){
+      this.filters = localStorage.getItem('filters')
     }
     this.expanded = [];
     this.checked = [];
@@ -292,6 +296,7 @@ export class VasApplicationsComponent {
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('filters',this.filters)
     localStorage.setItem('rtpg', this.page.data?.npname);
     localStorage.setItem('p2', this.p2);
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);

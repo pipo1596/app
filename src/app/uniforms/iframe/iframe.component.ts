@@ -13,6 +13,7 @@ import { environment } from '../../../environments/environment.development';
 })
 export class IframeComponent {
   exp: any;
+  filters: any;
   page = new Page();
   menu: any;
   p1: any;
@@ -25,6 +26,7 @@ export class IframeComponent {
   @HostListener('window:message', ['$event']) onMessage(event: MessageEvent) {
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('expanded',this.exp);
+    localStorage.setItem('filters',this.filters);
     if(this.p1 && this.partpg?.indexOf('newuniform') == -1){
       this.p1 = JSON.parse(this.p1)
       if(this.p1?.vedp && this.partpg?.indexOf('newvasapplication') !== -1) this.p1.vedp = '';
@@ -39,6 +41,9 @@ export class IframeComponent {
     showWait();
     if(localStorage.getItem('expanded')){
       this.exp = localStorage.getItem('expanded')
+    }
+    if(localStorage.getItem('filters')){
+      this.filters = localStorage.getItem('filters')
     }
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -62,6 +67,7 @@ export class IframeComponent {
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('expanded',this.exp);
+    localStorage.setItem('filters',this.filters);
     if(this.p1) localStorage.setItem('p1',this.p1);
     if(this.p2) localStorage.setItem('p2',this.p2);
     if(this.p1 && this.partpg.indexOf('editcustomer') !== -1){

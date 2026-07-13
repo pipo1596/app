@@ -8,38 +8,40 @@
         <div class="card mx-auto mb-5 mt-5 mh-100">
             <div class="card-body">
 
-                <div class="row g-3">
-                    <div class="col-md-3">
-                        <h6 class="">Uniform Program - {{ page.data?.info?.name + ' - ' + trim(page.rfno) }}</h6>
-                    </div>
-                    <div class="col">
-                        <button class="btn" (click)="loadUP(page.rfno, 'name')"><span class="bi bi-pencil-square" title="Edit UP"></span></button>
-                    </div>
-                    <div class="col-md-2">
-                        <h6 class="me-5">Start Date:<br>{{ dsppbdate(page.data?.info?.effd) }}</h6>
-                    </div>
-                    <div class="col">
-                        <button class="btn" (click)="loadUP(page.rfno, 'effd')"><span class="bi bi-pencil-square" title="Edit Start Date"></span></button>
-                    </div>
-                    <div class="col">
-                        <h6 class="me-5">Expiration Date:<br>{{ dsppbdate(page.data?.info?.expd) }}</h6>
-                    </div>
-                    <div class="col">
-                        <button class="btn" (click)="loadUP(page.rfno, 'expd')"><span class="bi bi-pencil-square" title="Edit Exp Date"></span></button>   
-                    </div>
-                    <div class="col">
-                        <button class="btn">
-                            <span class="bi bi-bell" title=""></span>
-                        </button>
-                        <button class="btn">
-                            <span class="bi bi-question-circle" title="FAQ"></span>
-                        </button>
-                    </div> 
+            <div class="row g-2 align-items-center">
+                <div class="col-md-4 d-flex align-items-center gap-1">
+                    <h6 class="mb-0">Uniform Program - {{ page.data?.info?.name + ' - ' + trim(page.rfno) }}</h6>
+                    <button class="btn btn-sm" (click)="loadUP(page.rfno, 'name')"><span class="bi bi-pencil-square" title="Edit UP"></span></button>
                 </div>
+
+                <div class="col-md-2 d-flex align-items-center gap-1">
+                    <h6 class="mb-0">Start Date:<br>{{ dsppbdate(page.data?.info?.effd) }}</h6>
+                    <button class="btn btn-sm" (click)="loadUP(page.rfno, 'effd')"><span class="bi bi-pencil-square" title="Edit Start Date"></span></button>
+                </div>
+
+                <div class="col-md-2 d-flex align-items-center gap-1">
+                    <h6 class="mb-0">Expiration Date:<br>{{ dsppbdate(page.data?.info?.expd) }}</h6>
+                    <button class="btn btn-sm" (click)="loadUP(page.rfno, 'expd')"><span class="bi bi-pencil-square" title="Edit Exp Date"></span></button>
+                </div>
+
+                <div class="col-auto d-flex align-items-center gap-1">
+                    <h6 class="mb-0">Price List:<br>{{ page.data?.plDesc }}</h6>
+                    <button class="btn btn-sm" (click)="loadUP(page.rfno, 'list')"><span class="bi bi-pencil-square" title="Edit Price List"></span></button>
+                </div>
+
+                <div class="col-auto ms-auto d-flex align-items-center">
+                    <button class="btn">
+                        <span class="bi bi-bell" title=""></span>
+                    </button>
+                    <button class="btn">
+                        <span class="bi bi-question-circle" title="FAQ"></span>
+                    </button>
+                </div>
+            </div>
 
                 <div class="row g-3 mb-3">
                     <div class="col-md-12">
-                        <h6 class="">{{this.upNum}}</h6>
+                        <h6 class="">UP # {{this.upNum}}</h6>
                     </div>         
                 </div>
 

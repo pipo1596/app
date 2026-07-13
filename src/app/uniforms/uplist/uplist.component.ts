@@ -13,6 +13,7 @@ import { environment } from '../../../environments/environment.development';
 })
 export class UplistComponent {
   exp: any;
+  dash: any;
   page = new Page();
   drop = false;
   plno: any;
@@ -29,6 +30,9 @@ export class UplistComponent {
   ngOnInit(): void {
     if(localStorage.getItem('expanded')){
       this.exp = localStorage.getItem('expanded')
+    }
+    if(localStorage.getItem('dash')){
+      this.dash = localStorage.getItem('dash')
     }
     localStorage.clear()
     showWait();
@@ -81,5 +85,11 @@ export class UplistComponent {
 
   trim(value: any){
     return value.replace(/^0+/, '')
+  }
+
+  goBack(){
+    localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
+    this.router.navigate(['/uniforms/dashboard/' + this.page.rfno]);
   }
 }

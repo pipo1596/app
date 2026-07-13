@@ -21,6 +21,7 @@ export class CustomizationComponent {
   retail: any;
   copy: any;
   partpg: any;
+  filters: any;
 
   //Product Parms
   nino: any;
@@ -58,6 +59,10 @@ export class CustomizationComponent {
   ngOnInit(): void {
     if(localStorage.getItem('expanded')){
       this.exp = localStorage.getItem('expanded')
+    }
+
+    if(localStorage.getItem('filters')){
+      this.filters = localStorage.getItem('filters')
     }
     showWait();
     this.setMode();
@@ -297,6 +302,7 @@ export class CustomizationComponent {
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('filters',this.filters)
     this.router.navigate(['/uniforms/iframe/APOELMVFG'])
   }
 
@@ -320,12 +326,14 @@ export class CustomizationComponent {
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('filters',this.filters)
     this.router.navigate(['/uniforms/iframe/APOELMCT'])
   }
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('filters',this.filters)
     if(this.partpg){
       this.router.navigate([this.partpg]);
     } else this.router.navigate(['/uniforms/customizations/' + this.nhno]);
@@ -381,6 +389,7 @@ export class CustomizationComponent {
       if (this.page.data.result == 'pass' && this.page.data.nhno){
         localStorage.setItem('UP_AUTH','Y');
         localStorage.setItem('expanded',this.exp)
+        localStorage.setItem('filters',this.filters)
         if(mode == 'create' && this.page.data.npno){
           if(this.nino) localStorage.setItem('nino',this.nino);
           if(this.cache) localStorage.setItem('cache',this.cache);

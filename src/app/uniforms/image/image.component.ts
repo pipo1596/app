@@ -14,6 +14,7 @@ import { showWait, hideWait } from '../../shared/utils';
 })
 export class ImageComponent {
   exp: any;
+  filters: any;
   checkedImg: any[] = [];
   page = new Page();
   iono: any = "";
@@ -34,6 +35,9 @@ export class ImageComponent {
   ngOnInit(): void {
     if(localStorage.getItem('expanded')){
       this.exp = localStorage.getItem('expanded')
+    }
+    if(localStorage.getItem('filters')){
+      this.filters = localStorage.getItem('filters')
     }
     if(localStorage.getItem('checked')){
       this.checkedImg = localStorage.getItem('checked')?.split(',')!
@@ -103,6 +107,7 @@ export class ImageComponent {
   goBack(){
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('filters',this.filters)
     if(this.npno) {
       this.router.navigate(['/uniforms/images/' + this.page.rfno + '/' + this.npno]);
     } else if(this.checkedImg.length > 0){

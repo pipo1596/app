@@ -92,6 +92,11 @@ export class MassappUpdateComponent {
       this.ctno = p1.ctno;
       this.grpChecked = JSON.parse(p1.checked);
       this.questions = JSON.parse(p1.questions);
+      
+      if(this.type == 'I'){
+        this.v2no = p1.v2no
+        this.oldDfan = p1.oldDfan
+      }
 
       if(p1.processed == 'Y'){
         this.processed = true;
@@ -586,6 +591,8 @@ export class MassappUpdateComponent {
       styl: this.styl,
       vfgn: this.vfgn,
       ctno: this.ctno,
+      v2no: this.type == 'I' ? this.v2no : '',
+      oldDfan: this.type == 'I' ? this.oldDfan: '',
       checked: JSON.stringify(this.grpChecked),
       processed: this.processed ? 'Y' : '',
       questions: JSON.stringify(this.questions),

@@ -166,7 +166,7 @@
                                         <option *ngFor="let answer of page.data?.dfltAnsDrop" [ngValue]="answer.value" [selected]="answer.value == newDfan">{{answer.desc}}</option>
                                     </select>
                                     <!-- Lookup -->
-                                    <ng-container *ngIf="v2type == 'E' && page.data?.dfltNoDrop == 'inq'">
+                                    <ng-container *ngIf="v2type == 'E'">
                                         <div class="row g-3 mb-3">
                                             <div class="col-md-10">
                                                 <input type="text" readonly class="form-control-plaintext">       

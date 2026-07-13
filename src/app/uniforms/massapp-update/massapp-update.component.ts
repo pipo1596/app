@@ -14,6 +14,7 @@ import { environment } from '../../../environments/environment.development';
 export class MassappUpdateComponent {
   //Display
   exp: any;
+  filters: any;
   page = new Page();
   type: any = "";
   v1cd: any = "";
@@ -60,6 +61,9 @@ export class MassappUpdateComponent {
   ngOnInit(): void {
     if(localStorage.getItem('expanded')){
       this.exp = localStorage.getItem('expanded')
+    }
+    if(localStorage.getItem('filters')){
+      this.filters = localStorage.getItem('filters')
     }
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -483,6 +487,7 @@ export class MassappUpdateComponent {
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('filters',this.filters)
     this.router.navigate(['/uniforms/iframe/APOELMIS2'])
   }
 
@@ -593,6 +598,7 @@ export class MassappUpdateComponent {
     localStorage.setItem('menu',menu)
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('filters',this.filters)
     this.router.navigate(['/uniforms/iframe/APOELMIS4'])
   }
 
@@ -614,6 +620,7 @@ export class MassappUpdateComponent {
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('filters',this.filters)
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }
 }

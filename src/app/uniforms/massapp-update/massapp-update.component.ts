@@ -77,6 +77,8 @@ export class MassappUpdateComponent {
   }
 
   getCache(){
+    console.log(localStorage.getItem('p1'));
+    console.log(this.newVedp);
     if (localStorage.getItem('p1')){
       let p1 = JSON.parse(localStorage.getItem('p1')!);
       this.type = p1.type;
@@ -96,6 +98,7 @@ export class MassappUpdateComponent {
       if(this.type == 'I'){
         this.v2no = p1.v2no
         this.oldDfan = p1.oldDfan
+        this.newDfan = this.newVedp
       }
 
       if(p1.processed == 'Y'){

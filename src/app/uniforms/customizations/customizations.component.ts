@@ -61,7 +61,7 @@ export class CustomizationsComponent {
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
     });
-    if(this.filters){
+    if(this.filters && this.filters !== 'undefined'){
       let filtObj = JSON.parse(this.filters)
       this.name = filtObj.name
       this.vitem = filtObj.item

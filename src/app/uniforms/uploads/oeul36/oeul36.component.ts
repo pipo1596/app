@@ -13,6 +13,7 @@ import { showWait, hideWait } from '../../../shared/utils';
   styleUrl: './oeul36.component.css'
 })
 export class OEUL36Component {
+  exp: any;
   page = new Page();
   ulid: any = "";
   iono: any = "";
@@ -27,6 +28,9 @@ export class OEUL36Component {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     localStorage.clear();
     showWait();
     this.route.paramMap.subscribe(params => {
@@ -124,6 +128,7 @@ export class OEUL36Component {
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y')
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/import/' + this.page.rfno]);
   }
 

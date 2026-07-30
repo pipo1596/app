@@ -1,26 +1,38 @@
 <app-header [title]="page.title" [menu]="page.menu" ></app-header>
 
 <div id="container">
-    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu" [exp]="this.exp"></app-sidebar>
 
     <section class="ftco-section bg-light pb-3 pt-5 content w-100">
-        <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
+        <div class="card mx-auto mb-5 mt-5  mh-100">
             <div class="card-body">
                     <form>
                         <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
                         <div class="row g-3">
                             <div class="col-md-9">
-                                <h6>Uniform Program - {{ page.data?.pgName }}</h6>
+                                <h6>Uniform Program - {{ page.data?.pgName  + ' - ' + trim(this.nhno) }}</h6>
                             </div>
                         </div>
 
-                        <div class="row g-3 mb-4">
+                        <div class="row g-3 mb-2">
                             <div class="col-md-9">
                                 <h6><small>Catalog > Customization > Create New Customization</small></h6>
                             </div>
                         </div>
 
-                        <h6 class="card-title ms-1 mb-4"><strong>Basic Customization Information</strong></h6>
+                        <div class="row g-3 mb-2" *ngIf="this.copy">
+                            <div class="col-md-9">
+                                <h5><small>Copied from: {{this.getName(this.copy) + ' (' + trim(this.copy) + ')'}}</small></h5>
+                            </div>
+                        </div>
+
+                        <h6 class="card-title ms-1 mb-3"><strong>Basic Customization Information</strong></h6>
+
+                        <div class="row g-3" *ngIf="this.styl">
+                            <div class="col-md-9 mb-3">
+                                <h4>Style - {{this.styl}}</h4>
+                            </div>
+                        </div>
 
                         <div class="row g-3 mb-4" *ngIf="page.entrymode && !this.nino">
                             <div class="col-md-4">
@@ -32,13 +44,13 @@
                             </div>
                         </div>
 
-                        <div class="row g-3 mb-3" *ngIf="page.entrymode && this.single == 'N' && !this.dropship"> <!-- Single Config Top -->
+                        <div class="row g-3 mb-3" *ngIf="page.entrymode && this.single == 'N' && !this.dropship && !this.retail"> <!-- Single Config Top -->
                             <div class="col-md-9">
                                 <label for="inputCnfg" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Style Configurator Template:</strong> <small class="ms-5" *ngIf="page.entrymode && this.nino"><i>This template is pulled in from your selected style</i></small> </label>
                             </div>
                         </div>       
 
-                        <div class="row g-3 mb-3" *ngIf="page.entrymode && this.single == 'N' && !this.dropship"> <!-- Single Config Top -->
+                        <div class="row g-3 mb-3" *ngIf="page.entrymode && this.single == 'N' && !this.dropship && !this.retail"> <!-- Single Config Top -->
                             <div class="col-md-3">
                                 <input type="text" readonly class="form-control" [value]="vfgdesc ? vfgdesc : ''">
                             </div>
@@ -55,7 +67,7 @@
                         </div>
                         <div class="row g-3 mb-4">
                             <div class="col-md-3">
-                                <input type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="name" [disabled]="this.single == 'N' && !this.vfgn && !this.dropship" (keydown)="this.single == 'N' && page.entrymode && this.vfgn ? ($event.key == 'Backspace' || $event.key == 'ArrowLeft' ? keepVFG($event) : '') : ''">
+                                <input type="text" class="form-control" id="inputItem" name='style' [(ngModel)]="name" [disabled]="this.single == 'N' && !this.vfgn && !this.dropship && !this.retail" (keydown)="this.single == 'N' && page.entrymode && this.vfgn ? ($event.key == 'Backspace' || $event.key == 'ArrowLeft' ? keepVFG($event) : '') : ''">
                             </div>
                         </div>
 
@@ -66,11 +78,11 @@
                         </div>
                         <div class="row g-3 mb-3">
                             <div class="col-md-3">
-                                <input type="text" class="form-control" id="inputDesc" name='description' [(ngModel)]="desc" [disabled]="this.single == 'N' && !this.vfgn && !this.dropship">
+                                <input type="text" class="form-control" id="inputDesc" name='description' [(ngModel)]="desc" [disabled]="this.single == 'N' && !this.vfgn && !this.dropship && !this.retail">
                             </div>
                         </div>
 
-                        <div class="row g-3 mb-3" *ngIf="(!this.dropship || this.copy) && ((page.editmode && this.page.data?.info?.single !== 'Y'))"> <!-- Non Single Config Bottom -->
+                        <div class="row g-3 mb-3" *ngIf="((!this.dropship && !this.retail) || this.copy) && ((page.editmode && this.page.data?.info?.single !== 'Y'))"> <!-- Non Single Config Bottom -->
                             <div class="col-md-3">
                                 <label for="inputCnfg" class="form-label"><span class="text-danger"><strong>* </strong></span><strong>Style Configurator Template:</strong> </label>
                                 <input type="text" readonly class="form-control" [value]="vfgdesc ? vfgdesc : ''" disabled>
@@ -128,10 +140,17 @@
                             </div>
                         </div>
 
-                        <div class="row g-3 mb-5">
+                        <div class="row g-3 mb-3">
                             <div class="col-md-2">
                                 <label for="inputSeq" class="form-label me-2"><strong>Active:</strong></label>
                                 <input type="checkbox" class="form-check-input" (click)="actv == 'Y' ? actv = 'N' : actv = 'Y'" [checked]="actv == 'Y'">
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-5" *ngIf="this.copy">
+                            <div class="col-md-2">
+                                <label for="inputSeq" class="form-label me-2"><strong>Include Images:</strong></label>
+                                <input type="checkbox" class="form-check-input" (click)="img == 'Y' ? img = 'N' : img = 'Y'">
                             </div>
                         </div>
 
@@ -143,8 +162,8 @@
 
                         <div class="d-flex flex-row">
                             <div class="col-md-3">
-                                <button type="submit" class="btn btn-primary me-3" (click)="page.editmode ? loadProduct('update') : loadProduct('create')">Save</button>
-                                <button *ngIf="page.editmode" type="submit" class="btn btn-primary me-3" (click)="loadProduct('delete')">Delete</button>
+                                <button type="submit" class="btn btn-primary me-3" (click)="page.editmode ? loadCustomization('update') : loadCustomization('create')">Save</button>
+                                <button *ngIf="page.editmode" type="submit" class="btn btn-primary me-3" (click)="loadCustomization('delete')">Delete</button>
                                 <button type="submit" class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>
                             </div>
                         </div>

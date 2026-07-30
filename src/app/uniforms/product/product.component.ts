@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 })
 
 export class ProductComponent {
+  exp: any;
   page = new Page();
   drop = false; // More Actions
   copy: any;
@@ -86,6 +87,7 @@ export class ProductComponent {
   hasIW: any;
   showHelp: boolean = false;
   imgprfx = environment.logoprfx;
+  retail: any;
 
   // Input
   desc = "";
@@ -121,6 +123,9 @@ export class ProductComponent {
   ) { hideWait(); }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     this.copy = localStorage.getItem('copy')
     this.setMode();
     this.getProduct();
@@ -235,6 +240,7 @@ export class ProductComponent {
     }
     localStorage.setItem('menu','/cgi/APOELMIS?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/iframe/APOELMIS'])
   }
 
@@ -459,12 +465,14 @@ export class ProductComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     if(this.filters) localStorage.setItem('filters',this.filters)
     this.router.navigate(['/uniforms/products/' + this.nhno]);
   }
 
   goImg() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     if(this.hasIW){
       this.router.navigate(['/uniforms/overrides/' + this.nhno + '/' + this.nino]);
     } else {
@@ -565,6 +573,7 @@ export class ProductComponent {
         if(this.filters) localStorage.setItem('filters',this.filters)
       if (this.page.data.result == 'pass'){
        localStorage.setItem('UP_AUTH','Y');
+       localStorage.setItem('expanded',this.exp)
        this.router.navigate(['/uniforms/products/' + this.nhno]);
       }
 
@@ -596,6 +605,7 @@ export class ProductComponent {
       this.page.data = response;
       if (this.page.data?.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
+        localStorage.setItem('expanded',this.exp)
         this.router.navigate(['/uniforms/products/' + this.page.data?.nhno]);
       }
       this.page.loading = false;
@@ -609,6 +619,7 @@ export class ProductComponent {
     localStorage.setItem('partpg', partpg)
     localStorage.setItem('styl', this.styl)
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/category/' + this.nhno]);
   }
 
@@ -624,14 +635,29 @@ export class ProductComponent {
     let partpg = '/uniforms/product/' + this.nhno + '/' + this.nino
     localStorage.setItem('partpg', partpg)
     localStorage.setItem('vfgn', this.page.data?.info?.vfgn)
-    if(mode == 'drop') localStorage.setItem('ctno', this.page.data?.isctno ? this.page.data.isctno : this.page.data?.info.isctno)
+    if(mode == 'drop' || mode == 'RTL') localStorage.setItem('ctno', this.page.data?.isctno ? this.page.data.isctno : this.page.data?.info.isctno)
+    if(mode == 'drop') localStorage.setItem('drop', 'Y')
+    if(mode == 'RTL') localStorage.setItem('retail', this.page.data?.isctno ? this.page.data.isctno : this.page.data?.info.isctno)
     localStorage.setItem('nino', this.page.data?.info?.nino)
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/newcustomization/' + this.nhno]);
   }
 
   changeImage() {
     this.showUpload = true;
+  }
+
+  showCustomization(){
+    let show = false;
+    if (!(this.page.data?.dropship == 'Y' || this.page.data?.info?.dropship == 'Y') && (this.page.data?.style && this.page.data?.vfgn || this.page.data?.info && this.page.data?.info?.vfgn)) show = true
+    else if (this.page.data?.retail == 'Y' && (this.page.data?.style && this.page.data?.isctno || this.page.data?.info && this.page.data?.info?.isctno)){
+      show = true
+      if(this.page.data?.isctno) {
+        this.retail = this.page.data?.isctno 
+      } else this.retail = this.page.data?.info?.isctno
+    }
+    return show
   }
 
   validate() {

@@ -46,6 +46,17 @@
     margin: -10px 50px;
     white-space: nowrap;
     overflow: hidden;
+    cursor: pointer;
+}
+
+.sidebar-link-target {
+    color: #2581c3;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+    margin: -10px 50px;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
 }
 
 .sidebar-link-sub:hover {

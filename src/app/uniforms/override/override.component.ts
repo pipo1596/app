@@ -293,4 +293,8 @@ export class OverrideComponent {
             this.router.navigate(['/uniforms/overrides/' + this.page.rfno + '/' + this.nino]);
           }
   }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
 }

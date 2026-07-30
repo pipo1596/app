@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
@@ -13,6 +13,8 @@ import { hideWait, showWait, scrollToTopInstant} from '../../shared/utils';
 })
 
 export class ProductsComponent {
+  exp: any;
+  npfilters: any;
   page = new Page();
   assign: any;
   inNano: any;
@@ -27,6 +29,9 @@ export class ProductsComponent {
   //Checkboxes
   checked: any[] = [];
 
+  //Customization Popup
+  openPopupNino: any = null;
+
   //Paging
   p: number = 1;
   itemsPerPage: number = 50;
@@ -39,6 +44,12 @@ export class ProductsComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
+    if(localStorage.getItem('npfilters')){
+      this.npfilters = localStorage.getItem('npfilters')
+    }
     this.assign = localStorage.getItem('assign') ? JSON.parse(localStorage.getItem('assign')!) : '';
     this.inNano = localStorage.getItem('nano') ? JSON.parse(localStorage.getItem('nano')!) : '';
     // if(this.inNano) this.category = this.inNano;
@@ -57,6 +68,7 @@ export class ProductsComponent {
 
   loadProduct(mode: any, nino: any){
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.bldCache();
     switch(mode){
       case 'new':
@@ -148,6 +160,31 @@ export class ProductsComponent {
   trim(value: any){
     return value.replace(/^0+/, '')
   }
+
+  toggleCustPop(nino: any, event: Event){
+    event.stopPropagation();
+    this.openPopupNino = (this.openPopupNino === nino) ? null : nino;
+  }
+
+  popApp(npno: any){
+    localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
+    this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + npno]);
+  }
+
+  @HostListener('document:click')
+  onDocumentClick(){
+    this.closeCustPop();
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscapeKey(){
+    this.closeCustPop();
+  }
+
+  closeCustPop(){
+    this.openPopupNino = null;
+  }
   
   allChecked(){
     for (let x = 0; x < this.page.data?.products.length; x++) {
@@ -199,6 +236,7 @@ export class ProductsComponent {
   inqStyle() {
     localStorage.clear();
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     localStorage.setItem('partpg','/uniforms/products/' + this.page.rfno + '/')
     localStorage.setItem('menu','/cgi/APOELMIS?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     this.router.navigate(['/uniforms/iframe/APOELMIS'])
@@ -206,6 +244,7 @@ export class ProductsComponent {
 
   assignStyles(){
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     let npnos = [];
     let ninos = [];
 
@@ -225,6 +264,8 @@ export class ProductsComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPASSIGN', data).subscribe(response => {
       localStorage.setItem('UP_AUTH','Y');
+      localStorage.setItem('expanded',this.exp)
+      localStorage.setItem('filters',this.npfilters)
       this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
     })
   }
@@ -279,11 +320,14 @@ export class ProductsComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
+      localStorage.setItem('filters',this.npfilters)
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }
 
   goBackNA() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/categories/' + this.page.rfno]);
   }
 

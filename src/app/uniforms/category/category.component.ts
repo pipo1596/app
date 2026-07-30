@@ -12,6 +12,7 @@ import { hideWait, showWait } from '../../shared/utils';
   styleUrl: './category.component.css'
 })
 export class CategoryComponent {
+  exp: any;
   page = new Page();
   drop = false; // More Actions
   copy: any;
@@ -26,6 +27,7 @@ export class CategoryComponent {
   //Input
   name = "";
   pnan: any = ""; 
+  seq: any = ""; 
   upct: any;
 
   constructor(
@@ -35,6 +37,9 @@ export class CategoryComponent {
   ) {}
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     this.setMode();
     showWait();
 
@@ -52,6 +57,8 @@ export class CategoryComponent {
       if (this.copy){
         this.name = 'Copy of ' + this.page.data?.info?.desc;
       } else { this.name = this.page.data?.info?.desc; }
+
+      this.seq = this.page.data?.info?.seq; 
 
       if(this.page.data?.info?.pnan){
         let naparent = {
@@ -123,6 +130,7 @@ export class CategoryComponent {
         nano: this.nano,
         pnan: this.pnan.nano,
         desc: this.name,
+        seq: this.seq,
         upct: (mode == 'update') ? this.upct : ''
       }
   
@@ -132,6 +140,7 @@ export class CategoryComponent {
   
         if (this.page.data.result == 'pass' && this.page.data.nhno){
           localStorage.setItem('UP_AUTH','Y');
+          localStorage.setItem('expanded',this.exp)
           localStorage.setItem('styl', this.styl);
           localStorage.setItem('cache', this.cache);
 
@@ -154,10 +163,15 @@ export class CategoryComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     if(this.partpg) {
       localStorage.setItem('styl',this.styl);
       this.router.navigate([this.partpg]);
     } else this.router.navigate(['/uniforms/categories/' + this.nhno]);
+  }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
   }
 
 }

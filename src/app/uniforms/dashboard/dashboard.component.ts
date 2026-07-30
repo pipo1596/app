@@ -13,9 +13,12 @@ import { convertToDate, formatDateUS, hideWait } from '../../shared/utils';
 })
 
 export class DashboardComponent {
+  exp: any;
   page = new Page();
   imgprfx = environment.logoprfx;
   upNum: any = "";
+  notes: any = "";
+  plno: any = "";
 
   constructor(private http: HttpClient,
     private router: Router,
@@ -42,11 +45,14 @@ export class DashboardComponent {
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
       if (this.page.data.info.effd) this.page.data.info.effd = this.page.data.info.effd;
       if (this.page.data.info.expd) this.page.data.info.expd = this.page.data.info.expd;
+      if (this.page.data.info.expd) this.notes = this.page.data.notes;
+      if (this.page.data?.plno) this.plno = this.page.data.plno;
     });
   }
 
   loadProduct (menu: any) {
     localStorage.setItem('UP_AUTH','Y')
+    localStorage.setItem('expanded',this.exp)
     switch(menu){
       case 'addProduct':
         this.router.navigate(['uniforms/newproduct/' + this.page.rfno]);
@@ -68,11 +74,13 @@ export class DashboardComponent {
 
   loadWarehouse(){
     localStorage.setItem('UP_AUTH','Y')
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/warehouse/' + this.page.rfno]);
   }
 
   loadPricing(menu: any){
     localStorage.setItem('UP_AUTH','Y')
+    localStorage.setItem('expanded',this.exp)
     switch(menu){
       case 'addList':
         this.router.navigate(['/uniforms/uplist/' + this.page.rfno]);
@@ -85,6 +93,8 @@ export class DashboardComponent {
 
   loadUP(nhno: any, mode: any){
     localStorage.setItem('UP_AUTH','Y')
+    localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('dash','Y')
     switch(mode){
       case 'name':
         this.router.navigate(['/uniforms/upname/' + this.page.rfno]);
@@ -95,10 +105,18 @@ export class DashboardComponent {
       case 'expd':
         this.router.navigate(['/uniforms/upexpd/' + this.page.rfno]);
         break;
+      case 'list':
+        this.router.navigate(['/uniforms/uplist/' + this.page.rfno]);
+        break;
     }
   }
 
   dsppbdate(date:any){
+    if (!date) return '';
     return formatDateUS(new Date(convertToDate(date)));
+  }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
   }
 }

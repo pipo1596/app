@@ -12,6 +12,7 @@ import { showWait, hideWait } from '../../shared/utils';
   styleUrl: './vas-question.component.css'
 })
 export class VasQuestionComponent {
+  exp: any;
   page = new Page();
   errors: any;
   application: any;
@@ -20,6 +21,7 @@ export class VasQuestionComponent {
   type: any;
   all: any;
   nino: any;
+  retail: any;
 
   //Input
   desc: any; // Description
@@ -53,6 +55,10 @@ export class VasQuestionComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
+
     if(localStorage.getItem('allexpand')){
       this.all = localStorage.getItem('allexpand')
     }
@@ -130,6 +136,7 @@ export class VasQuestionComponent {
       if (this.page.data?.info?.lkqt) this.lkqt = this.page.data.info.lkqt;
       if (this.page.data?.info?.dflk) this.dflk = this.page.data.info.dflk;
       if (this.page.data?.info?.upct) this.upct = this.page.data.info.upct;
+      if (this.page.data?.retail) this.retail = this.page.data.retail;
 
       if(this.page.data?.dfltNoDrop == 'inq' && this.vhno){
         this.dfan = this.vhno
@@ -149,10 +156,10 @@ export class VasQuestionComponent {
         this.page.data.vsmtDrop = this.page.data.vsmtDrop.sort((a: any, b: any) => a.value.localeCompare(b.value));
       }
 
-      if(this.type == 'D' && this.rule == 'R'){
-        (<HTMLInputElement>document.getElementById('dflk')).checked = true;
-        (<HTMLInputElement>document.getElementById('dflk')).disabled = true;
-      }
+      // if(this.type == 'D' && this.rule == 'R'){
+      //   (<HTMLInputElement>document.getElementById('dflk')).checked = true;
+      //   (<HTMLInputElement>document.getElementById('dflk')).disabled = true;
+      // }
 
       hideWait();
       this.page.loading = false;
@@ -224,6 +231,36 @@ export class VasQuestionComponent {
 
       if (this.page.data.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
+        localStorage.setItem('expanded',this.exp)
+        localStorage.setItem('allexpand',this.all ? 'Y' : '');
+        if(this.nino) localStorage.setItem('nino',this.nino);
+        this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + this.npno]);
+      } else {
+        this.errors = this.page.data.errors
+        this.getQuestion();
+      }
+    });
+  }
+
+  deleteQuestion(){
+    this.errors = "";
+    let data = {
+      mode: 'delete',
+      nhno: this.page.rfno,
+      npno: this.npno,
+      n1no: this.application?.n1no, 
+      n2no: this.application?.n2no,
+      v1cd: this.application?.v1cd,
+      v2no: this.application?.v2no,
+      type: this.type
+    }
+      this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2', data).subscribe(response => {
+      this.page.data = response;
+      if(this.page.data?.upct) this.upct = this.page.data.upct;
+
+      if (this.page.data.result == 'pass'){
+        localStorage.setItem('UP_AUTH','Y');
+        localStorage.setItem('expanded',this.exp)
         localStorage.setItem('allexpand',this.all ? 'Y' : '');
         if(this.nino) localStorage.setItem('nino',this.nino);
         this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + this.npno]);
@@ -254,6 +291,7 @@ export class VasQuestionComponent {
     localStorage.setItem('p2',this.all ? 'Y' : '');
     let menu = '/cgi/APOELMVH?PAMODE=*INQ&PMV1CD=' + this.application.v1cd + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N'
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     localStorage.setItem('partpg','/uniforms/vasquestion/' + this.page.rfno + '/' + this.npno + '/');
     localStorage.setItem('menu',menu);
     if(this.nino) localStorage.setItem('nino',this.nino);
@@ -266,6 +304,7 @@ export class VasQuestionComponent {
     localStorage.setItem('p2',this.all ? 'Y' : '');
     let menu = '/cgi/APOELMIS4?PAMODE=*INQ&PMVSMT=EMBLEM' + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     localStorage.setItem('partpg','/uniforms/vasquestion/' + this.page.rfno + '/' + this.npno + '/');
     localStorage.setItem('menu',menu);
     if(this.nino) localStorage.setItem('nino',this.nino);
@@ -274,6 +313,7 @@ export class VasQuestionComponent {
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     localStorage.setItem('allexpand',this.all ? 'Y' : '');
     if(this.nino) localStorage.setItem('nino',this.nino);
     this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + this.npno]);

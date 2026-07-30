@@ -13,6 +13,8 @@ import { environment } from '../../../environments/environment.development';
 })
 export class MassappAddComponent {
   //Display
+  exp: any;
+  filters: any;
   page = new Page();
   v1cd: any = "";
   message: any = "";
@@ -53,6 +55,12 @@ export class MassappAddComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
+    if(localStorage.getItem('filters')){
+      this.filters = localStorage.getItem('filters')
+    }
     if (localStorage.getItem('p1')) this.getCache();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -412,6 +420,8 @@ export class MassappAddComponent {
     let menu = '/cgi/APOELMIS2?PAMODE=*INQ&PMV1CD=' + this.v1cd + '&PMACNO=' + this.acno  + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('filters',this.filters)
     this.router.navigate(['/uniforms/iframe/APOELMIS2'])
   }
 
@@ -476,6 +486,8 @@ export class MassappAddComponent {
     let menu = '/cgi/APOELMIS4?PAMODE=*INQ&PMVSMT=EMBLEM' + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('menu',menu)
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('filters',this.filters)
     this.router.navigate(['/uniforms/iframe/APOELMIS4'])
   }
 
@@ -501,6 +513,8 @@ export class MassappAddComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('filters',this.filters)
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }
 }

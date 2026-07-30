@@ -1,10 +1,13 @@
-import { Component} from '@angular/core';
+import { Component, QueryList, ViewChildren } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait, convertToDate, formatDateUS } from '../../shared/utils';
 import { AppQuestionsService } from '../../services/app-questions.service';
+import { VasQuestionsComponent } from '../vas-questions/vas-questions.component';
+import { forkJoin, of, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vas-applications',
@@ -14,13 +17,17 @@ import { AppQuestionsService } from '../../services/app-questions.service';
 })
 
 export class VasApplicationsComponent {
+  @ViewChildren(VasQuestionsComponent) vasQuestions!: QueryList<VasQuestionsComponent>;
+  exp: any;
   page = new Page();
   allexpanded: boolean = false;
   expanded: any[] = [];
 
   // Input 
+  filters: any;
   npno: any;
   nino: any;
+  styl: any;
   vsmt: any;
   cache: any;
   p1: any;
@@ -34,6 +41,8 @@ export class VasApplicationsComponent {
   itemsPerPage: number = 50;
   total: number = 0;
 
+  
+
   constructor(private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
@@ -41,6 +50,12 @@ export class VasApplicationsComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
+    if(localStorage.getItem('filters')){
+      this.filters = localStorage.getItem('filters')
+    }
     this.expanded = [];
     this.checked = [];
     this.route.paramMap.subscribe(params => {
@@ -53,6 +68,7 @@ export class VasApplicationsComponent {
     }
     if(localStorage.getItem('nino')){
       this.nino = localStorage.getItem('nino')
+      this.styl = this.getStyl()
     }
     if(localStorage.getItem('cache')){
       this.cache = localStorage.getItem('cache')
@@ -114,9 +130,28 @@ export class VasApplicationsComponent {
     } return false;
   }
 
-  expandApplication(application: any){
+  saveExpanded(): Observable<boolean> {
+    if (!this.vasQuestions || this.vasQuestions.length === 0) {
+      return of(true);
+    }
 
+    const saves: Observable<boolean>[] = this.vasQuestions.map(q => {
+      const result = q.saveQuestions('silent');
+      return (result instanceof Observable) ? result : of(true);
+    });
+
+    return forkJoin(saves).pipe(
+      map(results => results.every(r => r === true))
+    );
+  }
+
+  expandApplication(application: any){
+    showWait();
     if(this.chkExpanded(application)){
+
+      this.saveExpanded().subscribe(allPassed => {
+        if (!allPassed) return;
+
       for(let i = 0; i < this.expanded.length; i++){
         if(JSON.stringify(this.expanded[i]) == JSON.stringify(application)){
           this.expanded.splice(i,1)
@@ -125,6 +160,7 @@ export class VasApplicationsComponent {
       // this.expanded.splice(this.expanded.indexOf(application),1)
       this.questionService.clrApp(application)
       this.allexpanded = false;
+     });
     } else{
       this.expanded.push(application)
       this.questionService.setApp(application)
@@ -136,6 +172,7 @@ export class VasApplicationsComponent {
         }
       }
     }
+    hideWait();
   }
 
   expandAll(){
@@ -161,6 +198,7 @@ export class VasApplicationsComponent {
 
   loadApplication(mode: any, n1no: any){
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     if(this.nino) localStorage.setItem('nino',this.nino);
     switch(mode){
       case 'new':
@@ -244,12 +282,21 @@ export class VasApplicationsComponent {
     }    
   }
 
+  validate(n1no: string){
+    if(confirm("Are you sure you want to delete this application?")){
+      this.deleteApplication(n1no)
+    }
+  }
+
+
   trim(value: any){
     return value.replace(/^0+/, '')
   }
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('filters',this.filters)
     localStorage.setItem('rtpg', this.page.data?.npname);
     localStorage.setItem('p2', this.p2);
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
@@ -257,8 +304,23 @@ export class VasApplicationsComponent {
 
   goProduct() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     if(this.cache) localStorage.setItem('cache',this.cache);
     this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + this.nino]);
+  }
+
+  getStyl(){
+    let temp = new Page();
+    let data = {
+      mode: 'getStyl',
+      nhno: this.page.rfno,
+      nino: this.nino
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
+      temp.data = response;
+      if (temp.data?.styl) this.styl = temp.data?.styl
+    });
   }
 
   dsppbdate(date:any){

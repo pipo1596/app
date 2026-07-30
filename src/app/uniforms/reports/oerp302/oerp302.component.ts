@@ -13,6 +13,7 @@ import { SessionService } from '../../../services/session.service';
   styleUrl: './oerp302.component.css'
 })
 export class OERP302Component {
+  exp: any;
   page = new Page();
   security: any;
   upload = "";
@@ -37,6 +38,9 @@ export class OERP302Component {
   ) { }
 
   async ngOnInit() {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     localStorage.clear();
     this.security = await this.sessionService.getSession();
     this.showEmail = false;
@@ -136,6 +140,7 @@ export class OERP302Component {
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/export/' + this.page.rfno]);
   }
 

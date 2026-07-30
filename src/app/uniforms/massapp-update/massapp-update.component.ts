@@ -13,6 +13,8 @@ import { environment } from '../../../environments/environment.development';
 })
 export class MassappUpdateComponent {
   //Display
+  exp: any;
+  filters: any;
   page = new Page();
   type: any = "";
   v1cd: any = "";
@@ -57,6 +59,12 @@ export class MassappUpdateComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
+    if(localStorage.getItem('filters')){
+      this.filters = localStorage.getItem('filters')
+    }
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
       this.newVedp = params.get('vedp');
@@ -69,6 +77,8 @@ export class MassappUpdateComponent {
   }
 
   getCache(){
+    console.log(localStorage.getItem('p1'));
+    console.log(this.newVedp);
     if (localStorage.getItem('p1')){
       let p1 = JSON.parse(localStorage.getItem('p1')!);
       this.type = p1.type;
@@ -84,6 +94,12 @@ export class MassappUpdateComponent {
       this.ctno = p1.ctno;
       this.grpChecked = JSON.parse(p1.checked);
       this.questions = JSON.parse(p1.questions);
+      
+      if(this.type == 'I'){
+        this.v2no = p1.v2no
+        this.oldDfan = p1.oldDfan
+        this.newDfan = this.newVedp
+      }
 
       if(p1.processed == 'Y'){
         this.processed = true;
@@ -478,6 +494,8 @@ export class MassappUpdateComponent {
     let menu = '/cgi/APOELMIS2?PAMODE=*INQ&PMV1CD=' + this.v1cd + '&PMACNO=' + this.acno + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('filters',this.filters)
     this.router.navigate(['/uniforms/iframe/APOELMIS2'])
   }
 
@@ -576,6 +594,8 @@ export class MassappUpdateComponent {
       styl: this.styl,
       vfgn: this.vfgn,
       ctno: this.ctno,
+      v2no: this.type == 'I' ? this.v2no : '',
+      oldDfan: this.type == 'I' ? this.oldDfan: '',
       checked: JSON.stringify(this.grpChecked),
       processed: this.processed ? 'Y' : '',
       questions: JSON.stringify(this.questions),
@@ -587,6 +607,8 @@ export class MassappUpdateComponent {
     let menu = '/cgi/APOELMIS4?PAMODE=*INQ&PMVSMT=EMBLEM' + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('menu',menu)
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('filters',this.filters)
     this.router.navigate(['/uniforms/iframe/APOELMIS4'])
   }
 
@@ -607,6 +629,8 @@ export class MassappUpdateComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('filters',this.filters)
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }
 }

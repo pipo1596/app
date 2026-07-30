@@ -152,4 +152,8 @@ export class OverridesComponent {
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + this.nino]);
   }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
 }

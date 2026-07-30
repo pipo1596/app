@@ -12,6 +12,8 @@ import { environment } from '../../../environments/environment.development';
   styleUrl: './uplist.component.css'
 })
 export class UplistComponent {
+  exp: any;
+  dash: any;
   page = new Page();
   drop = false;
   plno: any;
@@ -26,6 +28,12 @@ export class UplistComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
+    if(localStorage.getItem('dash')){
+      this.dash = localStorage.getItem('dash')
+    }
     localStorage.clear()
     showWait();
     this.route.paramMap.subscribe(params => {
@@ -40,6 +48,7 @@ export class UplistComponent {
     localStorage.setItem('partpg','/uniforms/uplist/' + this.page.rfno + '/')
     localStorage.setItem('menu','/cgi/APOELMPL?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     localStorage.setItem('UP_AUTH','Y')
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/iframe/APOELMPL'])
   }
 
@@ -72,5 +81,15 @@ export class UplistComponent {
       this.page.loading = false;
       hideWait();
     });
+  }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
+
+  goBack(){
+    localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
+    this.router.navigate(['/uniforms/dashboard/' + this.page.rfno]);
   }
 }

@@ -2,17 +2,17 @@
 
 <div id="container">
     
-    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu" [exp]="this.exp"></app-sidebar>
 
     <section class="ftco-section bg-light pb-3 pt-5 content w-100">
-        <div class="card mx-auto mb-5 mt-5 w-75 mh-100">
+        <div class="card mx-auto mb-5 mt-5  mh-100">
             <div class="card-body">
                     <form>
                         <h6 class="mb-3" *ngIf="this.errors"><strong class="text-danger">{{this.errors}}</strong></h6>
                         <h6 class="mb-3" *ngIf="page.data?.result == 'pass' && page.data.acno"><strong class="text-primary">Customer Updated Successfully</strong></h6>
                         <div class="row g-3">
                             <div class="col-md-10">
-                                <h6>Uniform Program - {{ page.data?.pgName }}</h6>
+                                <h6>Uniform Program - {{ page.data?.pgName + ' - ' + trim(this.nhno) }}</h6>
                             </div>
                         </div>
 

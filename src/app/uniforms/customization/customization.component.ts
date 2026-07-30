@@ -14,14 +14,18 @@ import { hideWait, showWait } from '../../shared/utils';
 })
 
 export class CustomizationComponent {
+  exp: any;
   page = new Page();
   drop = false; // More Actions
   dropship = false;
+  retail: any;
   copy: any;
   partpg: any;
+  filters: any;
 
   //Product Parms
   nino: any;
+  styl: any;
 
   // Parms
   nhno: any;
@@ -37,12 +41,12 @@ export class CustomizationComponent {
   ctno: any = "";
   ctdesc: any = "";
   effd: any = "";
-  // effdUsa: any;
   expd: any = "";
-  // expdUsa: any;
   seq: any = "";
   actv: any;
+  img: any;
   single: any = "N";
+  rtlStyl: any;
 
 
   constructor(
@@ -53,6 +57,13 @@ export class CustomizationComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
+
+    if(localStorage.getItem('filters')){
+      this.filters = localStorage.getItem('filters')
+    }
     showWait();
     this.setMode();
 
@@ -90,6 +101,9 @@ export class CustomizationComponent {
       if (this.page.data?.info?.seq && !this.seq) this.seq = this.page.data.info.seq
       if (this.page.data?.info?.stat && !this.actv) this.actv = this.page.data.info.stat
       if (this.page.data?.info?.upct) this.upct = this.page.data.info.upct
+      if (this.page.data?.retail){
+        this.retail = this.page.data?.retail
+      }
       this.page.loading = false;
       hideWait();
     });
@@ -118,7 +132,10 @@ export class CustomizationComponent {
     }
 
     if(localStorage.getItem('ctno') && !this.ctno){
-      this.dropship = true;
+      if(localStorage.getItem('drop')) this.dropship = true;
+      if(!this.dropship){
+        this.retail = localStorage.getItem('retail');
+      }
       this.vfgn = '';
       this.ctno = localStorage.getItem('ctno');
     }
@@ -139,6 +156,7 @@ export class CustomizationComponent {
       this.nino = p1.nino ? p1.nino : this.nino;
       this.seq = p1.seq;
       this.copy = p1.copy ? p1.copy : '';
+      this.drop = p1.drop ? p1.drop : '';
     }
 
     if(localStorage.getItem('p2')){
@@ -164,6 +182,10 @@ export class CustomizationComponent {
     } else { 
       this.page.entrymode = true;
       this.page.editmode = false;
+    }
+
+    if(this.nino){
+      this.styl = this.getStyl()
     }
   }
 
@@ -196,6 +218,36 @@ export class CustomizationComponent {
       temp.data = response;
       if (temp.data?.ct_desc) this.ctdesc = temp.data?.ct_desc
       if (mode == 'single' && temp.data?.ctno) this.ctno = temp.data?.ctno
+    });
+  }
+
+  getName(npno: any){
+    let name = ""
+    let temp = new Page();
+    let data = {
+      mode: 'getName',
+      nhno: this.nhno,
+      npno: npno
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
+      temp.data = response;
+      if (temp.data?.name) name = temp.data?.name
+    });
+    return name
+  }
+
+  getStyl(){
+    let temp = new Page();
+    let data = {
+      mode: 'getStyl',
+      nhno: this.nhno,
+      nino: this.nino
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
+      temp.data = response;
+      if (temp.data?.styl) this.styl = temp.data?.styl
     });
   }
 
@@ -249,6 +301,8 @@ export class CustomizationComponent {
 
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('filters',this.filters)
     this.router.navigate(['/uniforms/iframe/APOELMVFG'])
   }
 
@@ -271,11 +325,15 @@ export class CustomizationComponent {
     let menu = '/cgi/APOELMCT?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('filters',this.filters)
     this.router.navigate(['/uniforms/iframe/APOELMCT'])
   }
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('filters',this.filters)
     if(this.partpg){
       this.router.navigate([this.partpg]);
     } else this.router.navigate(['/uniforms/customizations/' + this.nhno]);
@@ -291,7 +349,7 @@ export class CustomizationComponent {
     }
   }
 
-  loadProduct(mode: string){
+  loadCustomization(mode: string){
     showWait();
     let data = {}
 
@@ -317,8 +375,10 @@ export class CustomizationComponent {
         nino: (this.nino) ? this.nino : '',
         upct: (mode == 'update') ? this.upct : '',
         drop: this.dropship ? 'Y' : '',
+        retail: this.retail ? this.retail : '',
         single: this.single,
-        copy: this.copy ? this.copy : ''
+        copy: this.copy ? this.copy : '',
+        img: (this.img == 'Y') ? this.img : ''
       }
     }
 
@@ -328,6 +388,8 @@ export class CustomizationComponent {
 
       if (this.page.data.result == 'pass' && this.page.data.nhno){
         localStorage.setItem('UP_AUTH','Y');
+        localStorage.setItem('expanded',this.exp)
+        localStorage.setItem('filters',this.filters)
         if(mode == 'create' && this.page.data.npno){
           if(this.nino) localStorage.setItem('nino',this.nino);
           if(this.cache) localStorage.setItem('cache',this.cache);

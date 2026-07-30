@@ -13,6 +13,9 @@ import { showWait, hideWait } from '../../shared/utils';
   styleUrl: './image.component.css'
 })
 export class ImageComponent {
+  exp: any;
+  filters: any;
+  checkedImg: any[] = [];
   page = new Page();
   iono: any = "";
   desc: any = "";
@@ -30,6 +33,15 @@ export class ImageComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
+    if(localStorage.getItem('filters')){
+      this.filters = localStorage.getItem('filters')
+    }
+    if(localStorage.getItem('checked')){
+      this.checkedImg = localStorage.getItem('checked')?.split(',')!
+    }
     localStorage.clear();
     showWait();
     this.route.paramMap.subscribe(params => {
@@ -41,6 +53,10 @@ export class ImageComponent {
       this.accept = '.gif,.jpeg,.jpg,.tif,.png,.bmp'
       this.iofile = 'FPOENP'
       this.iofkey = this.npno
+    } else if(this.checkedImg){
+      this.accept = '.gif,.jpeg,.jpg,.tif,.png,.bmp'
+      this.iofile = 'FPOENP'
+      this.iofkey = '***' + this.checkedImg.toString()
     } else {
       this.accept = '.txt,.doc,.docx,.pdf,.xls,.xlsx,.ppt,.pptx,.gif,.jpeg,.jpg,.tif,.png,.bmp,.dst,.msg,.html,.htm'
       this.iofile = 'FPOENH'
@@ -90,10 +106,18 @@ export class ImageComponent {
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('filters',this.filters)
     if(this.npno) {
       this.router.navigate(['/uniforms/images/' + this.page.rfno + '/' + this.npno]);
+    } else if(this.checkedImg.length > 0){
+      this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
     } else this.router.navigate(['/uniforms/images/' + this.page.rfno]);
 
+  }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
   }
 
 }

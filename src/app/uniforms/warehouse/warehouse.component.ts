@@ -12,6 +12,7 @@ import { environment } from '../../../environments/environment.development';
   styleUrl: './warehouse.component.css'
 })
 export class WarehouseComponent {
+  exp: any;
   page = new Page();
   drop = false;
   whno: any = "";
@@ -24,6 +25,9 @@ export class WarehouseComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     localStorage.clear();
     showWait();
     this.route.paramMap.subscribe(params => {
@@ -32,8 +36,17 @@ export class WarehouseComponent {
     this.loadWarehouse('getInfo')
   }
 
+  validateLoad(mode: any){
+    if(this.page.data?.info?.whno == 'LEX' && (this.whno !== 'LEX')) {
+      if(confirm("Are you sure you want to change this UP from LEX to Retail? Changing it back could be difficult if changes are made to VAS while in Retail Mode.")){
+        this.loadWarehouse(mode)
+      }
+    } else this.loadWarehouse(mode)
+  }
+
   loadWarehouse(mode: any){
     showWait();
+    let whnoI = this.page.data?.info?.whno
     let data = {
       mode: mode,
       nhno: this.page.rfno,
@@ -47,6 +60,7 @@ export class WarehouseComponent {
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
       if (this.page.data?.warehouses) this.warehouses = this.page.data.warehouses;
       if (this.page.data?.info?.whno) this.whno = this.page.data.info.whno;
+      if(this.page.data?.errors) this.whno = whnoI
       this.page.loading = false;
       hideWait();
     });
@@ -54,7 +68,12 @@ export class WarehouseComponent {
 
   goCategories(){
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/categories/' + this.page.rfno]);
+  }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
   }
 
 }

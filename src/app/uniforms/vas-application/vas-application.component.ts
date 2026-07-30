@@ -13,10 +13,12 @@ import { hideWait, showWait } from '../../shared/utils';
 })
 
 export class VasApplicationComponent {
+  exp: any;
   page = new Page();
   drop = false; // More Actions
   dropship = false; 
   single = false; 
+  retail: any;
   copy: any;
   errors: any;
 
@@ -48,6 +50,9 @@ export class VasApplicationComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     this.setMode();
     localStorage.clear();
     this.getApplication();
@@ -80,6 +85,7 @@ export class VasApplicationComponent {
       if (this.page.data?.upct) this.upct = this.page.data.upct;
       if (this.page.data?.dropship == 'Y') this.dropship = true;
       if (this.page.data?.single == 'Y') this.dropship = true;
+      if (this.page.data?.retail) this.retail = this.page.data.retail;
       if (this.page.data?.v1cd && this.page.editmode) this.v1cd = this.page.data.v1cd
       if (this.page.data?.v1cd_desc) this.v1cdDesc = this.page.data.v1cd_desc
       if (this.page.data?.v1cd && this.page.entrymode){
@@ -116,6 +122,7 @@ export class VasApplicationComponent {
     let menu = '/cgi/APOELMIS2?PAMODE=*INQ&PMV1CD=' + this.v1cd + '&PMACNO=' + this.acno + '&PMDROP=' + (this.dropship ? 'Y' : '') + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/iframe/APOELMIS2'])
   }
 
@@ -138,6 +145,21 @@ export class VasApplicationComponent {
     this.vedp = ""
     this.vedpDesc = ""
     this.vedpSku = ""
+    this.desc = ""
+    const v1Input = document.getElementById('v1Input') as HTMLSelectElement;
+
+    if(v1Input.value){
+      let temp = new Page();
+      let data = {
+        nhno: this.nhno,
+        mode: 'getV1Desc',
+        v1cd: this.v1cd
+      }
+      this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV1', data).subscribe(response => {
+        temp.data = response;
+        if (temp.data?.v1cd_desc) this.desc = temp.data?.v1cd_desc
+      });
+    }
 
     if(!this.vedp){
       let temp = new Page();
@@ -198,6 +220,7 @@ export class VasApplicationComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
     if(this.nino) localStorage.setItem('nino',this.nino)
     this.router.navigate(['/uniforms/vasapplications/' + this.nhno + '/' + this.npno]);
   }
@@ -220,6 +243,7 @@ export class VasApplicationComponent {
       upct: (mode == 'update') ? this.upct : '',
       drop: (this.dropship) ? 'Y': '',
       single: (this.single) ? 'Y': '',
+      retail: (this.retail) ? this.retail: '',
       seq: this.seq
     }
 
@@ -229,6 +253,7 @@ export class VasApplicationComponent {
 
       if (this.page.data.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
+        localStorage.setItem('expanded',this.exp)
         if(this.nino && this.nino !== 'null' && this.nino !== null) localStorage.setItem('nino',this.nino)
         this.router.navigate(['/uniforms/vasapplications/' + this.nhno + '/' + this.npno]);
       } else {
@@ -252,6 +277,7 @@ export class VasApplicationComponent {
       this.page.data = response;
       if (this.page.data.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
+        localStorage.setItem('expanded',this.exp)
         if(this.nino) localStorage.setItem('nino',this.nino)
         this.router.navigate(['/uniforms/vasapplications/' + this.nhno + '/' + this.npno]);
       }

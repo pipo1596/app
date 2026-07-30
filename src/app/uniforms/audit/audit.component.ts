@@ -12,6 +12,7 @@ import { hideWait, showWait, convertToDate, formatDateUS, dbtodsptime} from '../
   styleUrl: './audit.component.css'
 })
 export class AuditComponent {
+  exp: any;
   page = new Page();
   drop = false;
   errors: any;
@@ -107,5 +108,9 @@ export class AuditComponent {
     showWait();
     this.p = event
     this.getAudits('');
+  }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
   }
 }

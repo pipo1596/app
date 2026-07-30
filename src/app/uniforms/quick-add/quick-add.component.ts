@@ -80,10 +80,12 @@ export class QuickAddComponent implements AfterViewInit {
   assignStyles(){
     this.errors = "";
     let inputs = this.itemInputs.toArray()
-    let items = []
+    let items: string[] = []
     for (let i = 0; i < inputs.length; i++){
       if(inputs[i].nativeElement.value !== ''){
-        items.push(inputs[i].nativeElement.value);
+        if(!items.includes(inputs[i].nativeElement.value)){
+          items.push(inputs[i].nativeElement.value);
+        }
       }
     }
 
@@ -154,5 +156,9 @@ export class QuickAddComponent implements AfterViewInit {
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/categories/' + this.nhno]);
+  }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
   }
 }

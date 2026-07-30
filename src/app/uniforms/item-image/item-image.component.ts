@@ -13,6 +13,7 @@ import { hideWait, showWait } from '../../shared/utils';
 })
 
 export class ItemImageComponent {
+  exp: any;
   page = new Page();
   errors: any;
 
@@ -45,6 +46,9 @@ export class ItemImageComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
     this.setMode();
     this.getImage();
   }
@@ -228,5 +232,9 @@ export class ItemImageComponent {
       this.page.loading = false;
       hideWait();
     });
+  }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
   }
 }

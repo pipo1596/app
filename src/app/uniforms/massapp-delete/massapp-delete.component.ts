@@ -13,6 +13,8 @@ import { environment } from '../../../environments/environment.development';
 })
 export class MassappDeleteComponent {
   //Display
+  exp: any;
+  filters: any;
   page = new Page();
   v1cd: any = "";
   errors: any;
@@ -39,6 +41,12 @@ export class MassappDeleteComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
+    if(localStorage.getItem('filters')){
+      this.filters = localStorage.getItem('filters')
+    }
     localStorage.clear();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -214,6 +222,8 @@ export class MassappDeleteComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('filters',this.filters)
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }
 }

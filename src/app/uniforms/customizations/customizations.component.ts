@@ -13,6 +13,7 @@ import { hideWait, showWait } from '../../shared/utils';
 })
 
 export class CustomizationsComponent {
+  exp: any;
   page = new Page();
   drop = false; // More Actions
 
@@ -29,9 +30,11 @@ export class CustomizationsComponent {
   ctno: any;
   lsdt: any;
   lsdtUsa: any;
+  filters: any;
 
   //Checkboxes
   checked: any[] = [];
+  checkedImg: any[] = [];
   assigned: any[] = [];
 
   //Paging
@@ -46,13 +49,32 @@ export class CustomizationsComponent {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('expanded')){
+      this.exp = localStorage.getItem('expanded')
+    }
+    if(localStorage.getItem('filters')){
+      this.filters = localStorage.getItem('filters')
+    }
     if(localStorage.getItem('rtpg')) this.rtpg = localStorage.getItem('rtpg');
     if(localStorage.getItem('p2')) this.p = parseInt(localStorage.getItem('p2')!);
     localStorage.clear();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
     });
+    if(this.filters && this.filters !== 'undefined'){
+      let filtObj = JSON.parse(this.filters)
+      this.name = filtObj.name
+      this.vitem = filtObj.item
+      this.app = filtObj.app
+      this.img = filtObj.img
+      this.npno = filtObj.number
+      this.lvl = filtObj.items
+      this.styl = filtObj.style
+      this.vfg = filtObj.template
+      this.ctno = filtObj.category
+    }
     this.getCustomizations('')
+
   }
 
   // For discontinued mass update functions
@@ -62,7 +84,20 @@ export class CustomizationsComponent {
   // }
 
   loadAction(action: any){
+    let filters = {
+      'name': this.name,
+      'item': this.vitem,
+      'app': this.app,
+      'img': this.img,
+      'number': this.npno,
+      'items': this.lvl,
+      'style': this.styl,
+      'template': this.vfg,
+      'category': this.ctno
+    }
+    localStorage.setItem('filters', JSON.stringify(filters))
     localStorage.setItem('UP_AUTH','Y')
+    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/massapp' + action + '/' + this.page.rfno]);
   }
 
@@ -143,7 +178,20 @@ export class CustomizationsComponent {
   }
 
   loadCustomization(mode: any, npno: any){
+    let filters = {
+      'name': this.name,
+      'item': this.vitem,
+      'app': this.app,
+      'img': this.img,
+      'number': this.npno,
+      'items': this.lvl,
+      'style': this.styl,
+      'template': this.vfg,
+      'category': this.ctno
+    }
+    localStorage.setItem('filters', JSON.stringify(filters))
     localStorage.setItem('UP_AUTH','Y')
+    localStorage.setItem('expanded',this.exp)
     localStorage.setItem('p2',JSON.stringify(this.page))
     switch(mode){
       case 'new':
@@ -192,8 +240,20 @@ export class CustomizationsComponent {
     } return true;
   }
 
+  allCheckedImg(){
+    for (let i = 0; i < this.page.data?.customizations.length; i++) {
+      if(!(this.isCheckedImg(this.page.data.customizations[i]))){
+        return false;
+      }
+    } return true;
+  }
+
   isChecked(customization: any){
     return this.checked.some(function(el){ return el.npno === customization.npno})
+  }
+
+  isCheckedImg(customization: any){
+    return this.checkedImg.some(function(el){ return el.npno === customization.npno})
   }
 
   checkAll() {
@@ -206,12 +266,25 @@ export class CustomizationsComponent {
     }
   }
 
-  checkCustomization(customization: any) {
-    // let configurators = []
-    // for (let i = 0; i < customization.styles.length; i++){
-    //   configurators.push(customization.styles[i].vfgn)
-    // }
+  checkAllImg(mode: any) {
+    if(mode !== 'U'){
+      var all = this.allCheckedImg()
+      for (let i = 0; i < this.page.data.customizations.length; i++) {
+        if (!all && !this.isCheckedImg(this.page.data.customizations[i]) ||
+            all && this.isCheckedImg(this.page.data.customizations[i])) {
+          this.checkImg(this.page.data.customizations[i])
+        }
+      }
+    } else {
+      for (let i = 0; i < this.page.data.customizations.length; i++) {
+        if (this.isCheckedImg(this.page.data.customizations[i])) {
+          this.checkImg(this.page.data.customizations[i])
+        }
+      }
+    }
+  }
 
+  checkCustomization(customization: any) {
     let np = {
       npno: customization.npno,
       config: customization.vfgn
@@ -225,7 +298,21 @@ export class CustomizationsComponent {
       this.checked.push(np);
       this.checked.sort();
     }    
-    console.log(this.checked)
+  }
+
+  checkImg(customization: any) {
+    let np = {
+      npno: customization.npno,
+      config: customization.vfgn
+    }
+
+    if(this.isCheckedImg(np)) {
+      let index = this.checkedImg.findIndex(x => x.npno === np.npno)
+      this.checkedImg.splice(index,1)
+    } else {
+      this.checkedImg.push(np);
+      this.checkedImg.sort();
+    }    
   }
 
   assignStyles(){
@@ -233,7 +320,20 @@ export class CustomizationsComponent {
     if(this.checked.length == 0){
       window.alert("Must select a customization to assign styles");
     } else{
+      let filters = {
+        'name': this.name,
+        'item': this.vitem,
+        'app': this.app,
+        'img': this.img,
+        'number': this.npno,
+        'items': this.lvl,
+        'style': this.styl,
+        'template': this.vfg,
+        'category': this.ctno
+      }
+      localStorage.setItem('npfilters', JSON.stringify(filters))
       localStorage.setItem('UP_AUTH','Y')
+      localStorage.setItem('expanded',this.exp)
       let customizations = JSON.stringify(this.checked)
       localStorage.setItem('assign',customizations)
       this.router.navigate(['/uniforms/products/' + this.page.rfno]);
@@ -242,9 +342,37 @@ export class CustomizationsComponent {
     this.page.loading = false;
   }
 
-  goImages(npno: any){
+  goImages(npno: any, checked: any){
     localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate(['/uniforms/images/' + this.page.rfno + '/' + npno]);
+    localStorage.setItem('expanded',this.exp)
+    let filters = {
+      'name': this.name,
+      'item': this.vitem,
+      'app': this.app,
+      'img': this.img,
+      'number': this.npno,
+      'items': this.lvl,
+      'style': this.styl,
+      'template': this.vfg,
+      'category': this.ctno
+    }
+    localStorage.setItem('filters', JSON.stringify(filters))
+
+    if(npno && !checked){
+      this.router.navigate(['/uniforms/images/' + this.page.rfno + '/' + npno]);
+    } else {
+      let selections = []
+      for (let i = 0; i < this.checkedImg.length; i++) {
+        selections.push(this.checkedImg[i].npno)
+      }
+      if(selections.length > 0){
+        localStorage.setItem('checked',selections.toString())
+        this.router.navigate(['/uniforms/image/' + this.page.rfno]);
+      } else {
+        window.alert("Must select at least one customization for attachments");
+      }
+    }
+    
   }
 
   searchConfig(mode: string){
@@ -265,7 +393,20 @@ export class CustomizationsComponent {
 
   loadVAS(npno: any){
     localStorage.setItem('UP_AUTH','Y')
+    localStorage.setItem('expanded',this.exp)
     localStorage.setItem('p2',this.p.toString())
+    let filters = {
+      'name': this.name,
+      'item': this.vitem,
+      'app': this.app,
+      'img': this.img,
+      'number': this.npno,
+      'items': this.lvl,
+      'style': this.styl,
+      'template': this.vfg,
+      'category': this.ctno
+    }
+    localStorage.setItem('filters', JSON.stringify(filters))
     this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + npno]);
   }
 
@@ -278,6 +419,23 @@ export class CustomizationsComponent {
   onPageChange(event: number) {
     showWait();
     this.p = event
+    this.getCustomizations('')
+  }
+
+  getImage(image: any){
+    return environment.apiurl + '/photos/uniforms/' + image.anam
+  }
+
+  clearFilters(){
+    this.name = ""
+    this.vitem = ""
+    this.app = ""
+    this.img = ""
+    this.npno = ""
+    this.lvl = ""
+    this.styl = ""
+    this.vfg = ""
+    this.ctno = ""
     this.getCustomizations('')
   }
 }

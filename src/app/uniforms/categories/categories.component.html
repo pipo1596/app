@@ -79,7 +79,10 @@
                                         <option *ngFor="let seq of page.data?.seqDrop" [ngValue]="seq.valu" [selected]="trim(seq.valu) == category.seq">{{seq.desc}}</option>
                                     </select>
                                 </td>
-                                <td align="left">{{category.sub}}</td>
+                                <td align="left">
+                                    <a *ngIf="category.bttn == 'Y'" href="javascript:void" (click)="expandCategory(category, true)">{{category.sub}}</a>
+                                    <a *ngIf="!(category.bttn == 'Y')">{{category.sub}}</a>
+                                </td>
 
                                 <!-- Product Count -->
                                 <!-- <td align="left">{{category.prod}}</td> -->

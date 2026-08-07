@@ -129,4 +129,8 @@ export class NaChildComponent {
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/quickadd/' + this.nhno + '/' + nano]);   
   }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
 }

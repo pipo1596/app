@@ -23,7 +23,7 @@
                                     [ngClass]="expanded.includes(category) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category" ></span></button>
                                 <button class="btn bg-transparent" *ngIf="category.bttn !== 'Y'"><span></span></button>
                             </td>
-                            <td align="left">{{category.desc}}</td>
+                            <td align="left">{{category.desc + ' (' + trim(category.nano) + ')'}}</td>
                             <td align="left">{{category.seq}}</td>
                             <td align="left">{{category.sub}}</td>
 

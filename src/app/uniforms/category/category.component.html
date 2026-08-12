@@ -34,7 +34,8 @@
                             </div>
                         </div>
 
-                        <h4 class="card-title ms-1 mb-4">New Category</h4>
+                        <h4 class="card-title ms-1 mb-4" *ngIf="!this.nano">New Category</h4>
+                        <h4 class="card-title ms-1 mb-4" *ngIf="this.nano">Edit Category</h4>
                         <h6 class="card-title ms-1 mb-3">Basic Category Information</h6>
 
                         <div class="row g-3 mb-4">

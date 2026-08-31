@@ -63,7 +63,7 @@ export class CategoryComponent {
       if(this.page.data?.info?.pnan){
         let naparent = {
           nano: this.page.data.info.pnan,
-          desc: this.page.data.info.pdesc
+          desc: this.page.data.info.pdesc.replace("&apos","'")
         }
         this.pnan = naparent
       }
@@ -129,7 +129,8 @@ export class CategoryComponent {
         nhno: this.nhno,
         nano: this.nano,
         pnan: this.pnan.nano,
-        desc: this.name,
+        desc: this.name.replace("'", "&apos"),
+        
         seq: this.seq,
         upct: (mode == 'update') ? this.upct : ''
       }

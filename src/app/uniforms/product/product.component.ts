@@ -465,8 +465,8 @@ export class ProductComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
-    if(this.filters) localStorage.setItem('filters',this.filters)
+    if(this.exp && this.exp !== 'undefined') localStorage.setItem('expanded',this.exp)
+    if(this.filters && this.filters !== 'undefined') localStorage.setItem('filters',this.filters)
     this.router.navigate(['/uniforms/products/' + this.nhno]);
   }
 

@@ -6,18 +6,20 @@ import { hideWait, showWait } from '../../shared/utils';
 import { environment } from '../../../environments/environment.development';
 
 @Component({
-  selector: 'app-warehouse',
+  selector: 'app-samgroup',
   standalone: false,
-  templateUrl: './warehouse.component.html',
-  styleUrl: './warehouse.component.css'
+  templateUrl: './samgroup.component.html',
+  styleUrl: './samgroup.component.css'
 })
-export class WarehouseComponent {
+export class SamgroupComponent {
   exp: any;
-  dash: any;
   page = new Page();
   drop = false;
   whno: any = "";
-  warehouses: any = [];
+  ccnm: any = "";
+  ccnc: any = "";
+  ccns: any = "";
+  sam: any = "";
 
   constructor(
     private http: HttpClient,
@@ -29,42 +31,36 @@ export class WarehouseComponent {
     if(localStorage.getItem('expanded')){
       this.exp = localStorage.getItem('expanded')
     }
-    if(localStorage.getItem('dash')){
-      this.dash = localStorage.getItem('dash')
-    }
     localStorage.clear();
     showWait();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
+      this.ccnm = params.get('rfno')?.substring(0,10)
+      this.ccnc = params.get('rfno')?.substring(10,20)
+      this.ccns = params.get('rfno')?.substring(20,30)
     });
-    this.loadWarehouse('getInfo')
+    this.loadGroup('getInfo')
   }
 
-  validateLoad(mode: any){
-    if(this.page.data?.info?.whno == 'LEX' && (this.whno !== 'LEX')) {
-      if(confirm("Are you sure you want to change this UP from LEX to Retail? Changing it back could be difficult if changes are made to VAS while in Retail Mode.")){
-        this.loadWarehouse(mode)
-      }
-    } else this.loadWarehouse(mode)
-  }
-
-  loadWarehouse(mode: any){
+  loadGroup(mode: any){
     showWait();
-    let whnoI = this.page.data?.info?.whno
+    let samI = this.page.data?.info?.sam
     let data = {
       mode: mode,
       nhno: this.page.rfno,
-      whno: (mode !== 'getInfo') ? this.whno : '' 
+      ccnm: this.ccnm,
+      ccnc: this.ccnc,
+      ccns: this.ccns,
+      sam: this.sam
     }
 
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRWH', data).subscribe(response => {
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNCC', data).subscribe(response => {
       this.page.data = response;
       if (this.page.data.title) this.page.title = this.page.data.title;
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
-      if (this.page.data?.warehouses) this.warehouses = this.page.data.warehouses;
-      if (this.page.data?.info?.whno) this.whno = this.page.data.info.whno;
-      if(this.page.data?.errors) this.whno = whnoI
+      if (this.page.data?.info?.sam) this.sam = this.page.data.info.sam;
+      if(this.page.data?.errors) this.sam = samI
       this.page.loading = false;
       hideWait();
     });
@@ -80,10 +76,10 @@ export class WarehouseComponent {
     return value.replace(/^0+/, '')
   }
 
-  goBack(){
+  goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
-    this.router.navigate(['/uniforms/dashboard/' + this.page.rfno]);
+    if(this.exp && this.exp !== 'undefined') localStorage.setItem('expanded',this.exp)
+    this.router.navigate(['/uniforms/samtrack/' + this.page.rfno]);
   }
 
 }

@@ -70,7 +70,7 @@
                         <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style')" [options]="page.data?.stylDrop" [(ngModel)]="styl" (change)="getCustomizations('search')"></ngx-select-dropdown>
                     </div>
                     <div class="col-md-3">
-                        <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style Configurator Template')" [(ngModel)]="vfg" [options]="page.data?.stylconfig" (change)="getCustomizations('search')"></ngx-select-dropdown>
+                        <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style Configurator Template')" [(ngModel)]="vfg" [options]="page.data?.stylconfig" (change)="checked = []" (change)="getCustomizations('search')"></ngx-select-dropdown>
                     </div>
                     <div class="col-md-4">
                         <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('VAS Category')" [(ngModel)]="ctno" [options]="page.data?.catgDrop" (change)="getCustomizations('search')"></ngx-select-dropdown>

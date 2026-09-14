@@ -108,6 +108,9 @@ export class DashboardComponent {
       case 'list':
         this.router.navigate(['/uniforms/uplist/' + this.page.rfno]);
         break;
+      case 'whno':
+        this.router.navigate(['/uniforms/warehouse/' + this.page.rfno]);
+        break;
     }
   }
 

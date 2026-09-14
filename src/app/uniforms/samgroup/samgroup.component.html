@@ -1,0 +1,47 @@
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+
+<div id="container">
+
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu" [exp]="this.exp"></app-sidebar>
+
+    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+        <div class="card mx-auto mb-5 mt-5  mh-100">
+            <div class="card-body">
+                <form>
+                    <h6 class="mb-3" *ngIf="page.data?.result == 'fail'"><strong class="text-danger">{{page.data.errors}}</strong></h6>
+                    <h6 class="mb-3" *ngIf="page.data?.result == 'pass' && page.data.sam"><strong class="text-primary">Category Group Updated Successfully</strong></h6> 
+                    <div class="row g-4">
+                        <div class="col-10 mb-5">
+                            <h6 class="">Uniform Program - {{ page.data?.pgName  + ' - ' + trim(page.rfno) }}</h6>
+                        </div>
+
+                        <div class="col-2">
+                            <button class="btn btn-secondary rounded-0 mw-50 me-3" type="submit" (click)="goBack()">Cancel</button>
+                            <button class="btn btn-primary rounded-0 mw-50 me-3" type="submit" (click)="loadGroup('update')">Save</button>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-9">
+                            <h6><small>Category Group: {{page.data?.info?.ccnmDesc + ' > ' + page.data?.info?.ccncDesc + ' > ' + page.data?.info?.ccnsDesc }}</small></h6>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-9">
+                            <h6><small><span class="text-danger"><strong>* </strong></span>SAM:</small></h6>
+                            <select class="form-select p-2" name="inputPrice" [(ngModel)]="sam">
+                                <option value="">Select</option>
+                                <option *ngFor="let grpsam of page.data.samDrop" [ngValue]="grpsam.sam" [selected]="page.data?.info?.sam == grpsam.sam">{{grpsam.desc}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <app-footer></app-footer>
+    </section>
+</div>
+

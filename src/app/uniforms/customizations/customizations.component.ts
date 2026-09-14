@@ -294,7 +294,9 @@ export class CustomizationsComponent {
       let index = this.checked.findIndex(x => x.npno === np.npno)
       this.checked.splice(index,1)
     } else {
-      this.checked = []
+      if(!this.vfg?.vfgn) { 
+        this.checked = []
+      }
       this.checked.push(np);
       this.checked.sort();
     }    

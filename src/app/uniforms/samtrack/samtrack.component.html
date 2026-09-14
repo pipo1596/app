@@ -1,0 +1,86 @@
+<app-header [title]="page.title" [menu]="page.menu" ></app-header>
+
+<div id="container">
+
+    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu" [exp]="this.exp"></app-sidebar>
+
+    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+        <div class="card mx-auto mb-5 mt-5  mh-100">
+            <div class="card-body">
+                
+                <div class="row g-4">
+                    <div class="col-10">
+                        <h6><strong class="text-danger">{{ page.data?.errors }}</strong></h6>
+                        <h6 class="">Uniform Program - {{ page.data?.pgName  + ' - ' + trim(page.rfno) }}</h6>
+                    </div>
+
+                    <div class="col-2">
+                        <button (click)="newNote()" class="btn btn-primary rounded-0 mw-50 me-3" type="button">New</button>
+                        <button class="btn">
+                            <span class="bi bi-question-circle" title="FAQ"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-9">
+                        <h6><small>Manage Category Groups</small></h6>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-2">
+                        <input class="form-control" placeholder="Search" (keyup.enter)="p=1" (keyup.enter)="getGroups(srch.value)" #srch>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary me-3" (click)="p=1" (click)="getGroups(srch.value)">Go</button>
+                    </div>
+                </div>
+
+                <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
+
+                <table class="table table-striped w-100">
+                    <thead>
+                        <tr>
+                            <th align="left" style="width: 10%;">Edit</th>
+                            <th align="left" style="width: 40%;">Category Group</th>
+                            <th align="left" style="width: 25%;">SAM</th>
+                            <th align="left" style="width: 25%;">Date Added to UP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let group of page.data?.groups | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
+                            <td>
+                                <button class="btn bg-transparent" (click)="editGroup((group.ccnm + group.ccnc + group.ccns))">
+                                    <span class="bi bi-pencil-square" title="Edit Customer"></span>
+                                </button>
+                            </td>
+                            <td align="left">{{group.ccnmDesc + '>' + group.ccncDesc + '>' + group.ccnsDesc }}</td>
+                            <td align="left">{{group.sam}}</td>
+                            <td align="left">{{dsppbdate(group.addt)}}</td>
+                        </tr> 
+                    </tbody>
+                </table> 
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-8 mx-auto w-50">
+                <label>Items per page:
+                    <select [(ngModel)]="itemsPerPage" (change)="onItemChange(itemsPerPage)">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="col-2 w-25">
+                <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
+            </div>
+        </div>
+        <app-footer></app-footer>
+    </section>
+</div>
+

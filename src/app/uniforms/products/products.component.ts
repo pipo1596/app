@@ -53,7 +53,7 @@ export class ProductsComponent {
     this.assign = localStorage.getItem('assign') ? JSON.parse(localStorage.getItem('assign')!) : '';
     this.inNano = localStorage.getItem('nano') ? JSON.parse(localStorage.getItem('nano')!) : '';
     // if(this.inNano) this.category = this.inNano;
-    if(localStorage.getItem('filters')){
+    if(localStorage.getItem('filters') !== 'undefined'){
       this.getCache();
     }
     localStorage.clear();

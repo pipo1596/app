@@ -42,7 +42,7 @@ export class IframeComponent {
     if(localStorage.getItem('expanded')){
       this.exp = localStorage.getItem('expanded')
     }
-    if(localStorage.getItem('filters')){
+    if(localStorage.getItem('filters') !== 'undefined'){
       this.filters = localStorage.getItem('filters')
     }
     this.route.paramMap.subscribe(params => {

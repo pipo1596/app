@@ -456,7 +456,7 @@ export class ProductComponent {
       this.cache = localStorage.getItem('cache');
     }
 
-    if(localStorage.getItem('filters')){
+    if(localStorage.getItem('filters') !== 'undefined'){
       this.filters = localStorage.getItem('filters');
     }
 

@@ -61,7 +61,7 @@ export class CustomizationComponent {
       this.exp = localStorage.getItem('expanded')
     }
 
-    if(localStorage.getItem('filters')){
+    if(localStorage.getItem('filters') !== 'undefined'){
       this.filters = localStorage.getItem('filters')
     }
     showWait();

@@ -85,6 +85,11 @@
                     <span>Warehouse</span> 
                 </a>
             </div>
+            <div class="col-md-12 mb-1">
+                <a class="text-decoration-none user-select-none" [ngClass]="{'sidebar-link-target': (getMenu().includes('samtrack')), 'sidebar-link-sub': (!(getMenu().includes('samtrack')))}" (click)="goMenu('samtrack')">
+                    <span>SAM Tracking</span> 
+                </a>
+            </div>
         </div>
 
         <!-- Content -->

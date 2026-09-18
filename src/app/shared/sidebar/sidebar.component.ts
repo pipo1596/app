@@ -38,7 +38,7 @@ goMenu(menu: String) { //Go to selected sidebar menu with current UP
   let nhno = this.route.snapshot.paramMap.get('nhno');
   this.router.onSameUrlNavigation = 'reload';
   localStorage.setItem('UP_AUTH','Y');
-  localStorage.setItem('expanded',this.expanded.toString());
+  if(this.expanded) { localStorage.setItem('expanded',this.expanded.toString()); }
   this.router.navigate([`/uniforms/${menu}/` + nhno] );
 }
 

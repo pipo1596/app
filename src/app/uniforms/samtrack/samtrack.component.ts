@@ -35,7 +35,7 @@ export class SamtrackComponent {
       this.exp = localStorage.getItem('expanded')
     }
     localStorage.clear();
-    hideWait();
+    showWait();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
     });

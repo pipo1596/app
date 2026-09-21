@@ -574,6 +574,7 @@ export class ProductComponent {
       if (this.page.data.result == 'pass'){
        localStorage.setItem('UP_AUTH','Y');
        localStorage.setItem('expanded',this.exp)
+       if(this.page.data?.nino) localStorage.setItem('nino',this.page.data.nino)
        this.router.navigate(['/uniforms/products/' + this.nhno]);
       }
 

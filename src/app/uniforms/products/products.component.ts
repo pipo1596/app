@@ -18,6 +18,7 @@ export class ProductsComponent {
   page = new Page();
   assign: any;
   inNano: any;
+  newNino: any;
   
   //Search / Dropdown
   style: any;
@@ -55,6 +56,9 @@ export class ProductsComponent {
     // if(this.inNano) this.category = this.inNano;
     if(localStorage.getItem('filters') !== 'undefined'){
       this.getCache();
+    }
+    if(localStorage.getItem('nino') !== 'undefined'){
+      this.newNino = localStorage.getItem('nino')
     }
     localStorage.clear();
     this.checked = [];
@@ -121,7 +125,8 @@ export class ProductsComponent {
       aNpno: this.assign ? this.getConfig('npno') : '',
       itemsPerPage: this.itemsPerPage,
       currentPage: this.p,
-      offset: this.offset
+      offset: this.offset,
+      newNino: this.newNino
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNI', data).subscribe(response => {
@@ -316,6 +321,22 @@ export class ProductsComponent {
     this.category = cache?.category;
     this.warehouse = cache?.warehouse;
     this.stylconfig = cache?.stylconfig;
+  }
+
+  goCustomize(product: any) {
+    localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('expanded',this.exp)
+    localStorage.setItem('partpg','/uniforms/products/' + this.page.rfno + '/')
+    this.bldCache();
+    if(this.exp && this.exp !== 'undefined') localStorage.setItem('expanded',this.exp)
+    if(this.npfilters && this.npfilters !== 'undefined') localStorage.setItem('filters',this.npfilters)
+    localStorage.setItem('nino', product.nino)
+    if(product.vfgn){ localStorage.setItem('vfgn', product.vfgn) }
+    if(product.ctno && !product.vfgn){ 
+      localStorage.setItem('ctno', product.ctno)
+      localStorage.setItem('retail', product.ctno)
+    }
+    this.router.navigate(['/uniforms/newcustomization/' + this.page.rfno]);
   }
 
   goBack() {

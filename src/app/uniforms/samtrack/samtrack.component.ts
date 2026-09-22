@@ -95,7 +95,7 @@ export class SamtrackComponent {
   newNote() {
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('expanded',this.exp)
-    this.router.navigate(['/uniforms/samgrp/' + this.page.rfno]);
+    this.router.navigate(['/uniforms/samgroup/' + this.page.rfno]);
   }
 
   onItemChange(event: number){

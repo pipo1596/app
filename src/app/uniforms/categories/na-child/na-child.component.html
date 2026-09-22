@@ -1,52 +1,54 @@
-<div class="ms-4">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th align="left" class="ps-5">Actions</th>
-                <th align="left">Category</th>
-                <th align="left">Sort Order</th>
-                <th align="left"># Sub Categories</th>
-                <th align="left"># Products</th>
-            </tr>
-        </thead>
+<table class="table table-bordered" style="table-layout:fixed;">
+    <colgroup>
+        <col style="width: 220px">
+        <col style="width: 300px">
+        <col style="width: 160px">
+        <col style="width: 180px">
+        <col style="width: 200px">
+    </colgroup>
+    <thead>
+        <tr>
+            <th align="left" [style.padding-left.px]="16 + level * 24">Actions</th>
+            <th align="left">Category</th>
+            <th align="left">Sort Order</th>
+            <th align="left"># Sub Categories</th>
+            <th align="left"># Products</th>
+        </tr>
+    </thead>
 
-        <tbody>
-            <ng-container *ngFor="let category of page.data?.categories">
+    <tbody>
+        <ng-container *ngFor="let category of page.data?.categories">
+                        <tr>
+                            <td [style.padding-left.px]="16 + level * 24">
+                                <button class="btn bg-transparent" (click)="loadCategory('edit', category.nano)"><span
+                                    class="bi bi-pencil-square" title="Edit Category"></span></button>
+                                <button class="btn bg-transparent" (click)="loadCategory('copy', category.nano)"><span
+                                    class="bi bi-clipboard" title="Copy Category"></span></button>
+                                <button class="btn bg-transparent" (click)="validate(category.nano)"><span
+                                    class="bi bi-trash" title="Delete Category"></span></button>
+                                <button class="btn bg-transparent" *ngIf="category.bttn == 'Y'" (click)="expandCategory(category)"><span
+                                    [ngClass]="expanded.includes(category) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category" ></span></button>
+                                <button class="btn bg-transparent" *ngIf="category.bttn !== 'Y'"><span></span></button>
+                            </td>
+                            <td align="left">{{category.desc + ' (' + trim(category.nano) + ')'}}</td>
+                            <td align="left">{{category.seq}}</td>
+                            <td align="left">{{category.sub}}</td>
+                            <td align="left" *ngIf="category.prod !==  '0'">
+                                <a href="javascript:void" (click)="goProducts(category)" class="me-3">{{category.prod}}</a>
+                                <button type="button" class="btn btn-primary" (click)="quickAdd(category.nano)" *ngIf="category.leaf == 'Y'">Quick Add</button>
+                            </td>
+                            <td align="left" *ngIf="category.prod == 0">
+                                <a href="javascript:void" (click)="goProducts(category)" class="me-3">0</a>
+                                <button type="button" class="btn btn-primary" (click)="quickAdd(category.nano)" *ngIf="category.leaf == 'Y'">Quick Add</button>
+                            </td>
+                        </tr>
+                        <ng-container *ngIf="expanded.includes(category)">
                             <tr>
-                                <td class="ps-5">
-                                    <button class="btn bg-transparent" (click)="loadCategory('edit', category.nano)"><span
-                                        class="bi bi-pencil-square" title="Edit Category"></span></button>
-                                    <button class="btn bg-transparent" (click)="loadCategory('copy', category.nano)"><span
-                                        class="bi bi-clipboard" title="Copy Category"></span></button>
-                                    <button class="btn bg-transparent" (click)="validate(category.nano)"><span
-                                        class="bi bi-trash" title="Delete Category"></span></button>
-                                    <button class="btn bg-transparent" *ngIf="category.bttn == 'Y'" (click)="expandCategory(category)"><span
-                                        [ngClass]="expanded.includes(category) ? 'bi bi-dash-lg' : 'bi-plus-lg'" title="Expand Category" ></span></button>
-                                    <button class="btn bg-transparent" *ngIf="category.bttn !== 'Y'"><span></span></button>
-                                </td>
-                                <td align="left">{{category.desc + ' (' + trim(category.nano) + ')'}}</td>
-                                <td align="left">{{category.seq}}</td>
-                                <td align="left">{{category.sub}}</td>
-
-
-
-                                <td align="left" *ngIf="category.prod !==  '0'">
-                                    <a href="javascript:void" (click)="goProducts(category)" class="me-3">{{category.prod}}</a>
-                                    <button type="button" class="btn btn-primary" (click)="quickAdd(category.nano)" *ngIf="category.leaf == 'Y'">Quick Add</button>
-                                </td>
-                                <td align="left" *ngIf="category.prod == 0">
-                                    <a href="javascript:void" (click)="goProducts(category)" class="me-3">0</a>
-                                    <button type="button" class="btn btn-primary" (click)="quickAdd(category.nano)" *ngIf="category.leaf == 'Y'">Quick Add</button>
+                                <td colspan="5" style="padding-left: 0; padding-right: 0;">
+                                    <app-na-child [nhno]="nhno" [category]="category" [expanded]="expanded" [level]="level + 1"></app-na-child>
                                 </td>
                             </tr>
-                            <ng-container *ngIf="expanded.includes(category)">
-                                <tr>
-                                    <td colspan="5">
-                                        <app-na-child [nhno]="nhno" [category]="category" [expanded]="expanded"></app-na-child>
-                                    </td>
-                                </tr>
-                            </ng-container>
-            </ng-container>
-        </tbody>
-    </table>
-</div>
+                        </ng-container>
+        </ng-container>
+    </tbody>
+</table>

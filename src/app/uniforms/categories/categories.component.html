@@ -48,7 +48,14 @@
                 </div>
                 <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
 
-                <table class="table table-striped w-100">
+                <table class="table table-striped w-100" style="table-layout:fixed;">
+                    <colgroup>
+                        <col style="width: 220px">
+                        <col style="width: 300px">
+                        <col style="width: 160px">
+                        <col style="width: 180px">
+                        <col style="width: 200px">
+                    </colgroup>
                     <thead>
                         <tr>
                             <th align="left" class="ps-3">Actions</th>
@@ -99,7 +106,7 @@
 
                             <ng-container *ngIf="expanded.includes(category)">
                                 <tr>
-                                    <td colspan="5">
+                                    <td colspan="5" style="padding-left: 0; padding-right: 0;">
                                         <app-na-child [nhno]="page.rfno" [category]="category" [expanded]="expanded" [rtpg]="page"></app-na-child>
                                     </td>
                                 </tr>        

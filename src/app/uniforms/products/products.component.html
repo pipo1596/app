@@ -140,12 +140,12 @@
                                             <a *ngFor="let customization of product.custPop; index as i" href="javascript:void" (click)="popApp(customization.valu)">{{customization.desc + ' (' + trim(customization.valu) + ')'}}<br></a>
                                         </div>
                                     </div>
-                                    <button *ngIf="product.ctno || product.vfgn" class="btn btn-primary rounded-0 ms-4 mw-25" type="button" (click)="goCustomize(product)" >Customize</button>
+                                    <button *ngIf="product.ctno || product.vfgn" class="btn btn-primary rounded-0 ms-4 mw-25" type="button" (click)="goCustomize(product)" >Add Customization</button>
                                 </div>
                             </td>
                             <td align="left" *ngIf="product.custcount == '0'">
                                 <a href="javascript:void">0</a>
-                                <button *ngIf="product.ctno || product.vfgn" class="btn btn-primary rounded-0 ms-4 mw-25" type="button" (click)="goCustomize(product)">Customize</button>
+                                <button *ngIf="product.ctno || product.vfgn" class="btn btn-primary rounded-0 ms-4 mw-25" type="button" (click)="goCustomize(product)">Add Customization</button>
                             </td>
 
                             <td align="left" *ngIf="product.dsallowed == 'Y'">Yes</td>

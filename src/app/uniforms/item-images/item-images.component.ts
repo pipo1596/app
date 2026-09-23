@@ -97,7 +97,7 @@ export class ItemImagesComponent {
 
   addImage(){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(
       ['/uniforms/itemimage/' + this.page.rfno + '/' + this.nino],
       { queryParams: { opv1: this.opv1, opv2: this.opv2, opv3: this.opv3, opv4: this.opv4, opv5: this.opv5 } }
@@ -106,7 +106,7 @@ export class ItemImagesComponent {
 
   editImage(image: any){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(
       ['/uniforms/itemimage/' + this.page.rfno + '/' + this.nino + '/' + image.iino],
       { queryParams: { opv1: this.opv1, opv2: this.opv2, opv3: this.opv3, opv4: this.opv4, opv5: this.opv5 } }
@@ -142,7 +142,7 @@ export class ItemImagesComponent {
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(
       ['/uniforms/override/' + this.page.rfno + '/' + this.nino],
       { queryParams: { opv1: this.opv1, opv2: this.opv2, opv3: this.opv3, opv4: this.opv4, opv5: this.opv5 } }

@@ -70,13 +70,13 @@ export class CxmlCustomersComponent {
 
   editConfig(guno: any){
     localStorage.setItem('UP_AUTH','Y')
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/cxmlcustomer/' + this.page.rfno + '/' + guno]);
   }
 
   newConfig(){
     localStorage.setItem('UP_AUTH','Y')
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/cxmlcustomer/' + this.page.rfno]);
   }
 

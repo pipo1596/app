@@ -301,8 +301,8 @@ export class CustomizationComponent {
 
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
-    localStorage.setItem('filters',this.filters)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
+    if (this.filters) localStorage.setItem('filters', this.filters)
     this.router.navigate(['/uniforms/iframe/APOELMVFG'])
   }
 
@@ -325,15 +325,15 @@ export class CustomizationComponent {
     let menu = '/cgi/APOELMCT?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
-    localStorage.setItem('filters',this.filters)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
+    if (this.filters) localStorage.setItem('filters', this.filters)
     this.router.navigate(['/uniforms/iframe/APOELMCT'])
   }
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
-    localStorage.setItem('filters',this.filters)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
+    if (this.filters) localStorage.setItem('filters', this.filters)
     if(this.partpg){
       this.router.navigate([this.partpg]);
     } else this.router.navigate(['/uniforms/customizations/' + this.nhno]);
@@ -388,8 +388,8 @@ export class CustomizationComponent {
 
       if (this.page.data.result == 'pass' && this.page.data.nhno){
         localStorage.setItem('UP_AUTH','Y');
-        localStorage.setItem('expanded',this.exp)
-        localStorage.setItem('filters',this.filters)
+        if (this.exp) localStorage.setItem('expanded', this.exp)
+        if (this.filters) localStorage.setItem('filters', this.filters)
         if(mode == 'create' && this.page.data.npno){
           if(this.nino) localStorage.setItem('nino',this.nino);
           if(this.cache) localStorage.setItem('cache',this.cache);

@@ -34,7 +34,7 @@ export class ImportComponent {
 
   loadUpload(ulid: any){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/' + ulid + '/' + this.page.rfno + '/' + ulid]);
   }
 

@@ -222,8 +222,8 @@ export class MassappDeleteComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
-    localStorage.setItem('filters',this.filters)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
+    if (this.filters) localStorage.setItem('filters', this.filters)
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }
 }

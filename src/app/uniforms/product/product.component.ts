@@ -240,7 +240,7 @@ export class ProductComponent {
     }
     localStorage.setItem('menu','/cgi/APOELMIS?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/iframe/APOELMIS'])
   }
 
@@ -465,14 +465,14 @@ export class ProductComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    if(this.exp && this.exp !== 'undefined') localStorage.setItem('expanded',this.exp)
-    if(this.filters && this.filters !== 'undefined') localStorage.setItem('filters',this.filters)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
+    if (this.filters) localStorage.setItem('filters', this.filters)
     this.router.navigate(['/uniforms/products/' + this.nhno]);
   }
 
   goImg() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     if(this.hasIW){
       this.router.navigate(['/uniforms/overrides/' + this.nhno + '/' + this.nino]);
     } else {
@@ -570,10 +570,10 @@ export class ProductComponent {
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
       this.page.data = response;
 
-        if(this.filters) localStorage.setItem('filters',this.filters)
+      if (this.filters) localStorage.setItem('filters', this.filters)
       if (this.page.data.result == 'pass'){
        localStorage.setItem('UP_AUTH','Y');
-       localStorage.setItem('expanded',this.exp)
+      if (this.exp) localStorage.setItem('expanded', this.exp)
        if(this.page.data?.nino) localStorage.setItem('nino',this.page.data.nino)
        this.router.navigate(['/uniforms/products/' + this.nhno]);
       }
@@ -606,7 +606,7 @@ export class ProductComponent {
       this.page.data = response;
       if (this.page.data?.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
-        localStorage.setItem('expanded',this.exp)
+        if (this.exp) localStorage.setItem('expanded', this.exp)
         this.router.navigate(['/uniforms/products/' + this.page.data?.nhno]);
       }
       this.page.loading = false;
@@ -620,7 +620,7 @@ export class ProductComponent {
     localStorage.setItem('partpg', partpg)
     localStorage.setItem('styl', this.styl)
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/category/' + this.nhno]);
   }
 
@@ -641,7 +641,7 @@ export class ProductComponent {
     if(mode == 'RTL') localStorage.setItem('retail', this.page.data?.isctno ? this.page.data.isctno : this.page.data?.info.isctno)
     localStorage.setItem('nino', this.page.data?.info?.nino)
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/newcustomization/' + this.nhno]);
   }
 

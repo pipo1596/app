@@ -49,7 +49,7 @@ export class UniformComponent {
       this.page.data = response;
       if (this.page.data.result == 'pass' && this.page.data.nhno){
         localStorage.setItem('UP_AUTH','Y');
-        localStorage.setItem('expanded',this.exp)
+        if (this.exp) localStorage.setItem('expanded', this.exp)
         this.router.navigate(['/uniforms/dashboard/' + this.page.data.nhno]);
       } else {
         this.error = this.page.data.errors
@@ -65,7 +65,7 @@ export class UniformComponent {
     localStorage.setItem('partpg','/uniforms/newuniform/')
     localStorage.setItem('menu','/cgi/APOELMAC?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/iframe/APOELMAC'])
   }
 

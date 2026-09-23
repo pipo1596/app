@@ -148,7 +148,7 @@ export class MassAppComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }
 

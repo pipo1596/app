@@ -32,7 +32,7 @@
                             <h6><small><span class="text-danger"><strong>* </strong></span>SAM:</small></h6>
                             <select class="form-select p-2" name="inputPrice" [(ngModel)]="sam">
                                 <option value="">Select</option>
-                                <option *ngFor="let grpsam of page.data.samDrop" [ngValue]="grpsam.sam" [selected]="page.data?.info?.sam == grpsam.sam">{{grpsam.desc}}</option>
+                                <option *ngFor="let grpsam of page.data?.samDrop" [ngValue]="grpsam.sam">{{grpsam.desc}}</option>
                             </select>
                         </div>
                     </div>

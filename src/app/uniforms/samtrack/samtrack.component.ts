@@ -65,7 +65,7 @@ export class SamtrackComponent {
 
   editGroup(rfno: string) {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/samgroup/' + this.page.rfno + '/' + rfno]);
   }
 
@@ -94,7 +94,7 @@ export class SamtrackComponent {
 
   newNote() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/samgroup/' + this.page.rfno]);
   }
 

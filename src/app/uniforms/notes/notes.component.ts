@@ -65,7 +65,7 @@ export class NotesComponent {
 
   editNote(nono: string) {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/note/' + this.page.rfno + '/' + nono]);
   }
 
@@ -94,7 +94,7 @@ export class NotesComponent {
 
   newNote() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/note/' + this.page.rfno]);
   }
 

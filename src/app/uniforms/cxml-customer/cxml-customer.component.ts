@@ -173,7 +173,7 @@ export class CxmlCustomerComponent {
       } else {
         localStorage.setItem('error', 'Record not found');
         localStorage.setItem('UP_AUTH','Y');
-        localStorage.setItem('expanded',this.exp)
+        if (this.exp) localStorage.setItem('expanded', this.exp)
         this.router.navigate(['/uniforms/cxmlcustomer/' + this.page.rfno]);
       }
     });
@@ -182,7 +182,7 @@ export class CxmlCustomerComponent {
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/cxmlcustomers/' + this.page.rfno]);
   }
 

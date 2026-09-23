@@ -89,6 +89,7 @@ const routes: Routes = [
 
   //SAM Tracking
   { path: 'samtrack/:nhno', component: SamtrackComponent, canActivate: [authGuard]   }, 
+  { path: 'samgroup/:nhno', component: SamgroupComponent, canActivate: [authGuard]   }, 
   { path: 'samgroup/:nhno/:rfno', component: SamgroupComponent, canActivate: [authGuard]   }, 
 
   //Customers

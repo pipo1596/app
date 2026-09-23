@@ -68,7 +68,7 @@ export class SamgroupComponent {
 
   goCategories(){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/categories/' + this.page.rfno]);
   }
 
@@ -78,7 +78,7 @@ export class SamgroupComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    if(this.exp && this.exp !== 'undefined') localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/samtrack/' + this.page.rfno]);
   }
 

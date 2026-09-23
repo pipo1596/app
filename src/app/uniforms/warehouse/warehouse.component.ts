@@ -72,7 +72,7 @@ export class WarehouseComponent {
 
   goCategories(){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/categories/' + this.page.rfno]);
   }
 
@@ -82,7 +82,7 @@ export class WarehouseComponent {
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/dashboard/' + this.page.rfno]);
   }
 

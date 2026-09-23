@@ -48,7 +48,7 @@ export class UplistComponent {
     localStorage.setItem('partpg','/uniforms/uplist/' + this.page.rfno + '/')
     localStorage.setItem('menu','/cgi/APOELMPL?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     localStorage.setItem('UP_AUTH','Y')
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/iframe/APOELMPL'])
   }
 
@@ -89,7 +89,7 @@ export class UplistComponent {
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/dashboard/' + this.page.rfno]);
   }
 }

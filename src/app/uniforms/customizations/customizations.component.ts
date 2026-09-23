@@ -49,14 +49,14 @@ export class CustomizationsComponent {
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
+    if(localStorage.getItem('expanded') !== 'undefined'){
       this.exp = localStorage.getItem('expanded')
     }
     if(localStorage.getItem('filters') !== 'undefined'){
       this.filters = localStorage.getItem('filters')
     }
-    if(localStorage.getItem('rtpg')) this.rtpg = localStorage.getItem('rtpg');
-    if(localStorage.getItem('p2')) this.p = parseInt(localStorage.getItem('p2')!);
+    if(localStorage.getItem('rtpg') !== 'undefined') this.rtpg = localStorage.getItem('rtpg');
+    if(localStorage.getItem('p2') !== 'undefined') this.p = parseInt(localStorage.getItem('p2')!);
     localStorage.clear();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -95,9 +95,9 @@ export class CustomizationsComponent {
       'template': this.vfg,
       'category': this.ctno
     }
-    localStorage.setItem('filters', JSON.stringify(filters))
+    if (filters) localStorage.setItem('filters', JSON.stringify(filters))
     localStorage.setItem('UP_AUTH','Y')
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/massapp' + action + '/' + this.page.rfno]);
   }
 
@@ -189,9 +189,9 @@ export class CustomizationsComponent {
       'template': this.vfg,
       'category': this.ctno
     }
-    localStorage.setItem('filters', JSON.stringify(filters))
+    if (filters) localStorage.setItem('filters', JSON.stringify(filters))
     localStorage.setItem('UP_AUTH','Y')
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     localStorage.setItem('p2',JSON.stringify(this.page))
     switch(mode){
       case 'new':
@@ -335,7 +335,7 @@ export class CustomizationsComponent {
       }
       localStorage.setItem('npfilters', JSON.stringify(filters))
       localStorage.setItem('UP_AUTH','Y')
-      localStorage.setItem('expanded',this.exp)
+      if (this.exp) localStorage.setItem('expanded', this.exp)
       let customizations = JSON.stringify(this.checked)
       localStorage.setItem('assign',customizations)
       this.router.navigate(['/uniforms/products/' + this.page.rfno]);
@@ -346,7 +346,7 @@ export class CustomizationsComponent {
 
   goImages(npno: any, checked: any){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     let filters = {
       'name': this.name,
       'item': this.vitem,
@@ -358,7 +358,7 @@ export class CustomizationsComponent {
       'template': this.vfg,
       'category': this.ctno
     }
-    localStorage.setItem('filters', JSON.stringify(filters))
+    if (filters) localStorage.setItem('filters', JSON.stringify(filters))
 
     if(npno && !checked){
       this.router.navigate(['/uniforms/images/' + this.page.rfno + '/' + npno]);
@@ -395,7 +395,7 @@ export class CustomizationsComponent {
 
   loadVAS(npno: any){
     localStorage.setItem('UP_AUTH','Y')
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     localStorage.setItem('p2',this.p.toString())
     let filters = {
       'name': this.name,
@@ -408,7 +408,7 @@ export class CustomizationsComponent {
       'template': this.vfg,
       'category': this.ctno
     }
-    localStorage.setItem('filters', JSON.stringify(filters))
+    if (filters) localStorage.setItem('filters', JSON.stringify(filters))
     this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + npno]);
   }
 

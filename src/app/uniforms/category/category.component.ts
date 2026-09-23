@@ -158,7 +158,7 @@ export class CategoryComponent {
 
     if (this.page.data.result == 'pass' && this.page.data.nhno){
       localStorage.setItem('UP_AUTH','Y');
-      localStorage.setItem('expanded',this.exp);
+      if (this.exp) localStorage.setItem('expanded', this.exp)
       localStorage.setItem('styl', this.styl);
       localStorage.setItem('cache',this.cache);
 
@@ -226,7 +226,7 @@ export class CategoryComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     if(this.partpg) {
       localStorage.setItem('styl',this.styl);
       this.router.navigate([this.partpg]);

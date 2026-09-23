@@ -72,7 +72,7 @@ export class ProductsComponent {
 
   loadProduct(mode: any, nino: any){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.bldCache();
     switch(mode){
       case 'new':
@@ -173,7 +173,7 @@ export class ProductsComponent {
 
   popApp(npno: any){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + npno]);
   }
 
@@ -241,7 +241,7 @@ export class ProductsComponent {
   inqStyle() {
     localStorage.clear();
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     localStorage.setItem('partpg','/uniforms/products/' + this.page.rfno + '/')
     localStorage.setItem('menu','/cgi/APOELMIS?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     this.router.navigate(['/uniforms/iframe/APOELMIS'])
@@ -249,7 +249,7 @@ export class ProductsComponent {
 
   assignStyles(){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     let npnos = [];
     let ninos = [];
 
@@ -269,8 +269,8 @@ export class ProductsComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPASSIGN', data).subscribe(response => {
       localStorage.setItem('UP_AUTH','Y');
-      localStorage.setItem('expanded',this.exp)
-      localStorage.setItem('filters',this.npfilters)
+      if (this.exp) localStorage.setItem('expanded', this.exp)
+      if (this.npfilters) localStorage.setItem('filters', this.npfilters)
       this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
     })
   }
@@ -312,7 +312,7 @@ export class ProductsComponent {
       stylconfig: this.stylconfig
     }
 
-    localStorage.setItem('filters', JSON.stringify(cache));
+    if (cache) localStorage.setItem('filters', JSON.stringify(cache));
   }
 
   getCache() {
@@ -325,11 +325,11 @@ export class ProductsComponent {
 
   goCustomize(product: any) {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     localStorage.setItem('partpg','/uniforms/products/' + this.page.rfno + '/')
     this.bldCache();
-    if(this.exp && this.exp !== 'undefined') localStorage.setItem('expanded',this.exp)
-    if(this.npfilters && this.npfilters !== 'undefined') localStorage.setItem('filters',this.npfilters)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
+    if (this.npfilters) localStorage.setItem('filters', this.npfilters)
     localStorage.setItem('nino', product.nino)
     if(product.vfgn){ localStorage.setItem('vfgn', product.vfgn) }
     if(product.ctno && !product.vfgn){ 
@@ -341,14 +341,14 @@ export class ProductsComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    if(this.exp && this.exp !== 'undefined') localStorage.setItem('expanded',this.exp)
-    if(this.npfilters && this.npfilters !== 'undefined') localStorage.setItem('filters',this.npfilters)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
+    if (this.npfilters) localStorage.setItem('filters', this.npfilters)
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }
 
   goBackNA() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/categories/' + this.page.rfno]);
   }
 

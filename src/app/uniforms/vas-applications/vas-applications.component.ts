@@ -50,7 +50,7 @@ export class VasApplicationsComponent {
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
+    if(localStorage.getItem('expanded') !== 'undefined'){
       this.exp = localStorage.getItem('expanded')
     }
     if(localStorage.getItem('filters') !== 'undefined'){
@@ -63,20 +63,20 @@ export class VasApplicationsComponent {
       this.npno = params.get('npno');
       this.vsmt = params.get('vsmt');
     });
-    if(localStorage.getItem('allexpand')){
+    if(localStorage.getItem('allexpand')  !== 'undefined'){
       this.allexpanded = localStorage.getItem('allexpand') ? true : false;
     }
-    if(localStorage.getItem('nino')){
+    if(localStorage.getItem('nino')  !== 'undefined'){
       this.nino = localStorage.getItem('nino')
       this.styl = this.getStyl()
     }
-    if(localStorage.getItem('cache')){
+    if(localStorage.getItem('cache') !== 'undefined'){
       this.cache = localStorage.getItem('cache')
     }
-    if(localStorage.getItem('p1')){
+    if(localStorage.getItem('p1') !== 'undefined'){
       this.p1 = JSON.parse(localStorage.getItem('p1')!);
     }
-    if(localStorage.getItem('p2')){
+    if(localStorage.getItem('p2') !== 'undefined'){
       this.p2 = localStorage.getItem('p2');
     }
 
@@ -198,7 +198,7 @@ export class VasApplicationsComponent {
 
   loadApplication(mode: any, n1no: any){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     if(this.nino) localStorage.setItem('nino',this.nino);
     switch(mode){
       case 'new':
@@ -295,8 +295,8 @@ export class VasApplicationsComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
-    localStorage.setItem('filters',this.filters)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
+    if (this.filters) localStorage.setItem('filters', this.filters)
     localStorage.setItem('rtpg', this.page.data?.npname);
     localStorage.setItem('p2', this.p2);
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
@@ -304,7 +304,7 @@ export class VasApplicationsComponent {
 
   goProduct() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     if(this.cache) localStorage.setItem('cache',this.cache);
     this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + this.nino]);
   }

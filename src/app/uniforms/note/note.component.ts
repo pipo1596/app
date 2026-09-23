@@ -87,7 +87,7 @@ export class NoteComponent {
       if (mode !== 'update') {
         if (this.page.data.result == 'pass' && this.page.data.nhno){
           localStorage.setItem('UP_AUTH','Y');
-          localStorage.setItem('expanded',this.exp)
+          if (this.exp) localStorage.setItem('expanded', this.exp)
           this.router.navigate(['/uniforms/notes/' + this.page.data.nhno]);
         }
       }
@@ -98,7 +98,7 @@ export class NoteComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/notes/' + this.nhno]);
   }
 

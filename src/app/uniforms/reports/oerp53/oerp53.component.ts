@@ -124,7 +124,7 @@ validate(){
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/export/' + this.page.rfno]);
   }
 

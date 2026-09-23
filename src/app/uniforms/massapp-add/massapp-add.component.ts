@@ -420,8 +420,8 @@ export class MassappAddComponent {
     let menu = '/cgi/APOELMIS2?PAMODE=*INQ&PMV1CD=' + this.v1cd + '&PMACNO=' + this.acno  + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
-    localStorage.setItem('filters',this.filters)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
+    if (this.filters) localStorage.setItem('filters', this.filters)
     this.router.navigate(['/uniforms/iframe/APOELMIS2'])
   }
 
@@ -486,8 +486,8 @@ export class MassappAddComponent {
     let menu = '/cgi/APOELMIS4?PAMODE=*INQ&PMVSMT=EMBLEM' + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('menu',menu)
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
-    localStorage.setItem('filters',this.filters)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
+    if (this.filters) localStorage.setItem('filters', this.filters)
     this.router.navigate(['/uniforms/iframe/APOELMIS4'])
   }
 
@@ -513,8 +513,8 @@ export class MassappAddComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
-    localStorage.setItem('filters',this.filters)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
+    if (this.filters) localStorage.setItem('filters', this.filters)
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }
 }

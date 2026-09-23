@@ -106,8 +106,8 @@ export class ImageComponent {
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
-    localStorage.setItem('filters',this.filters)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
+    if (this.filters) localStorage.setItem('filters', this.filters)
     if(this.npno) {
       this.router.navigate(['/uniforms/images/' + this.page.rfno + '/' + this.npno]);
     } else if(this.checkedImg.length > 0){

@@ -52,7 +52,7 @@ export class DashboardComponent {
 
   loadProduct (menu: any) {
     localStorage.setItem('UP_AUTH','Y')
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     switch(menu){
       case 'addProduct':
         this.router.navigate(['uniforms/newproduct/' + this.page.rfno]);
@@ -74,13 +74,13 @@ export class DashboardComponent {
 
   loadWarehouse(){
     localStorage.setItem('UP_AUTH','Y')
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/warehouse/' + this.page.rfno]);
   }
 
   loadPricing(menu: any){
     localStorage.setItem('UP_AUTH','Y')
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     switch(menu){
       case 'addList':
         this.router.navigate(['/uniforms/uplist/' + this.page.rfno]);
@@ -93,7 +93,7 @@ export class DashboardComponent {
 
   loadUP(nhno: any, mode: any){
     localStorage.setItem('UP_AUTH','Y')
-    localStorage.setItem('expanded',this.exp)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
     localStorage.setItem('dash','Y')
     switch(mode){
       case 'name':

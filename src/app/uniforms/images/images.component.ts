@@ -86,8 +86,8 @@ export class ImagesComponent {
   newImage(){
     localStorage.clear();
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
-    localStorage.setItem('filters',this.filters)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
+    if (this.filters) localStorage.setItem('filters', this.filters)
     if(this.npno){
       this.router.navigate(['/uniforms/image/' + this.page.rfno + '/' + this.npno]);
     } else this.router.navigate(['/uniforms/image/' + this.page.rfno]);
@@ -140,8 +140,8 @@ export class ImagesComponent {
 
   goBackNP() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
-    localStorage.setItem('filters',this.filters)
+    if (this.exp) localStorage.setItem('expanded', this.exp)
+    if (this.filters) localStorage.setItem('filters', this.filters)
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }
 

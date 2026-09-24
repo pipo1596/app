@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { DataService } from '../../services/data-trigger.service';
 import { TextField } from '../../shared/textField';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-modal-imf',
@@ -21,7 +22,8 @@ export class ModalImfComponent {
   showUpload = false;
 
   constructor(
-    private dataService: DataService
+    private dataService: DataService,
+    private layout: LayoutService
   ) {}
 
   ngOnInit(): void {}

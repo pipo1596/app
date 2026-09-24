@@ -4,6 +4,7 @@ import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { showWait, hideWait, convertToDate, formatDateUS } from '../../shared/utils';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-export',
@@ -12,7 +13,6 @@ import { showWait, hideWait, convertToDate, formatDateUS } from '../../shared/ut
   styleUrl: './export.component.css'
 })
 export class ExportComponent {
-  exp: any;
   page = new Page();
 
   //Paging
@@ -22,13 +22,11 @@ export class ExportComponent {
 
   constructor(private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private layout: LayoutService
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     localStorage.clear();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -49,16 +47,16 @@ export class ExportComponent {
       hideWait();
       this.page.loading = false;
       this.page.data = response;
-      if (this.page.data?.title) this.page.title = this.page.data.title;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.page.data?.fullname) this.page.fullname = this.page.data.fullname;
-      if (this.page.data?.menu) this.page.menu = this.page.data.menu;
       if (this.page.data?.total) this.total = this.page.data.total
     });
   }
 
   openReport(rpno: any){
     localStorage.setItem('UP_AUTH','Y')
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/' + rpno + '/' + this.page.rfno]); 
   }
 

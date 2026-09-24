@@ -4,6 +4,7 @@ import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { scrollToTopInstant, hideWait, showWait } from '../../shared/utils';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-categories',
@@ -17,10 +18,10 @@ export class CategoriesComponent {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public layout: LayoutService
   ) { }
 
-  exp: any;
   page = new Page();
   drop = false;
 
@@ -35,9 +36,6 @@ export class CategoriesComponent {
   total: number = 0;
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     localStorage.clear();
     showWait();
     this.route.paramMap.subscribe(params => {
@@ -65,11 +63,10 @@ export class CategoriesComponent {
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNA', data).subscribe(response => {
-
       this.page.data = response;
-      if (this.page.data?.title) this.page.title = this.page.data.title;
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.page.data?.fullname) this.page.fullname = this.page.data.fullname;
-      if (this.page.data?.menu) this.page.menu = this.page.data.menu;
       if (this.page.data?.total) this.total = this.page.data.total
       hideWait();
       this.page.loading = false;
@@ -88,7 +85,6 @@ export class CategoriesComponent {
 
   loadCategory(mode: any, nano: any){
     localStorage.setItem('UP_AUTH','Y')
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     switch(mode){
       case 'new':
         this.router.navigate(['/uniforms/category/' + this.page.rfno]);
@@ -160,21 +156,18 @@ export class CategoriesComponent {
       desc: category.desc
     }
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     localStorage.setItem('nano',JSON.stringify(cat));
     this.router.navigate(['/uniforms/products/' + this.page.rfno]);
   }
 
   quickAdd(nano: any){
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/quickadd/' + this.page.rfno + '/' + nano]);   
   }
 
   onItemChange(event: number){
     this.itemsPerPage = event
     this.getCategories()
-    this.expanded = []
   }
 
   onPageChange(event: number) {

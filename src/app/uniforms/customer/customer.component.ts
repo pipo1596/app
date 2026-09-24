@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait } from '../../shared/utils';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-customer',
@@ -12,7 +13,6 @@ import { hideWait, showWait } from '../../shared/utils';
   styleUrl: './customer.component.css'
 })
 export class CustomerComponent {
-  exp: any;
   page = new Page();
   drop = false; // More Actions
 
@@ -28,12 +28,10 @@ export class CustomerComponent {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
+    public layout: LayoutService
 ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     localStorage.clear();
     showWait();
     this.setMode();
@@ -49,7 +47,9 @@ export class CustomerComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNC', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if(this.page.data?.info?.acno) this.acno = this.page.data.info.acno;
       if(this.page.data?.info?.effd){
         this.effd = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
@@ -78,17 +78,18 @@ export class CustomerComponent {
   }
 
   inqAcct() {
+    let keepPartpg = localStorage.getItem('partpg');
     localStorage.clear();
+    if (keepPartpg) localStorage.setItem('partpg',keepPartpg)
     if(this.page.editmode){
       localStorage.setItem('p1', this.acno);
-      localStorage.setItem('partpg','/uniforms/editcustomer/' + this.nhno + '/');
+      localStorage.setItem('iframepg','/uniforms/editcustomer/' + this.nhno + '/');
     } else {
-      localStorage.setItem('partpg','/uniforms/newcustomer/' + this.nhno + '/');
+      localStorage.setItem('iframepg','/uniforms/newcustomer/' + this.nhno + '/');
     }
 
     localStorage.setItem('menu','/cgi/APOELMAC?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N');
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/iframe/APOELMAC']);
   }
 
@@ -111,11 +112,9 @@ export class CustomerComponent {
 
       if (mode !== 'update' && this.page.data?.result == 'pass' && this.page.data?.nhno){
         localStorage.setItem('UP_AUTH','Y');
-        if (this.exp) localStorage.setItem('expanded', this.exp)
         this.router.navigate(['/uniforms/customers/' + this.page.data?.nhno]);
       } else if (mode == 'update' && this.page.data?.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
-        if (this.exp) localStorage.setItem('expanded', this.exp)
         this.router.navigate(['/uniforms/customers/' + this.page.data?.nhno]);
       } else if (this.page.data?.result !== 'pass'){
         this.errors = this.page.data?.errors
@@ -129,7 +128,6 @@ export class CustomerComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/customers/' + this.nhno]);
   }
 

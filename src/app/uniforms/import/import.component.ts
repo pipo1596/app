@@ -3,6 +3,7 @@ import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait } from '../../shared/utils';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-import',
@@ -11,18 +12,15 @@ import { hideWait } from '../../shared/utils';
   styleUrl: './import.component.css'
 })
 export class ImportComponent {
-  exp: any;
   page = new Page();
 
   constructor(private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private layout: LayoutService
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     localStorage.clear();
     hideWait();
     this.page.loading = false;
@@ -34,7 +32,6 @@ export class ImportComponent {
 
   loadUpload(ulid: any){
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/' + ulid + '/' + this.page.rfno + '/' + ulid]);
   }
 

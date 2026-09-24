@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showToast, showWait } from '../../shared/utils';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment.development';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-iframe',
@@ -12,7 +13,6 @@ import { environment } from '../../../environments/environment.development';
   styleUrl: './iframe.component.css'
 })
 export class IframeComponent {
-  exp: any;
   filters: any;
   page = new Page();
   menu: any;
@@ -21,11 +21,10 @@ export class IframeComponent {
   partpg: any;
   error = ""
 
-  constructor(private router: Router, private route: ActivatedRoute, private sanitizer: DomSanitizer) { }
+  constructor(private router: Router, private route: ActivatedRoute, private sanitizer: DomSanitizer, private layout: LayoutService) { }
 
   @HostListener('window:message', ['$event']) onMessage(event: MessageEvent) {
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     if (this.filters) localStorage.setItem('filters', this.filters)
     if(this.p1 && this.partpg?.indexOf('newuniform') == -1){
       this.p1 = JSON.parse(this.p1)
@@ -39,9 +38,6 @@ export class IframeComponent {
 
   ngOnInit(): void {
     showWait();
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     if(localStorage.getItem('filters') !== 'undefined'){
       this.filters = localStorage.getItem('filters')
     }
@@ -51,7 +47,7 @@ export class IframeComponent {
     this.menu = localStorage.getItem('menu');
     this.p1 = localStorage.getItem('p1');
     this.p2 = localStorage.getItem('p2');
-    this.partpg = localStorage.getItem('partpg');
+    this.partpg = localStorage.getItem('iframepg');
     // localStorage.clear()
   }
 
@@ -66,7 +62,6 @@ export class IframeComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     if (this.filters) localStorage.setItem('filters', this.filters)
     if(this.p1) localStorage.setItem('p1',this.p1);
     if(this.p2) localStorage.setItem('p2',this.p2);

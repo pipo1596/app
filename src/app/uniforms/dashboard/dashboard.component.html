@@ -1,16 +1,10 @@
-<app-header [title]="page.title" [menu]="page.menu"></app-header>
-
-<div id="container">
-
-    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu" [exp]="this.exp"></app-sidebar>
-    
-    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+<section class="ftco-section bg-light pb-3 pt-5 content w-100">
         <div class="card mx-auto mb-5 mt-5 mh-100">
             <div class="card-body">
 
             <div class="row g-2 align-items-center">
                 <div class="col-md-4 d-flex align-items-center gap-1">
-                    <h6 class="mb-0">Uniform Program - {{ page.data?.info?.name + ' - ' + trim(page.rfno) }}</h6>
+                    <h6 class="">Uniform Program - {{ ((layout.pgName$ | async) ?? '') + ' - ' + trim(((layout.nhno$ | async) ?? '')) }}</h6>
                     <button class="btn btn-sm" (click)="loadUP(page.rfno, 'name')"><span class="bi bi-pencil-square" title="Edit UP"></span></button>
                 </div>
 
@@ -157,4 +151,3 @@
         </div>
         <app-footer></app-footer>
     </section>
-</div>

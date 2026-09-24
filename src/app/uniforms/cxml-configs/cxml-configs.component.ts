@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { showWait, hideWait } from '../../shared/utils';
 import { environment } from '../../../environments/environment.development';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-cxml-configs',
@@ -12,18 +13,15 @@ import { environment } from '../../../environments/environment.development';
   styleUrl: './cxml-configs.component.css'
 })
 export class CxmlConfigsComponent {
-  exp: any;
   page = new Page();
 
   constructor(private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private layout: LayoutService
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     localStorage.clear();
     hideWait();
     this.page.loading = false;
@@ -43,7 +41,9 @@ export class CxmlConfigsComponent {
 
       this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPGETCXML', data).subscribe(response => {
         this.page.data = response;
-        if (this.page.data?.menu) this.page.menu = this.page.data.menu;
+        if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+        if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+        if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
         if (this.page.data?.level) this.selectConfig(this.page.data.level);
         hideWait();
         this.page.loading = false;
@@ -53,11 +53,9 @@ export class CxmlConfigsComponent {
   selectConfig(level: any){
     if(level == 'CUSTOMER'){
       localStorage.setItem('UP_AUTH','Y');
-      if (this.exp) localStorage.setItem('expanded', this.exp)
       this.router.navigate(['/uniforms/cxmlcustomers/' + this.page.rfno]);
     } else if (level == 'CATEGORY') {
       localStorage.setItem('UP_AUTH','Y');
-      if (this.exp) localStorage.setItem('expanded', this.exp)
       this.router.navigate(['/uniforms/cxmlcategories/' + this.page.rfno]);
     }
   }

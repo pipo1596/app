@@ -1,10 +1,4 @@
-<app-header [title]="page.title" [menu]="page.menu" ></app-header>
-
-<div id="container">
-
-    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu" [exp]="this.exp"></app-sidebar>
-
-    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+<section class="ftco-section bg-light pb-3 pt-5 content w-100">
 
         <div class="d-flex flex-row-reverse mt-5 mb-3" *ngIf="npno">
             <div class="col-md-2">
@@ -17,7 +11,7 @@
                 
                 <div class="row g-4">
                     <div class="col-8">
-                        <h6 class="">Uniform Program - {{ page.data?.pgName + ' - ' + trim(page.rfno) }}</h6>
+                        <h6 class="">Uniform Program - {{ ((layout.pgName$ | async) ?? '') + ' - ' + trim(((layout.nhno$ | async) ?? '')) }}</h6>
                     </div>
 
                     <div class="col-2">
@@ -110,5 +104,4 @@
         </div>
         <app-footer></app-footer>
     </section>
-</div>
 

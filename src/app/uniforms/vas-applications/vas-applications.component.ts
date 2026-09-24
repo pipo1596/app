@@ -8,6 +8,7 @@ import { AppQuestionsService } from '../../services/app-questions.service';
 import { VasQuestionsComponent } from '../vas-questions/vas-questions.component';
 import { forkJoin, of, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-vas-applications',
@@ -18,7 +19,6 @@ import { map } from 'rxjs/operators';
 
 export class VasApplicationsComponent {
   @ViewChildren(VasQuestionsComponent) vasQuestions!: QueryList<VasQuestionsComponent>;
-  exp: any;
   page = new Page();
   allexpanded: boolean = false;
   expanded: any[] = [];
@@ -47,12 +47,10 @@ export class VasApplicationsComponent {
     private router: Router,
     private route: ActivatedRoute,
     private questionService: AppQuestionsService,
+    public layout: LayoutService
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded') !== 'undefined'){
-      this.exp = localStorage.getItem('expanded')
-    }
     if(localStorage.getItem('filters') !== 'undefined'){
       this.filters = localStorage.getItem('filters')
     }
@@ -104,9 +102,10 @@ export class VasApplicationsComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNV1', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data.title) this.page.title = this.page.data.title;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
-      if (this.page.data.menu) this.page.menu = this.page.data.menu;
       if (this.page.data.total) this.total = this.page.data.total;
       if (this.p1?.expanded){
         this.expanded = this.p1.expanded
@@ -198,7 +197,6 @@ export class VasApplicationsComponent {
 
   loadApplication(mode: any, n1no: any){
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     if(this.nino) localStorage.setItem('nino',this.nino);
     switch(mode){
       case 'new':
@@ -295,7 +293,6 @@ export class VasApplicationsComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     if (this.filters) localStorage.setItem('filters', this.filters)
     localStorage.setItem('rtpg', this.page.data?.npname);
     localStorage.setItem('p2', this.p2);
@@ -304,7 +301,6 @@ export class VasApplicationsComponent {
 
   goProduct() {
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     if(this.cache) localStorage.setItem('cache',this.cache);
     this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + this.nino]);
   }

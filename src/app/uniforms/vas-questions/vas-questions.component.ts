@@ -7,6 +7,7 @@ import { hideWait, showWait } from '../../shared/utils';
 import { AppQuestionsService } from '../../services/app-questions.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-vas-questions',
@@ -35,13 +36,11 @@ export class VasQuestionsComponent {
   constructor(
     private http: HttpClient, 
     private router: Router,
-    private questionService: AppQuestionsService
+    private questionService: AppQuestionsService,
+    public layout: LayoutService
   ){}
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     this.getQuestions('','')
   }
 

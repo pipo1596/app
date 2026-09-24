@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait } from '../../shared/utils';
 import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-override',
@@ -56,6 +57,7 @@ export class OverrideComponent {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
+    private layout: LayoutService
   ) { }
 
   ngOnInit(): void {
@@ -117,9 +119,10 @@ export class OverrideComponent {
       
       this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRIW', data).subscribe(response => {
         this.page.data = response;
-        if (this.page.data.title) this.page.title = this.page.data.title;
+        if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+        if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+        if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
         if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
-        if (this.page.data.menu) this.page.menu = this.page.data.menu;
         if (this.page.data?.style?.opd1){
           this.options += (this.page.data?.style?.opd1 + ': ' + (this.page.data?.info?.opv1 ? this.page.data?.info?.opv1 : '<all>') + '   ')
         }

@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { showWait, hideWait } from '../../../shared/utils';
 import { SessionService } from '../../../services/session.service';
+import { LayoutService } from '../../../services/layout.service';
 
 @Component({
   selector: 'app-oerp302',
@@ -13,7 +14,6 @@ import { SessionService } from '../../../services/session.service';
   styleUrl: './oerp302.component.css'
 })
 export class OERP302Component {
-  exp: any;
   page = new Page();
   security: any;
   upload = "";
@@ -34,13 +34,11 @@ export class OERP302Component {
   constructor(private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private layout: LayoutService
   ) { }
 
   async ngOnInit() {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     localStorage.clear();
     this.security = await this.sessionService.getSession();
     this.showEmail = false;
@@ -59,8 +57,9 @@ export class OERP302Component {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPRP302', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data?.title) this.page.title = this.page.data.title;
-      if (this.page.data?.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if(this.page.data?.user)  this.page.data.user = this.page.data.user.sort((a: any,b: any) => a.valu.localeCompare(b.valu))
       if(this.page.data?.info?.frdt){
         this.frdt = this.page.data.info.frdt.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
@@ -140,7 +139,6 @@ export class OERP302Component {
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/export/' + this.page.rfno]);
   }
 

@@ -4,6 +4,7 @@ import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait } from '../../shared/utils';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-item-images',
@@ -12,7 +13,6 @@ import { hideWait, showWait } from '../../shared/utils';
   styleUrl: './item-images.component.css'
 })
 export class ItemImagesComponent {
-  exp: any;
   page = new Page();
   drop = false;
   errors: any;
@@ -36,13 +36,11 @@ export class ItemImagesComponent {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private layout: LayoutService
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     localStorage.clear();
     hideWait();
     this.route.paramMap.subscribe(params => {
@@ -71,9 +69,10 @@ export class ItemImagesComponent {
       
       this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMII', data).subscribe(response => {
         this.page.data = response;
-        if (this.page.data.title) this.page.title = this.page.data.title;
+        if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+        if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+        if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
         if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
-        if (this.page.data.menu) this.page.menu = this.page.data.menu;
         if (this.page.data.total) this.total = this.page.data.total;
         if (this.page.data?.style?.opd1){
           this.options += (this.page.data?.style?.opd1 + ': ' + (this.opv1 ? this.opv1 : '<all>') + '   ')
@@ -97,7 +96,6 @@ export class ItemImagesComponent {
 
   addImage(){
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(
       ['/uniforms/itemimage/' + this.page.rfno + '/' + this.nino],
       { queryParams: { opv1: this.opv1, opv2: this.opv2, opv3: this.opv3, opv4: this.opv4, opv5: this.opv5 } }
@@ -106,7 +104,6 @@ export class ItemImagesComponent {
 
   editImage(image: any){
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(
       ['/uniforms/itemimage/' + this.page.rfno + '/' + this.nino + '/' + image.iino],
       { queryParams: { opv1: this.opv1, opv2: this.opv2, opv3: this.opv3, opv4: this.opv4, opv5: this.opv5 } }
@@ -142,7 +139,6 @@ export class ItemImagesComponent {
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(
       ['/uniforms/override/' + this.page.rfno + '/' + this.nino],
       { queryParams: { opv1: this.opv1, opv2: this.opv2, opv3: this.opv3, opv4: this.opv4, opv5: this.opv5 } }

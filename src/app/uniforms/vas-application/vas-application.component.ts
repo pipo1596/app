@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait } from '../../shared/utils';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-vas-application',
@@ -13,7 +14,6 @@ import { hideWait, showWait } from '../../shared/utils';
 })
 
 export class VasApplicationComponent {
-  exp: any;
   page = new Page();
   drop = false; // More Actions
   dropship = false; 
@@ -46,13 +46,11 @@ export class VasApplicationComponent {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public layout: LayoutService
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded') !== 'undefined'){
-      this.exp = localStorage.getItem('expanded')
-    }
     this.setMode();
     localStorage.clear();
     this.getApplication();
@@ -71,8 +69,9 @@ export class VasApplicationComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV1', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data?.title) this.page.title = this.page.data.title;
-      if (this.page.data?.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.copy && !this.desc){
         this.desc = 'Copy of ' + this.page.data?.info?.desc;
       } else if ( this.page.data?.desc && !this.desc) { this.desc = this.page.data.desc; }
@@ -103,7 +102,9 @@ export class VasApplicationComponent {
   }
 
   inqItem() {
+    let keepPartpg = localStorage.getItem('partpg');
     localStorage.clear();
+    if (keepPartpg) localStorage.setItem('partpg',keepPartpg)
     if(this.nino) localStorage.setItem('p2',this.nino)
     let p1 = {
       dscx: this.dscx,
@@ -115,14 +116,13 @@ export class VasApplicationComponent {
     }
     localStorage.setItem('p1', JSON.stringify(p1));
     if(this.page.editmode){
-      localStorage.setItem('partpg','/uniforms/vasapplication/' + this.nhno + '/' + this.npno + '/' + this.n1no + '/')
+      localStorage.setItem('iframepg','/uniforms/vasapplication/' + this.nhno + '/' + this.npno + '/' + this.n1no + '/')
     } else {
-      localStorage.setItem('partpg','/uniforms/newvasapplication/' + this.nhno + '/' + this.npno + '/')
+      localStorage.setItem('iframepg','/uniforms/newvasapplication/' + this.nhno + '/' + this.npno + '/')
     }
     let menu = '/cgi/APOELMIS2?PAMODE=*INQ&PMV1CD=' + this.v1cd + '&PMACNO=' + this.acno + '&PMDROP=' + (this.dropship ? 'Y' : '') + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/iframe/APOELMIS2'])
   }
 
@@ -220,7 +220,6 @@ export class VasApplicationComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     if(this.nino) localStorage.setItem('nino',this.nino)
     this.router.navigate(['/uniforms/vasapplications/' + this.nhno + '/' + this.npno]);
   }
@@ -253,7 +252,6 @@ export class VasApplicationComponent {
 
       if (this.page.data.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
-        if (this.exp) localStorage.setItem('expanded', this.exp)
         if(this.nino && this.nino !== 'null' && this.nino !== null) localStorage.setItem('nino',this.nino)
         this.router.navigate(['/uniforms/vasapplications/' + this.nhno + '/' + this.npno]);
       } else {
@@ -277,7 +275,6 @@ export class VasApplicationComponent {
       this.page.data = response;
       if (this.page.data.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
-        if (this.exp) localStorage.setItem('expanded', this.exp)
         if(this.nino) localStorage.setItem('nino',this.nino)
         this.router.navigate(['/uniforms/vasapplications/' + this.nhno + '/' + this.npno]);
       }

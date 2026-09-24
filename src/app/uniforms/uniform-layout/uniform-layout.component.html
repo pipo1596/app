@@ -1,0 +1,5 @@
+<app-header [title]="(layout.title$ | async) ?? ''" [menu]="(layout.menu$ | async) ?? ''"></app-header>
+<div id="container">
+    <app-sidebar class="sidebar" [title]="(layout.title$ | async) ?? ''" [menu]="(layout.menu$ | async) ?? ''"></app-sidebar>
+    <router-outlet></router-outlet>
+</div>

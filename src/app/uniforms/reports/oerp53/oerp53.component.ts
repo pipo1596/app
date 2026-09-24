@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { showWait, hideWait } from '../../../shared/utils';
 import { SessionService } from '../../../services/session.service';
+import { LayoutService } from '../../../services/layout.service';
 
 @Component({
   selector: 'app-oerp53',
@@ -13,7 +14,6 @@ import { SessionService } from '../../../services/session.service';
   styleUrl: './oerp53.component.css'
 })
 export class OERP53Component {
-  exp: any;
   page = new Page();
   errors = "";
   security: any;
@@ -30,13 +30,11 @@ export class OERP53Component {
   constructor(private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private layout: LayoutService
   ) { }
 
   async ngOnInit() {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     localStorage.clear();
     this.security = await this.sessionService.getSession();
     this.showEmail = false;
@@ -55,8 +53,9 @@ export class OERP53Component {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPRP53', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data.title) this.page.title = this.page.data.title;
-      if (this.page.data.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if(this.page.data?.method && !this.method) this.method = this.page.data.method[0].valu
       if(this.page.data?.format && !this.format) this.format = this.page.data.format[0].valu
       hideWait();
@@ -124,7 +123,6 @@ validate(){
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/export/' + this.page.rfno]);
   }
 

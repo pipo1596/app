@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data-trigger.service';
 import { hideWait, showWait } from '../../shared/utils';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-customization',
@@ -14,7 +15,6 @@ import { hideWait, showWait } from '../../shared/utils';
 })
 
 export class CustomizationComponent {
-  exp: any;
   page = new Page();
   drop = false; // More Actions
   dropship = false;
@@ -53,14 +53,11 @@ export class CustomizationComponent {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private dataService: DataService
+    private dataService: DataService,
+    public layout: LayoutService
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
-
     if(localStorage.getItem('filters') !== 'undefined'){
       this.filters = localStorage.getItem('filters')
     }
@@ -75,7 +72,9 @@ export class CustomizationComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data?.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.page.data?.info?.name && !this.name) this.name = this.page.data.info.name
 
       if (this.copy && !this.desc){
@@ -272,7 +271,9 @@ export class CustomizationComponent {
   }
 
   inqVfg() {
+    let keepPartpg = localStorage.getItem('partpg');
     localStorage.clear();
+    if (keepPartpg) localStorage.setItem('partpg',keepPartpg)
     let p1 = {
       name: this.name,
       desc: this.desc,
@@ -287,9 +288,9 @@ export class CustomizationComponent {
 
     localStorage.setItem('p1', JSON.stringify(p1));
     if(this.page.editmode){
-      localStorage.setItem('partpg','/uniforms/customization/' + this.nhno + '/' + this.npno + '/')
+      localStorage.setItem('iframepg','/uniforms/customization/' + this.nhno + '/' + this.npno + '/')
     } else {
-      localStorage.setItem('partpg','/uniforms/newcustomization/' + this.nhno + '/')
+      localStorage.setItem('iframepg','/uniforms/newcustomization/' + this.nhno + '/')
     }
 
     let menu = ""
@@ -301,13 +302,14 @@ export class CustomizationComponent {
 
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     if (this.filters) localStorage.setItem('filters', this.filters)
     this.router.navigate(['/uniforms/iframe/APOELMVFG'])
   }
 
   inqCtno(){
+    let keepPartpg = localStorage.getItem('partpg')
     localStorage.clear();
+    if (keepPartpg) localStorage.setItem('partpg',keepPartpg)
     let p1 = {
       name: this.name,
       desc: this.desc,
@@ -321,18 +323,16 @@ export class CustomizationComponent {
     }
 
     localStorage.setItem('p1', JSON.stringify(p1));
-    localStorage.setItem('partpg','/uniforms/newcustomization/' + this.nhno + '/')
+    localStorage.setItem('iframepg','/uniforms/newcustomization/' + this.nhno + '/')
     let menu = '/cgi/APOELMCT?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     if (this.filters) localStorage.setItem('filters', this.filters)
     this.router.navigate(['/uniforms/iframe/APOELMCT'])
   }
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     if (this.filters) localStorage.setItem('filters', this.filters)
     if(this.partpg){
       this.router.navigate([this.partpg]);
@@ -388,7 +388,6 @@ export class CustomizationComponent {
 
       if (this.page.data.result == 'pass' && this.page.data.nhno){
         localStorage.setItem('UP_AUTH','Y');
-        if (this.exp) localStorage.setItem('expanded', this.exp)
         if (this.filters) localStorage.setItem('filters', this.filters)
         if(mode == 'create' && this.page.data.npno){
           if(this.nino) localStorage.setItem('nino',this.nino);

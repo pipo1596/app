@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait } from '../../shared/utils';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-quick-add',
@@ -28,6 +29,7 @@ export class QuickAddComponent implements AfterViewInit {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
+    public layout: LayoutService
 ) { }
 
   ngAfterViewInit(): void {
@@ -69,7 +71,9 @@ export class QuickAddComponent implements AfterViewInit {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNAQ', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data.title) this.page.title = this.page.data.title;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
       if (this.page.data.menu) this.page.menu = this.page.data.menu;
       hideWait();
@@ -144,10 +148,12 @@ export class QuickAddComponent implements AfterViewInit {
       cache.push(inputs[i].nativeElement.value);
     }
 
+    let keepPartpg = localStorage.getItem('partpg');
     localStorage.clear();
+    if (keepPartpg) localStorage.setItem('partpg',keepPartpg)
     localStorage.setItem('p1', id)
     localStorage.setItem('p2', JSON.stringify(cache))
-    localStorage.setItem('partpg','/uniforms/quickadd/' + this.nhno + '/' + this.nano + '/')
+    localStorage.setItem('iframepg','/uniforms/quickadd/' + this.nhno + '/' + this.nano + '/')
     localStorage.setItem('menu','/cgi/APOELMIS?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/iframe/APOELMIS'])

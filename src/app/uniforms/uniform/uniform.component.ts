@@ -4,6 +4,7 @@ import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { showWait, hideWait } from '../../shared/utils';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-uniform',
@@ -13,7 +14,6 @@ import { showWait, hideWait } from '../../shared/utils';
 })
 export class UniformComponent {
   @Output() triggerEvent = new EventEmitter<string>();
-  exp: any;
   page = new Page();
   error = "";
   programName: any = "";
@@ -21,13 +21,11 @@ export class UniformComponent {
 
   constructor(private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private layout: LayoutService
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     if(localStorage.getItem('p1')) this.programName = localStorage.getItem('p1');
     localStorage.clear();
     hideWait();
@@ -49,7 +47,6 @@ export class UniformComponent {
       this.page.data = response;
       if (this.page.data.result == 'pass' && this.page.data.nhno){
         localStorage.setItem('UP_AUTH','Y');
-        if (this.exp) localStorage.setItem('expanded', this.exp)
         this.router.navigate(['/uniforms/dashboard/' + this.page.data.nhno]);
       } else {
         this.error = this.page.data.errors
@@ -60,12 +57,13 @@ export class UniformComponent {
   }
 
   inqAccount() {
+    let keepPartpg = localStorage.getItem('partpg');
     localStorage.clear();
+    if (keepPartpg) localStorage.setItem('partpg',keepPartpg)
     localStorage.setItem('p1', this.programName);
-    localStorage.setItem('partpg','/uniforms/newuniform/')
+    localStorage.setItem('iframepg','/uniforms/newuniform/')
     localStorage.setItem('menu','/cgi/APOELMAC?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/iframe/APOELMAC'])
   }
 

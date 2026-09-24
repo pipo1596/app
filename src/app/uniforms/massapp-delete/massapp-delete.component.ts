@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait } from '../../shared/utils';
 import { environment } from '../../../environments/environment.development';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-massapp-delete',
@@ -13,7 +14,6 @@ import { environment } from '../../../environments/environment.development';
 })
 export class MassappDeleteComponent {
   //Display
-  exp: any;
   filters: any;
   page = new Page();
   v1cd: any = "";
@@ -37,13 +37,11 @@ export class MassappDeleteComponent {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public layout: LayoutService
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     if(localStorage.getItem('filters') !== 'undefined'){
       this.filters = localStorage.getItem('filters')
     }
@@ -72,9 +70,10 @@ export class MassappDeleteComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRVAD', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data.title) this.page.title = this.page.data.title;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
-      if (this.page.data.menu) this.page.menu = this.page.data.menu;
       if (this.page.data?.appDrp) this.applications = this.page.data.appDrp;
       if (this.page.data?.cstmzChk){ 
         this.page.data.cstmzChk = this.page.data.cstmzChk.sort((a: any,b: any) => a.npno.localeCompare(b.npno))
@@ -222,7 +221,6 @@ export class MassappDeleteComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     if (this.filters) localStorage.setItem('filters', this.filters)
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }

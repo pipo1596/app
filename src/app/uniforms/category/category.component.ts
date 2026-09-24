@@ -4,6 +4,7 @@ import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait } from '../../shared/utils';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-category',
@@ -12,7 +13,6 @@ import { hideWait, showWait } from '../../shared/utils';
   styleUrl: './category.component.css'
 })
 export class CategoryComponent {
-  exp: any;
   page = new Page();
   drop = false; // More Actions
   copy: any;
@@ -38,13 +38,11 @@ export class CategoryComponent {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public layout: LayoutService
   ) {}
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     this.setMode();
     showWait();
 
@@ -56,7 +54,9 @@ export class CategoryComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNA', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.page.data?.info?.upct) this.upct = this.page.data?.info?.upct
 
       if (this.copy){
@@ -158,7 +158,6 @@ export class CategoryComponent {
 
     if (this.page.data.result == 'pass' && this.page.data.nhno){
       localStorage.setItem('UP_AUTH','Y');
-      if (this.exp) localStorage.setItem('expanded', this.exp)
       localStorage.setItem('styl', this.styl);
       localStorage.setItem('cache',this.cache);
 
@@ -226,7 +225,6 @@ export class CategoryComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     if(this.partpg) {
       localStorage.setItem('styl',this.styl);
       this.router.navigate([this.partpg]);

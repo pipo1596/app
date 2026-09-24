@@ -8,6 +8,7 @@ import { DataService } from '../../services/data-trigger.service';
 import { FileUploadService } from '../../services/file-upload.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Observable } from 'rxjs';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-product',
@@ -17,7 +18,6 @@ import { Observable } from 'rxjs';
 })
 
 export class ProductComponent {
-  exp: any;
   page = new Page();
   drop = false; // More Actions
   copy: any;
@@ -119,13 +119,11 @@ export class ProductComponent {
     private router: Router,
     private route: ActivatedRoute,
     private dataService: DataService,
-    private uploadService: FileUploadService
+    private uploadService: FileUploadService,
+    public layout: LayoutService
   ) { hideWait(); }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     this.copy = localStorage.getItem('copy')
     this.setMode();
     this.getProduct();
@@ -143,7 +141,9 @@ export class ProductComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data?.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
 
       if(this.item){
         this.styl = this.item;
@@ -231,16 +231,17 @@ export class ProductComponent {
   }
 
   inqStyle() {
+    let keepPartpg = localStorage.getItem('partpg');
     localStorage.clear();
+    if (keepPartpg) localStorage.setItem('partpg',keepPartpg)
     if(this.page.editmode){
       localStorage.setItem('p1', this.item)
-      localStorage.setItem('partpg','/uniforms/product/' + this.nhno + '/' + this.nino + '/')
+      localStorage.setItem('iframepg','/uniforms/product/' + this.nhno + '/' + this.nino + '/')
     } else {
-      localStorage.setItem('partpg','/uniforms/newproduct/' + this.nhno + '/')
+      localStorage.setItem('iframepg','/uniforms/newproduct/' + this.nhno + '/')
     }
     localStorage.setItem('menu','/cgi/APOELMIS?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/iframe/APOELMIS'])
   }
 
@@ -465,14 +466,12 @@ export class ProductComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     if (this.filters) localStorage.setItem('filters', this.filters)
     this.router.navigate(['/uniforms/products/' + this.nhno]);
   }
 
   goImg() {
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     if(this.hasIW){
       this.router.navigate(['/uniforms/overrides/' + this.nhno + '/' + this.nino]);
     } else {
@@ -573,7 +572,6 @@ export class ProductComponent {
       if (this.filters) localStorage.setItem('filters', this.filters)
       if (this.page.data.result == 'pass'){
        localStorage.setItem('UP_AUTH','Y');
-      if (this.exp) localStorage.setItem('expanded', this.exp)
        if(this.page.data?.nino) localStorage.setItem('nino',this.page.data.nino)
        this.router.navigate(['/uniforms/products/' + this.nhno]);
       }
@@ -606,7 +604,6 @@ export class ProductComponent {
       this.page.data = response;
       if (this.page.data?.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
-        if (this.exp) localStorage.setItem('expanded', this.exp)
         this.router.navigate(['/uniforms/products/' + this.page.data?.nhno]);
       }
       this.page.loading = false;
@@ -620,7 +617,6 @@ export class ProductComponent {
     localStorage.setItem('partpg', partpg)
     localStorage.setItem('styl', this.styl)
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/category/' + this.nhno]);
   }
 
@@ -641,7 +637,6 @@ export class ProductComponent {
     if(mode == 'RTL') localStorage.setItem('retail', this.page.data?.isctno ? this.page.data.isctno : this.page.data?.info.isctno)
     localStorage.setItem('nino', this.page.data?.info?.nino)
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/newcustomization/' + this.nhno]);
   }
 

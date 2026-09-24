@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait } from '../../shared/utils';
 import { environment } from '../../../environments/environment.development';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-massapp-update',
@@ -13,7 +14,6 @@ import { environment } from '../../../environments/environment.development';
 })
 export class MassappUpdateComponent {
   //Display
-  exp: any;
   filters: any;
   page = new Page();
   type: any = "";
@@ -55,13 +55,11 @@ export class MassappUpdateComponent {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public layout: LayoutService
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     if(localStorage.getItem('filters') !== 'undefined'){
       this.filters = localStorage.getItem('filters')
     }
@@ -166,9 +164,10 @@ export class MassappUpdateComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRVAD', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data?.title) this.page.title = this.page.data?.title;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.page.data?.fullname) this.page.fullname = this.page.data?.fullname;
-      if (this.page.data?.menu) this.page.menu = this.page.data?.menu;
       if (this.page.data?.appDrp) this.applications = this.page.data?.appDrp;
       if (this.page.data?.cstmzChk){ 
         this.page.data.cstmzChk = this.page.data?.cstmzChk.sort((a: any,b: any) => a.npno.localeCompare(b.npno))
@@ -472,7 +471,9 @@ export class MassappUpdateComponent {
   }
 
   inqItem() {
+    let keepPartpg = localStorage.getItem('partpg');
     localStorage.clear();
+    if (keepPartpg) localStorage.setItem('partpg',keepPartpg)
     let p1 = {
       type: this.type,
       vedp: this.vedp,
@@ -490,11 +491,10 @@ export class MassappUpdateComponent {
       questions: JSON.stringify(this.questions)
     }
     localStorage.setItem('p1', JSON.stringify(p1));
-    localStorage.setItem('partpg','/uniforms/massappupdate/' + this.page.rfno + '/')
+    localStorage.setItem('iframepg','/uniforms/massappupdate/' + this.page.rfno + '/')
     let menu = '/cgi/APOELMIS2?PAMODE=*INQ&PMV1CD=' + this.v1cd + '&PMACNO=' + this.acno + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     if (this.filters) localStorage.setItem('filters', this.filters)
     this.router.navigate(['/uniforms/iframe/APOELMIS2'])
   }
@@ -580,7 +580,9 @@ export class MassappUpdateComponent {
   }
 
   inqVSMT(v2no: any){
+    let keepPartpg = localStorage.getItem('partpg');
     localStorage.clear();
+    if (keepPartpg) localStorage.setItem('partpg',keepPartpg)
     
     let p1 = {
       type: this.type,
@@ -603,11 +605,10 @@ export class MassappUpdateComponent {
       target: v2no
     }
     localStorage.setItem('p1', JSON.stringify(p1));
-    localStorage.setItem('partpg','/uniforms/massappupdate/' + this.page.rfno + '/' + this.newVedp + '/')
+    localStorage.setItem('iframepg','/uniforms/massappupdate/' + this.page.rfno + '/' + this.newVedp + '/')
     let menu = '/cgi/APOELMIS4?PAMODE=*INQ&PMVSMT=EMBLEM' + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('menu',menu)
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     if (this.filters) localStorage.setItem('filters', this.filters)
     this.router.navigate(['/uniforms/iframe/APOELMIS4'])
   }
@@ -629,7 +630,6 @@ export class MassappUpdateComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     if (this.filters) localStorage.setItem('filters', this.filters)
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }

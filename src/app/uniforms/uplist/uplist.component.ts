@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait } from '../../shared/utils';
 import { environment } from '../../../environments/environment.development';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-uplist',
@@ -12,7 +13,6 @@ import { environment } from '../../../environments/environment.development';
   styleUrl: './uplist.component.css'
 })
 export class UplistComponent {
-  exp: any;
   dash: any;
   page = new Page();
   drop = false;
@@ -24,13 +24,11 @@ export class UplistComponent {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public layout: LayoutService
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     if(localStorage.getItem('dash')){
       this.dash = localStorage.getItem('dash')
     }
@@ -44,11 +42,12 @@ export class UplistComponent {
   }
 
   inqList(){
+    let keepPartpg = localStorage.getItem('partpg');
     localStorage.clear();
-    localStorage.setItem('partpg','/uniforms/uplist/' + this.page.rfno + '/')
+    if (keepPartpg) localStorage.setItem('partpg',keepPartpg)
+    localStorage.setItem('iframepg','/uniforms/uplist/' + this.page.rfno + '/')
     localStorage.setItem('menu','/cgi/APOELMPL?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     localStorage.setItem('UP_AUTH','Y')
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/iframe/APOELMPL'])
   }
 
@@ -63,7 +62,9 @@ export class UplistComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRPL', data).subscribe(response => {
       this.page.data = response;
-      if(this.page.data?.menu) this.page.menu = 'Y';
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
 
       if(this.page.data?.inq?.plnoi){
         this.plno = this.page.data.inq.plnoi
@@ -89,7 +90,6 @@ export class UplistComponent {
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/dashboard/' + this.page.rfno]);
   }
 }

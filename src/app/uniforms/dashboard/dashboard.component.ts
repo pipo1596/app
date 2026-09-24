@@ -4,6 +4,7 @@ import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { convertToDate, formatDateUS, hideWait } from '../../shared/utils';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +14,6 @@ import { convertToDate, formatDateUS, hideWait } from '../../shared/utils';
 })
 
 export class DashboardComponent {
-  exp: any;
   page = new Page();
   imgprfx = environment.logoprfx;
   upNum: any = "";
@@ -22,7 +22,8 @@ export class DashboardComponent {
 
   constructor(private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public layout: LayoutService
   ) { }
 
   ngOnInit(): void {
@@ -40,9 +41,10 @@ export class DashboardComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNH', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data.title) this.page.title = this.page.data.title;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
-      if (this.page.data.menu) this.page.menu = this.page.data.menu;
       if (this.page.data.info.effd) this.page.data.info.effd = this.page.data.info.effd;
       if (this.page.data.info.expd) this.page.data.info.expd = this.page.data.info.expd;
       if (this.page.data.info.expd) this.notes = this.page.data.notes;
@@ -52,7 +54,6 @@ export class DashboardComponent {
 
   loadProduct (menu: any) {
     localStorage.setItem('UP_AUTH','Y')
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     switch(menu){
       case 'addProduct':
         this.router.navigate(['uniforms/newproduct/' + this.page.rfno]);
@@ -74,13 +75,11 @@ export class DashboardComponent {
 
   loadWarehouse(){
     localStorage.setItem('UP_AUTH','Y')
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/warehouse/' + this.page.rfno]);
   }
 
   loadPricing(menu: any){
     localStorage.setItem('UP_AUTH','Y')
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     switch(menu){
       case 'addList':
         this.router.navigate(['/uniforms/uplist/' + this.page.rfno]);
@@ -93,7 +92,6 @@ export class DashboardComponent {
 
   loadUP(nhno: any, mode: any){
     localStorage.setItem('UP_AUTH','Y')
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     localStorage.setItem('dash','Y')
     switch(mode){
       case 'name':

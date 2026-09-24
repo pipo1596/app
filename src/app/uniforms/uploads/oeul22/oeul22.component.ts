@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../../services/data-trigger.service';
 import { showWait, hideWait } from '../../../shared/utils';
+import { LayoutService } from '../../../services/layout.service';
 
 @Component({
   selector: 'app-oeul22',
@@ -13,7 +14,6 @@ import { showWait, hideWait } from '../../../shared/utils';
   styleUrl: './oeul22.component.css'
 })
 export class OEUL22Component {
-  exp: any;
   page = new Page();
   ulid: any = "";
   iono: any = "";
@@ -25,12 +25,10 @@ export class OEUL22Component {
     private router: Router,
     private route: ActivatedRoute,
     private dataService: DataService,
+    private layout: LayoutService
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     localStorage.clear();
     showWait();
     this.route.paramMap.subscribe(params => {
@@ -45,9 +43,10 @@ export class OEUL22Component {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPUL22', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data.title) this.page.title = this.page.data.title;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
-      if (this.page.data.menu) this.page.menu = this.page.data.menu;
       hideWait();
       this.page.loading = false;
     });
@@ -128,7 +127,6 @@ export class OEUL22Component {
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y')
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     this.router.navigate(['/uniforms/import/' + this.page.rfno]);
   }
 

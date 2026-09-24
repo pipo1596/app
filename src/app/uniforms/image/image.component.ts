@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment.development';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data-trigger.service';
 import { showWait, hideWait } from '../../shared/utils';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-import',
@@ -13,7 +14,6 @@ import { showWait, hideWait } from '../../shared/utils';
   styleUrl: './image.component.css'
 })
 export class ImageComponent {
-  exp: any;
   filters: any;
   checkedImg: any[] = [];
   page = new Page();
@@ -29,13 +29,11 @@ export class ImageComponent {
   constructor(private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private dataService: DataService
+    private dataService: DataService,
+    private layout: LayoutService
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     if(localStorage.getItem('filters') !== 'undefined'){
       this.filters = localStorage.getItem('filters')
     }
@@ -70,9 +68,10 @@ export class ImageComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRIMG', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data.title) this.page.title = this.page.data.title;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
-      if (this.page.data.menu) this.page.menu = this.page.data.menu;
       hideWait();
       this.page.loading = false;
     });
@@ -106,7 +105,6 @@ export class ImageComponent {
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     if (this.filters) localStorage.setItem('filters', this.filters)
     if(this.npno) {
       this.router.navigate(['/uniforms/images/' + this.page.rfno + '/' + this.npno]);

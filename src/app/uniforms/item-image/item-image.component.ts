@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait } from '../../shared/utils';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-item-image',
@@ -13,7 +14,6 @@ import { hideWait, showWait } from '../../shared/utils';
 })
 
 export class ItemImageComponent {
-  exp: any;
   page = new Page();
   errors: any;
 
@@ -42,13 +42,11 @@ export class ItemImageComponent {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private layout: LayoutService
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     this.setMode();
     this.getImage();
   }
@@ -69,9 +67,10 @@ export class ItemImageComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRII', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data.title) this.page.title = this.page.data.title;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
-      if (this.page.data.menu) this.page.menu = this.page.data.menu;
       if (this.page.data?.style?.opd1){
         this.options += (this.page.data?.style?.opd1 + ': ' + this.page.data?.style?.opv1 + '   ')
       }

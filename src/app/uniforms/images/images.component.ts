@@ -4,6 +4,7 @@ import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait } from '../../shared/utils';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-images',
@@ -12,7 +13,6 @@ import { hideWait, showWait } from '../../shared/utils';
   styleUrl: './images.component.css'
 })
 export class ImagesComponent {
-  exp: any;
   filters: any;
   page = new Page();
   drop = false;
@@ -29,13 +29,11 @@ export class ImagesComponent {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public layout: LayoutService
   ) {}
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     if(localStorage.getItem('filters') !== 'undefined'){
       this.filters = localStorage.getItem('filters')
     }
@@ -60,9 +58,10 @@ export class ImagesComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMIMG', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data.title) this.page.title = this.page.data.title;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
-      if (this.page.data.menu) this.page.menu = this.page.data.menu;
       if (this.page.data.total) this.total = this.page.data.total;
       if (this.page.data?.images) this.page.data.images = this.page.data.images.sort((a: any,b: any) => a.iono.localeCompare(b.iono))
       if (this.page.data?.seqDrop) this.page.data.seqDrop = this.page.data.seqDrop.sort((a: any,b: any) => a.seq.localeCompare(b.seq))
@@ -86,7 +85,6 @@ export class ImagesComponent {
   newImage(){
     localStorage.clear();
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     if (this.filters) localStorage.setItem('filters', this.filters)
     if(this.npno){
       this.router.navigate(['/uniforms/image/' + this.page.rfno + '/' + this.npno]);
@@ -140,7 +138,6 @@ export class ImagesComponent {
 
   goBackNP() {
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     if (this.filters) localStorage.setItem('filters', this.filters)
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }

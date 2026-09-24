@@ -4,6 +4,7 @@ import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { showWait, hideWait } from '../../shared/utils';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-vas-question',
@@ -12,7 +13,6 @@ import { showWait, hideWait } from '../../shared/utils';
   styleUrl: './vas-question.component.css'
 })
 export class VasQuestionComponent {
-  exp: any;
   page = new Page();
   errors: any;
   application: any;
@@ -52,13 +52,10 @@ export class VasQuestionComponent {
   constructor(private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
+    public layout: LayoutService
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
-
     if(localStorage.getItem('allexpand')){
       this.all = localStorage.getItem('allexpand')
     }
@@ -107,8 +104,9 @@ export class VasQuestionComponent {
       this.page.data = response;
 
       //Input
-      if (this.page.data?.title) this.page.title = this.page.data.title;
-      if (this.page.data?.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.page.data?.info?.nv2type) this.type = this.page.data.info.nv2type;
       if (this.page.data?.info?.desc) this.desc = this.page.data.info.desc;
       if (this.page.data?.info?.seq) this.seq = this.page.data.info.seq;
@@ -231,7 +229,6 @@ export class VasQuestionComponent {
 
       if (this.page.data.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
-        if (this.exp) localStorage.setItem('expanded', this.exp)
         localStorage.setItem('allexpand',this.all ? 'Y' : '');
         if(this.nino) localStorage.setItem('nino',this.nino);
         this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + this.npno]);
@@ -260,7 +257,6 @@ export class VasQuestionComponent {
 
       if (this.page.data.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
-        if (this.exp) localStorage.setItem('expanded', this.exp)
         localStorage.setItem('allexpand',this.all ? 'Y' : '');
         if(this.nino) localStorage.setItem('nino',this.nino);
         this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + this.npno]);
@@ -286,26 +282,28 @@ export class VasQuestionComponent {
   }
 
   inqDrop() {
+    let keepPartpg = localStorage.getItem('partpg');
     localStorage.clear();
+    if (keepPartpg) localStorage.setItem('partpg',keepPartpg)
     localStorage.setItem('p1',JSON.stringify(this.application));
     localStorage.setItem('p2',this.all ? 'Y' : '');
     let menu = '/cgi/APOELMVH?PAMODE=*INQ&PMV1CD=' + this.application.v1cd + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N'
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
-    localStorage.setItem('partpg','/uniforms/vasquestion/' + this.page.rfno + '/' + this.npno + '/');
+    localStorage.setItem('iframepg','/uniforms/vasquestion/' + this.page.rfno + '/' + this.npno + '/');
     localStorage.setItem('menu',menu);
     if(this.nino) localStorage.setItem('nino',this.nino);
     this.router.navigate(['/uniforms/iframe/APOELMVH']);
   }
 
   inqDfan() {
+    let keepPartpg = localStorage.getItem('partpg');
     localStorage.clear();
+    if (keepPartpg) localStorage.setItem('partpg',keepPartpg)
     localStorage.setItem('p1',JSON.stringify(this.application));
     localStorage.setItem('p2',this.all ? 'Y' : '');
     let menu = '/cgi/APOELMIS4?PAMODE=*INQ&PMVSMT=EMBLEM' + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
-    localStorage.setItem('partpg','/uniforms/vasquestion/' + this.page.rfno + '/' + this.npno + '/');
+    localStorage.setItem('iframepg','/uniforms/vasquestion/' + this.page.rfno + '/' + this.npno + '/');
     localStorage.setItem('menu',menu);
     if(this.nino) localStorage.setItem('nino',this.nino);
     this.router.navigate(['/uniforms/iframe/APOELMVH']);
@@ -313,7 +311,6 @@ export class VasQuestionComponent {
 
   goBack(){
     localStorage.setItem('UP_AUTH','Y');
-    if (this.exp) localStorage.setItem('expanded', this.exp)
     localStorage.setItem('allexpand',this.all ? 'Y' : '');
     if(this.nino) localStorage.setItem('nino',this.nino);
     this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + this.npno]);

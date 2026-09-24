@@ -4,7 +4,7 @@
 
             <div class="row g-2 align-items-center">
                 <div class="col-md-4 d-flex align-items-center gap-1">
-                    <h6 class="">Uniform Program - {{ ((layout.pgName$ | async) ?? '') + ' - ' + trim(page.rfno) }}</h6>
+                    <h6 class="">Uniform Program - {{ ((layout.pgName$ | async) ?? '') + ' - ' + trim(((layout.nhno$ | async) ?? '')) }}</h6>
                     <button class="btn btn-sm" (click)="loadUP(page.rfno, 'name')"><span class="bi bi-pencil-square" title="Edit UP"></span></button>
                 </div>
 

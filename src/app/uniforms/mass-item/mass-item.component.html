@@ -6,7 +6,7 @@
 
                     <div class="row g-5">
                         <div class="col-10 mb-5">
-                            <h6 class="">Uniform Program - {{ ((layout.pgName$ | async) ?? '') + ' - ' + trim(page.rfno) }}</h6>
+                            <h6 class="">Uniform Program - {{ ((layout.pgName$ | async) ?? '') + ' - ' + trim(((layout.nhno$ | async) ?? '')) }}</h6>
                         </div>
                         <div class="col-md-2">
                             <button type="submit" class="btn btn-secondary me-3" (click)="goBack()">Cancel</button>

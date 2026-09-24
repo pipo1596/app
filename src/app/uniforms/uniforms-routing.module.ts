@@ -49,7 +49,7 @@ import { MassappAddComponent } from './massapp-add/massapp-add.component';
 import { MassappDeleteComponent } from './massapp-delete/massapp-delete.component';
 import { MassappUpdateComponent } from './massapp-update/massapp-update.component';
 import { authGuard, saveOnLeaveGuard } from './auth.guard';
-import { UniformLayoutComponent } from './uniform-layout/uniform-layout/uniform-layout.component';
+import { UniformLayoutComponent } from './uniform-layout/uniform-layout.component';
 
 const routes: Routes = [
   {

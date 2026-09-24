@@ -17,6 +17,9 @@ export class SamtrackComponent {
   drop = false;
 
   //Search
+  ccnm = "";
+  ccns = "";
+  ccnc = "";
   srch = "";
 
   //Paging
@@ -45,6 +48,9 @@ export class SamtrackComponent {
     showWait();
     let data = {
       nhno: this.page.rfno,
+      ccnm: this.ccnm,
+      ccnc: this.ccnc,
+      ccns: this.ccns,
       srch: this.srch,
       itemsPerPage: this.itemsPerPage,
       currentPage: this.p

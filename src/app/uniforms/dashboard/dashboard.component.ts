@@ -27,28 +27,27 @@ export class DashboardComponent {
   ) { }
 
   ngOnInit(): void {
-    localStorage.clear();
     hideWait();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
       this.upNum = this.page.rfno?.replace(/^0+/, '');
-    });
 
-    let data = {
-      mode: 'getInfo',
-      nhno: this.page.rfno
-    }
+      let data = {
+        mode: 'getInfo',
+        nhno: this.page.rfno
+      }
 
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNH', data).subscribe(response => {
-      this.page.data = response;
-      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
-      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
-      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
-      if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
-      if (this.page.data.info.effd) this.page.data.info.effd = this.page.data.info.effd;
-      if (this.page.data.info.expd) this.page.data.info.expd = this.page.data.info.expd;
-      if (this.page.data.info.expd) this.notes = this.page.data.notes;
-      if (this.page.data?.plno) this.plno = this.page.data.plno;
+      this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNH', data).subscribe(response => {
+        this.page.data = response;
+        if (this.page.data?.info?.name) this.layout.setProgram(this.page.rfno, this.page.data.info.name);
+        if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+        if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
+        if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
+        if (this.page.data.info.effd) this.page.data.info.effd = this.page.data.info.effd;
+        if (this.page.data.info.expd) this.page.data.info.expd = this.page.data.info.expd;
+        if (this.page.data.info.expd) this.notes = this.page.data.notes;
+        if (this.page.data?.plno) this.plno = this.page.data.plno;
+      });
     });
   }
 

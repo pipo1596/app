@@ -60,6 +60,12 @@ export class SamgroupComponent {
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
       if (this.page.data?.info?.sam) this.sam = this.page.data.info.sam;
       if(this.page.data?.errors) this.sam = samI
+
+      if (this.page.data.result == 'pass' && mode == 'update'){
+       localStorage.setItem('UP_AUTH','Y');
+       this.router.navigate(['/uniforms/samtrack/' + this.page.rfno]);
+      }
+
       this.page.loading = false;
       hideWait();
     });

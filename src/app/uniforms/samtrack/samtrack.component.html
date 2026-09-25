@@ -80,7 +80,8 @@
                                 </button>
                             </td>
                             <td align="left">{{group.ccnmDesc + '>' + group.ccncDesc + '>' + group.ccnsDesc }}</td>
-                            <td align="left">{{group.samDesc}}</td>
+                            <td align="left"><a href="javascript:void" (click)="goAudit(group.ccnm,group.ccnc,group.ccns)">{{group.samDesc}}</a></td>
+                            
                             <td align="left">{{dsppbdate(group.addt)}}</td>
                         </tr> 
                     </tbody>

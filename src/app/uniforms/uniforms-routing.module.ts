@@ -50,6 +50,7 @@ import { MassappDeleteComponent } from './massapp-delete/massapp-delete.componen
 import { MassappUpdateComponent } from './massapp-update/massapp-update.component';
 import { authGuard, saveOnLeaveGuard } from './auth.guard';
 import { UniformLayoutComponent } from './uniform-layout/uniform-layout.component';
+import { SamauditComponent } from './samaudit/samaudit.component';
 
 const routes: Routes = [
   {
@@ -96,6 +97,7 @@ const routes: Routes = [
       { path: 'samtrack/:nhno', component: SamtrackComponent, canActivate: [authGuard]   }, 
       { path: 'samgroup/:nhno', component: SamgroupComponent, canActivate: [authGuard]   }, 
       { path: 'samgroup/:nhno/:rfno', component: SamgroupComponent, canActivate: [authGuard]   }, 
+      { path: 'samaudit/:nhno/:rfno', component: SamauditComponent, canActivate: [authGuard]   }, 
 
       //Customers
       { path: 'customers/:nhno', component: CustomersComponent, canActivate: [authGuard]  },

@@ -55,6 +55,7 @@ import { MassappUpdateComponent } from './massapp-update/massapp-update.componen
 import { SamtrackComponent } from './samtrack/samtrack.component';
 import { SamgroupComponent } from './samgroup/samgroup.component';
 import { UniformLayoutComponent } from './uniform-layout/uniform-layout.component';
+import { SamauditComponent } from './samaudit/samaudit.component';
 
 @NgModule({
   declarations: [
@@ -108,7 +109,8 @@ import { UniformLayoutComponent } from './uniform-layout/uniform-layout.componen
     MassappUpdateComponent,
     SamtrackComponent,
     SamgroupComponent,
-    UniformLayoutComponent
+    UniformLayoutComponent,
+    SamauditComponent
   ],
   imports: [
     CommonModule,

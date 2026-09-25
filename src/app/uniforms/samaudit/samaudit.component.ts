@@ -7,19 +7,19 @@ import { convertToDate, formatDateUS, hideWait, showWait } from '../../shared/ut
 import { LayoutService } from '../../services/layout.service';
 
 @Component({
-  selector: 'app-samtrack',
+  selector: 'app-samaudit',
   standalone: false,
-  templateUrl: './samtrack.component.html',
-  styleUrl: './samtrack.component.css'
+  templateUrl: './samaudit.component.html',
+  styleUrl: './samaudit.component.css'
 })
-export class SamtrackComponent {
+export class SamauditComponent {
   page = new Page();
   drop = false;
 
   //Search
-  ccnm = "";
-  ccns = "";
-  ccnc = "";
+  ccnm: any = "";
+  ccns: any = "";
+  ccnc: any = "";
   srch = "";
 
   //Paging
@@ -39,24 +39,27 @@ export class SamtrackComponent {
     showWait();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
+      if(params.get('rfno')){
+        this.ccnm = params.get('rfno')?.slice(0,10)
+        this.ccnc = params.get('rfno')?.slice(10,20)
+        this.ccns = params.get('rfno')?.slice(20,30)
+      }
     });
-    this.getGroups(this.srch);
+    this.getAudits();
   }
 
-  getGroups(grp: string) {
-    this.srch = grp
+  getAudits() {
     showWait();
     let data = {
       nhno: this.page.rfno,
       ccnm: this.ccnm,
       ccnc: this.ccnc,
       ccns: this.ccns,
-      srch: this.srch,
       itemsPerPage: this.itemsPerPage,
       currentPage: this.p
     }
     
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNCC', data).subscribe(response => {
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNCL', data).subscribe(response => {
       this.page.data = response;
       if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
       if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
@@ -68,53 +71,19 @@ export class SamtrackComponent {
     });
   }
 
-  editGroup(rfno: string) {
-    localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate(['/uniforms/samgroup/' + this.page.rfno + '/' + rfno]);
-  }
-
-  deleteGroup(rfno: string) {
-    showWait();
-    
-    let data = {
-      mode: 'delete',
-      nhno: this.page.rfno,
-      nono: rfno,
-      note: '',
-      upct: ''
-    }
-
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNO', data).subscribe(response => {
-      this.page.data = response;
-    
-      if (this.page.data.result !== 'pass'){
-        this.page.loading = false;
-        hideWait();
-      } else {
-        this.getGroups(this.srch);
-      }
-    });
-  }
-
-  newNote() {
-    localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate(['/uniforms/samgroup/' + this.page.rfno]);
-  }
-
-  goAudit(ccnm: any, ccnc: any, ccns: any) {
-    let rfno = ccnm.trimEnd() + ccnc.trimEnd() + ccns.trimEnd()
-    localStorage.setItem('UP_AUTH','Y');
-    this.router.navigate(['/uniforms/samaudit/' + this.page.rfno + '/' + rfno]);
-  }
-
   onItemChange(event: number){
     this.itemsPerPage = event
-    this.getGroups(this.srch);
+    this.getAudits();
   }
 
   onPageChange(event: number) {
     this.p = event
-    this.getGroups(this.srch);
+    this.getAudits();
+  }
+
+  goBack() {
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate(['/uniforms/samtrack/' + this.page.rfno]);
   }
 
   trim(value: any){

@@ -44,7 +44,7 @@
                 <div class="row g-3 mb-3" *ngIf="this.ccnc">
                     <div class="col-md-4 d-flex align-items-center gap-2">
                         <label for="inputCcns" class="form-label mb-0 text-nowrap text-end fw-bold" style="width: 170px;">Sub-Category:</label>
-                        <select class="form-select p-2" id="inputCcns" name="inputPrice" [(ngModel)]="ccns">
+                        <select class="form-select p-2" id="inputCcns" name="inputPrice" [(ngModel)]="ccns" (change)="getGroups(this.srch)">
                             <option value="">Select</option>
                             <option *ngFor="let subcat of page.data?.ccnsDrop" [ngValue]="subcat.valu">{{subcat.desc}}</option>
                         </select>
@@ -80,7 +80,7 @@
                                 </button>
                             </td>
                             <td align="left">{{group.ccnmDesc + '>' + group.ccncDesc + '>' + group.ccnsDesc }}</td>
-                            <td align="left">{{group.sam}}</td>
+                            <td align="left">{{group.samDesc}}</td>
                             <td align="left">{{dsppbdate(group.addt)}}</td>
                         </tr> 
                     </tbody>

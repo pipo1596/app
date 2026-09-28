@@ -22,6 +22,7 @@ export class CustomizationComponent {
   copy: any;
   partpg: any;
   filters: any;
+  copyName: any = '';
 
   //Product Parms
   nino: any;
@@ -116,6 +117,7 @@ export class CustomizationComponent {
 
   setMode() {
     this.copy = localStorage.getItem('copy')
+    localStorage.removeItem('copy');
     this.nino = localStorage.getItem('nino')
     this.cache = localStorage.getItem('cache');
     this.partpg = localStorage.getItem('partpg');
@@ -174,6 +176,7 @@ export class CustomizationComponent {
 
     if (this.vfgn) this.getVFGN()
     if (!this.vfgn && this.ctno) this.getCTNO('')
+    if (this.copy) this.getName(this.copy);
 
     if (this.npno && !this.copy) {
       this.page.editmode = true;
@@ -221,7 +224,6 @@ export class CustomizationComponent {
   }
 
   getName(npno: any){
-    let name = ""
     let temp = new Page();
     let data = {
       mode: 'getName',
@@ -231,7 +233,7 @@ export class CustomizationComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
       temp.data = response;
-      if (temp.data?.name) name = temp.data?.name
+      if (temp.data?.name) this.copyName = temp.data?.name
     });
     return name
   }

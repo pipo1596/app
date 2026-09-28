@@ -140,25 +140,22 @@ export class VasApplicationsComponent {
     });
 
     return forkJoin(saves).pipe(
-      map(results => results.every(r => r === true))
+      map(() => true)
     );
   }
 
   expandApplication(application: any){
     showWait();
     if(this.chkExpanded(application)){
-
-      this.saveExpanded().subscribe(allPassed => {
-        if (!allPassed) return;
-
+      this.saveExpanded().subscribe(() => {
       for(let i = 0; i < this.expanded.length; i++){
         if(JSON.stringify(this.expanded[i]) == JSON.stringify(application)){
           this.expanded.splice(i,1)
         }
       }
-      // this.expanded.splice(this.expanded.indexOf(application),1)
       this.questionService.clrApp(application)
       this.allexpanded = false;
+      hideWait()
      });
     } else{
       this.expanded.push(application)

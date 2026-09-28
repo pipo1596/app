@@ -32,6 +32,7 @@ export class VasQuestionsComponent {
   questions: any;
   retail: any;
   exp: any;
+  questionErrors: { [n2no: string]: string } = {};
   
   constructor(
     private http: HttpClient, 
@@ -179,6 +180,7 @@ export class VasQuestionsComponent {
 saveQuestions(mode: any): Observable<boolean> | void {
   showWait();
   this.errors = ""
+  this.questionErrors = {};
   if(mode !== 'silent') this.msg = ""
   if(mode == 'silent' && localStorage.getItem('inq')){
     return
@@ -222,7 +224,6 @@ saveQuestions(mode: any): Observable<boolean> | void {
       map((response: any) => {
         hideWait();
         if (response.result !== 'pass') {
-          this.errors = response.errors;
           return false;
         }
         localStorage.setItem('allexpand', this.all ? 'Y' : '');
@@ -237,7 +238,11 @@ saveQuestions(mode: any): Observable<boolean> | void {
     temp.data = response;
 
     if (temp.data.result !== 'pass') {
-      this.errors = this.errors ? this.errors + ',' + temp.data.errors : temp.data.errors;
+      if (Array.isArray(temp.data.errors)) {
+        temp.data.errors.forEach((e: any) => {
+          if (e.ques) this.questionErrors[e.ques] = e.message;
+        });
+      }
 
       if (mode == 'validate') {
         if (temp.data.rules.length > 0) {

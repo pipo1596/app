@@ -22,7 +22,12 @@
                 <button *ngIf="page.data?.retail" class="btn bg-transparent" (click)="deleteQuestion(question)"><span
                     class="bi bi-trash" title="Delete Question"></span></button>
             </td>
-            <td align="left">{{question.desc}}</td> <!-- VAS Question -->
+            <td align="left">
+                {{question.desc}} <!-- VAS Question -->
+                <div *ngIf="questionErrors[question.v2no]" class="text-danger small mt-1">
+                    {{questionErrors[question.v2no]}}
+                </div>
+            </td>
             <td align="left">{{question.typeDesc}}</td> <!-- Type -->
             <td align="left">
                 <input class="form-check-input" type="checkbox" [id]="'dflk' + i + question.n2no" [checked]="question.dflk == 'Y'" (change)="updService(i, question.n2no)"> <!-- Force Default -->

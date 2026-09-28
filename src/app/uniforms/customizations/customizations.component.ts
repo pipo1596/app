@@ -435,6 +435,23 @@ export class CustomizationsComponent {
     this.openPopupNpno = null;
   }
 
+  addHemming(){
+    showWait();
+    let data = {
+      mode: 'addHem',
+      nhno: this.page.rfno
+    }
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
+      this.page.data = response;
+      if (this.page.data.result != 'pass'){
+        this.page.loading = false;
+        hideWait();
+      } else {
+        this.getCustomizations('');
+      }
+    });
+  }
+
   onItemChange(event: number){
     showWait();
     this.itemsPerPage = event

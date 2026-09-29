@@ -7,7 +7,7 @@ import { hideWait, showWait } from '../../shared/utils';
 import { DataService } from '../../services/data-trigger.service';
 import { FileUploadService } from '../../services/file-upload.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { LayoutService } from '../../services/layout.service';
 
 @Component({
@@ -513,73 +513,83 @@ export class ProductComponent {
     this.op3U = this.op3U.join(',');
   }
 
-  loadProduct(){
-    showWait();
-    let mode = (this.page.editmode ? 'update' : 'create')
+loadProduct(): Observable<boolean> {
+  showWait();
+  const done$ = new Subject<boolean>();
+  let mode = (this.page.editmode ? 'update' : 'create')
 
-    this.options = [];
-    let isSKU = "";
-    if(this.sku.length == 0 && this.opv){ //Loading from checkboxes
-      this.generateOpt();
-    } else if(this.sku.length > 0){ // Loading from SKU dropdown
-      for (let i = 0; i < this.sku.length; i++) {
-        let skuOPT = this.sku[i].value.replaceAll(" ",",")
-        isSKU = "Y";
-        this.options.push(skuOPT)
-      }
+  this.options = [];
+  let isSKU = "";
+  if(this.sku.length == 0 && this.opv){ //Loading from checkboxes
+    this.generateOpt();
+  } else if(this.sku.length > 0){ // Loading from SKU dropdown
+    for (let i = 0; i < this.sku.length; i++) {
+      let skuOPT = this.sku[i].value.replaceAll(" ",",")
+      isSKU = "Y";
+      this.options.push(skuOPT)
     }
-    this.getUnselected()
-
-    if(this.custs){
-      this.customizations = [];
-      for (let i = 0; i < this.custs.length; i++) {
-        this.customizations.push(this.custs[i].npno)
-      }
-    }
-
-    if(this.cats){
-      this.categories = [];
-      for (let i = 0; i < this.cats.length; i++) {
-        this.categories.push(this.cats[i].nano)
-      }
-    }
-
-    let data = {
-      mode: mode,
-      nhno: this.nhno,
-      nino: mode == 'update' ? this.nino : '',
-      nano: this.nano,
-      styl: this.styl,
-      whno: this.warehouse?.whno, 
-      categories: this.categories,
-      options: this.options,
-      customizations: this.customizations,
-      DSALLOWED: this.dsallow,
-      AUTOTAG: this.autotag,
-      CONTRACT: this.contract, 
-      item: this.citem, 
-      desc: this.cdesc,
-      op1U: this.op1U,
-      op2U: this.op2U,
-      op3U: this.op3U,
-      isSKU: isSKU,
-      upct: mode == 'update' ? this.upct : ''
-    }
-
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
-      this.page.data = response;
-
-      if (this.filters) localStorage.setItem('filters', this.filters)
-      if (this.page.data.result == 'pass'){
-       localStorage.setItem('UP_AUTH','Y');
-       if(this.page.data?.nino) localStorage.setItem('nino',this.page.data.nino)
-       this.router.navigate(['/uniforms/products/' + this.nhno]);
-      }
-
-      this.page.loading = false;
-      hideWait();
-    });
   }
+  this.getUnselected()
+
+  if(this.custs){
+    this.customizations = [];
+    for (let i = 0; i < this.custs.length; i++) {
+      this.customizations.push(this.custs[i].npno)
+    }
+  }
+
+  if(this.cats){
+    this.categories = [];
+    for (let i = 0; i < this.cats.length; i++) {
+      this.categories.push(this.cats[i].nano)
+    }
+  }
+
+  let data = {
+    mode: mode,
+    nhno: this.nhno,
+    nino: mode == 'update' ? this.nino : '',
+    nano: this.nano,
+    styl: this.styl,
+    whno: this.warehouse?.whno, 
+    categories: this.categories,
+    options: this.options,
+    customizations: this.customizations,
+    DSALLOWED: this.dsallow,
+    AUTOTAG: this.autotag,
+    CONTRACT: this.contract, 
+    item: this.citem, 
+    desc: this.cdesc,
+    op1U: this.op1U,
+    op2U: this.op2U,
+    op3U: this.op3U,
+    isSKU: isSKU,
+    upct: mode == 'update' ? this.upct : ''
+  }
+
+  this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
+    this.page.data = response;
+
+    if (this.filters) localStorage.setItem('filters', this.filters)
+    if (this.page.data.result == 'pass'){
+     localStorage.setItem('UP_AUTH','Y');
+     if(this.page.data?.nino) localStorage.setItem('nino',this.page.data.nino)
+     if(!localStorage.getItem('entryPG')){
+      this.router.navigate(['/uniforms/products/' + this.nhno]);
+     }
+    }
+    if(localStorage.getItem('entryPG') == 'Y') {
+      localStorage.setItem('entryResult',this.page.data?.result)
+    }
+    this.page.loading = false;
+    hideWait();
+
+    done$.next(this.page.data?.result === 'pass');
+    done$.complete();
+  });
+
+  return done$.asObservable();
+}
 
   deleteProduct(){
     showWait();
@@ -627,7 +637,19 @@ export class ProductComponent {
     }
   }
 
-  newCustomization(mode: any) {
+  newCustomization(mode: any, entry: any) {
+    if(entry == 'Y'){
+      localStorage.setItem('entryPG','Y');
+      this.loadProduct().subscribe(success => {
+        if (!success) return;
+        this.entryNewCustomization(mode);
+      });
+      return;
+    }
+    this.finishNewCustomization(mode);
+  }
+
+  private finishNewCustomization(mode: any) {
     this.bldCache();
     let partpg = '/uniforms/product/' + this.nhno + '/' + this.nino
     localStorage.setItem('partpg', partpg)
@@ -636,6 +658,22 @@ export class ProductComponent {
     if(mode == 'drop') localStorage.setItem('drop', 'Y')
     if(mode == 'RTL') localStorage.setItem('retail', this.page.data?.isctno ? this.page.data.isctno : this.page.data?.info.isctno)
     localStorage.setItem('nino', this.page.data?.info?.nino)
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate(['/uniforms/newcustomization/' + this.nhno]);
+  }
+
+  private entryNewCustomization(mode: any) {
+    this.nino = this.page.data?.nino
+    let vfgn = this.page.data?.vfgn
+    let ctno = this.page.data?.isctno
+    this.bldCache();
+    let partpg = '/uniforms/product/' + this.nhno + '/' + this.nino
+    localStorage.setItem('partpg', partpg)
+    if(vfgn) localStorage.setItem('vfgn', vfgn)
+    if(mode == 'drop' || mode == 'RTL') localStorage.setItem('ctno', ctno ? ctno : '')
+    if(mode == 'drop') localStorage.setItem('drop', 'Y')
+    if(mode == 'RTL') localStorage.setItem('retail', ctno ? ctno : '')
+    localStorage.setItem('nino', this.nino)
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/newcustomization/' + this.nhno]);
   }

@@ -107,6 +107,7 @@ export class CustomizationsComponent {
 
   getCustomizations(mode: any) {
     showWait();
+    this.page.loading = true;
     if(mode == 'search') this.p = 1;
      let data = {
       mode: 'getInfo',

@@ -28,11 +28,11 @@ export class VasQuestionsComponent {
   page = new Page();
   errors = ""
   msg = ""
+  questionErrors: { [n2no: string]: string } = {};
   rules: any;
   questions: any;
   retail: any;
   exp: any;
-  questionErrors: { [n2no: string]: string } = {};
   
   constructor(
     private http: HttpClient, 
@@ -177,6 +177,20 @@ export class VasQuestionsComponent {
     });
   }
 
+  private applyErrors(errors: any) {
+    this.errors = "";
+    this.questionErrors = {};
+    if (Array.isArray(errors)) {
+      errors.forEach((e: any) => {
+        if (e.type === 'global') {
+          if (!this.errors) this.errors = e.message;
+        } else if (e.ques) {
+          this.questionErrors[e.ques] = e.message;
+        }
+      });
+    }
+  }
+
 saveQuestions(mode: any): Observable<boolean> | void {
   showWait();
   this.errors = ""
@@ -224,6 +238,7 @@ saveQuestions(mode: any): Observable<boolean> | void {
       map((response: any) => {
         hideWait();
         if (response.result !== 'pass') {
+          this.applyErrors(response.errors);
           return false;
         }
         localStorage.setItem('allexpand', this.all ? 'Y' : '');
@@ -238,11 +253,7 @@ saveQuestions(mode: any): Observable<boolean> | void {
     temp.data = response;
 
     if (temp.data.result !== 'pass') {
-      if (Array.isArray(temp.data.errors)) {
-        temp.data.errors.forEach((e: any) => {
-          if (e.ques) this.questionErrors[e.ques] = e.message;
-        });
-      }
+      this.applyErrors(temp.data.errors);
 
       if (mode == 'validate') {
         if (temp.data.rules.length > 0) {

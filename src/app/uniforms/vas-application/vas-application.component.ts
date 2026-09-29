@@ -235,7 +235,7 @@ export class VasApplicationComponent {
       npno: this.npno,
       v1cd: this.v1cd,
       dscx: this.dscx,
-      vedp: this.vedp,
+      vedp: this.vedp ? this.vedp : (<HTMLInputElement>document.getElementById('itemInput')).value,
       desc: this.desc,
       actv: this.actv == 'Y' ? 'Y' : '',
       mand: this.mand == 'Y' ? 'Y' : '',

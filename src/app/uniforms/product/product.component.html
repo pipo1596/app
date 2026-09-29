@@ -145,8 +145,12 @@
                                 <ngx-select-dropdown name="custDrop" [multiple]="true" [config]="searchConfig()" (change)="custs = $event.value" [options]="page.data?.customizations" [(ngModel)]="custs"></ngx-select-dropdown>
                             </div>
                             <div class="col mt-5" *ngIf="page.editmode">
-                                <button type="button" class="btn btn-primary me-3"  *ngIf="!this.retail" (click)="newCustomization('')">New</button>
-                                <button type="button" class="btn btn-primary me-3"  *ngIf="this.retail" (click)="newCustomization('RTL')">New</button>
+                                <button type="button" class="btn btn-primary me-3"  *ngIf="!this.retail" (click)="newCustomization('','')">New</button>
+                                <button type="button" class="btn btn-primary me-3"  *ngIf="this.retail" (click)="newCustomization('RTL','')">New</button>
+                            </div> 
+                            <div class="col mt-5" *ngIf="page.entrymode">
+                                <button type="button" class="btn btn-primary me-3"  *ngIf="!this.retail" (click)="newCustomization('','Y')">New</button>
+                                <button type="button" class="btn btn-primary me-3"  *ngIf="this.retail" (click)="newCustomization('RTL','Y')">New</button>
                             </div> 
                         </div>
                         
@@ -162,7 +166,7 @@
                         <div class="row g-3 mb-1">
                                 <div class="col-md-3">
                                     <label for="inputItem" class="form-label me-3">Customization:</label>
-                                    <button type="button" class="btn btn-primary me-3" (click)="newCustomization('drop')">New</button>
+                                    <button type="button" class="btn btn-primary me-3" (click)="newCustomization('drop','')">New</button>
                                 </div>
                         </div>
                         <div class="row g-3 mb-5">

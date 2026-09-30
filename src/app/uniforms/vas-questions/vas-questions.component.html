@@ -23,9 +23,12 @@
                     class="bi bi-trash" title="Delete Question"></span></button>
             </td>
             <td align="left">
-                {{question.desc}} <!-- VAS Question -->
+                {{question.desc}}
                 <div *ngIf="questionErrors[question.v2no]" class="text-danger small mt-1">
                     {{questionErrors[question.v2no]}}
+                </div>
+                <div *ngIf="questionNotices[question.v2no]" class="text-danger small mt-1">
+                    {{questionNotices[question.v2no]}}
                 </div>
             </td>
             <td align="left">{{question.typeDesc}}</td> <!-- Type -->

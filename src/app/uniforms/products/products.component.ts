@@ -319,6 +319,15 @@ export class ProductsComponent {
     this.stylconfig = cache?.stylconfig;
   }
 
+  showCustomization(product: any): boolean {
+    let show = false;
+    if (!(product?.dropship == 'Y') && product?.vfgn) show = true;
+    else if (this.page.data?.isRtl == 'Y' && product?.ctno) {
+      show = true;
+    }
+    return show;
+  }
+
   goCustomize(product: any) {
     localStorage.setItem('UP_AUTH','Y');
     localStorage.setItem('partpg','/uniforms/products/' + this.page.rfno + '/')

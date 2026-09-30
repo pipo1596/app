@@ -574,6 +574,7 @@ loadProduct(): Observable<boolean> {
     if (this.page.data.result == 'pass'){
      localStorage.setItem('UP_AUTH','Y');
      if(this.page.data?.nino) localStorage.setItem('nino',this.page.data.nino)
+     if(this.page.data?.ninos) localStorage.setItem('ninos',JSON.stringify(this.page.data.ninos))
      if(!localStorage.getItem('entryPG')){
       this.router.navigate(['/uniforms/products/' + this.nhno]);
      }
@@ -664,6 +665,7 @@ loadProduct(): Observable<boolean> {
 
   private entryNewCustomization(mode: any) {
     this.nino = this.page.data?.nino
+    let ninos = this.page.data?.ninos ?? (this.nino ? [this.nino] : []);
     let vfgn = this.page.data?.vfgn
     let ctno = this.page.data?.isctno
     this.bldCache();
@@ -674,6 +676,7 @@ loadProduct(): Observable<boolean> {
     if(mode == 'drop') localStorage.setItem('drop', 'Y')
     if(mode == 'RTL') localStorage.setItem('retail', ctno ? ctno : '')
     localStorage.setItem('nino', this.nino)
+    localStorage.setItem('ninos', JSON.stringify(ninos))
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/newcustomization/' + this.nhno]);
   }
@@ -691,6 +694,7 @@ loadProduct(): Observable<boolean> {
         this.retail = this.page.data?.isctno 
       } else this.retail = this.page.data?.info?.isctno
     }
+    if(localStorage.getItem('entryPG') == 'Y') show = true
     return show
   }
 

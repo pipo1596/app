@@ -33,6 +33,7 @@ export class VasQuestionsComponent {
   questions: any;
   retail: any;
   exp: any;
+  questionNotices: { [n2no: string]: string } = {};
   
   constructor(
     private http: HttpClient, 
@@ -191,81 +192,111 @@ export class VasQuestionsComponent {
     }
   }
 
-saveQuestions(mode: any): Observable<boolean> | void {
-  showWait();
-  this.errors = ""
-  this.questionErrors = {};
-  if(mode !== 'silent') this.msg = ""
-  if(mode == 'silent' && localStorage.getItem('inq')){
-    return
-  }
-  
-  let n2no = [], v2no = [], type = [], dfan = [], dspd = [],
-      dflk = [], tbld = [], req = [], upct = [], ansq = [], rules = [];
-
-  // Snapshot current values from the model
-  const snapshot = this.page.data?.vasq.map((q: any) => ({
-    dfan: q.dfan ?? '',
-    dspd: q.dspd ?? '',
-    dflk: q.dflk ?? '',
-    req: q.req ?? '',
-    tbld: q.tbld
-  }));
-
-  for (let i = 0; i < this.page.data?.vasq.length; i++) {
-    const q = this.page.data.vasq[i];
-    n2no.push(q.n2no);
-    v2no.push(q.v2no);
-    type.push(q.type);
-    tbld.push(q.tbld);
-    upct.push(q.upct);
-    ansq.push('1');
-    dfan.push(q.dfan ?? '');
-    dspd.push(q.dspd == 'Y' ? 'Y' : '');
-    dflk.push(q.dflk == 'Y' ? 'Y' : '');
-    req.push(q.req ?? '');
+  private applyNotices(notices: any) {
+    this.questionNotices = {};
+    if (Array.isArray(notices)) {
+      notices.forEach((n: any) => {
+        if (n.ques) this.questionNotices[n.ques] = n.message;
+      });
+    }
   }
 
-  let data = {
-    mode: mode == 'validate' ? 'validate' : 'update',
-    nhno: this.nhno, npno: this.npno, n1no: this.application?.n1no,
-    n2no, v1cd: this.application?.v1cd, v2no, type, dfan, dspd,
-    dflk, tbld, req, upct, ansq
-  }
+  saveQuestions(mode: any): Observable<boolean> | void {
+    showWait();
+    this.errors = ""
+    this.questionErrors = {};
+    this.questionNotices = {};
+    if(mode !== 'silent') this.msg = ""
+    if(mode == 'silent' && localStorage.getItem('inq')){
+      return
+    }
+    
+    let n2no = [], v2no = [], type = [], dfan = [], dspd = [],
+        dflk = [], tbld = [], req = [], upct = [], ansq = [], rules = [];
 
-  if (mode === 'silent') {
-    return this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2B', data).pipe(
-      map((response: any) => {
-        hideWait();
-        if (response.result !== 'pass') {
-          this.applyErrors(response.errors);
-          return false;
+    const snapshot = this.page.data?.vasq.map((q: any) => ({
+      dfan: q.dfan ?? '',
+      dspd: q.dspd ?? '',
+      dflk: q.dflk ?? '',
+      req: q.req ?? '',
+      tbld: q.tbld
+    }));
+
+    for (let i = 0; i < this.page.data?.vasq.length; i++) {
+      const q = this.page.data.vasq[i];
+      n2no.push(q.n2no);
+      v2no.push(q.v2no);
+      type.push(q.type);
+      tbld.push(q.tbld);
+      upct.push(q.upct);
+      ansq.push('1');
+      dfan.push(q.dfan ?? '');
+      dspd.push(q.dspd == 'Y' ? 'Y' : '');
+      dflk.push(q.dflk == 'Y' ? 'Y' : '');
+      req.push(q.req ?? '');
+    }
+
+    let data = {
+      mode: mode == 'validate' ? 'validate' : 'update',
+      nhno: this.nhno, npno: this.npno, n1no: this.application?.n1no,
+      n2no, v1cd: this.application?.v1cd, v2no, type, dfan, dspd,
+      dflk, tbld, req, upct, ansq
+    }
+
+    if (mode === 'silent') {
+      return this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2B', data).pipe(
+        map((response: any) => {
+          hideWait();
+          this.applyNotices(response.notices);
+          if (response.result !== 'pass') {
+            this.applyErrors(response.errors);
+            return false;
+          }
+          localStorage.setItem('allexpand', this.all ? 'Y' : '');
+          if (this.nino) localStorage.setItem('nino', this.nino);
+          return true;
+        })
+      );
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2B', data).subscribe(response => {
+      let temp = new Page();
+      temp.data = response;
+      this.applyNotices(temp.data.notices);
+
+      if (temp.data.result !== 'pass') {
+        this.applyErrors(temp.data.errors);
+
+        if (mode == 'validate') {
+          if (temp.data.rules.length > 0) {
+            for (let i = 0; i < temp.data.rules.length; i++) {
+              let rule = temp.data.rules[i].ques
+              if (temp.data.rules[i].drop) rule += (',' + temp.data.rules[i].drop)
+              if (temp.data.rules[i].dfan) rule += (',' + temp.data.rules[i].dfan)
+              if (temp.data.rules[i].dflk) rule += (',' + temp.data.rules[i].dflk)
+              rules.push(rule)
+            }
+            this.getQuestions(rules, snapshot);
+          } else {
+            for (let x = 0; x < temp.data?.questions.length; x++) {
+              if (temp.data?.questions[x]?.rulesV) {
+                for (let i = 0; i < temp.data.questions[x].rulesV.length; i++) {
+                  let rule = temp.data.questions[x].rulesV[i].ques
+                  if (temp.data.questions[x].rulesV[i].drop) rule += (',' + temp.data.questions[x].rulesV[i].drop)
+                  if (temp.data.questions[x].rulesV[i].dfan) rule += (',' + temp.data.questions[x].rulesV[i].dfan)
+                  if (temp.data.questions[x].rulesV[i].dflk) rule += (',' + temp.data.questions[x].rulesV[i].dflk)
+                  rules.push(rule)
+                }
+              }
+            }
+            this.getQuestions(rules, snapshot);
+          }
         }
+      } else {
         localStorage.setItem('allexpand', this.all ? 'Y' : '');
         if (this.nino) localStorage.setItem('nino', this.nino);
-        return true;
-      })
-    );
-  }
 
-  this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNV2B', data).subscribe(response => {
-    let temp = new Page();
-    temp.data = response;
-
-    if (temp.data.result !== 'pass') {
-      this.applyErrors(temp.data.errors);
-
-      if (mode == 'validate') {
-        if (temp.data.rules.length > 0) {
-          for (let i = 0; i < temp.data.rules.length; i++) {
-            let rule = temp.data.rules[i].ques
-            if (temp.data.rules[i].drop) rule += (',' + temp.data.rules[i].drop)
-            if (temp.data.rules[i].dfan) rule += (',' + temp.data.rules[i].dfan)
-            if (temp.data.rules[i].dflk) rule += (',' + temp.data.rules[i].dflk)
-            rules.push(rule)
-          }
-          this.getQuestions(rules, snapshot); // use snapshot
-        } else {
+        if (mode == 'validate') {
           for (let x = 0; x < temp.data?.questions.length; x++) {
             if (temp.data?.questions[x]?.rulesV) {
               for (let i = 0; i < temp.data.questions[x].rulesV.length; i++) {
@@ -277,37 +308,17 @@ saveQuestions(mode: any): Observable<boolean> | void {
               }
             }
           }
-          this.getQuestions(rules, snapshot); // use snapshot
+          this.getQuestions(rules, snapshot);
+        } else {
+          this.msg = "Questions updated successfully"
+          this.getQuestions('', '');
         }
       }
-    } else {
-      localStorage.setItem('allexpand', this.all ? 'Y' : '');
-      if (this.nino) localStorage.setItem('nino', this.nino);
+    });
 
-      if (mode == 'validate') {
-        for (let x = 0; x < temp.data?.questions.length; x++) {
-          if (temp.data?.questions[x]?.rulesV) {
-            for (let i = 0; i < temp.data.questions[x].rulesV.length; i++) {
-              let rule = temp.data.questions[x].rulesV[i].ques
-              if (temp.data.questions[x].rulesV[i].drop) rule += (',' + temp.data.questions[x].rulesV[i].drop)
-              if (temp.data.questions[x].rulesV[i].dfan) rule += (',' + temp.data.questions[x].rulesV[i].dfan)
-              if (temp.data.questions[x].rulesV[i].dflk) rule += (',' + temp.data.questions[x].rulesV[i].dflk)
-              rules.push(rule)
-            }
-          }
-        }
-        this.getQuestions(rules, snapshot); // use snapshot
-      } else {
-        this.msg = "Questions updated successfully"
-        location.reload();
-        this.getQuestions('', '');
-      }
-    }
-  });
-
-  hideWait();
-  this.page.loading = false;
-}
+    hideWait();
+    this.page.loading = false;
+  }
 
   chkReq(event: any, index: any){
     let rule = event.target?.value

@@ -26,6 +26,7 @@ export class CustomizationComponent {
 
   //Product Parms
   nino: any;
+  ninos: any;
   styl: any;
 
   // Parms
@@ -119,6 +120,7 @@ export class CustomizationComponent {
     this.copy = localStorage.getItem('copy')
     localStorage.removeItem('copy');
     this.nino = localStorage.getItem('nino')
+    this.ninos = localStorage.getItem('ninos') ? JSON.parse(localStorage.getItem('ninos')!) : (this.nino ? [this.nino] : []);
     this.cache = localStorage.getItem('cache');
     this.partpg = localStorage.getItem('partpg');
 
@@ -375,6 +377,7 @@ export class CustomizationComponent {
         seq: this.seq,
         stat: (this.actv == 'Y') ? this.actv : '',
         nino: (this.nino) ? this.nino : '',
+        ninos: this.ninos,
         upct: (mode == 'update') ? this.upct : '',
         drop: this.dropship ? 'Y' : '',
         retail: this.retail ? this.retail : '',

@@ -281,10 +281,8 @@ export class VasQuestionsComponent {
             for (let x = 0; x < temp.data?.questions.length; x++) {
               if (temp.data?.questions[x]?.rulesV) {
                 for (let i = 0; i < temp.data.questions[x].rulesV.length; i++) {
-                  let rule = temp.data.questions[x].rulesV[i].ques
-                  if (temp.data.questions[x].rulesV[i].drop) rule += (',' + temp.data.questions[x].rulesV[i].drop)
-                  if (temp.data.questions[x].rulesV[i].dfan) rule += (',' + temp.data.questions[x].rulesV[i].dfan)
-                  if (temp.data.questions[x].rulesV[i].dflk) rule += (',' + temp.data.questions[x].rulesV[i].dflk)
+                  let r = temp.data.questions[x].rulesV[i];
+                  let rule = r.ques + ',' + (r.drop ?? '') + ',' + (r.dfan ?? '') + ',' + (r.dflk ?? '') + ',' + (r.mini ?? '') + ',' + (r.maxi ?? '');
                   rules.push(rule)
                 }
               }
@@ -300,10 +298,8 @@ export class VasQuestionsComponent {
           for (let x = 0; x < temp.data?.questions.length; x++) {
             if (temp.data?.questions[x]?.rulesV) {
               for (let i = 0; i < temp.data.questions[x].rulesV.length; i++) {
-                let rule = temp.data.questions[x].rulesV[i].ques
-                if (temp.data.questions[x].rulesV[i].drop) rule += (',' + temp.data.questions[x].rulesV[i].drop)
-                if (temp.data.questions[x].rulesV[i].dfan) rule += (',' + temp.data.questions[x].rulesV[i].dfan)
-                if (temp.data.questions[x].rulesV[i].dflk) rule += (',' + temp.data.questions[x].rulesV[i].dflk)
+                let r = temp.data.questions[x].rulesV[i];
+                let rule = r.ques + ',' + (r.drop ?? '') + ',' + (r.dfan ?? '') + ',' + (r.dflk ?? '') + ',' + (r.mini ?? '') + ',' + (r.maxi ?? '');
                 rules.push(rule)
               }
             }

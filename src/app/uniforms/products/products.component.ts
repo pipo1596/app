@@ -322,9 +322,9 @@ export class ProductsComponent {
   showCustomization(product: any): boolean {
     let show = false;
     if (!(product?.dropship == 'Y') && product?.vfgn) show = true;
-    else if (this.page.data?.isRtl == 'Y' && product?.ctno) {
+    else if ((this.page.data?.isRtl == 'Y' && product?.ctno) || product?.hemStyl == 'Y') {
       show = true;
-    }
+    } 
     return show;
   }
 

@@ -695,6 +695,7 @@ loadProduct(): Observable<boolean> {
       } else this.retail = this.page.data?.info?.isctno
     }
     if(localStorage.getItem('entryPG') == 'Y') show = true
+    if(this.page.data?.info?.hemStyl == 'Y') show = true
     return show
   }
 

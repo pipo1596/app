@@ -84,7 +84,7 @@
 
 
                 <!-- Showing Input -->
-                <input type="text" class="form-control" *ngIf="question.dfltNoDrop == 'input' || question.dfltNoDrop == 'inputU'" [id]="'dfan' + i + question.n2no"  [attr.minlength]="question.mini" [attr.maxlength]="question.maxi" [value]=" question.dfltNoDrop == 'inputU' ? question.dfan.toUpperCase() : question.dfan" (change)="updService(i, question.n2no)">
+                <input type="text" class="form-control" *ngIf="question.dfltNoDrop == 'input' || question.dfltNoDrop == 'inputU'" [id]="'dfan' + i + question.n2no" [attr.minlength]="question.vmini || question.mini" [attr.maxlength]="question.vmaxi || question.maxi" [value]=" question.dfltNoDrop == 'inputU' ? question.dfan.toUpperCase() : question.dfan" (change)="updService(i, question.n2no)">
             </td>
             <td align="left"></td>
         </tr>

@@ -132,14 +132,19 @@
                         <div [ngClass]="page.data?.dfltNoDrop == 'inq' ? 'col' : 'col-md-3'">
 
                             <!-- Displaying Dropdown-->
-                            <select name="" class="form-select" *ngIf="!page.data?.dfltNoDrop" name="inputDfan" [(ngModel)]="dfan">
+                            <select name="" class="form-select" *ngIf="!page.data?.dfltNoDrop && page.data?.dfltAnsDrop" name="inputDfan" [(ngModel)]="dfan">
                                 <option value="">Select</option>
                                 <option *ngFor="let answer of page.data?.dfltAnsDrop" [ngValue]="answer.value" [selected]="page.data?.info?.dfan == answer.value">{{answer.desc}}</option>
                             </select>
 
+                            <!-- Displaying Dropdown (parent-sourced options) -->
+                            <select name="" class="form-select" *ngIf="!page.data?.dfltNoDrop && !page.data?.dfltAnsDrop && page.data?.dfltAnsPDrop" name="inputDfan" [(ngModel)]="dfan">
+                                <option value="">Select</option>
+                                <option *ngFor="let answer of page.data?.dfltAnsPDrop" [ngValue]="answer.value" [selected]="page.data?.info?.dfan == answer.value">{{answer.desc}}</option>
+                            </select>
+
                             <!-- Showing Inquiry -->
                             <input type="text" readonly class="form-control-plaintext" *ngIf="page.data?.dfltNoDrop == 'inq'" [value]="dfan? dfan + (vsdesc ? '-' + vsdesc : ''): ''">
-
 
                             <!-- Showing Input -->
                             <input type="text" class="form-control" *ngIf="page.data?.dfltNoDrop == 'input' || page.data?.dfltNoDrop == 'inputU'" name="inputDfan" [attr.maxlength]="page.data.maxi" [(ngModel)]="dfan" [value]="page.data?.dfltNoDrop == 'inputU' ? dfan.toUpperCase() : dfan">

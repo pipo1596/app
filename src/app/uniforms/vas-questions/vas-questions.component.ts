@@ -62,8 +62,8 @@ export class VasQuestionsComponent {
 
       if (this.page.data?.vasq?.length > 0) {
         this.page.data.vasq.forEach((q: any) => {
-          if (q.dfltAnsDrop) q.dfltAnsDrop.sort((a: any, b: any) => a.value.localeCompare(b.value));
-          if (q.dfltAnsPDrop) q.dfltAnsPDrop.sort((a: any, b: any) => a.value.localeCompare(b.value));
+          if (q.dfltAnsDrop) q.dfltAnsDrop.sort((a: any, b: any) => (a.value ?? '').localeCompare(b.value ?? ''));
+          if (q.dfltAnsPDrop) q.dfltAnsPDrop.sort((a: any, b: any) => (a.value ?? '').localeCompare(b.value ?? ''));
         });
       }
 

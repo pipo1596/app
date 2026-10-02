@@ -214,21 +214,21 @@ export class CustomizationComponent {
     });
   }
 
-  getCTNO(mode: any){
-    let temp = new Page();
-    let data = {
-      mode: 'getCtno',
-      nhno: this.nhno,
-      npno: mode == 'single' ? this.npno: '',
-      ctno: mode !== 'single' ? this.ctno: ''
-    }
-
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
-      temp.data = response;
-      if (temp.data?.ct_desc) this.ctdesc = temp.data?.ct_desc
-      if (mode == 'single' && temp.data?.ctno) this.ctno = temp.data?.ctno
-    });
+getCTNO(mode: any){
+  let temp = new Page();
+  let data = {
+    mode: 'getCtno',
+    nhno: this.nhno,
+    npno: mode == 'single' ? this.npno: '',
+    ctno: mode !== 'single' ? this.ctno: ''
   }
+
+  this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
+    temp.data = response;
+    if (temp.data?.ct_desc) this.ctdesc = temp.data?.ct_desc
+    if (mode == 'single' && temp.data?.ctno) this.ctno = temp.data?.ctno
+  });
+}
 
   getName(npno: any){
     let temp = new Page();

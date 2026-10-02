@@ -654,10 +654,18 @@ loadProduct(): Observable<boolean> {
     this.bldCache();
     let partpg = '/uniforms/product/' + this.nhno + '/' + this.nino
     localStorage.setItem('partpg', partpg)
-    localStorage.setItem('vfgn', this.page.data?.info?.vfgn)
-    if(mode == 'drop' || mode == 'RTL') localStorage.setItem('ctno', this.page.data?.isctno ? this.page.data.isctno : this.page.data?.info.isctno)
-    if(mode == 'drop') localStorage.setItem('drop', 'Y')
-    if(mode == 'RTL') localStorage.setItem('retail', this.page.data?.isctno ? this.page.data.isctno : this.page.data?.info.isctno)
+    let vfgn = this.page.data?.info?.vfgn
+    let ctno = this.page.data?.isctno ? this.page.data.isctno : this.page.data?.info?.isctno
+    let hemStyl = this.page.data?.info?.hemStyl
+    if(hemStyl == 'Y'){
+      localStorage.setItem('single', 'Y')
+      localStorage.setItem('ctno', ctno ? ctno : '')
+    } else {
+      if(vfgn) localStorage.setItem('vfgn', vfgn)
+      if(mode == 'drop' || mode == 'RTL') localStorage.setItem('ctno', ctno ? ctno : '')
+      if(mode == 'drop') localStorage.setItem('drop', 'Y')
+      if(mode == 'RTL') localStorage.setItem('retail', ctno ? ctno : '')
+    }
     localStorage.setItem('nino', this.page.data?.info?.nino)
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/newcustomization/' + this.nhno]);

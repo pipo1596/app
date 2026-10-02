@@ -668,13 +668,19 @@ loadProduct(): Observable<boolean> {
     let ninos = this.page.data?.ninos ?? (this.nino ? [this.nino] : []);
     let vfgn = this.page.data?.vfgn
     let ctno = this.page.data?.isctno
+    let hemStyl = this.page.data?.hemStyl
     this.bldCache();
     let partpg = '/uniforms/product/' + this.nhno + '/' + this.nino
     localStorage.setItem('partpg', partpg)
-    if(vfgn) localStorage.setItem('vfgn', vfgn)
-    if(mode == 'drop' || mode == 'RTL') localStorage.setItem('ctno', ctno ? ctno : '')
-    if(mode == 'drop') localStorage.setItem('drop', 'Y')
-    if(mode == 'RTL') localStorage.setItem('retail', ctno ? ctno : '')
+    if(hemStyl == 'Y'){
+      localStorage.setItem('single', 'Y')
+      localStorage.setItem('ctno', ctno ? ctno : '')
+    } else {
+      if(vfgn) localStorage.setItem('vfgn', vfgn)
+      if(mode == 'drop' || mode == 'RTL') localStorage.setItem('ctno', ctno ? ctno : '')
+      if(mode == 'drop') localStorage.setItem('drop', 'Y')
+      if(mode == 'RTL') localStorage.setItem('retail', ctno ? ctno : '')
+    }
     localStorage.setItem('nino', this.nino)
     localStorage.setItem('ninos', JSON.stringify(ninos))
     localStorage.setItem('UP_AUTH','Y');

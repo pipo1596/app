@@ -24,6 +24,7 @@ export class IframeComponent {
   constructor(private router: Router, private route: ActivatedRoute, private sanitizer: DomSanitizer, private layout: LayoutService) { }
 
   @HostListener('window:message', ['$event']) onMessage(event: MessageEvent) {
+    console.log('onMessage fired:', event.origin, event.data);
     localStorage.setItem('UP_AUTH','Y');
     if (this.filters) localStorage.setItem('filters', this.filters)
     if(this.p1 && this.partpg?.indexOf('newuniform') == -1){

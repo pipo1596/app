@@ -12,6 +12,7 @@ export class LayoutService {
   nhno$ = this.nhnoSub.asObservable();
   pgName$ = this.pgNameSub.asObservable();
   expandedValue: string = '';
+  nhno: string = '';
 
   setTitle(title: string) { if (title) this.titleSub.next(title); }
   setMenu(menu: string) { if (menu) this.menuSub.next(menu); }
@@ -22,5 +23,6 @@ setProgram(nhno: string | null, pgName: string | null) {
     this.nhnoSub.next(nhno);
     this.pgNameSub.next(pgName);
   }
+  this.nhno = nhno;
 }
 }

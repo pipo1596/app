@@ -134,7 +134,12 @@ export class CustomizationComponent {
       this.vfgn = localStorage.getItem('vfgn');
     }
 
-    if(localStorage.getItem('ctno') && !this.ctno){
+    if(localStorage.getItem('single') == 'Y'){
+      this.single = 'Y';
+      this.vfgn = '';
+      this.ctno = localStorage.getItem('ctno');
+      this.getCTNO('single');
+    } else if(localStorage.getItem('ctno') && !this.ctno){
       if(localStorage.getItem('drop')) this.dropship = true;
       if(!this.dropship){
         this.retail = localStorage.getItem('retail');

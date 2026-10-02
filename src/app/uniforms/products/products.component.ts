@@ -336,8 +336,12 @@ export class ProductsComponent {
     this.bldCache();
     if (this.npfilters) localStorage.setItem('filters', this.npfilters)
     localStorage.setItem('nino', product.nino)
-    if(product.vfgn){ localStorage.setItem('vfgn', product.vfgn) }
-    if(product.ctno && !product.vfgn){ 
+    if(product.hemStyl == 'Y'){
+      localStorage.setItem('single', 'Y')
+      localStorage.setItem('ctno', product.ctno)
+    } else if(product.vfgn){
+      localStorage.setItem('vfgn', product.vfgn)
+    } else if(product.ctno && !product.vfgn){ 
       localStorage.setItem('ctno', product.ctno)
       localStorage.setItem('retail', product.ctno)
     }

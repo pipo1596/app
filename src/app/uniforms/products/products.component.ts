@@ -18,7 +18,7 @@ export class ProductsComponent {
   page = new Page();
   assign: any;
   inNano: any;
-  newNino: any;
+  newNinos: any[] = [];
   
   //Search / Dropdown
   style: any;
@@ -55,8 +55,10 @@ export class ProductsComponent {
     if(localStorage.getItem('filters') !== 'undefined'){
       this.getCache();
     }
-    if(localStorage.getItem('nino') && localStorage.getItem('nino') !== 'undefined'){
-      this.newNino = localStorage.getItem('nino')
+    if(localStorage.getItem('ninos') && localStorage.getItem('ninos') !== 'undefined'){
+      this.newNinos = JSON.parse(localStorage.getItem('ninos')!);
+    } else if(localStorage.getItem('nino') && localStorage.getItem('nino') !== 'undefined'){
+      this.newNinos = [localStorage.getItem('nino')];
     }
     localStorage.clear();
     this.checked = [];
@@ -123,7 +125,7 @@ export class ProductsComponent {
       itemsPerPage: this.itemsPerPage,
       currentPage: this.p,
       offset: this.offset,
-      newNino: this.newNino
+      newNino: this.newNinos
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNI', data).subscribe(response => {

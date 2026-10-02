@@ -332,6 +332,7 @@ export class VasQuestionsComponent {
     localStorage.clear();
     this.bldCache(question)
     localStorage.setItem('partpg','/uniforms/vasapplications/' + this.nhno + '/' + this.npno + '/')
+    localStorage.setItem('iframepg','/uniforms/vasapplications/' + this.nhno + '/' + this.npno + '/')
     let menu = '/cgi/APOELMIS4?PAMODE=*INQ&PMVSMT=EMBLEM' + '&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     if(this.nino) localStorage.setItem('nino',this.nino)
     localStorage.setItem('menu',menu)

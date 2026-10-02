@@ -64,7 +64,8 @@ export class SidebarComponent {
   goMenu(menu: String) {
     let child = this.route.snapshot;
     while (child.firstChild) { child = child.firstChild; }
-    let nhno = child.paramMap.get('nhno');
+    console.log('route nhno:', child.paramMap.get('nhno'), '| layout.nhno:', this.layout.nhno);
+    let nhno = child.paramMap.get('nhno') || this.layout.nhno;
     this.router.onSameUrlNavigation = 'reload';
     localStorage.setItem('UP_AUTH','Y');
     this.router.navigate([`/uniforms/${menu}/` + nhno] );

@@ -237,8 +237,7 @@ ul.categories li {
     width: 90% !important;
 }
 
-
-
-
-
-
+/* styles.css, add this */
+#container > router-outlet + * {
+    display: contents;
+}

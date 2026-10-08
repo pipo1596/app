@@ -1,20 +1,14 @@
-<app-header [title]="page.title" [menu]="page.menu" ></app-header>
-
-<div id="container">
-
-    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu" [exp]="this.exp"></app-sidebar>
-
     <section class="ftco-section bg-light pb-3 pt-5 content w-100">
         <div class="card mx-auto mb-5 mt-5 mh-100">
             <div class="card-body">
 
                 <div class="row g-4">
                     <div class="col-10">
-                        <h6 class="">Uniform Program - {{ page.data?.pgName + ' - ' + trim(page.rfno) }}</h6>
+                        <h6 class="">Uniform Program - {{ ((layout.pgName$ | async) ?? '') + ' - ' + trim(((layout.nhno$ | async) ?? '')) }}</h6>
                     </div>
 
                     <div class="col-2">
-                        <button (click)="loadCategory('new','')" class="btn btn-primary rounded-0 mw-50 me-3" type="button">New</button>
+                        <button (click)="loadCategory('new','')" class="btn btn-primary rounded-0 mw-50 me-3" type="button">Add Category</button>
                         <button class="btn">
                             <span class="bi bi-question-circle" title="FAQ"></span>
                         </button>
@@ -48,7 +42,14 @@
                 </div>
                 <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
 
-                <table class="table table-striped w-100">
+                <table class="table table-striped w-100" style="table-layout:fixed;">
+                    <colgroup>
+                        <col style="width: 220px">
+                        <col style="width: 300px">
+                        <col style="width: 160px">
+                        <col style="width: 180px">
+                        <col style="width: 200px">
+                    </colgroup>
                     <thead>
                         <tr>
                             <th align="left" class="ps-3">Actions</th>
@@ -99,7 +100,7 @@
 
                             <ng-container *ngIf="expanded.includes(category)">
                                 <tr>
-                                    <td colspan="5">
+                                    <td colspan="5" style="padding-left: 0; padding-right: 0;">
                                         <app-na-child [nhno]="page.rfno" [category]="category" [expanded]="expanded" [rtpg]="page"></app-na-child>
                                     </td>
                                 </tr>        
@@ -128,4 +129,3 @@
 
         <app-footer></app-footer>
     </section>
-</div>

@@ -1,10 +1,4 @@
-<app-header [title]="page.title" [menu]="page.menu" ></app-header>
-
-<div id="container">
-
-    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu" [exp]="this.exp"></app-sidebar>
-
-    <section class="ftco-section bg-light pb-3 pt-5 w-100">
+<section class="ftco-section bg-light pb-3 pt-5 w-100">
 
     <!-- <div class="d-flex flex-row-reverse mt-5 mb-3" *ngIf="inNano">
         <div class="col-md-2">
@@ -17,11 +11,11 @@
 
                 <div class="row g-4">
                     <div class="col-10">
-                        <h6 class="">Uniform Program - {{ page.data?.pgName  + ' - ' + trim(page.rfno) }}</h6>
+                        <h6 class="">Uniform Program - {{ ((layout.pgName$ | async) ?? '') + ' - ' + trim(((layout.nhno$ | async) ?? '')) }}</h6>
                     </div>
 
                     <div class="col-2">
-                        <button (click)="loadProduct('new','')" class="btn btn-primary rounded-0 mw-50 me-3" type="button" *ngIf="!assign">New</button>
+                        <button (click)="loadProduct('new','')" class="btn btn-primary rounded-0 mw-50 me-3" type="button" *ngIf="!assign">Add Product</button>
                         <button class="btn">
                             <span class="bi bi-question-circle" title="FAQ"></span>
                         </button>
@@ -78,7 +72,7 @@
 
                 <div class="row g-3 mt-2" *ngIf="assign">
                     <div class="col-md-2 mb-3">
-                        <button *ngIf="assign" class="btn btn-primary rounded-0 w-100" type="button" (click)="assignStyles()">Assign Styles</button>
+                        <button *ngIf="assign" class="btn btn-primary rounded-0 w-100" type="button" (click)="assignStyles()">Assign Customizations</button>
                     </div>     
 
                     <div class="col-md-2 mb-3">
@@ -91,7 +85,7 @@
                 <table class="table table-striped w-100">
                     <thead>
                         <tr>
-                            <th align="left"><input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked() && page.data?.products.length > 0"></th>
+                            <th align="left"><input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked() && page.data?.products?.length > 0"></th>
                             <th align="left" class="ps-3">Actions</th>
                             <th align="left">Style</th>
                             <th align="left">Style Description</th>
@@ -128,7 +122,7 @@
                             </td>
                             <td align="left" style="width: 10%">{{product.mfgn}}</td>
 
-                            <td align="left" *ngIf="product.custcount !== '0'">
+                            <td align="left" *ngIf="product.custcount !== '0'" style="width: 20%">
                                 <div class="cust-pop-wrapper">
                                     <a href="javascript:void" (click)="toggleCustPop(product.nino, $event)">{{product.custcount}}</a>
                                     <div class="cust-popup" *ngIf="openPopupNino === product.nino" (click)="$event.stopPropagation()">
@@ -140,9 +134,13 @@
                                             <a *ngFor="let customization of product.custPop; index as i" href="javascript:void" (click)="popApp(customization.valu)">{{customization.desc + ' (' + trim(customization.valu) + ')'}}<br></a>
                                         </div>
                                     </div>
+                                    <button *ngIf="showCustomization(product)" class="btn btn-primary rounded-0 ms-4 mw-25" type="button" (click)="goCustomize(product)" >Add Customization</button>
                                 </div>
                             </td>
-                            <td align="left" *ngIf="product.custcount == '0'"><a href="javascript:void">0</a></td>
+                            <td align="left" *ngIf="product.custcount == '0'" style="width: 20%">
+                                <a href="javascript:void">0</a>
+                                <button *ngIf="showCustomization(product)" class="btn btn-primary rounded-0 ms-4 mw-25" type="button" (click)="goCustomize(product)">Add Customization</button>
+                            </td>
 
                             <td align="left" *ngIf="product.dsallowed == 'Y'">Yes</td>
                             <td align="left" *ngIf="product.dsallowed !== 'Y'">No</td>
@@ -171,6 +169,4 @@
         </div>
         <app-footer></app-footer>
     </section>
-
-</div>
 

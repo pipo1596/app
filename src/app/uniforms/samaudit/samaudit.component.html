@@ -1,0 +1,71 @@
+<section class="ftco-section bg-light pb-3 pt-5 content w-100">
+        <div class="card mx-auto mb-5 mt-5  mh-100">
+            <div class="card-body">
+                
+                <div class="row g-4">
+                    <div class="col-10">
+                        <h6><strong class="text-danger">{{ page.data?.errors }}</strong></h6>
+                        <h6 class="">Uniform Program - {{ ((layout.pgName$ | async) ?? '') + ' - ' + trim(((layout.nhno$ | async) ?? '')) }}</h6>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-9">
+                        <h6><small>Manage Category Groups</small></h6>
+                    </div>
+                </div>
+
+                <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-9">
+                        <h6><small>Category Group: {{page.data?.group?.ccnmDesc + ' > ' + page.data?.group?.ccncDesc + ' > ' + page.data?.group?.ccnsDesc }}</small></h6>
+                    </div>
+                </div>
+
+                <table class="table table-striped w-100">
+                    <thead>
+                        <tr>
+                            <th align="left" style="width: 25%;">From SAM</th>
+                            <th align="left" style="width: 25%;">To SAM</th>
+                            <th align="left" style="width: 10%;">User</th>
+                            <th align="left" style="width: 25%;">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let audit of page.data?.audits | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
+                            <td align="left">{{ audit.bsamDesc }}</td>
+                            <td align="left">{{ audit.asamDesc }}</td>
+                            <td align="left">{{ audit.adus }}</td>
+                            <td align="left">{{ dsppbdate(audit.addt) }}</td>
+                        </tr> 
+                    </tbody>
+                </table> 
+
+                <div class="row g-3 mb-5">
+                    <div class="col-12 d-flex align-items-center justify-content-between">
+                        <button class="btn btn-secondary me-3" type="button" (click)="goBack()">Cancel</button>
+                    </div>  
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-8 mx-auto w-50">
+                <label>Items per page:
+                    <select [(ngModel)]="itemsPerPage" (change)="onItemChange(itemsPerPage)">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="col-2 w-25">
+                <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0" class="text-primary"></pagination-controls>
+            </div>
+        </div>
+        <app-footer></app-footer>
+    </section>
+

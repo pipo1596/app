@@ -1,16 +1,10 @@
-<app-header [title]="page.title" [menu]="page.menu" ></app-header>
-
-<div id="container">
-
-    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu" [exp]="this.exp"></app-sidebar>
-
-    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+<section class="ftco-section bg-light pb-3 pt-5 content w-100">
         <div class="card mx-auto mb-5 mt-5  mh-100">
             <div class="card-body">
 
                 <div class="row g-4">
                     <div class="col-8">
-                        <h6 class="">Uniform Program - {{ page.data?.pgName  + ' - ' + trim(page.rfno) }}</h6>
+                        <h6 class="">Uniform Program - {{ ((layout.pgName$ | async) ?? '') + ' - ' + trim(((layout.nhno$ | async) ?? '')) }}</h6>
                     </div>
 
                     <div class="dropdown col-2">
@@ -23,7 +17,7 @@
                     </div>
 
                     <div class="col-2">
-                        <button (click)="loadCustomization('new','')" class="btn btn-primary rounded-0 mw-50 me-3" type="button">New</button>
+                        <button (click)="loadCustomization('new','')" class="btn btn-primary rounded-0 mw-50 me-3" type="button">Add Customization</button>
                         <button class="btn">
                             <span class="bi bi-question-circle" title="FAQ"></span>
                         </button>
@@ -70,7 +64,7 @@
                         <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style')" [options]="page.data?.stylDrop" [(ngModel)]="styl" (change)="getCustomizations('search')"></ngx-select-dropdown>
                     </div>
                     <div class="col-md-3">
-                        <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style Configurator Template')" [(ngModel)]="vfg" [options]="page.data?.stylconfig" (change)="getCustomizations('search')"></ngx-select-dropdown>
+                        <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('Style Configurator Template')" [(ngModel)]="vfg" [options]="page.data?.stylconfig" (change)="checked = []" (change)="getCustomizations('search')"></ngx-select-dropdown>
                     </div>
                     <div class="col-md-4">
                         <ngx-select-dropdown name="inputNPNO" [config]="searchConfig('VAS Category')" [(ngModel)]="ctno" [options]="page.data?.catgDrop" (change)="getCustomizations('search')"></ngx-select-dropdown>
@@ -82,7 +76,10 @@
 
                 <div class="row g-3 mb-4">
                     <div class="col-12 d-flex align-items-center justify-content-between">
-                        <button class="btn btn-primary rounded-0 mw-50" type="button" (click)="assignStyles()">Assign Styles</button>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary rounded-0 mw-50" type="button" (click)="assignStyles()">Assign Styles</button>
+                            <button class="btn btn-primary rounded-0 mw-50" type="button" (click)="addHemming()" *ngIf="!page.loading && +(page.data?.hemCount ?? 0) == 0">Add Hemming</button>
+                        </div>
                         <div class="d-flex flex-column align-items-end gap-1">
                             <button class="btn btn-primary rounded-0 mw-50" type="button" (click)="goImages('',checkedImg)">New Attachment</button>
                             <div>
@@ -111,7 +108,7 @@
 
                     <tbody>
                         <tr *ngFor="let customization of page.data?.customizations | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
-                            <td align="left" class="ps-2" colspan="1"><input type="radio" class="form-check-input" (click)="checkCustomization(customization)" [checked]="isChecked(customization)"></td>
+                            <td align="left" class="ps-2" colspan="1"><input type="checkbox" class="form-check-input" (click)="checkCustomization(customization)" [checked]="isChecked(customization)"></td>
                             <td class="w-25">
                                 <button class="btn bg-transparent" (click)="loadCustomization('edit', customization.npno)"><span
                                     class="bi bi-pencil-square" title="Edit"></span></button>
@@ -123,15 +120,33 @@
                             </td>
                             <td align="left">{{customization.name}} ({{trim(customization.npno)}})</td>
                             <td align="left">{{customization.desc}}</td>
+
                             <!-- Style Count -->
-                            <td align="left" *ngIf="customization.styles.length > 0">
+                            <!-- <td align="left" *ngIf="customization.styles.length > 0">
                                 <div class="tooltip">{{customization.styles.length}}
                                     <span class="tooltiptext">
                                         <p *ngFor="let style of customization.styles; index as i">{{style.styl}}</p>
                                     </span>
                                 </div> 
                             </td>
+                            <td align="left" *ngIf="customization.styles.length == 0">0</td> -->
+                            <!---->
+                            <td align="left" *ngIf="customization.styles.length > 0">
+                                <div class="item-pop-wrapper">
+                                    <a href="javascript:void" (click)="toggleItemPop(customization.npno, $event)">{{customization.styles.length}}</a>
+                                    <div class="item-popup" *ngIf="openPopupNpno === customization.npno" (click)="$event.stopPropagation()">
+                                        <div class="item-popup-header">
+                                            <span>Products</span>
+                                            <button type="button" class="btn-close" aria-label="Close" (click)="closeItemPop()"></button>
+                                        </div>
+                                        <div class="item-popup-body">
+                                            <a *ngFor="let item of customization.styles; index as i" href="javascript:void" (click)="popItem(item.nino)">{{item.styl}}<br></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                             <td align="left" *ngIf="customization.styles.length == 0">0</td>
+                            <!---->
 
                             <!-- Image Count -->
                             <td align="left" *ngIf="customization.images.length > 0">
@@ -170,4 +185,3 @@
         </div>
         <app-footer></app-footer>
     </section>
-</div>

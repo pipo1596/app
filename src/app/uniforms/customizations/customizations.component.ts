@@ -4,6 +4,7 @@ import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait } from '../../shared/utils';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-customizations',
@@ -13,7 +14,6 @@ import { hideWait, showWait } from '../../shared/utils';
 })
 
 export class CustomizationsComponent {
-  exp: any;
   page = new Page();
   drop = false; // More Actions
 
@@ -32,6 +32,9 @@ export class CustomizationsComponent {
   lsdtUsa: any;
   filters: any;
 
+  //Item  Popup
+  openPopupNpno: any = null;
+
   //Checkboxes
   checked: any[] = [];
   checkedImg: any[] = [];
@@ -45,18 +48,16 @@ export class CustomizationsComponent {
 
   constructor(private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public layout: LayoutService
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
-    if(localStorage.getItem('filters')){
+    if(localStorage.getItem('filters') !== 'undefined'){
       this.filters = localStorage.getItem('filters')
     }
-    if(localStorage.getItem('rtpg')) this.rtpg = localStorage.getItem('rtpg');
-    if(localStorage.getItem('p2')) this.p = parseInt(localStorage.getItem('p2')!);
+    if(localStorage.getItem('rtpg') !== 'undefined') this.rtpg = localStorage.getItem('rtpg');
+    if(localStorage.getItem('p2') !== 'undefined') this.p = parseInt(localStorage.getItem('p2')!);
     localStorage.clear();
     this.route.paramMap.subscribe(params => {
       this.page.rfno = params.get('nhno');
@@ -95,9 +96,8 @@ export class CustomizationsComponent {
       'template': this.vfg,
       'category': this.ctno
     }
-    localStorage.setItem('filters', JSON.stringify(filters))
+    if (filters) localStorage.setItem('filters', JSON.stringify(filters))
     localStorage.setItem('UP_AUTH','Y')
-    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/massapp' + action + '/' + this.page.rfno]);
   }
 
@@ -107,6 +107,7 @@ export class CustomizationsComponent {
 
   getCustomizations(mode: any) {
     showWait();
+    this.page.loading = true;
     if(mode == 'search') this.p = 1;
      let data = {
       mode: 'getInfo',
@@ -127,9 +128,10 @@ export class CustomizationsComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNP', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data?.title) this.page.title = this.page.data.title;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.page.data?.fullname) this.page.fullname = this.page.data.fullname;
-      if (this.page.data?.menu) this.page.menu = this.page.data.menu;
       if (!this.rtpg && this.page.data?.customizations) this.page.data.customizations = this.page.data.customizations.sort((a: any,b: any) => a.npno.localeCompare(b.npno))
       if (this.page.data?.total) this.total = this.page.data.total
 
@@ -189,9 +191,8 @@ export class CustomizationsComponent {
       'template': this.vfg,
       'category': this.ctno
     }
-    localStorage.setItem('filters', JSON.stringify(filters))
+    if (filters) localStorage.setItem('filters', JSON.stringify(filters))
     localStorage.setItem('UP_AUTH','Y')
-    localStorage.setItem('expanded',this.exp)
     localStorage.setItem('p2',JSON.stringify(this.page))
     switch(mode){
       case 'new':
@@ -294,7 +295,9 @@ export class CustomizationsComponent {
       let index = this.checked.findIndex(x => x.npno === np.npno)
       this.checked.splice(index,1)
     } else {
-      this.checked = []
+      if(!this.vfg?.vfgn) { 
+        this.checked = []
+      }
       this.checked.push(np);
       this.checked.sort();
     }    
@@ -333,7 +336,6 @@ export class CustomizationsComponent {
       }
       localStorage.setItem('npfilters', JSON.stringify(filters))
       localStorage.setItem('UP_AUTH','Y')
-      localStorage.setItem('expanded',this.exp)
       let customizations = JSON.stringify(this.checked)
       localStorage.setItem('assign',customizations)
       this.router.navigate(['/uniforms/products/' + this.page.rfno]);
@@ -344,7 +346,6 @@ export class CustomizationsComponent {
 
   goImages(npno: any, checked: any){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
     let filters = {
       'name': this.name,
       'item': this.vitem,
@@ -356,7 +357,7 @@ export class CustomizationsComponent {
       'template': this.vfg,
       'category': this.ctno
     }
-    localStorage.setItem('filters', JSON.stringify(filters))
+    if (filters) localStorage.setItem('filters', JSON.stringify(filters))
 
     if(npno && !checked){
       this.router.navigate(['/uniforms/images/' + this.page.rfno + '/' + npno]);
@@ -393,7 +394,6 @@ export class CustomizationsComponent {
 
   loadVAS(npno: any){
     localStorage.setItem('UP_AUTH','Y')
-    localStorage.setItem('expanded',this.exp)
     localStorage.setItem('p2',this.p.toString())
     let filters = {
       'name': this.name,
@@ -406,8 +406,51 @@ export class CustomizationsComponent {
       'template': this.vfg,
       'category': this.ctno
     }
-    localStorage.setItem('filters', JSON.stringify(filters))
+    if (filters) localStorage.setItem('filters', JSON.stringify(filters))
     this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + npno]);
+  }
+
+  toggleItemPop(npno: any, event: Event){
+    event.stopPropagation();
+    this.openPopupNpno = (this.openPopupNpno === npno) ? null : npno;
+  }
+
+  popItem(nino: any){
+    let filters = {
+      'name': this.name,
+      'item': this.vitem,
+      'app': this.app,
+      'img': this.img,
+      'number': this.npno,
+      'items': this.lvl,
+      'style': this.styl,
+      'template': this.vfg,
+      'category': this.ctno
+    }
+    localStorage.setItem('UP_AUTH','Y')
+    if (filters) localStorage.setItem('filters', JSON.stringify(filters))
+    this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + nino]);
+  }
+
+  closeItemPop(){
+    this.openPopupNpno = null;
+  }
+
+  addHemming(){
+    showWait();
+    let data = {
+      mode: 'addHem',
+      nhno: this.page.rfno
+    }
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
+      this.page.data = response;
+      if (this.page.data.result != 'pass'){
+        this.page.loading = false;
+        hideWait();
+      } else {
+        this.getCustomizations('');
+      }
+    });
   }
 
   onItemChange(event: number){

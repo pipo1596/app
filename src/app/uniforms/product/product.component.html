@@ -1,10 +1,4 @@
-<app-header [title]="page.title" [menu]="page.menu" ></app-header>
-
-<div id="container">
-
-    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu" [exp]="this.exp"></app-sidebar>
-
-    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+<section class="ftco-section bg-light pb-3 pt-5 content w-100">
         <div class="card mx-auto mb-5 mt-5  mh-100">
             <div class="card-body">
                     <form (submit)="page.editmode ? validate() : ''">
@@ -12,7 +6,7 @@
 
                         <div class="row g-3">
                             <div class="col-md-10">
-                                <h6>Uniform Program - {{ page.data?.pgName  + ' - ' + trim(this.nhno) }}</h6>
+                                <h6 class="">Uniform Program - {{ ((layout.pgName$ | async) ?? '') + ' - ' + trim(((layout.nhno$ | async) ?? '')) }}</h6>
                             </div>
                         </div>
 
@@ -151,8 +145,12 @@
                                 <ngx-select-dropdown name="custDrop" [multiple]="true" [config]="searchConfig()" (change)="custs = $event.value" [options]="page.data?.customizations" [(ngModel)]="custs"></ngx-select-dropdown>
                             </div>
                             <div class="col mt-5" *ngIf="page.editmode">
-                                <button type="button" class="btn btn-primary me-3"  *ngIf="!this.retail" (click)="newCustomization('')">New</button>
-                                <button type="button" class="btn btn-primary me-3"  *ngIf="this.retail" (click)="newCustomization('RTL')">New</button>
+                                <button type="button" class="btn btn-primary me-3"  *ngIf="!this.retail" (click)="newCustomization('','')">New</button>
+                                <button type="button" class="btn btn-primary me-3"  *ngIf="this.retail" (click)="newCustomization('RTL','')">New</button>
+                            </div> 
+                            <div class="col mt-5" *ngIf="page.entrymode">
+                                <button type="button" class="btn btn-primary me-3"  *ngIf="!this.retail" (click)="newCustomization('','Y')">New</button>
+                                <button type="button" class="btn btn-primary me-3"  *ngIf="this.retail" (click)="newCustomization('RTL','Y')">New</button>
                             </div> 
                         </div>
                         
@@ -168,7 +166,7 @@
                         <div class="row g-3 mb-1">
                                 <div class="col-md-3">
                                     <label for="inputItem" class="form-label me-3">Customization:</label>
-                                    <button type="button" class="btn btn-primary me-3" (click)="newCustomization('drop')">New</button>
+                                    <button type="button" class="btn btn-primary me-3" (click)="newCustomization('drop','')">New</button>
                                 </div>
                         </div>
                         <div class="row g-3 mb-5">
@@ -260,5 +258,3 @@
         <app-footer></app-footer>
 
     </section>
-
-</div>

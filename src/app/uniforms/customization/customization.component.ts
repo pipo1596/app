@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data-trigger.service';
 import { hideWait, showWait } from '../../shared/utils';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-customization',
@@ -14,7 +15,6 @@ import { hideWait, showWait } from '../../shared/utils';
 })
 
 export class CustomizationComponent {
-  exp: any;
   page = new Page();
   drop = false; // More Actions
   dropship = false;
@@ -22,9 +22,11 @@ export class CustomizationComponent {
   copy: any;
   partpg: any;
   filters: any;
+  copyName: any = '';
 
   //Product Parms
   nino: any;
+  ninos: any;
   styl: any;
 
   // Parms
@@ -53,15 +55,12 @@ export class CustomizationComponent {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private dataService: DataService
+    private dataService: DataService,
+    public layout: LayoutService
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
-
-    if(localStorage.getItem('filters')){
+    if(localStorage.getItem('filters') !== 'undefined'){
       this.filters = localStorage.getItem('filters')
     }
     showWait();
@@ -75,7 +74,9 @@ export class CustomizationComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data?.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.page.data?.info?.name && !this.name) this.name = this.page.data.info.name
 
       if (this.copy && !this.desc){
@@ -117,7 +118,9 @@ export class CustomizationComponent {
 
   setMode() {
     this.copy = localStorage.getItem('copy')
+    localStorage.removeItem('copy');
     this.nino = localStorage.getItem('nino')
+    this.ninos = localStorage.getItem('ninos') ? JSON.parse(localStorage.getItem('ninos')!) : (this.nino ? [this.nino] : []);
     this.cache = localStorage.getItem('cache');
     this.partpg = localStorage.getItem('partpg');
 
@@ -131,7 +134,12 @@ export class CustomizationComponent {
       this.vfgn = localStorage.getItem('vfgn');
     }
 
-    if(localStorage.getItem('ctno') && !this.ctno){
+    if(localStorage.getItem('single') == 'Y'){
+      this.single = 'Y';
+      this.vfgn = '';
+      this.ctno = localStorage.getItem('ctno');
+      this.getCTNO('single');
+    } else if(localStorage.getItem('ctno') && !this.ctno){
       if(localStorage.getItem('drop')) this.dropship = true;
       if(!this.dropship){
         this.retail = localStorage.getItem('retail');
@@ -175,6 +183,7 @@ export class CustomizationComponent {
 
     if (this.vfgn) this.getVFGN()
     if (!this.vfgn && this.ctno) this.getCTNO('')
+    if (this.copy) this.getName(this.copy);
 
     if (this.npno && !this.copy) {
       this.page.editmode = true;
@@ -205,24 +214,23 @@ export class CustomizationComponent {
     });
   }
 
-  getCTNO(mode: any){
-    let temp = new Page();
-    let data = {
-      mode: 'getCtno',
-      nhno: this.nhno,
-      npno: mode == 'single' ? this.npno: '',
-      ctno: mode !== 'single' ? this.ctno: ''
-    }
-
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
-      temp.data = response;
-      if (temp.data?.ct_desc) this.ctdesc = temp.data?.ct_desc
-      if (mode == 'single' && temp.data?.ctno) this.ctno = temp.data?.ctno
-    });
+getCTNO(mode: any){
+  let temp = new Page();
+  let data = {
+    mode: 'getCtno',
+    nhno: this.nhno,
+    npno: mode == 'single' ? this.npno: '',
+    ctno: mode !== 'single' ? this.ctno: ''
   }
 
+  this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
+    temp.data = response;
+    if (temp.data?.ct_desc) this.ctdesc = temp.data?.ct_desc
+    if (mode == 'single' && temp.data?.ctno) this.ctno = temp.data?.ctno
+  });
+}
+
   getName(npno: any){
-    let name = ""
     let temp = new Page();
     let data = {
       mode: 'getName',
@@ -232,7 +240,7 @@ export class CustomizationComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNP', data).subscribe(response => {
       temp.data = response;
-      if (temp.data?.name) name = temp.data?.name
+      if (temp.data?.name) this.copyName = temp.data?.name
     });
     return name
   }
@@ -272,7 +280,9 @@ export class CustomizationComponent {
   }
 
   inqVfg() {
+    let keepPartpg = localStorage.getItem('partpg');
     localStorage.clear();
+    if (keepPartpg) localStorage.setItem('partpg',keepPartpg)
     let p1 = {
       name: this.name,
       desc: this.desc,
@@ -287,9 +297,9 @@ export class CustomizationComponent {
 
     localStorage.setItem('p1', JSON.stringify(p1));
     if(this.page.editmode){
-      localStorage.setItem('partpg','/uniforms/customization/' + this.nhno + '/' + this.npno + '/')
+      localStorage.setItem('iframepg','/uniforms/customization/' + this.nhno + '/' + this.npno + '/')
     } else {
-      localStorage.setItem('partpg','/uniforms/newcustomization/' + this.nhno + '/')
+      localStorage.setItem('iframepg','/uniforms/newcustomization/' + this.nhno + '/')
     }
 
     let menu = ""
@@ -301,13 +311,14 @@ export class CustomizationComponent {
 
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
-    localStorage.setItem('filters',this.filters)
+    if (this.filters) localStorage.setItem('filters', this.filters)
     this.router.navigate(['/uniforms/iframe/APOELMVFG'])
   }
 
   inqCtno(){
+    let keepPartpg = localStorage.getItem('partpg')
     localStorage.clear();
+    if (keepPartpg) localStorage.setItem('partpg',keepPartpg)
     let p1 = {
       name: this.name,
       desc: this.desc,
@@ -321,19 +332,17 @@ export class CustomizationComponent {
     }
 
     localStorage.setItem('p1', JSON.stringify(p1));
-    localStorage.setItem('partpg','/uniforms/newcustomization/' + this.nhno + '/')
+    localStorage.setItem('iframepg','/uniforms/newcustomization/' + this.nhno + '/')
     let menu = '/cgi/APOELMCT?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N' 
     localStorage.setItem('menu', menu)
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
-    localStorage.setItem('filters',this.filters)
+    if (this.filters) localStorage.setItem('filters', this.filters)
     this.router.navigate(['/uniforms/iframe/APOELMCT'])
   }
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
-    localStorage.setItem('filters',this.filters)
+    if (this.filters) localStorage.setItem('filters', this.filters)
     if(this.partpg){
       this.router.navigate([this.partpg]);
     } else this.router.navigate(['/uniforms/customizations/' + this.nhno]);
@@ -373,6 +382,7 @@ export class CustomizationComponent {
         seq: this.seq,
         stat: (this.actv == 'Y') ? this.actv : '',
         nino: (this.nino) ? this.nino : '',
+        ninos: this.ninos,
         upct: (mode == 'update') ? this.upct : '',
         drop: this.dropship ? 'Y' : '',
         retail: this.retail ? this.retail : '',
@@ -388,8 +398,7 @@ export class CustomizationComponent {
 
       if (this.page.data.result == 'pass' && this.page.data.nhno){
         localStorage.setItem('UP_AUTH','Y');
-        localStorage.setItem('expanded',this.exp)
-        localStorage.setItem('filters',this.filters)
+        if (this.filters) localStorage.setItem('filters', this.filters)
         if(mode == 'create' && this.page.data.npno){
           if(this.nino) localStorage.setItem('nino',this.nino);
           if(this.cache) localStorage.setItem('cache',this.cache);

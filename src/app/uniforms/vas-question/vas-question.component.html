@@ -1,10 +1,4 @@
-<app-header [title]="page.title" [menu]="page.menu" ></app-header>
-
-<div id="container">
-
-    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu" [exp]="this.exp"></app-sidebar>
-
-    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+<section class="ftco-section bg-light pb-3 pt-5 content w-100">
 
         <div class="card mx-auto mb-5 mt-5  mh-100">
             <div class="card-body">
@@ -12,7 +6,7 @@
                     <h6 class="mb-3" *ngIf="errors"><strong class="text-danger">{{errors}}</strong></h6>
                     <div class="row g-4 mb-2">
                         <div class="col-8">
-                            <h6 class="">Uniform Program - {{ page.data?.pgName  + ' - ' + trim(page.rfno) }}</h6>
+                            <h6 class="">Uniform Program - {{ ((layout.pgName$ | async) ?? '') + ' - ' + trim(((layout.nhno$ | async) ?? '')) }}</h6>
                         </div>
                     </div>
 
@@ -138,14 +132,19 @@
                         <div [ngClass]="page.data?.dfltNoDrop == 'inq' ? 'col' : 'col-md-3'">
 
                             <!-- Displaying Dropdown-->
-                            <select name="" class="form-select" *ngIf="!page.data?.dfltNoDrop" name="inputDfan" [(ngModel)]="dfan">
+                            <select name="" class="form-select" *ngIf="!page.data?.dfltNoDrop && page.data?.dfltAnsDrop" name="inputDfan" [(ngModel)]="dfan">
                                 <option value="">Select</option>
                                 <option *ngFor="let answer of page.data?.dfltAnsDrop" [ngValue]="answer.value" [selected]="page.data?.info?.dfan == answer.value">{{answer.desc}}</option>
                             </select>
 
+                            <!-- Displaying Dropdown (parent-sourced options) -->
+                            <select name="" class="form-select" *ngIf="!page.data?.dfltNoDrop && !page.data?.dfltAnsDrop && page.data?.dfltAnsPDrop" name="inputDfan" [(ngModel)]="dfan">
+                                <option value="">Select</option>
+                                <option *ngFor="let answer of page.data?.dfltAnsPDrop" [ngValue]="answer.value" [selected]="page.data?.info?.dfan == answer.value">{{answer.desc}}</option>
+                            </select>
+
                             <!-- Showing Inquiry -->
                             <input type="text" readonly class="form-control-plaintext" *ngIf="page.data?.dfltNoDrop == 'inq'" [value]="dfan? dfan + (vsdesc ? '-' + vsdesc : ''): ''">
-
 
                             <!-- Showing Input -->
                             <input type="text" class="form-control" *ngIf="page.data?.dfltNoDrop == 'input' || page.data?.dfltNoDrop == 'inputU'" name="inputDfan" [attr.maxlength]="page.data.maxi" [(ngModel)]="dfan" [value]="page.data?.dfltNoDrop == 'inputU' ? dfan.toUpperCase() : dfan">
@@ -252,4 +251,3 @@
         </div>
         <app-footer></app-footer>
     </section>
-</div>

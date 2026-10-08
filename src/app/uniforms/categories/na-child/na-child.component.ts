@@ -17,6 +17,7 @@ export class NaChildComponent {
   @Input() category : any = "";
   @Input() expanded : any = [];
   @Input() rtpg: any;
+  @Input() level: number = 1;
 
   page = new Page();
 

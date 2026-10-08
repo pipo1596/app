@@ -4,6 +4,7 @@ import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait } from '../../shared/utils';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-category',
@@ -12,7 +13,6 @@ import { hideWait, showWait } from '../../shared/utils';
   styleUrl: './category.component.css'
 })
 export class CategoryComponent {
-  exp: any;
   page = new Page();
   drop = false; // More Actions
   copy: any;
@@ -28,18 +28,21 @@ export class CategoryComponent {
   name = "";
   pnan: any = ""; 
   seq: any = ""; 
+  showChild = false; 
+  showGrandchild = false;
+  childName = "";
+  grandchildName = ""; 
+  errors: any = "";
   upct: any;
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public layout: LayoutService
   ) {}
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     this.setMode();
     showWait();
 
@@ -51,7 +54,9 @@ export class CategoryComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNA', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.page.data?.info?.upct) this.upct = this.page.data?.info?.upct
 
       if (this.copy){
@@ -123,6 +128,14 @@ export class CategoryComponent {
 
   loadCategory(mode: string){
       showWait();
+
+      if (mode === 'create' && this.showChild) {
+        let levels = [this.name];
+        if (this.showChild) levels.push(this.childName);
+        if (this.showGrandchild) levels.push(this.grandchildName);
+        this.createLevel(levels, 0, null);
+        return
+      }
   
       let data = {
         mode: mode,
@@ -130,41 +143,88 @@ export class CategoryComponent {
         nano: this.nano,
         pnan: this.pnan.nano,
         desc: this.name.replace("'", "&apos"),
-        
         seq: this.seq,
         upct: (mode == 'update') ? this.upct : ''
       }
-  
+
       this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNA', data).subscribe(response => {
-        this.page.data = response;
-        if(this.page.data?.upct) this.upct = this.page.data.upct;
-  
-        if (this.page.data.result == 'pass' && this.page.data.nhno){
-          localStorage.setItem('UP_AUTH','Y');
-          localStorage.setItem('expanded',this.exp)
-          localStorage.setItem('styl', this.styl);
-          localStorage.setItem('cache', this.cache);
+        this.finishCategorySave(response);
+      });
+  }
 
-          let cat = {
-            nano: this.page.data?.nano,
-            desc: this.page.data?.desc
-          }
-          localStorage.setItem('nano', JSON.stringify(cat));
+  finishCategorySave(response: any){
+    this.page.data = response;
+    if (this.page.data?.upct) this.upct = this.page.data.upct;
 
-          if(this.partpg) {
-            this.router.navigate([this.partpg]);
-          } else this.router.navigate(['/uniforms/categories/' + this.page.data.nhno]);
-          
-        }
-        
+    if (this.page.data.result == 'pass' && this.page.data.nhno){
+      localStorage.setItem('UP_AUTH','Y');
+      localStorage.setItem('styl', this.styl);
+      localStorage.setItem('cache',this.cache);
+
+      let cat = { nano: this.page.data?.nano, desc: this.page.data?.desc };
+      localStorage.setItem('nano', JSON.stringify(cat));
+
+      if (this.partpg) {
+        this.router.navigate([this.partpg]);
+      } else this.router.navigate(['/uniforms/categories/' + this.page.data.nhno]);
+    }
+
+    this.page.loading = false;
+    hideWait();
+  }
+
+  createLevel(levels: string[], index: number, parentNano: string | null){
+    let data = {
+      mode: 'create',
+      nhno: this.nhno,
+      nano: '',
+      pnan: parentNano ?? '',
+      desc: levels[index].replace("'", "&apos"),
+      seq: this.seq,
+      upct: ''
+    }
+
+    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNA', data).subscribe(response => {
+      this.page.data = response;
+
+      if (this.page.data.result !== 'pass') {
+        this.errors = this.page.data.errors;
         this.page.loading = false;
         hideWait();
-      });
+        return;
+      }
+
+      if (index < levels.length - 1) {
+        this.createLevel(levels, index + 1, this.page.data.nano);
+      } else {
+        this.finishCategorySave(this.page.data);
+      }
+    });
+  }
+
+  addChildCategory(){
+    if (!this.showChild) {
+      this.showChild = true;
+      this.pnan = "";
+    } else if (!this.showGrandchild) {
+      this.showGrandchild = true;
+    }
+  }
+
+  cancelChild(){
+    this.showChild = false;
+    this.showGrandchild = false;
+    this.childName = "";
+    this.grandchildName = "";
+  }
+
+  cancelGrandchild(){
+    this.showGrandchild = false;
+    this.grandchildName = "";
   }
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
     if(this.partpg) {
       localStorage.setItem('styl',this.styl);
       this.router.navigate([this.partpg]);

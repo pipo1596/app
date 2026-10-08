@@ -7,7 +7,8 @@ import { hideWait, showWait } from '../../shared/utils';
 import { DataService } from '../../services/data-trigger.service';
 import { FileUploadService } from '../../services/file-upload.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-product',
@@ -17,7 +18,6 @@ import { Observable } from 'rxjs';
 })
 
 export class ProductComponent {
-  exp: any;
   page = new Page();
   drop = false; // More Actions
   copy: any;
@@ -119,13 +119,11 @@ export class ProductComponent {
     private router: Router,
     private route: ActivatedRoute,
     private dataService: DataService,
-    private uploadService: FileUploadService
+    private uploadService: FileUploadService,
+    public layout: LayoutService
   ) { hideWait(); }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     this.copy = localStorage.getItem('copy')
     this.setMode();
     this.getProduct();
@@ -143,7 +141,9 @@ export class ProductComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data?.menu) this.page.menu = this.page.data.menu;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
 
       if(this.item){
         this.styl = this.item;
@@ -231,16 +231,17 @@ export class ProductComponent {
   }
 
   inqStyle() {
+    let keepPartpg = localStorage.getItem('partpg');
     localStorage.clear();
+    if (keepPartpg) localStorage.setItem('partpg',keepPartpg)
     if(this.page.editmode){
       localStorage.setItem('p1', this.item)
-      localStorage.setItem('partpg','/uniforms/product/' + this.nhno + '/' + this.nino + '/')
+      localStorage.setItem('iframepg','/uniforms/product/' + this.nhno + '/' + this.nino + '/')
     } else {
-      localStorage.setItem('partpg','/uniforms/newproduct/' + this.nhno + '/')
+      localStorage.setItem('iframepg','/uniforms/newproduct/' + this.nhno + '/')
     }
     localStorage.setItem('menu','/cgi/APOELMIS?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/iframe/APOELMIS'])
   }
 
@@ -456,7 +457,7 @@ export class ProductComponent {
       this.cache = localStorage.getItem('cache');
     }
 
-    if(localStorage.getItem('filters')){
+    if(localStorage.getItem('filters') !== 'undefined'){
       this.filters = localStorage.getItem('filters');
     }
 
@@ -465,14 +466,12 @@ export class ProductComponent {
 
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    if(this.exp && this.exp !== 'undefined') localStorage.setItem('expanded',this.exp)
-    if(this.filters && this.filters !== 'undefined') localStorage.setItem('filters',this.filters)
+    if (this.filters) localStorage.setItem('filters', this.filters)
     this.router.navigate(['/uniforms/products/' + this.nhno]);
   }
 
   goImg() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
     if(this.hasIW){
       this.router.navigate(['/uniforms/overrides/' + this.nhno + '/' + this.nino]);
     } else {
@@ -514,73 +513,84 @@ export class ProductComponent {
     this.op3U = this.op3U.join(',');
   }
 
-  loadProduct(){
-    showWait();
-    let mode = (this.page.editmode ? 'update' : 'create')
+loadProduct(): Observable<boolean> {
+  showWait();
+  const done$ = new Subject<boolean>();
+  let mode = (this.page.editmode ? 'update' : 'create')
 
-    this.options = [];
-    let isSKU = "";
-    if(this.sku.length == 0 && this.opv){ //Loading from checkboxes
-      this.generateOpt();
-    } else if(this.sku.length > 0){ // Loading from SKU dropdown
-      for (let i = 0; i < this.sku.length; i++) {
-        let skuOPT = this.sku[i].value.replaceAll(" ",",")
-        isSKU = "Y";
-        this.options.push(skuOPT)
-      }
+  this.options = [];
+  let isSKU = "";
+  if(this.sku.length == 0 && this.opv){ //Loading from checkboxes
+    this.generateOpt();
+  } else if(this.sku.length > 0){ // Loading from SKU dropdown
+    for (let i = 0; i < this.sku.length; i++) {
+      let skuOPT = this.sku[i].value.replaceAll(" ",",")
+      isSKU = "Y";
+      this.options.push(skuOPT)
     }
-    this.getUnselected()
-
-    if(this.custs){
-      this.customizations = [];
-      for (let i = 0; i < this.custs.length; i++) {
-        this.customizations.push(this.custs[i].npno)
-      }
-    }
-
-    if(this.cats){
-      this.categories = [];
-      for (let i = 0; i < this.cats.length; i++) {
-        this.categories.push(this.cats[i].nano)
-      }
-    }
-
-    let data = {
-      mode: mode,
-      nhno: this.nhno,
-      nino: mode == 'update' ? this.nino : '',
-      nano: this.nano,
-      styl: this.styl,
-      whno: this.warehouse?.whno, 
-      categories: this.categories,
-      options: this.options,
-      customizations: this.customizations,
-      DSALLOWED: this.dsallow,
-      AUTOTAG: this.autotag,
-      CONTRACT: this.contract, 
-      item: this.citem, 
-      desc: this.cdesc,
-      op1U: this.op1U,
-      op2U: this.op2U,
-      op3U: this.op3U,
-      isSKU: isSKU,
-      upct: mode == 'update' ? this.upct : ''
-    }
-
-    this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
-      this.page.data = response;
-
-        if(this.filters) localStorage.setItem('filters',this.filters)
-      if (this.page.data.result == 'pass'){
-       localStorage.setItem('UP_AUTH','Y');
-       localStorage.setItem('expanded',this.exp)
-       this.router.navigate(['/uniforms/products/' + this.nhno]);
-      }
-
-      this.page.loading = false;
-      hideWait();
-    });
   }
+  this.getUnselected()
+
+  if(this.custs){
+    this.customizations = [];
+    for (let i = 0; i < this.custs.length; i++) {
+      this.customizations.push(this.custs[i].npno)
+    }
+  }
+
+  if(this.cats){
+    this.categories = [];
+    for (let i = 0; i < this.cats.length; i++) {
+      this.categories.push(this.cats[i].nano)
+    }
+  }
+
+  let data = {
+    mode: mode,
+    nhno: this.nhno,
+    nino: mode == 'update' ? this.nino : '',
+    nano: this.nano,
+    styl: this.styl,
+    whno: this.warehouse?.whno, 
+    categories: this.categories,
+    options: this.options,
+    customizations: this.customizations,
+    DSALLOWED: this.dsallow,
+    AUTOTAG: this.autotag,
+    CONTRACT: this.contract, 
+    item: this.citem, 
+    desc: this.cdesc,
+    op1U: this.op1U,
+    op2U: this.op2U,
+    op3U: this.op3U,
+    isSKU: isSKU,
+    upct: mode == 'update' ? this.upct : ''
+  }
+
+  this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRNI', data).subscribe(response => {
+    this.page.data = response;
+
+    if (this.filters) localStorage.setItem('filters', this.filters)
+    if (this.page.data.result == 'pass'){
+     localStorage.setItem('UP_AUTH','Y');
+     if(this.page.data?.nino) localStorage.setItem('nino',this.page.data.nino)
+     if(this.page.data?.ninos) localStorage.setItem('ninos',JSON.stringify(this.page.data.ninos))
+     if(!localStorage.getItem('entryPG')){
+      this.router.navigate(['/uniforms/products/' + this.nhno]);
+     }
+    }
+    if(localStorage.getItem('entryPG') == 'Y') {
+      localStorage.setItem('entryResult',this.page.data?.result)
+    }
+    this.page.loading = false;
+    hideWait();
+
+    done$.next(this.page.data?.result === 'pass');
+    done$.complete();
+  });
+
+  return done$.asObservable();
+}
 
   deleteProduct(){
     showWait();
@@ -605,7 +615,6 @@ export class ProductComponent {
       this.page.data = response;
       if (this.page.data?.result == 'pass'){
         localStorage.setItem('UP_AUTH','Y');
-        localStorage.setItem('expanded',this.exp)
         this.router.navigate(['/uniforms/products/' + this.page.data?.nhno]);
       }
       this.page.loading = false;
@@ -619,7 +628,6 @@ export class ProductComponent {
     localStorage.setItem('partpg', partpg)
     localStorage.setItem('styl', this.styl)
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/category/' + this.nhno]);
   }
 
@@ -630,17 +638,60 @@ export class ProductComponent {
     }
   }
 
-  newCustomization(mode: any) {
+  newCustomization(mode: any, entry: any) {
+    if(entry == 'Y'){
+      localStorage.setItem('entryPG','Y');
+      this.loadProduct().subscribe(success => {
+        if (!success) return;
+        this.entryNewCustomization(mode);
+      });
+      return;
+    }
+    this.finishNewCustomization(mode);
+  }
+
+  private finishNewCustomization(mode: any) {
     this.bldCache();
     let partpg = '/uniforms/product/' + this.nhno + '/' + this.nino
     localStorage.setItem('partpg', partpg)
-    localStorage.setItem('vfgn', this.page.data?.info?.vfgn)
-    if(mode == 'drop' || mode == 'RTL') localStorage.setItem('ctno', this.page.data?.isctno ? this.page.data.isctno : this.page.data?.info.isctno)
-    if(mode == 'drop') localStorage.setItem('drop', 'Y')
-    if(mode == 'RTL') localStorage.setItem('retail', this.page.data?.isctno ? this.page.data.isctno : this.page.data?.info.isctno)
+    let vfgn = this.page.data?.info?.vfgn
+    let ctno = this.page.data?.isctno ? this.page.data.isctno : this.page.data?.info?.isctno
+    let hemStyl = this.page.data?.info?.hemStyl
+    if(hemStyl == 'Y'){
+      localStorage.setItem('single', 'Y')
+      localStorage.setItem('ctno', ctno ? ctno : '')
+    } else {
+      if(vfgn) localStorage.setItem('vfgn', vfgn)
+      if(mode == 'drop' || mode == 'RTL') localStorage.setItem('ctno', ctno ? ctno : '')
+      if(mode == 'drop') localStorage.setItem('drop', 'Y')
+      if(mode == 'RTL') localStorage.setItem('retail', ctno ? ctno : '')
+    }
     localStorage.setItem('nino', this.page.data?.info?.nino)
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
+    this.router.navigate(['/uniforms/newcustomization/' + this.nhno]);
+  }
+
+  private entryNewCustomization(mode: any) {
+    this.nino = this.page.data?.nino
+    let ninos = this.page.data?.ninos ?? (this.nino ? [this.nino] : []);
+    let vfgn = this.page.data?.vfgn
+    let ctno = this.page.data?.isctno
+    let hemStyl = this.page.data?.hemStyl
+    this.bldCache();
+    let partpg = '/uniforms/product/' + this.nhno + '/' + this.nino
+    localStorage.setItem('partpg', partpg)
+    if(hemStyl == 'Y'){
+      localStorage.setItem('single', 'Y')
+      localStorage.setItem('ctno', ctno ? ctno : '')
+    } else {
+      if(vfgn) localStorage.setItem('vfgn', vfgn)
+      if(mode == 'drop' || mode == 'RTL') localStorage.setItem('ctno', ctno ? ctno : '')
+      if(mode == 'drop') localStorage.setItem('drop', 'Y')
+      if(mode == 'RTL') localStorage.setItem('retail', ctno ? ctno : '')
+    }
+    localStorage.setItem('nino', this.nino)
+    localStorage.setItem('ninos', JSON.stringify(ninos))
+    localStorage.setItem('UP_AUTH','Y');
     this.router.navigate(['/uniforms/newcustomization/' + this.nhno]);
   }
 
@@ -657,6 +708,8 @@ export class ProductComponent {
         this.retail = this.page.data?.isctno 
       } else this.retail = this.page.data?.info?.isctno
     }
+    if(localStorage.getItem('entryPG') == 'Y') show = true
+    if(this.page.data?.info?.hemStyl == 'Y') show = true
     return show
   }
 

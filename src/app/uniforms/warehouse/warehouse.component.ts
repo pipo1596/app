@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait } from '../../shared/utils';
 import { environment } from '../../../environments/environment.development';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-warehouse',
@@ -12,7 +13,7 @@ import { environment } from '../../../environments/environment.development';
   styleUrl: './warehouse.component.css'
 })
 export class WarehouseComponent {
-  exp: any;
+  dash: any;
   page = new Page();
   drop = false;
   whno: any = "";
@@ -21,12 +22,13 @@ export class WarehouseComponent {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public layout: LayoutService
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
+    if(localStorage.getItem('dash')){
+      this.dash = localStorage.getItem('dash')
     }
     localStorage.clear();
     showWait();
@@ -55,9 +57,10 @@ export class WarehouseComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSRWH', data).subscribe(response => {
       this.page.data = response;
-      if (this.page.data.title) this.page.title = this.page.data.title;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
-      if (this.page.data.menu) this.page.menu = this.page.data.menu;
       if (this.page.data?.warehouses) this.warehouses = this.page.data.warehouses;
       if (this.page.data?.info?.whno) this.whno = this.page.data.info.whno;
       if(this.page.data?.errors) this.whno = whnoI
@@ -68,12 +71,16 @@ export class WarehouseComponent {
 
   goCategories(){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/categories/' + this.page.rfno]);
   }
 
   trim(value: any){
     return value.replace(/^0+/, '')
+  }
+
+  goBack(){
+    localStorage.setItem('UP_AUTH','Y');
+    this.router.navigate(['/uniforms/dashboard/' + this.page.rfno]);
   }
 
 }

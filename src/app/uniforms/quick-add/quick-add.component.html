@@ -1,23 +1,21 @@
-<app-header [title]="page.title" [menu]="page.menu" ></app-header>
-
-<div id="container">
-    
-    <app-sidebar class="sidebar" [title]="page.title" [menu]="page.menu"></app-sidebar>
-
-    <section class="ftco-section bg-light pb-3 pt-5 content w-100">
+<section class="ftco-section bg-light pb-3 pt-5 content w-100">
         <div class="card mx-auto mb-5 mt-5  mh-100">
             <div class="card-body">
                     <form>
                         <h6 class="mb-3" *ngIf="this.errors"><strong class="text-danger">{{this.errors}}</strong></h6>
                         <div class="row g-3">
                             <div class="col-md-10">
-                                <h6>Uniform Program - {{ page.data?.pgName  + ' - ' + trim(page.rfno) }}</h6>
+                                <h6 class="">Uniform Program - {{ ((layout.pgName$ | async) ?? '') + ' - ' + trim(((layout.nhno$ | async) ?? '')) }}</h6>
                             </div>
                         </div>
 
                         <div class="row g-3 mb-2">
                             <div class="col-md-9">
-                                <h6><small>Categories > Quick Add</small></h6>
+                                <h6>
+                                    <small *ngIf="page.data?.naDesc">Categories > Quick Add > {{page.data?.naDesc + ' (' + trim(this.nano) + ')'}}</small>
+                                    <small *ngIf="!page.data?.naDesc && this.nano">Categories > Quick Add > {{trim(this.nano)}}</small>
+                                    <small *ngIf="!page.data?.naDesc && !this.nano">Categories > Quick Add</small>
+                                </h6>
                             </div>
                         </div>
 
@@ -173,5 +171,4 @@
         
         <app-footer></app-footer>
 
-    </section>
-</div>
+</section>

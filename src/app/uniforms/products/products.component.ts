@@ -4,6 +4,7 @@ import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { hideWait, showWait, scrollToTopInstant} from '../../shared/utils';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-products',
@@ -13,11 +14,11 @@ import { hideWait, showWait, scrollToTopInstant} from '../../shared/utils';
 })
 
 export class ProductsComponent {
-  exp: any;
   npfilters: any;
   page = new Page();
   assign: any;
   inNano: any;
+  newNinos: any[] = [];
   
   //Search / Dropdown
   style: any;
@@ -40,21 +41,24 @@ export class ProductsComponent {
 
   constructor(private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public layout: LayoutService
   ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('expanded')){
-      this.exp = localStorage.getItem('expanded')
-    }
     if(localStorage.getItem('npfilters')){
       this.npfilters = localStorage.getItem('npfilters')
     }
     this.assign = localStorage.getItem('assign') ? JSON.parse(localStorage.getItem('assign')!) : '';
     this.inNano = localStorage.getItem('nano') ? JSON.parse(localStorage.getItem('nano')!) : '';
     // if(this.inNano) this.category = this.inNano;
-    if(localStorage.getItem('filters')){
+    if(localStorage.getItem('filters') !== 'undefined'){
       this.getCache();
+    }
+    if(localStorage.getItem('ninos') && localStorage.getItem('ninos') !== 'undefined'){
+      this.newNinos = JSON.parse(localStorage.getItem('ninos')!);
+    } else if(localStorage.getItem('nino') && localStorage.getItem('nino') !== 'undefined'){
+      this.newNinos = [localStorage.getItem('nino')];
     }
     localStorage.clear();
     this.checked = [];
@@ -68,7 +72,6 @@ export class ProductsComponent {
 
   loadProduct(mode: any, nino: any){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
     this.bldCache();
     switch(mode){
       case 'new':
@@ -121,15 +124,17 @@ export class ProductsComponent {
       aNpno: this.assign ? this.getConfig('npno') : '',
       itemsPerPage: this.itemsPerPage,
       currentPage: this.p,
-      offset: this.offset
+      offset: this.offset,
+      newNino: this.newNinos
     }
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNI', data).subscribe(response => {
 
       this.page.data = response;
-      if (this.page.data.title) this.page.title = this.page.data.title;
+      if (this.page.data?.pgName) this.layout.setProgram(this.page.rfno, this.page.data.pgName);
+      if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
+      if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.page.data.fullname) this.page.fullname = this.page.data.fullname;
-      if (this.page.data.menu) this.page.menu = this.page.data.menu;
       if (this.page.data.total) this.total = this.page.data.total;
       if (this.page.data.offset) this.offset = this.page.data.offset;
       if (this.page.data?.warehouses){
@@ -168,7 +173,6 @@ export class ProductsComponent {
 
   popApp(npno: any){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + npno]);
   }
 
@@ -187,7 +191,7 @@ export class ProductsComponent {
   }
   
   allChecked(){
-    for (let x = 0; x < this.page.data?.products.length; x++) {
+    for (let x = 0; x < this.page.data?.products?.length; x++) {
       if(!(this.isChecked(this.page.data.products[x]))){
         return false;
       }
@@ -234,17 +238,17 @@ export class ProductsComponent {
   }
 
   inqStyle() {
+    let keepPartpg = localStorage.getItem('partpg');
     localStorage.clear();
+    if (keepPartpg) localStorage.setItem('partpg',keepPartpg)
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
-    localStorage.setItem('partpg','/uniforms/products/' + this.page.rfno + '/')
+    localStorage.setItem('iframepg','/uniforms/products/' + this.page.rfno + '/')
     localStorage.setItem('menu','/cgi/APOELMIS?PAMODE=*INQ&PMFRAMEID=bottomFrame&PMFRAMEIDE=topFrame&PMFRAMEO=Y&PMEDIT=N')
     this.router.navigate(['/uniforms/iframe/APOELMIS'])
   }
 
   assignStyles(){
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
     let npnos = [];
     let ninos = [];
 
@@ -264,8 +268,7 @@ export class ProductsComponent {
 
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPASSIGN', data).subscribe(response => {
       localStorage.setItem('UP_AUTH','Y');
-      localStorage.setItem('expanded',this.exp)
-      localStorage.setItem('filters',this.npfilters)
+      if (this.npfilters) localStorage.setItem('filters', this.npfilters)
       this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
     })
   }
@@ -307,7 +310,7 @@ export class ProductsComponent {
       stylconfig: this.stylconfig
     }
 
-    localStorage.setItem('filters', JSON.stringify(cache));
+    if (cache) localStorage.setItem('filters', JSON.stringify(cache));
   }
 
   getCache() {
@@ -318,16 +321,41 @@ export class ProductsComponent {
     this.stylconfig = cache?.stylconfig;
   }
 
+  showCustomization(product: any): boolean {
+    let show = false;
+    if (!(product?.dropship == 'Y') && product?.vfgn) show = true;
+    else if ((this.page.data?.isRtl == 'Y' && product?.ctno) || product?.hemStyl == 'Y') {
+      show = true;
+    } 
+    return show;
+  }
+
+  goCustomize(product: any) {
+    localStorage.setItem('UP_AUTH','Y');
+    localStorage.setItem('partpg','/uniforms/products/' + this.page.rfno + '/')
+    this.bldCache();
+    if (this.npfilters) localStorage.setItem('filters', this.npfilters)
+    localStorage.setItem('nino', product.nino)
+    if(product.hemStyl == 'Y'){
+      localStorage.setItem('single', 'Y')
+      localStorage.setItem('ctno', product.ctno)
+    } else if(product.vfgn){
+      localStorage.setItem('vfgn', product.vfgn)
+    } else if(product.ctno && !product.vfgn){ 
+      localStorage.setItem('ctno', product.ctno)
+      localStorage.setItem('retail', product.ctno)
+    }
+    this.router.navigate(['/uniforms/newcustomization/' + this.page.rfno]);
+  }
+
   goBack() {
     localStorage.setItem('UP_AUTH','Y');
-    if(this.exp && this.exp !== 'undefined') localStorage.setItem('expanded',this.exp)
-    if(this.npfilters && this.npfilters !== 'undefined') localStorage.setItem('filters',this.npfilters)
+    if (this.npfilters) localStorage.setItem('filters', this.npfilters)
     this.router.navigate(['/uniforms/customizations/' + this.page.rfno]);
   }
 
   goBackNA() {
     localStorage.setItem('UP_AUTH','Y');
-    localStorage.setItem('expanded',this.exp)
     this.router.navigate(['/uniforms/categories/' + this.page.rfno]);
   }
 

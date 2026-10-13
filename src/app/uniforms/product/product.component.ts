@@ -659,7 +659,9 @@ loadProduct(): Observable<boolean> {
     let hemStyl = this.page.data?.info?.hemStyl
     if(hemStyl == 'Y'){
       localStorage.setItem('single', 'Y')
-      localStorage.setItem('ctno', ctno ? ctno : '')
+      if(vfgn){
+        localStorage.setItem('vfgn', vfgn)
+      } else localStorage.setItem('ctno', ctno ? ctno : '')
     } else {
       if(vfgn) localStorage.setItem('vfgn', vfgn)
       if(mode == 'drop' || mode == 'RTL') localStorage.setItem('ctno', ctno ? ctno : '')
@@ -682,7 +684,9 @@ loadProduct(): Observable<boolean> {
     localStorage.setItem('partpg', partpg)
     if(hemStyl == 'Y'){
       localStorage.setItem('single', 'Y')
-      localStorage.setItem('ctno', ctno ? ctno : '')
+      if(vfgn){
+        localStorage.setItem('vfgn', vfgn)
+      } else localStorage.setItem('ctno', ctno ? ctno : '')
     } else {
       if(vfgn) localStorage.setItem('vfgn', vfgn)
       if(mode == 'drop' || mode == 'RTL') localStorage.setItem('ctno', ctno ? ctno : '')

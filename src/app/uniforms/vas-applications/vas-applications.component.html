@@ -13,12 +13,11 @@
                     <div class="col-10">
                         <h6 class="">Uniform Program - {{ ((layout.pgName$ | async) ?? '') + ' - ' + trim(((layout.nhno$ | async) ?? '')) }}</h6>
                     </div>
-
                     <div class="col-2" *ngIf="!page.data?.single">
-                        <button (click)="loadApplication('new','')" class="btn btn-primary rounded-0 w-75 me-3" type="button">Add VAS Application</button>
-                        <button class="btn">
+                        <button (click)="loadApplication('new','')" class="btn btn-primary rounded-0 w-100 me-3" type="button">Add VAS Application</button>
+                        <!-- <button class="btn">
                             <span class="bi bi-question-circle" title="FAQ"></span>
-                        </button>
+                        </button> -->
                     </div>
                 </div>
 

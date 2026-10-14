@@ -129,12 +129,20 @@ export class VasApplicationsComponent {
     } return false;
   }
 
-  saveExpanded(): Observable<boolean> {
+  saveExpanded(application?: any): Observable<boolean> {
     if (!this.vasQuestions || this.vasQuestions.length === 0) {
       return of(true);
     }
 
-    const saves: Observable<boolean>[] = this.vasQuestions.map(q => {
+    const targets = application
+      ? this.vasQuestions.filter(q => q.application?.n1no === application.n1no)
+      : this.vasQuestions.toArray();
+
+    if (targets.length === 0) {
+      return of(true);
+    }
+
+    const saves: Observable<boolean>[] = targets.map(q => {
       const result = q.saveQuestions('silent');
       return (result instanceof Observable) ? result : of(true);
     });
@@ -148,7 +156,7 @@ export class VasApplicationsComponent {
     showWait();
     if(this.chkExpanded(application)){
 
-      this.saveExpanded().subscribe(allPassed => {
+      this.saveExpanded(application).subscribe(allPassed => {
         if (!allPassed) return;
 
       for(let i = 0; i < this.expanded.length; i++){
@@ -321,6 +329,10 @@ export class VasApplicationsComponent {
 
   dsppbdate(date:any){
       return formatDateUS(new Date(convertToDate(date)));
+  }
+
+  copyGroup(){
+      
   }
 
   onItemChange(event: number){

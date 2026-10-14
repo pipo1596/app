@@ -336,7 +336,7 @@ export class ProductsComponent {
     this.bldCache();
     if (this.npfilters) localStorage.setItem('filters', this.npfilters)
     localStorage.setItem('nino', product.nino)
-    if(product.hemStyl == 'Y'){
+    if(product.hemStyl == 'Y' && !(product.vfgn)){
       localStorage.setItem('single', 'Y')
       localStorage.setItem('ctno', product.ctno)
     } else if(product.vfgn){

@@ -9,6 +9,7 @@
             <th align="left">Force Default</th>
             <th align="left">Display Forced Answer</th>
             <th align="left">Required?</th>
+            <th align="left">Format</th>
             <th align="left">Default Answer</th>
             <th align="left"></th>
         </tr>
@@ -50,6 +51,16 @@
                     <option *ngFor="let answer of question.reqDrop" [value]="answer.value" [selected]="answer.value == question.req">{{answer.desc}}</option>
                 </select>
             </td>
+
+            <!-- Format -->
+            <td align="left" style="width: 15%"> 
+                <select *ngIf="question.type == 'P' || question.type == 'I'" name="" class="form-select" [id]="'fmt' + i + question.n2no" (change)="updService(i, question.n2no)">
+                    <option value="">Select</option>
+                    <option *ngFor="let answer of question.fmtDrop" [value]="answer.value" [selected]="answer.value == question.fmt">{{answer.desc}}</option>
+                </select>
+                <span *ngIf="!(question.type == 'P' || question.type == 'I')"></span>
+            </td>
+            
             <!-- Default Answer -->
             <td align="left">
                 <!-- Displaying Dropdown-->

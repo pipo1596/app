@@ -66,6 +66,7 @@ export class VasQuestionsComponent {
           this.page.data.vasq[i].dflk = temp[i].dflk;
           this.page.data.vasq[i].dspd = temp[i].dspd;
           this.page.data.vasq[i].req = temp[i].req;
+          this.page.data.vasq[i].fmt = temp[i].fmt;
           this.page.data.vasq[i].tbld = temp[i].tbld;
         } 
       }
@@ -212,13 +213,15 @@ export class VasQuestionsComponent {
     }
     
     let n2no = [], v2no = [], type = [], dfan = [], dspd = [],
-        dflk = [], tbld = [], req = [], upct = [], ansq = [], rules = [];
+        dflk = [], tbld = [], req = [], fmt = [], upct = [], 
+        ansq = [], rules = [];
 
     const snapshot = this.page.data?.vasq.map((q: any) => ({
       dfan: q.dfan ?? '',
       dspd: q.dspd ?? '',
       dflk: q.dflk ?? '',
       req: q.req ?? '',
+      fmt: q.fmt ?? '',
       tbld: q.tbld
     }));
 
@@ -234,13 +237,14 @@ export class VasQuestionsComponent {
       dspd.push(q.dspd == 'Y' ? 'Y' : '');
       dflk.push(q.dflk == 'Y' ? 'Y' : '');
       req.push(q.req ?? '');
+      fmt.push(q.fmt ?? '');
     }
 
     let data = {
       mode: mode == 'validate' ? 'validate' : 'update',
       nhno: this.nhno, npno: this.npno, n1no: this.application?.n1no,
       n2no, v1cd: this.application?.v1cd, v2no, type, dfan, dspd,
-      dflk, tbld, req, upct, ansq
+      dflk, tbld, req, fmt, upct, ansq
     }
 
     if (mode === 'silent') {
@@ -350,6 +354,7 @@ export class VasQuestionsComponent {
       question.dflk = (<HTMLInputElement>document.getElementById('dflk' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : 'N'
       question.dspd = (<HTMLInputElement>document.getElementById('dspd' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : '';
       question.req = (<HTMLInputElement>document.getElementById('req' + i + this.page.data?.vasq[i]!.n2no)).value
+      question.fmt = (<HTMLInputElement>document.getElementById('fmt' + i + this.page.data?.vasq[i]!.n2no)).value
       question.tbld = this.page.data?.vasq[i].tbld;
       vasq.push(question)
     } 
@@ -368,6 +373,7 @@ export class VasQuestionsComponent {
         this.questions[i].dflk = (<HTMLInputElement>document.getElementById('dflk' + i + n2no)).checked ? 'Y' : 'N'
         this.questions[i].dspd = (<HTMLInputElement>document.getElementById('dspd' + i + n2no)).checked ? 'Y' : '';
         this.questions[i].req = (<HTMLInputElement>document.getElementById('req' + i + n2no)).value
+        this.questions[i].fmt = (<HTMLInputElement>document.getElementById('fmt' + i + n2no)).value
         this.questionService.setQuestions(this.application,this.questions)
       }
     } 

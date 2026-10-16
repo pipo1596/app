@@ -332,7 +332,10 @@ export class VasApplicationsComponent {
   }
 
   copyGroup(){
-      
+    localStorage.setItem('UP_AUTH','Y');
+    if (this.filters) localStorage.setItem('filters', this.filters)
+        localStorage.setItem('copy', this.npno)
+        this.router.navigate(['/uniforms/customization/' + this.page.rfno + '/' + this.npno]);
   }
 
   onItemChange(event: number){

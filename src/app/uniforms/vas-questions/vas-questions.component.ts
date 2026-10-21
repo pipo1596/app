@@ -60,6 +60,13 @@ export class VasQuestionsComponent {
     this.http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPLMNV2', data).subscribe(response => {
       this.page.data = response;
 
+      // if (this.page.data?.vasq?.length > 0) {
+      //   this.page.data.vasq.forEach((q: any) => {
+      //     if (q.dfltAnsDrop) q.dfltAnsDrop.sort((a: any, b: any) => (a.value ?? '').localeCompare(b.value ?? ''));
+      //     if (q.dfltAnsPDrop) q.dfltAnsPDrop.sort((a: any, b: any) => (a.value ?? '').localeCompare(b.value ?? ''));
+      //   });
+      // }
+
       if(this.page.data?.vasq.length > 0 && temp){
         for (let i = 0; i < this.page.data?.vasq.length; i++) {
           this.page.data.vasq[i].dfan = temp[i].dfan;
@@ -354,7 +361,9 @@ export class VasQuestionsComponent {
       question.dflk = (<HTMLInputElement>document.getElementById('dflk' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : 'N'
       question.dspd = (<HTMLInputElement>document.getElementById('dspd' + i + this.page.data?.vasq[i]!.n2no)).checked ? 'Y' : '';
       question.req = (<HTMLInputElement>document.getElementById('req' + i + this.page.data?.vasq[i]!.n2no)).value
-      question.fmt = (<HTMLInputElement>document.getElementById('fmt' + i + this.page.data?.vasq[i]!.n2no)).value
+      if(this.page.data?.vasq[i]!.type == 'P' || this.page.data?.vasq[i]!.type == 'P') {
+        question.fmt = (<HTMLInputElement>document.getElementById('fmt' + i + this.page.data?.vasq[i]!.n2no)).value
+      } else question.fmt = ''
       question.tbld = this.page.data?.vasq[i].tbld;
       vasq.push(question)
     } 

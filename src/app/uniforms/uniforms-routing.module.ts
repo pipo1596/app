@@ -49,7 +49,7 @@ import { MassappAddComponent } from './massapp-add/massapp-add.component';
 import { MassappDeleteComponent } from './massapp-delete/massapp-delete.component';
 import { MassappUpdateComponent } from './massapp-update/massapp-update.component';
 import { authGuard, saveOnLeaveGuard } from './auth.guard';
-import { UniformLayoutComponent } from './uniform-layout/uniform-layout.component';
+import { UniformLayoutComponent } from './uniform-layout/uniform-layout/uniform-layout.component';
 import { SamauditComponent } from './samaudit/samaudit.component';
 
 const routes: Routes = [
@@ -117,8 +117,8 @@ const routes: Routes = [
       { path: 'newvasapplication/:nhno/:npno/:vedp', component: VasApplicationComponent, canActivate: [authGuard]  },
       { path: 'vasapplication/:nhno/:npno/:n1no', component: VasApplicationComponent, canActivate: [authGuard]  },
       { path: 'vasapplication/:nhno/:npno/:n1no/:vedp', component: VasApplicationComponent, canActivate: [authGuard]  },
-      { path: 'vasquestion/:nhno/:npno', component: VasQuestionComponent, canActivate: [authGuard]  },
-      { path: 'vasquestion/:nhno/:npno/:vhno', component: VasQuestionComponent, canActivate: [authGuard]  },
+      { path: 'vasquestion/:nhno/:npno', component: VasQuestionComponent, canActivate: [authGuard], data: { needs: ['vasApp', 'p1'] } },
+      { path: 'vasquestion/:nhno/:npno/:vhno', component: VasQuestionComponent, canActivate: [authGuard], data: { needs: ['vasApp', 'p1'] } },
 
       //Mass Updates
       { path: 'massappadd/:nhno', component: MassappAddComponent, canActivate: [authGuard]  },
@@ -171,7 +171,7 @@ const routes: Routes = [
       //Audit
       { path: 'audit/:nhno', component: AuditComponent, canActivate: [authGuard]  },
       
-      { path: 'iframe/:menu', component: IframeComponent, canActivate: [authGuard]  },
+      { path: 'iframe/:menu', component: IframeComponent, canActivate: [authGuard], data: { needs: ['menu'] } },
       { path: '**', component: UniformComponent }
     ]
   } 

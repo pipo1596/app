@@ -122,6 +122,7 @@ export class QuickAddComponent implements AfterViewInit {
           desc: this.page.data?.nadesc
         }
         localStorage.setItem('nano', JSON.stringify(category));
+        if (this.page.data?.ninos) localStorage.setItem('ninos', JSON.stringify(this.page.data.ninos));
         localStorage.setItem('UP_AUTH','Y');
         this.router.navigate(['/uniforms/products/' + this.nhno])
       }

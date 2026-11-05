@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { Location } from '@angular/common';
 import { environment } from '../../../environments/environment.development';
 import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
@@ -33,6 +34,9 @@ export class ProductsComponent {
   //Customization Popup
   openPopupNino: any = null;
 
+  sortCol: string = '';
+  sortDir: string = 'asc';
+
   //Paging
   p: number = 1;
   itemsPerPage: number = 50;
@@ -42,6 +46,7 @@ export class ProductsComponent {
   constructor(private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
+    private location: Location,
     public layout: LayoutService
   ) { }
 
@@ -67,6 +72,12 @@ export class ProductsComponent {
       this.page.rfno = params.get('nhno');
       this.style = params.get('styl');
     });
+    const qp = this.route.snapshot.queryParamMap
+    if(this.validSort(qp.get('sort'))){
+      this.sortCol = qp.get('sort')!
+      this.sortDir = (qp.get('dir') === 'asc' || qp.get('dir') === 'desc') ? qp.get('dir')! : this.defaultDir(this.sortCol)
+    }
+    this.syncSortUrl()
     this.getProducts('')
   }
 
@@ -119,6 +130,8 @@ export class ProductsComponent {
       category: this?.inNano?.nano ? this.inNano.nano : this?.category?.nano,
       warehouse: this?.warehouse?.whno,
       stylconfig: this?.stylconfig?.vfgn,
+      sort: this.sortCol,
+      dir: this.sortDir,
       assign: this.assign ? 'Y' : '',
       aVfg: this.assign ? this.getConfig('config') : '',
       aNpno: this.assign ? this.getConfig('npno') : '',
@@ -164,6 +177,93 @@ export class ProductsComponent {
   
   trim(value: any){
     return value.replace(/^0+/, '')
+  }
+
+  private sortNames: { [key: string]: string } = {
+    styl: 'Style',
+    desc: 'Style Description',
+    opv1: 'Option 1',
+    cat: 'Category',
+    seq: 'Sort Order',
+    mfgn: 'Manufacturer #',
+    cust: 'Customization',
+    ds: 'DS Allowed?',
+    ful: 'Fulfillment Override',
+    vfg: 'Style Configurator Template',
+    created: 'Date Created'
+  };
+
+  private validSort(col: any): boolean {
+    return typeof col === 'string' && col in this.sortNames;
+  }
+
+  private defaultDir(col: string): string {
+    return col === 'created' ? 'desc' : 'asc';
+  }
+
+  isSorted(): boolean {
+    return this.sortCol !== '';
+  }
+
+  sortBy(col: string){
+    if(this.sortCol === col){
+      this.sortDir = (this.sortDir === 'asc') ? 'desc' : 'asc';
+    } else {
+      this.sortCol = col;
+      this.sortDir = this.defaultDir(col);
+    }
+    this.applySort();
+  }
+
+  resetSort(){
+    this.sortCol = '';
+    this.sortDir = 'asc';
+    this.applySort();
+  }
+
+  private applySort(){
+    this.checked = [];
+    this.offset = '0';
+    this.syncSortUrl();
+    this.getProducts('search');
+  }
+
+  private syncSortUrl(){
+    const path = this.location.path().split('?')[0];
+    const query = this.isSorted() ? 'sort=' + this.sortCol + '&dir=' + this.sortDir : '';
+    this.location.replaceState(path, query, this.location.getState());
+  }
+
+  isLit(col: string, dir: string): boolean {
+    return this.sortCol === col && this.sortDir === dir;
+  }
+
+  ariaSort(col: string){
+    if(this.sortCol !== col) return 'none';
+    return this.sortDir === 'asc' ? 'ascending' : 'descending';
+  }
+
+  sortLabel(): string {
+    const name = this.sortNames[this.sortCol] ?? '';
+    if(this.sortCol === 'created') return name + ' · ' + (this.sortDir === 'desc' ? 'Newest first' : 'Oldest first');
+    if(this.sortCol === 'seq' || this.sortCol === 'cust') return name + ' · ' + (this.sortDir === 'asc' ? 'Low → High' : 'High → Low');
+    if(this.sortCol === 'ds') return name + ' · ' + (this.sortDir === 'asc' ? 'No → Yes' : 'Yes → No');
+    return name + ' · ' + (this.sortDir === 'asc' ? 'A → Z' : 'Z → A');
+  }
+
+  fmtDate(addt: any): string {
+    const s = String(addt ?? '').padStart(8, '0');
+    if(!addt || +s === 0) return '';
+    return s.substring(4,6) + '/' + s.substring(6,8) + '/' + s.substring(0,4);
+  }
+
+  fmtTime(adtm: any): string {
+    const s = String(adtm ?? '').padStart(6, '0');
+    if(!adtm || +s === 0) return '';
+    let h = +s.substring(0,2);
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    return h + ':' + s.substring(2,4) + ' ' + ampm;
   }
 
   toggleCustPop(nino: any, event: Event){
@@ -307,7 +407,9 @@ export class ProductsComponent {
       customization: this.customization,
       category: this.category,
       warehouse: this.warehouse,
-      stylconfig: this.stylconfig
+      stylconfig: this.stylconfig,
+      psort: this.sortCol,
+      pdir: this.sortDir
     }
 
     if (cache) localStorage.setItem('filters', JSON.stringify(cache));
@@ -319,6 +421,10 @@ export class ProductsComponent {
     this.category = cache?.category;
     this.warehouse = cache?.warehouse;
     this.stylconfig = cache?.stylconfig;
+    if(this.validSort(cache?.psort)){
+      this.sortCol = cache.psort;
+      this.sortDir = (cache.pdir === 'asc' || cache.pdir === 'desc') ? cache.pdir : this.defaultDir(cache.psort);
+    }
   }
 
   showCustomization(product: any): boolean {

@@ -36,6 +36,8 @@ export class ProductsComponent {
 
   sortCol: string = '';
   sortDir: string = 'asc';
+  popupTop = 0;
+  popupLeft = 0;
 
   //Paging
   p: number = 1;
@@ -268,7 +270,14 @@ export class ProductsComponent {
 
   toggleCustPop(nino: any, event: Event){
     event.stopPropagation();
-    this.openPopupNino = (this.openPopupNino === nino) ? null : nino;
+    if(this.openPopupNino === nino){
+      this.openPopupNino = null;
+      return;
+    }
+    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+    this.popupTop = rect.bottom + 4;
+    this.popupLeft = rect.left;
+    this.openPopupNino = nino;
   }
 
   popApp(npno: any){
@@ -283,6 +292,12 @@ export class ProductsComponent {
 
   @HostListener('document:keydown.escape')
   onEscapeKey(){
+    this.closeCustPop();
+  }
+
+  @HostListener('window:scroll')
+  @HostListener('window:resize')
+  onViewportChange(){
     this.closeCustPop();
   }
 

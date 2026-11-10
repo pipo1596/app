@@ -87,15 +87,16 @@
                     </div>
                 </div>
 
-                <table class="table table-striped w-100">
+                <div class="table-responsive products-table-wrap" (scroll)="closeCustPop()">
+                <table class="table table-striped w-100 products-table">
                     <thead>
                         <tr>
                             <th align="left"><input type="checkbox" class="form-check-input" (click)="checkAll()" [checked]="allChecked() && page.data?.products?.length > 0"></th>
                             <th align="left" class="ps-3">Actions</th>
                             <th align="left" [class.sort-active]="sortCol === 'styl'" [attr.aria-sort]="ariaSort('styl')"><button type="button" class="sort-btn" (click)="sortBy('styl')">Style <svg class="sort-arrows" viewBox="0 0 10 16" width="10" height="16" aria-hidden="true"><path d="M5 1 L9.5 7 H0.5 Z" [class.lit]="isLit('styl','asc')"/><path d="M5 15 L9.5 9 H0.5 Z" [class.lit]="isLit('styl','desc')"/></svg></button></th>
                             <th align="left" [class.sort-active]="sortCol === 'desc'" [attr.aria-sort]="ariaSort('desc')"><button type="button" class="sort-btn" (click)="sortBy('desc')">Description <svg class="sort-arrows" viewBox="0 0 10 16" width="10" height="16" aria-hidden="true"><path d="M5 1 L9.5 7 H0.5 Z" [class.lit]="isLit('desc','asc')"/><path d="M5 15 L9.5 9 H0.5 Z" [class.lit]="isLit('desc','desc')"/></svg></button></th>
-                            <th align="left" style="width: 15%;" [class.sort-active]="sortCol === 'opv1'" [attr.aria-sort]="ariaSort('opv1')"><button type="button" class="sort-btn" (click)="sortBy('opv1')">Option 1 <svg class="sort-arrows" viewBox="0 0 10 16" width="10" height="16" aria-hidden="true"><path d="M5 1 L9.5 7 H0.5 Z" [class.lit]="isLit('opv1','asc')"/><path d="M5 15 L9.5 9 H0.5 Z" [class.lit]="isLit('opv1','desc')"/></svg></button></th>
-                            <th align="left" style="width: 15%" [class.sort-active]="sortCol === 'cat'" [attr.aria-sort]="ariaSort('cat')"><button type="button" class="sort-btn" (click)="sortBy('cat')">Category <svg class="sort-arrows" viewBox="0 0 10 16" width="10" height="16" aria-hidden="true"><path d="M5 1 L9.5 7 H0.5 Z" [class.lit]="isLit('cat','asc')"/><path d="M5 15 L9.5 9 H0.5 Z" [class.lit]="isLit('cat','desc')"/></svg></button></th>
+                            <th align="left" [class.sort-active]="sortCol === 'opv1'" [attr.aria-sort]="ariaSort('opv1')"><button type="button" class="sort-btn" (click)="sortBy('opv1')">Option 1 <svg class="sort-arrows" viewBox="0 0 10 16" width="10" height="16" aria-hidden="true"><path d="M5 1 L9.5 7 H0.5 Z" [class.lit]="isLit('opv1','asc')"/><path d="M5 15 L9.5 9 H0.5 Z" [class.lit]="isLit('opv1','desc')"/></svg></button></th>
+                            <th align="left" [class.sort-active]="sortCol === 'cat'" [attr.aria-sort]="ariaSort('cat')"><button type="button" class="sort-btn" (click)="sortBy('cat')">Category <svg class="sort-arrows" viewBox="0 0 10 16" width="10" height="16" aria-hidden="true"><path d="M5 1 L9.5 7 H0.5 Z" [class.lit]="isLit('cat','asc')"/><path d="M5 15 L9.5 9 H0.5 Z" [class.lit]="isLit('cat','desc')"/></svg></button></th>
                             <th align="left" [class.sort-active]="sortCol === 'seq'" [attr.aria-sort]="ariaSort('seq')"><button type="button" class="sort-btn" (click)="sortBy('seq')">Sort<br>Order <svg class="sort-arrows" viewBox="0 0 10 16" width="10" height="16" aria-hidden="true"><path d="M5 1 L9.5 7 H0.5 Z" [class.lit]="isLit('seq','asc')"/><path d="M5 15 L9.5 9 H0.5 Z" [class.lit]="isLit('seq','desc')"/></svg></button></th>
                             <th align="left" [class.sort-active]="sortCol === 'mfgn'" [attr.aria-sort]="ariaSort('mfgn')"><button type="button" class="sort-btn" (click)="sortBy('mfgn')">Manufacturer<br># <svg class="sort-arrows" viewBox="0 0 10 16" width="10" height="16" aria-hidden="true"><path d="M5 1 L9.5 7 H0.5 Z" [class.lit]="isLit('mfgn','asc')"/><path d="M5 15 L9.5 9 H0.5 Z" [class.lit]="isLit('mfgn','desc')"/></svg></button></th>
                             <th align="left" [class.sort-active]="sortCol === 'cust'" [attr.aria-sort]="ariaSort('cust')"><button type="button" class="sort-btn" (click)="sortBy('cust')">Customization <svg class="sort-arrows" viewBox="0 0 10 16" width="10" height="16" aria-hidden="true"><path d="M5 1 L9.5 7 H0.5 Z" [class.lit]="isLit('cust','asc')"/><path d="M5 15 L9.5 9 H0.5 Z" [class.lit]="isLit('cust','desc')"/></svg></button></th>
@@ -109,7 +110,7 @@
                     <tbody>
                         <tr *ngFor="let product of page.data?.products | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: total}; index as u ">
                             <td align="left" class="ps-2"><input type="checkbox" class="form-check-input" id="ckbx{{ product.nino }}"  value="{{ product }}" (click)="checkProduct(product)" [checked] = "isChecked(product)"></td>
-                            <td style="width: 25%">
+                            <td>
                                 <button class="btn bg-transparent" (click)="loadProduct('edit', product.nino)"><span
                                     class="bi bi-pencil-square" title="Edit"></span></button>
                                 <button class="btn bg-transparent" (click)="loadProduct('copy', product.nino)"><span
@@ -119,19 +120,19 @@
                             </td>
                             <td align="left" [class.sort-col]="sortCol === 'styl'">{{product.styl}}</td>
                             <td align="left" [class.sort-col]="sortCol === 'desc'">{{product.desc}}</td>
-                            <td align="left" style="width: 10%" [class.sort-col]="sortCol === 'opv1'">{{product.opv1}}</td>
-                            <td align="left" style="width: 15%" [class.sort-col]="sortCol === 'cat'">{{product.pdesc}} ({{trim(product.nano)}})</td>
-                            <td align="left" style="width: 10%" [class.sort-col]="sortCol === 'seq'">
+                            <td align="left" [class.sort-col]="sortCol === 'opv1'">{{product.opv1}}</td>
+                            <td align="left" [class.sort-col]="sortCol === 'cat'">{{product.pdesc}} ({{trim(product.nano)}})</td>
+                            <td align="left" [class.sort-col]="sortCol === 'seq'">
                                 <select name="" class="form-select" [id]="'sort' + u + product.nino" (change)="saveSeq(product.nino, inSeq.value, product.upct)" #inSeq>
                                     <option *ngFor="let seq of page.data?.seqDrop" [ngValue]="seq.valu" [selected]="seq.valu == product.seq">{{seq.desc}}</option>
                                 </select>
                             </td>
-                            <td align="left" style="width: 10%" [class.sort-col]="sortCol === 'mfgn'">{{product.mfgn}}</td>
+                            <td align="left" [class.sort-col]="sortCol === 'mfgn'">{{product.mfgn}}</td>
 
-                            <td align="left" *ngIf="product.custcount !== '0'" style="width: 20%" [class.sort-col]="sortCol === 'cust'">
+                            <td align="left" *ngIf="product.custcount !== '0'" [class.sort-col]="sortCol === 'cust'">
                                 <div class="cust-pop-wrapper">
                                     <a href="javascript:void" (click)="toggleCustPop(product.nino, $event)">{{product.custcount}}</a>
-                                    <div class="cust-popup" *ngIf="openPopupNino === product.nino" (click)="$event.stopPropagation()">
+                                    <div class="cust-popup" *ngIf="openPopupNino === product.nino" [style.top.px]="popupTop" [style.left.px]="popupLeft" (click)="$event.stopPropagation()">
                                         <div class="cust-popup-header">
                                             <span>Customizations</span>
                                             <button type="button" class="btn-close" aria-label="Close" (click)="closeCustPop()"></button>
@@ -143,7 +144,7 @@
                                     <button *ngIf="showCustomization(product)" class="btn btn-primary rounded-0 ms-4 mw-25" type="button" (click)="goCustomize(product)" >Add<br>Customization</button>
                                 </div>
                             </td>
-                            <td align="left" *ngIf="product.custcount == '0'" style="width: 20%" [class.sort-col]="sortCol === 'cust'">
+                            <td align="left" *ngIf="product.custcount == '0'" [class.sort-col]="sortCol === 'cust'">
                                 <a href="javascript:void">0</a>
                                 <button *ngIf="showCustomization(product)" class="btn btn-primary rounded-0 ms-4 mw-25" type="button" (click)="goCustomize(product)">Add<br>Customization</button>
                             </td>
@@ -158,7 +159,8 @@
                             </td>
                         </tr>
                     </tbody> 
-                </table> 
+                </table>
+                </div>
             </div>
         </div>
 

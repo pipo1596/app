@@ -1,3 +1,7 @@
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment.development';
+import { Page } from '../shared/textField';
+
 
 export function showWait(message?:string): void {
   if(!message)message = 'Loading...';
@@ -23,6 +27,7 @@ export function formatDateUS(date:Date) {
 
   return `${month}/${day}/${year}`;
 }
+
 export function baseliveurl(){
  let url = window.location.href;
  if(getSite()=='K'){
@@ -45,6 +50,7 @@ export function baseliveurl(){
 
  }
 }
+
 export function escapeHtml(input: string): string {
   return input
         .replace(/'/g, "&apos;")
@@ -270,3 +276,34 @@ export function openModal(id:string) {
       backdrop.remove();
     }, 500); // this time we specified a delay
   }
+
+    export function getSession(http: HttpClient): string {
+          var page = new Page();
+          let data = {}
+          http.post(environment.apiurl + '/cgi/APPAPI?PMPGM=APPSECURE', data).subscribe(response => {
+          console.log(response)
+          page.data = response
+        });
+
+        // User
+
+        // Name
+        if(!localStorage.getItem('fullname')){
+          localStorage.setItem('fullname',page.data.name)
+        }
+
+        // Auth
+        
+
+        // Curr
+
+        // Dfmt
+
+        // Nfmt
+
+        // Emal
+
+
+
+        return "";
+      }

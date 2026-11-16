@@ -18,6 +18,9 @@
 
                     <div class="col-2">
                         <button (click)="loadCustomization('new','')" class="btn btn-primary rounded-0 mw-50 me-3" type="button">Add Customization</button>
+                        <button class="btn">
+                            <span class="bi bi-question-circle" title="FAQ"></span>
+                        </button>
                     </div>
                 </div>
 
@@ -88,6 +91,12 @@
 
                 <hr class="h-0 border-top-3 border-primary opacity-100 mb-4">
 
+                <div class="d-flex align-items-center gap-2 mb-2 small" role="status" aria-live="polite">
+                    <span class="text-muted">Sorted by</span>
+                    <span class="sort-chip">{{sortLabel()}}</span>
+                    <a href="javascript:void(0)" (click)="resetSort()">Reset sort</a>
+                </div>
+
                 <table class="table table-striped w-100">
                     <thead>
                         <tr>
@@ -96,8 +105,15 @@
                                 <!-- <input type="radio" class="form-check-input" (click)="checkAll()" [checked]="allChecked() && page.data?.customizations.length > 0"> -->
                             </th>
                             <th align="left" class="w-25 ps-3">Actions</th>
-                            <th align="left">Customization Name</th>
-                            <th align="left">eQuip Description</th>
+                            <th align="left" [class.sort-active]="sortCol === 'name'" [attr.aria-sort]="ariaSort('name')">
+                                <button type="button" class="sort-btn" (click)="sortBy('name')">Customization Name <svg class="sort-arrows" viewBox="0 0 10 16" width="10" height="16" aria-hidden="true"><path d="M5 1 L9.5 7 H0.5 Z" [class.lit]="isLit('name','asc')"/><path d="M5 15 L9.5 9 H0.5 Z" [class.lit]="isLit('name','desc')"/></svg></button>
+                            </th>
+                            <th align="left" [class.sort-active]="sortCol === 'desc'" [attr.aria-sort]="ariaSort('desc')">
+                                <button type="button" class="sort-btn" (click)="sortBy('desc')">eQuip Description <svg class="sort-arrows" viewBox="0 0 10 16" width="10" height="16" aria-hidden="true"><path d="M5 1 L9.5 7 H0.5 Z" [class.lit]="isLit('desc','asc')"/><path d="M5 15 L9.5 9 H0.5 Z" [class.lit]="isLit('desc','desc')"/></svg></button>
+                            </th>
+                            <th align="left" [class.sort-active]="sortCol === 'created'" [attr.aria-sort]="ariaSort('created')">
+                                <button type="button" class="sort-btn" (click)="sortBy('created')">Date Created <svg class="sort-arrows" viewBox="0 0 10 16" width="10" height="16" aria-hidden="true"><path d="M5 1 L9.5 7 H0.5 Z" [class.lit]="isLit('created','asc')"/><path d="M5 15 L9.5 9 H0.5 Z" [class.lit]="isLit('created','desc')"/></svg></button>
+                            </th>
                             <th align="left">Style Count</th>
                             <th align="left">Image</th>
                         </tr>
@@ -115,8 +131,12 @@
                                     class="bi bi-trash" title="Delete"></span></button>
                                 <button class="btn btn-outline-primary btn-sm" (click)="loadVAS(customization.npno)">VAS</button>
                             </td>
-                            <td align="left">{{customization.name}} ({{trim(customization.npno)}})</td>
-                            <td align="left">{{customization.desc}}</td>
+                            <td align="left" [class.sort-col]="sortCol === 'name'">{{customization.name}} ({{trim(customization.npno)}})</td>
+                            <td align="left" [class.sort-col]="sortCol === 'desc'">{{customization.desc}}</td>
+                            <td align="left" [class.sort-col]="sortCol === 'created'">
+                                <div>{{fmtDate(customization.addt)}}</div>
+                                <small class="text-muted">{{fmtTime(customization.adtm)}}</small>
+                            </td>
 
                             <!-- Style Count -->
                             <!-- <td align="left" *ngIf="customization.styles.length > 0">

@@ -1,4 +1,5 @@
 import { Component} from '@angular/core';
+import { Location } from '@angular/common';
 import { environment } from '../../../environments/environment.development';
 import { Page } from '../../shared/textField';
 import { HttpClient } from '@angular/common/http';
@@ -40,6 +41,9 @@ export class CustomizationsComponent {
   checkedImg: any[] = [];
   assigned: any[] = [];
 
+  sortCol: string = 'created';
+  sortDir: string = 'desc';
+
   //Paging
   p: number = 1;
   itemsPerPage: number = 50;
@@ -49,6 +53,7 @@ export class CustomizationsComponent {
   constructor(private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
+    private location: Location,
     public layout: LayoutService
   ) { }
 
@@ -73,7 +78,18 @@ export class CustomizationsComponent {
       this.styl = filtObj.style
       this.vfg = filtObj.template
       this.ctno = filtObj.category
+      if(this.validSort(filtObj.sort)){
+        this.sortCol = filtObj.sort
+        this.sortDir = (filtObj.dir === 'asc' || filtObj.dir === 'desc') ? filtObj.dir : this.defaultDir(filtObj.sort)
+      }
     }
+
+    const qp = this.route.snapshot.queryParamMap
+    if(this.validSort(qp.get('sort'))){
+      this.sortCol = qp.get('sort')!
+      this.sortDir = (qp.get('dir') === 'asc' || qp.get('dir') === 'desc') ? qp.get('dir')! : this.defaultDir(this.sortCol)
+    }
+    this.syncSortUrl()
     this.getCustomizations('')
 
   }
@@ -85,7 +101,18 @@ export class CustomizationsComponent {
   // }
 
   loadAction(action: any){
-    let filters = {
+    let filters = this.filterState()
+    if (filters) localStorage.setItem('filters', JSON.stringify(filters))
+    localStorage.setItem('UP_AUTH','Y')
+    this.router.navigate(['/uniforms/massapp' + action + '/' + this.page.rfno]);
+  }
+
+  trim(value: any){
+    return value.replace(/^0+/, '')
+  }
+
+  private filterState(){
+    return {
       'name': this.name,
       'item': this.vitem,
       'app': this.app,
@@ -94,15 +121,85 @@ export class CustomizationsComponent {
       'items': this.lvl,
       'style': this.styl,
       'template': this.vfg,
-      'category': this.ctno
+      'category': this.ctno,
+      'sort': this.sortCol,
+      'dir': this.sortDir
     }
-    if (filters) localStorage.setItem('filters', JSON.stringify(filters))
-    localStorage.setItem('UP_AUTH','Y')
-    this.router.navigate(['/uniforms/massapp' + action + '/' + this.page.rfno]);
   }
 
-  trim(value: any){
-    return value.replace(/^0+/, '')
+  private validSort(col: any): boolean {
+    return col === 'name' || col === 'desc' || col === 'created';
+  }
+
+  private defaultDir(col: string): string {
+    return col === 'created' ? 'desc' : 'asc';
+  }
+
+  isDefaultSort(): boolean {
+    return this.sortCol === 'created' && this.sortDir === 'desc';
+  }
+
+  sortBy(col: string){
+    if(this.sortCol === col){
+      this.sortDir = (this.sortDir === 'asc') ? 'desc' : 'asc';
+    } else {
+      this.sortCol = col;
+      this.sortDir = this.defaultDir(col);
+    }
+    this.applySort();
+  }
+
+  resetSort(){
+    this.setDefaultSort();
+    this.applySort();
+  }
+
+  private setDefaultSort(){
+    this.sortCol = 'created';
+    this.sortDir = 'desc';
+  }
+
+  private applySort(){
+    this.checked = [];
+    this.checkedImg = [];
+    this.syncSortUrl();
+    this.getCustomizations('search');
+  }
+
+  private syncSortUrl(){
+    const path = this.location.path().split('?')[0];
+    const query = this.isDefaultSort() ? '' : 'sort=' + this.sortCol + '&dir=' + this.sortDir;
+    this.location.replaceState(path, query, this.location.getState());
+  }
+
+  isLit(col: string, dir: string): boolean {
+    return this.sortCol === col && this.sortDir === dir;
+  }
+
+  ariaSort(col: string){
+    if(this.sortCol !== col) return 'none';
+    return this.sortDir === 'asc' ? 'ascending' : 'descending';
+  }
+
+  sortLabel(): string {
+    if(this.sortCol === 'created') return 'Date Created · ' + (this.sortDir === 'desc' ? 'Newest first' : 'Oldest first');
+    const name = this.sortCol === 'name' ? 'Customization Name' : 'eQuip Description';
+    return name + ' · ' + (this.sortDir === 'asc' ? 'A → Z' : 'Z → A');
+  }
+
+  fmtDate(addt: any): string {
+    const s = String(addt ?? '').padStart(8, '0');
+    if(!addt || +s === 0) return '';
+    return s.substring(4,6) + '/' + s.substring(6,8) + '/' + s.substring(0,4);
+  }
+
+  fmtTime(adtm: any): string {
+    const s = String(adtm ?? '').padStart(6, '0');
+    if(!adtm || +s === 0) return '';
+    let h = +s.substring(0,2);
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    return h + ':' + s.substring(2,4) + ' ' + ampm;
   }
 
   getCustomizations(mode: any) {
@@ -122,6 +219,8 @@ export class CustomizationsComponent {
       vfg: this.vfg?.vfgn,
       ctno: this.ctno?.ctno,
       lsdt: this.lsdtUsa,
+      sort: this.sortCol,
+      dir: this.sortDir,
       itemsPerPage: this.itemsPerPage,
       currentPage: this.p
     }
@@ -132,7 +231,6 @@ export class CustomizationsComponent {
       if (this.page.data?.title) this.layout.setTitle(this.page.data.title)
       if (this.page.data?.menu) this.layout.setMenu(this.page.data.menu)
       if (this.page.data?.fullname) this.page.fullname = this.page.data.fullname;
-      if (!this.rtpg && this.page.data?.customizations) this.page.data.customizations = this.page.data.customizations.sort((a: any,b: any) => a.npno.localeCompare(b.npno))
       if (this.page.data?.total) this.total = this.page.data.total
 
       if (this.page.data?.stylDrop){
@@ -164,7 +262,7 @@ export class CustomizationsComponent {
         this.page.data.levels = this.page.data.levels.sort((a: any,b: any) => a.valu.localeCompare(b.valu))
       }
 
-      if(this.page.data?.customizations && this.rtpg){
+      if(this.page.data?.customizations && this.rtpg && this.isDefaultSort()){
         let fromIndex = this.page.data?.customizations.findIndex((x: { name: any; }) => x.name === this.rtpg) //Get position in array
         if(fromIndex > 0){ //If not already first in array, move to first
         let element = this.page.data?.customizations.splice(fromIndex, 1);
@@ -180,17 +278,7 @@ export class CustomizationsComponent {
   }
 
   loadCustomization(mode: any, npno: any){
-    let filters = {
-      'name': this.name,
-      'item': this.vitem,
-      'app': this.app,
-      'img': this.img,
-      'number': this.npno,
-      'items': this.lvl,
-      'style': this.styl,
-      'template': this.vfg,
-      'category': this.ctno
-    }
+    let filters = this.filterState()
     if (filters) localStorage.setItem('filters', JSON.stringify(filters))
     localStorage.setItem('UP_AUTH','Y')
     localStorage.setItem('p2',JSON.stringify(this.page))
@@ -323,17 +411,7 @@ export class CustomizationsComponent {
     if(this.checked.length == 0){
       window.alert("Must select a customization to assign styles");
     } else{
-      let filters = {
-        'name': this.name,
-        'item': this.vitem,
-        'app': this.app,
-        'img': this.img,
-        'number': this.npno,
-        'items': this.lvl,
-        'style': this.styl,
-        'template': this.vfg,
-        'category': this.ctno
-      }
+      let filters = this.filterState()
       localStorage.setItem('npfilters', JSON.stringify(filters))
       localStorage.setItem('UP_AUTH','Y')
       let customizations = JSON.stringify(this.checked)
@@ -346,17 +424,7 @@ export class CustomizationsComponent {
 
   goImages(npno: any, checked: any){
     localStorage.setItem('UP_AUTH','Y');
-    let filters = {
-      'name': this.name,
-      'item': this.vitem,
-      'app': this.app,
-      'img': this.img,
-      'number': this.npno,
-      'items': this.lvl,
-      'style': this.styl,
-      'template': this.vfg,
-      'category': this.ctno
-    }
+    let filters = this.filterState()
     if (filters) localStorage.setItem('filters', JSON.stringify(filters))
 
     if(npno && !checked){
@@ -395,17 +463,7 @@ export class CustomizationsComponent {
   loadVAS(npno: any){
     localStorage.setItem('UP_AUTH','Y')
     localStorage.setItem('p2',this.p.toString())
-    let filters = {
-      'name': this.name,
-      'item': this.vitem,
-      'app': this.app,
-      'img': this.img,
-      'number': this.npno,
-      'items': this.lvl,
-      'style': this.styl,
-      'template': this.vfg,
-      'category': this.ctno
-    }
+    let filters = this.filterState()
     if (filters) localStorage.setItem('filters', JSON.stringify(filters))
     this.router.navigate(['/uniforms/vasapplications/' + this.page.rfno + '/' + npno]);
   }
@@ -416,17 +474,7 @@ export class CustomizationsComponent {
   }
 
   popItem(nino: any){
-    let filters = {
-      'name': this.name,
-      'item': this.vitem,
-      'app': this.app,
-      'img': this.img,
-      'number': this.npno,
-      'items': this.lvl,
-      'style': this.styl,
-      'template': this.vfg,
-      'category': this.ctno
-    }
+    let filters = this.filterState()
     localStorage.setItem('UP_AUTH','Y')
     if (filters) localStorage.setItem('filters', JSON.stringify(filters))
     this.router.navigate(['/uniforms/product/' + this.page.rfno + '/' + nino]);

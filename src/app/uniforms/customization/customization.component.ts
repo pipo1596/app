@@ -87,6 +87,12 @@ export class CustomizationComponent {
         this.vfgn = this.page.data?.info?.vfgn
         this.getVFGN()
       }
+
+      if (this.page.data?.info?.ctno && !this.vfgn && !this.ctno){
+        this.ctno = this.page.data.info.ctno
+        this.getCTNO('')
+      }
+
       if (this.page.data?.info?.effd && !this.effd){
         this.effd = this.page.data.info.effd.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3");
       }
